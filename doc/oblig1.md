@@ -34,7 +34,37 @@ Jeg heter Endre Aspøy, er 26 år og går Informatikk: Datateknologi. Har hatt I
 
 ## A1
 
-## A2
+## A2: Konsept
+
+Spillnavn: ____
+
+- Basert på spillet Super Mario Bros
+- Spillfigur som kan styres: gå til høyre og venstre, og hoppe oppover (innenfor spillets ramme).
+- Todimensjonal verden:
+  * Plattform – horisontal flate spilleren kan stå eller gå på (inkludert «bakken»)
+  * Vegg – vertikal flate som spilleren ikke kan gå gjennom
+  * Spilleren beveger seg oppover ved å hoppe, og nedover ved å falle Levels, hvor grafikk tilpasses hvert level 
+  * Spillet foregår i levels med økende vanskelighetsgrad
+
+- Fiender som beveger seg og er skadelige ved berøring og treff med våpen 
+- Spilleren kan samle poeng ved å plukke opp mynter, bekjempe fiender og fullføre levels 
+- Spillets mål: Å komme lengst mulig og samle flest mulig poeng før spillkarakteren dør (game-over)
+- Utfordringer i spillet:
+  * Å bevege seg gjennom terrenget uten å falle utfor 
+  * Å unngå å miste liv som følge av å bli skadet av fiender og/eller hindringer 
+  * Å samle poeng
+
+- Scoresystem:
+  * Poenggjenstander: Mynter, (stjerner), (power-ups?)
+  * Samle mynter 
+  * Poeng for å drepe fiende 
+  * Poeng for å fullføre level 
+  * Poeng for å ha gjenværende tid ved fullført level 
+  * Bonus:
+    * Samle stjerner? Ekstra mange poeng for disse? 
+    * Highscore? 
+    * Bonusscore når man når 100 mynter? 
+    * Bonusscore når man bekjemper en boss?
 
 ## A3
 
