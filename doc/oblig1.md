@@ -67,6 +67,21 @@ Spillnavn: ____
     * Bonusscore når man bekjemper en boss?
 
 ## A3
+En kort beskrivelse av det overordnede målet for applikasjonen :
+lage et gøy spill som forskjellige brukere kan like :)
+
+MVP:
+Vise et spillebrett på skjermen
+Vise en spiller på spillebrettet
+Spilleren kan bevege seg
+Spilleren får poeng via et poengsystem
+En bane har en start og en slutt
+Viser fiender
+Spilleren får verre fysisk tilstand ved koalisjon med fiender
+Spilleren kan dø
+Når spiller dør kommer en slutt-skjerm der spiller kan velge å starte banen på nytt
+Når spillet åpnes møtes spiller med en start skjerm
+
 
 ### Team prosess
 
