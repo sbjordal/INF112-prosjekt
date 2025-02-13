@@ -10,5 +10,6 @@ public class Main {
         cfg.setWindowedMode(480, 320);
 
         new Lwjgl3Application(new HelloWorld(), cfg);
+        System.out.println("Eivind er dum i hode sitt");
     }
 }
