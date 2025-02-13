@@ -2,9 +2,14 @@ package inf112.skeleton.app;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import com.badlogic.gdx.math.Vector2;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+
+// Imports to see if Box2D is working correctly.
+import com.badlogic.gdx.physics.box2d.Box2D;
+import com.badlogic.gdx.physics.box2d.World;
 
 /**
  * Unit tests (example).
@@ -46,6 +51,13 @@ public class ExampleTest {
 		float a = 100000;
 		a = a + 0.1f;
 		assertEquals(100000.1, a, 0.01);
+	}
+
+	@Test
+	void box2dTest() {
+		// Test to see if Box2D is working correctly.
+		Box2D.init();
+		World world = new World(new Vector2(0, -9.8f), true);
 	}
 
 	/**

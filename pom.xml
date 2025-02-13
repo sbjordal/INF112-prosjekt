@@ -92,6 +92,17 @@
 			<artifactId>slf4j-simple</artifactId>
 			<version>${slf4j.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.badlogicgames.gdx</groupId>
+			<artifactId>gdx-box2d</artifactId>
+			<version>1.13.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.badlogicgames.gdx</groupId>
+			<artifactId>gdx-box2d-platform</artifactId>
+			<version>1.13.1</version>
+			<classifier>natives-desktop</classifier>
+		</dependency>
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>
