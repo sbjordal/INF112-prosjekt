@@ -54,7 +54,7 @@ public class ExampleTest {
 	}
 
 	@Test
-	void box2dTest() {
+	void box2dTest() { // Endres kommentar
 		// Test to see if Box2D is working correctly.
 		Box2D.init();
 		World world = new World(new Vector2(0, -9.8f), true);
