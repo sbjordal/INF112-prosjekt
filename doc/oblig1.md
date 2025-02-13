@@ -1,6 +1,5 @@
 # Rapport – innlevering 1
 
-
 ## A0
 ### Team:
 * Gruppe 6 - *"Sjette_Etasje"*
@@ -36,7 +35,7 @@ Jeg heter Endre Aspøy, er 26 år og går Informatikk: Datateknologi. Har hatt I
 
 ## A2: Konsept
 
-Spillnavn: ____
+Spillnavn: (Bestemmes senere)
 
 - Basert på spillet Super Mario Bros
 - Spillfigur som kan styres: gå til høyre og venstre, og hoppe oppover (innenfor spillets ramme).
@@ -180,6 +179,26 @@ MVP:
 
 ## A4
 
+- (Eivind) har satt opp Box2D og LibGDX
+- Alle har laget egne Branches og har satt seg inn i rammeverk og eksperimentert med koden
+  - har testet diverse git kommandoer
+
+
 ## A5
 
-
+Oppsummert:
+- har hatt litt dårlig oversikt over frist og krav på oblig1 før siste uken
+  - litt vanskelig å forstå hva som var oblig1 og hva den krevde (Oppgaveteksten uoversiktelig/ eller ikke satt oss godt nok inn i det)
+  - Endre ser nøyere på oppgave krav og tidsfrister til senere
+- Box2d vil være stor del av programmet vi lager
+- kan bli vanskelig med å få skylapper under koding, oppgaven krever mer enn bare programmering
+  - men ønsker ikke ett "dårlig" spill
+- Kan bli mye på Eivind om han skal definere hele akritekturen (UML-diagram)
+  - vil komme med forslag, men ønsker en bekreftelse fra teamet
+- må ta en felles forventningsavklaring på ambisjoner vi har for oppgaven
+- må bli flinkere til å identifisere flaskehalser (en pers bør ikke jobbe med noe for at resten kan komme videre)
+- vi må si i fra om vi føler vi gjør for mye/ for lite
+  - hvordan dokumenteres/ vurderes mengde arbeider per team medlem?
+- Fremover kan vi ha ulike møtereferenter på møtene
+- Skal se videre på (par)programmering
+- Fungerte veldig bra å dele opp konkrete oppgaver
