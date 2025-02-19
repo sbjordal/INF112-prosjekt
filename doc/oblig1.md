@@ -82,7 +82,7 @@ MVP:
 - Når spillet åpnes møtes spiller med en start skjerm
 
 
-#### MVP krav med brukerhistorie, akseptansekriterier og arbeidsoppgaver i priortiert rekkefølge
+#### MVP krav med brukerhistorie, akseptansekriterier og arbeidsoppgaver i prioritert rekkefølge
 
 1.  **Vise et spillebrett på skjermen**
 * Brukerhistorie: Som spiller trenger jeg å kunne se brettet for å spille.
