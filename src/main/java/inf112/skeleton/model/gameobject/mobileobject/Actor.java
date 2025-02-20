@@ -9,7 +9,6 @@ package inf112.skeleton.model.gameobject.mobileobject;
 abstract class Actor extends MobileObject {
     private boolean isAlive;
     private int health;
-    private final int movementSpeed;
 
     /**
      * Creates a new Actor with the specified health and movement speed.
@@ -18,18 +17,18 @@ abstract class Actor extends MobileObject {
      * @param movementSpeed The movement speed of the actor.
      */
     protected Actor(int health, int movementSpeed) {
+        super(movementSpeed);
+
         if (health <= 0) {
             throw new IllegalArgumentException("Health must be positive.");
         }
 
         this.isAlive = true;
         this.health = health;
-        this.movementSpeed = movementSpeed;
     }
 
     protected boolean isAlive() { return isAlive; }
     protected int getHealth() { return health; }
-    protected int getMovementSpeed() { return movementSpeed; }
 
     /**
      * Reduces the actor's health by the specified damage amount.
