@@ -8,41 +8,30 @@ import java.util.List;
 public interface ViewableWorldModel {
 
     /**
-     * Returns the sprite of the enemy
+     * Returns the position and sprite-image
+     * of the player
      *
-     * @return an enemy's sprite-image
+     * @return position and sprite-image
      */
-    Texture getEnemySprite();
-
-    /**
-     * Returns the sprite of the player
-     *
-     * @return the players sprite-image
-     */
-    Texture getPlayerSprite();
+    Object getPlayerObject();
 
 
     /**
-     *Tell us where the fixed objects are
+     * Tell us where the fixed positions are
+     * and gives us their sprites
      *
-     * @return positions
+     * @return position and sprite-images
      */
-    List<Position> getFixedObjectPosition();
+    List<Object> getFixedObject();
 
     /**
-     * Tells us where the enemy are
+     * Tell us where the enemy's positions are
+     * and gives us their sprites
      *
-     * @return the positions of the enemy
+     * @return position and sprite-images
      */
-    List<Position> getEnemysPosition();
+    List<Object> getEnemyObjects();
 
-
-    /**
-     * Tells us where the player is
-     *
-     * @return the position of the player
-     */
-    Position getPlayerPosition();
 
     /**
      * Tells us the state of the game
