@@ -10,14 +10,14 @@ public class WorldModel implements ControllableWorldModel, ApplicationListener {
     private Player player;
 
     public WorldModel() {
-        this.gameState = GameState.GAME_MENU;
-        this.player = new Player(); // TODO, legg til argument
+        this.gameState = GameState.GAME_ACTIVE; // TODO, må endres etter at game menu er laget.
+        this.player = new Player(1, 1); // TODO, legg til argument (foreløpig argumenter for å kunne kompilere prosjektet)
     }
 
     /**
      * Checks if MobileObject can be moved where it wants to move or not.
      *
-     * @return true if yes, false if nei.
+     * @return true if yes, false if no.
      */
     private boolean isLegalMove() {
         return false; // TODO, implement me :)
@@ -27,15 +27,15 @@ public class WorldModel implements ControllableWorldModel, ApplicationListener {
     @Override
     public void movePlayerLeft() {
         if (isLegalMove()) {
-            player.setMovePlayerLeft(true); // TODO, disse blir fikset når de blir definert i Player klasse
-        } else player.setMovePlayerLeft(false);
+            player.setMoveLeft(true);
+        } else player.setMoveLeft(false);
     }
 
     @Override
     public void movePlayerRight() {
         if (isLegalMove()) {
-            player.setMovePlayerRight(true);
-        } else player.setMovePlayerRight(false);
+            player.setMoveRight(true);
+        } else player.setMoveRight(false);
     }
 
     @Override

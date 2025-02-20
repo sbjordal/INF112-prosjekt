@@ -5,7 +5,7 @@ package inf112.skeleton.model.gameobject.mobileobject;
  *
  * @author Eivind H. Naasen
  */
-final class Player extends Actor {
+final public class Player extends Actor {
     /**
      * Creates a new Player with the specified health and movement speed.
      *

@@ -16,7 +16,7 @@ abstract class MobileObject extends GameObject {
 
     /**
      * Creates a new MobileObject with the specified movement speed.
-     * The MobileObject is initially set to standing still.
+     * The MobileObject is initially set to be standing still.
      *
      * @param movementSpeed The movement speed of the MobileObject.
      */
@@ -26,7 +26,7 @@ abstract class MobileObject extends GameObject {
         this.movementSpeed = movementSpeed;
     }
 
-    public void setMovePlayerLeft(boolean isMovingLeft) { this.isMovingLeft = isMovingLeft; }
-    public void setMovePlayerRight(boolean isMovingRight) { this.isMovingRight = isMovingRight; }
+    public void setMoveLeft(boolean isMovingLeft) { this.isMovingLeft = isMovingLeft; }
+    public void setMoveRight(boolean isMovingRight) { this.isMovingRight = isMovingRight; }
     protected int getMovementSpeed() { return movementSpeed; }
 }
