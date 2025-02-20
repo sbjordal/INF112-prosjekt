@@ -1,4 +1,22 @@
 package inf112.skeleton.model.gameobject.mobileobject;
 
-public class Player {
+/**
+ * Represents the user-controlled actor in the game.
+ *
+ * @author Eivind H. Naasen
+ */
+final class Player extends Actor {
+    /**
+     * Creates a new Player with the specified health and movement speed.
+     *
+     * @param health        The initial health of the actor.
+     * @param movementSpeed The movement speed of the actor.
+     */
+    public Player(int health, int movementSpeed) {
+        super(health, movementSpeed);
+    }
+
+    public void jump() {
+        // TODO: implement when Box2D is integrated.
+    }
 }
