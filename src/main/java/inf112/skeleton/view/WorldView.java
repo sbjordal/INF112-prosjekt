@@ -22,17 +22,18 @@ public class WorldView {
     private BitmapFont font;
 
     public WorldView(Viewport viewport) {
-        this.font = new BitmapFont(Gdx.files.internal());/// lag fil med font
+        //this.font = new BitmapFont(Gdx.files.internal());/// lag fil med font
         this.viewport = viewport;
         this.batch = new SpriteBatch();
-        this.background = new Texture(Gdx.files.internal("skeleton/background.png"));// bakgrunnsfil, må sikkert avhenge av level og gamestate
+        //this.background = new Texture(Gdx.files.internal("skeleton/background.png"));// bakgrunnsfil, må sikkert avhenge av level og gamestate
     }
 
     public void loadTextures() {
 
     }
 
-    public Texture loadTexture(String name) {
+    // egentlig return Texture
+    public void loadTexture(String name) {
 
     }
 

@@ -13,7 +13,7 @@ public interface ViewableWorldModel {
      *
      * @return position and sprite-image
      */
-    Object getPlayerObject();
+    List<Object> getPlayerObject();
 
 
     /**
