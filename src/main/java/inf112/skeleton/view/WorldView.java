@@ -166,7 +166,7 @@ public class WorldView implements Screen {
 
     }
 
-
+    // test for å sjekke merging
 
 
 //
