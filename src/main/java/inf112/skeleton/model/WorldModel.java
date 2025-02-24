@@ -4,7 +4,6 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.graphics.Texture;
 import inf112.skeleton.controller.ControllableWorldModel;
 import inf112.skeleton.model.gameobject.Position;
-import inf112.skeleton.model.gameobject.mobileobject.EnemySpawner;
 import inf112.skeleton.model.gameobject.mobileobject.Player;
 import inf112.skeleton.view.ViewableWorldModel;
 
@@ -36,8 +35,8 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     }
 
     private boolean positionIsOnBoard(Position pos) {
-        boolean isWithinWidthBound = pos.xCoordinate() >= 0 && pos.xCoordinate() < board.width();
-        boolean isWithinHeightBound = pos.yCoordinate() >= 0  && pos.yCoordinate() < board.height();
+        boolean isWithinWidthBound = pos.x() >= 0 && pos.x() < board.width();
+        boolean isWithinHeightBound = pos.y() >= 0  && pos.y() < board.height();
 
         return isWithinWidthBound && isWithinHeightBound;
     }
