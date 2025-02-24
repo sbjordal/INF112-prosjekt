@@ -1,5 +1,6 @@
 package inf112.skeleton.view;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -31,6 +32,7 @@ public class WorldView implements Screen {
     private SpriteBatch batch;
     private Viewport viewport;
     private Sprite playerSprite;
+    private Texture backgroundTexture;
     private BitmapFont font;
 
 
@@ -48,7 +50,6 @@ public class WorldView implements Screen {
 //        return background;
 //    }
 
-//    public void loadTexture(Texture texture) {}
 //    public void drawFrame() {}
 //    public void drawObjects() {}
 
@@ -86,26 +87,29 @@ public class WorldView implements Screen {
     }
 
     private void drawGameMenu() {
-        Texture background = model.getPlayerTexture(); // Midlertidig input for å kunne kjøre koden
-        drawBasics(background);
+        drawBasics();
     }
 
     private void drawGameActive() {
-        Texture background = model.getPlayerTexture(); // Midlertidig input for å kunne kjøre koden
-        drawBasics(background);
+        loadBackground("backgroundTest.jpg");
+        drawBasics();
     }
 
     private void drawGamePaused() {
-        Texture background = model.getPlayerTexture(); // Midlertidig input for å kunne kjøre koden
-        drawBasics(background);
+        drawBasics();
     }
 
     private void drawGameOver() {
-        Texture background = model.getPlayerTexture(); // Midlertidig input for å kunne kjøre koden
-        drawBasics(background);
+        drawBasics();
     }
 
-    private void drawBasics(Texture background) {
+    public void loadBackground(String path) {
+        backgroundTexture = new Texture(Gdx.files.internal(path));
+    }
+
+    private void drawBasics() {
+
+
         ScreenUtils.clear(Color.CLEAR);
 
         // Camera center = sprite center
@@ -115,11 +119,16 @@ public class WorldView implements Screen {
 
         // Make a big enough rectangle to cover the view for demonstration purposes
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(Color.WHITE);
+        shapeRenderer.setColor(Color.CLEAR);
         shapeRenderer.rect(-5000, -5000, 10000, 10000);
         shapeRenderer.end();
 
+
+        float camX = viewport.getCamera().position.x - viewport.getWorldWidth() / 2;
+        float camY = viewport.getCamera().position.y - viewport.getWorldHeight() / 2;
+
         batch.begin();
+        batch.draw(backgroundTexture, camX, camY, viewport.getWorldWidth(), viewport.getWorldHeight());
         playerSprite.draw(batch);
         batch.end();
     }
