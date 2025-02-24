@@ -14,35 +14,47 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
     private GameState gameState;
     private Player player;
+    private WorldBoard board;
 //    private int gameScore;
 
-    public WorldModel() {
+    public WorldModel(WorldBoard board) {
         this.gameState = GameState.GAME_ACTIVE; // TODO, må endres etter at game menu er laget.
         this.player = new Player(1, 1); // TODO, legg til argument (foreløpig argumenter for å kunne kompilere prosjektet)
-    }
+        this.board = board;}
 
     /**
      * Checks if MobileObject can be moved where it wants to move or not.
      *
      * @return True if the position is legal, false otherwise
      */
-    private boolean isLegalMove() {
-        return false; // TODO, implement me :)
+    private boolean isLegalMove(Position pos) {
+
+        if(!positionIsOnBoard(pos)) {
+            return false;
+        } // må legges til mer logikk her for fixedObject, movingObject osv
+        return true;
+    }
+
+    private boolean positionIsOnBoard(Position pos) {
+        boolean isWithinWidthBound = pos.xCoordinate() >= 0 && pos.xCoordinate() < board.width();
+        boolean isWithinHeightBound = pos.yCoordinate() >= 0  && pos.yCoordinate() < board.height();
+
+        return isWithinWidthBound && isWithinHeightBound;
     }
 
 
     @Override
     public void movePlayerLeft() {
-        if (isLegalMove()) {
-            player.setMoveLeft(true);
-        } else player.setMoveLeft(false);
+//        if (isLegalMove()) { // må endre logikk i isLegalMove eller legge til pos her
+//            player.setMoveLeft(true);
+//        } else player.setMoveLeft(false);
     }
 
     @Override
     public void movePlayerRight() {
-        if (isLegalMove()) {
-            player.setMoveRight(true);
-        } else player.setMoveRight(false);
+//        if (isLegalMove()) { // må endre logikk i isLegalMove eller legge til pos her
+//            player.setMoveRight(true);
+//        } else player.setMoveRight(false);
     }
 
     @Override
