@@ -8,12 +8,11 @@ import java.util.List;
 public interface ViewableWorldModel {
 
     /**
-     * Returns the position and sprite-image
-     * of the player
+     * Returns the sprite image of the player
      *
-     * @return position and sprite-image
+     * @return sprite-image
      */
-    List<Object> getPlayerObject();
+    Texture getPlayerTexture();
 
 
     /**
@@ -22,7 +21,7 @@ public interface ViewableWorldModel {
      *
      * @return position and sprite-images
      */
-    List<Object> getFixedObject();
+    //List<Object> getFixedObjectTextures();
 
     /**
      * Tell us where the enemy's positions are
@@ -30,7 +29,7 @@ public interface ViewableWorldModel {
      *
      * @return position and sprite-images
      */
-    List<Object> getEnemyObjects();
+   // List<Object> getEnemyObjects();
 
 
     /**

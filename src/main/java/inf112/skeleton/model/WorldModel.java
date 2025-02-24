@@ -1,20 +1,26 @@
 package inf112.skeleton.model;
 
 import com.badlogic.gdx.ApplicationListener;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import inf112.skeleton.controller.ControllableWorldModel;
 import inf112.skeleton.model.gameobject.mobileobject.Player;
+import inf112.skeleton.view.ViewableWorldModel;
 import inf112.skeleton.view.WorldView;
 
-public class WorldModel implements ControllableWorldModel, ApplicationListener {
+public class WorldModel implements ControllableWorldModel, ViewableWorldModel, ApplicationListener {
 
     public static final int SCREEN_WIDTH = 480;
     public static final int SCREEN_HEIGHT = 320;
     private GameState gameState;
     private Player player;
+    private WorldView worldView;
 
     public WorldModel() {
         this.gameState = GameState.GAME_ACTIVE; // TODO, må endres etter at game menu er laget.
         this.player = new Player(1, 1); // TODO, legg til argument (foreløpig argumenter for å kunne kompilere prosjektet)
+        this.worldView = new WorldView(this, new ExtendViewport(100, 100));
     }
 
     /**
@@ -43,12 +49,11 @@ public class WorldModel implements ControllableWorldModel, ApplicationListener {
 
     @Override
     public void create() {
-        setScreen(new WorldView()); // Skal denne være her?
+        Gdx.graphics.setForegroundFPS(60);
+        worldView.show();
+        worldView.resize(SCREEN_WIDTH, SCREEN_HEIGHT);
         // TODO, implement me :)
     }
-
-    public void setScreen(com.badlogic.gdx.Screen screen) { /* compiled code */ }
-
 
     @Override
     public void resize( int i, int i1){
@@ -57,7 +62,7 @@ public class WorldModel implements ControllableWorldModel, ApplicationListener {
 
     @Override
     public void render() {
-        setScreen(new WorldView()); // Eller her?
+        worldView.render(Gdx.graphics.getDeltaTime());
         // TODO, implement me :)
     }
 
@@ -77,6 +82,11 @@ public class WorldModel implements ControllableWorldModel, ApplicationListener {
         // TODO, implement me :)
     }
 
+    @Override
+    public Texture getPlayerTexture() {
+        return player.getTexture();
+    }
+
     /**
      * Tells us the state of the game
      * @return the state of the game
@@ -84,6 +94,12 @@ public class WorldModel implements ControllableWorldModel, ApplicationListener {
     @Override
     public GameState getGameState() {
         return this.gameState;
+    }
+
+    @Override
+    public int getScore() {
+        // TODO
+        return 0;
     }
 
 }
