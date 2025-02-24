@@ -82,6 +82,18 @@ public class WorldView implements Screen {
         }
     }
 
+//
+//    @Override
+//    public void render(float v) {
+//        switch (model.getGameState()) {
+//            case GAME_MENU -> drawGameMenu();
+//            case GAME_ACTIVE -> drawGameActive();
+//            case GAME_PAUSED -> drawGamePaused();
+//            case GAME_OVER -> drawGameOver();
+//        }
+//    }
+
+
     private void drawGameMenu() {
         drawBasics();
     }
@@ -123,6 +135,7 @@ public class WorldView implements Screen {
         float camX = viewport.getCamera().position.x - viewport.getWorldWidth() / 2;
         float camY = viewport.getCamera().position.y - viewport.getWorldHeight() / 2;
 
+        // Drawing
         batch.begin();
         batch.draw(backgroundTexture, camX, camY, viewport.getWorldWidth(), viewport.getWorldHeight());
         batch.draw(playerTexture, playerX, playerY, playerWidth, playerHeight);
