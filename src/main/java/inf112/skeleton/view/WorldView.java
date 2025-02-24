@@ -89,6 +89,7 @@ public class WorldView implements Screen {
     }
 
     private void drawGamePaused() {
+        loadBackground("backgroundTest2.jpg");
         drawBasics();
     }
 
