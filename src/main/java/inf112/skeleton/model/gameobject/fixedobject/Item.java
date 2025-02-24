@@ -14,7 +14,7 @@ public class Item extends FixedObject{
         super(position, sprite);
     }
 
-    private void pickUp(){
+    private void pickUp(){ // TODO implement meg
 
     }
 

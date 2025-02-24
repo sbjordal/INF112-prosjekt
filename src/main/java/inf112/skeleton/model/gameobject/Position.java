@@ -7,5 +7,5 @@ package inf112.skeleton.model.gameobject;
  * @param y y coordinate
  */
 
-public record Position(int x, int y) { //TO DO: velge datatypen til kordinatene
+public record Position(int x, int y) { //  TODO: velge datatypen til kordinatene + diskutere relevans
 }

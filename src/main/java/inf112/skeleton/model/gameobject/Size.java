@@ -6,5 +6,5 @@ package inf112.skeleton.model.gameobject;
  * @param width
  * @param height
  */
-public record Size(int width, int height) { //TO DO: velge datatypen
+public record Size(int width, int height) { //  TODO: velge datatypen til width og height
 }
