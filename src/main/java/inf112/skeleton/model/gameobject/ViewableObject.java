@@ -9,7 +9,7 @@ public interface ViewableObject {
      *
      * @return Translate of Position and Size
      */
-    Translate getTranslate();
+    Transform getTransform();
 
     /**
      * Returns the Texture of the object

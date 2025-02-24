@@ -113,10 +113,10 @@ public class WorldView implements Screen {
 
     private void drawBasics() {
         // Player-data
-        float playerX = model.getPlayerTranslate().position().getX();
-        float playerY = model.getPlayerTranslate().position().getY();
-        float playerWidth = model.getPlayerTranslate().size().width();
-        float playerHeight = model.getPlayerTranslate().size().height();
+        float playerX = model.getPlayerTransform().pos().x();
+        float playerY = model.getPlayerTransform().pos().y();
+        float playerWidth = model.getPlayerTransform().size().width();
+        float playerHeight = model.getPlayerTransform().size().height();
 
         ScreenUtils.clear(Color.CLEAR);
 

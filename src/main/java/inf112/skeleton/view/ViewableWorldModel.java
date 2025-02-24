@@ -1,9 +1,7 @@
 package inf112.skeleton.view;
 import inf112.skeleton.model.GameState;
-import inf112.skeleton.model.gameobject.Position;
 import com.badlogic.gdx.graphics.Texture;
-
-import java.util.List;
+import inf112.skeleton.model.gameobject.Transform;
 
 public interface ViewableWorldModel {
 
@@ -20,7 +18,7 @@ public interface ViewableWorldModel {
      *
      * @return Translate enum of Position and Size
      */
-    Translate getPlayerTranslate();
+    Transform getPlayerTransform();
 
     /**
      * Tells us the state of the game
