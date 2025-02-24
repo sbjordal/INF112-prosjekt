@@ -16,8 +16,9 @@ import inf112.skeleton.model.gameobject.mobileobject.Player;
 
 import java.awt.desktop.ScreenSleepListener;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-//import inf112.skeleton.model.WorldModel;
+import inf112.skeleton.model.WorldModel;
 
 
 public class WorldView implements Screen {
@@ -27,20 +28,45 @@ public class WorldView implements Screen {
     // Får foreløping bare opp en svart skjerm
 
 
-    ShapeRenderer shapeRenderer;
-    SpriteBatch batch;
-    Viewport viewport;
-    Sprite sprite;
-    Texture texture;
-    //Player player;
+    private WorldModel model;
+    private ShapeRenderer player;
+    private List<ShapeRenderer> platforms;
+    private Rectangle screenRect;
+    private Map<String, Texture> textures = new HashMap<String, Texture>();
+    private SpriteBatch batch;
+    private Viewport viewport;
+    private Sprite sprite;
+    private Texture background;
+    private BitmapFont font;
 
-    public WorldView() {
+
+    public WorldView(WorldModel model, Viewport viewport) {
         //this.player = model.getPlayer();
+        this.viewport = viewport;
+        this.screenRect = new Rectangle();
+        this.model = model;
 
+    }
+
+    public Texture loadTexture(String path) {
+        return background;
+    }
+
+    public void loadTexture(Texture texture) {}
+    public void drawFrame() {}
+    public void drawObjects() {}
+
+    @Override
+    public void dispose() {
+        batch.dispose();
+        for (ShapeRenderer platform : platforms) {
+            platform.dispose();
+        }
     }
 
     @Override
     public void show() {
+        this.player = new ShapeRenderer();
         viewport = new ExtendViewport(100, 100);
         shapeRenderer = new ShapeRenderer();
         batch = new SpriteBatch();
@@ -88,11 +114,7 @@ public class WorldView implements Screen {
 
     }
 
-    @Override
-    public void dispose() {
-        batch.dispose();
-        shapeRenderer.dispose();
-    }
+
 
 
 //
