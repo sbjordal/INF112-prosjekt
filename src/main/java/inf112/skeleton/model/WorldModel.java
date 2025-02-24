@@ -1,7 +1,9 @@
 package inf112.skeleton.model;
 
 import com.badlogic.gdx.ApplicationListener;
+import com.badlogic.gdx.graphics.Texture;
 import inf112.skeleton.controller.ControllableWorldModel;
+import inf112.skeleton.model.gameobject.Position;
 import inf112.skeleton.model.gameobject.mobileobject.Player;
 
 public class WorldModel implements ControllableWorldModel, ApplicationListener {
@@ -11,7 +13,7 @@ public class WorldModel implements ControllableWorldModel, ApplicationListener {
 
     public WorldModel() {
         this.gameState = GameState.GAME_ACTIVE; // TODO, må endres etter at game menu er laget.
-        this.player = new Player(1, 1); // TODO, legg til argument (foreløpig argumenter for å kunne kompilere prosjektet)
+        this.player = new Player(1, 1, new Position(1,1), new Texture("1")); // TODO, legg til argument (foreløpig argumenter for å kunne kompilere prosjektet)
     }
 
     /**

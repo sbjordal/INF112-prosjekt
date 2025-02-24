@@ -1,5 +1,7 @@
 package inf112.skeleton.model.gameobject.mobileobject;
 
+import com.badlogic.gdx.graphics.Texture;
+import inf112.skeleton.model.gameobject.Position;
 import inf112.skeleton.model.gameobject.Scorable;
 import inf112.skeleton.model.gameobject.GameObject;
 
@@ -12,6 +14,8 @@ import inf112.skeleton.model.gameobject.GameObject;
 public class Enemy extends Actor implements Scorable {
     final private int scoreValue;
     final private int damage;
+    private Position pos;
+    private Texture sprite;
 
     /**
      * Creates a new Enemy with the specified health, movement speed, score value and damage.
@@ -21,8 +25,8 @@ public class Enemy extends Actor implements Scorable {
      * @param scoreValue    The score points obtained by defeating this enemy.
      * @param damage        The amount of damage this enemy can inflict.
      */
-    public Enemy(int health, int movementSpeed, int scoreValue, int damage) {
-        super(health, movementSpeed);
+    public Enemy(int health, int movementSpeed, int scoreValue, int damage, Position pos, Texture sprite) {
+        super(health, movementSpeed, pos, sprite);
 
         this.scoreValue = scoreValue;
         this.damage = damage;
