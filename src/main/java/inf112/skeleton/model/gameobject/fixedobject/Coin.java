@@ -5,11 +5,11 @@ import inf112.skeleton.model.gameobject.Scorable;
 import inf112.skeleton.model.gameobject.Transform;
 
 /**
- *
+ * Class that increases the score each time a player collides with an object
  *
  */
 
-public class Coin extends Item implements Scorable {
+public class Coin extends Item implements Scorable { // TODO: implementer logikken her
     private Transform transform;
     private Texture texture;
     private int scoreValue;
