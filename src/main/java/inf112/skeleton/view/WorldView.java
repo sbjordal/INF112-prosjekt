@@ -66,32 +66,32 @@ public class WorldView implements Screen {
         playerTexture = model.getPlayerTexture();
     }
 
-    @Override
-    public void render(float v) {
-        if (model.getGameState() == GameState.GAME_MENU) {
-            drawGameMenu();
-        }
-        else if (model.getGameState() == GameState.GAME_ACTIVE) {
-            drawGameActive();
-        }
-        else if (model.getGameState() == GameState.GAME_PAUSED) {
-            drawGamePaused();
-        }
-        else if (model.getGameState() == GameState.GAME_OVER) {
-            drawGameOver();
-        }
-    }
-
-//
 //    @Override
 //    public void render(float v) {
-//        switch (model.getGameState()) {
-//            case GAME_MENU -> drawGameMenu();
-//            case GAME_ACTIVE -> drawGameActive();
-//            case GAME_PAUSED -> drawGamePaused();
-//            case GAME_OVER -> drawGameOver();
+//        if (model.getGameState() == GameState.GAME_MENU) {
+//            drawGameMenu();
+//        }
+//        else if (model.getGameState() == GameState.GAME_ACTIVE) {
+//            drawGameActive();
+//        }
+//        else if (model.getGameState() == GameState.GAME_PAUSED) {
+//            drawGamePaused();
+//        }
+//        else if (model.getGameState() == GameState.GAME_OVER) {
+//            drawGameOver();
 //        }
 //    }
+
+
+    @Override
+    public void render(float v) {
+        switch (model.getGameState()) {
+            case GAME_MENU -> drawGameMenu();
+            case GAME_ACTIVE -> drawGameActive();
+            case GAME_PAUSED -> drawGamePaused();
+            case GAME_OVER -> drawGameOver();
+        }
+    }
 
 
     private void drawGameMenu() {

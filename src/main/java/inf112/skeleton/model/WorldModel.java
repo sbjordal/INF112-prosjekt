@@ -1,9 +1,12 @@
 package inf112.skeleton.model;
 
 import com.badlogic.gdx.ApplicationListener;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import inf112.skeleton.controller.ControllableWorldModel;
 import inf112.skeleton.model.gameobject.Position;
+import inf112.skeleton.model.gameobject.Size;
+import inf112.skeleton.model.gameobject.Transform;
 import inf112.skeleton.model.gameobject.mobileobject.Player;
 import inf112.skeleton.view.ViewableWorldModel;
 
@@ -18,7 +21,9 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
     public WorldModel(WorldBoard board) {
         this.gameState = GameState.GAME_ACTIVE; // TODO, må endres etter at game menu er laget.
-        this.player = new Player(1, 1); // TODO, legg til argument (foreløpig argumenter for å kunne kompilere prosjektet)
+        Texture playerTexture = new Texture(Gdx.files.internal("sprite.png"));
+        Transform playerTransform = new Transform(new Position(0,0), new Size(50, 50));
+        this.player = new Player(1, 1, playerTransform, playerTexture); // TODO, legg til argument (foreløpig argumenter for å kunne kompilere prosjektet)
         this.board = board;}
 
     /**
@@ -88,27 +93,14 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     }
 
     @Override
-    public Texture getEnemySprite() {
+    public Texture getPlayerTexture() {
+        // TODO
         return null;
     }
 
     @Override
-    public Texture getPlayerSprite() {
-        return null;
-    }
-
-    @Override
-    public List<Position> getFixedObjectPosition() {
-        return List.of();
-    }
-
-    @Override
-    public List<Position> getEnemysPosition() {
-        return List.of();
-    }
-
-    @Override
-    public Position getPlayerPosition() {
+    public Transform getPlayerTransform() {
+        // TODO
         return null;
     }
 

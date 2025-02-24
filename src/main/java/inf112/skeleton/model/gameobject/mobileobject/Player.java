@@ -2,6 +2,7 @@ package inf112.skeleton.model.gameobject.mobileobject;
 
 import com.badlogic.gdx.graphics.Texture;
 import inf112.skeleton.model.gameobject.Position;
+import inf112.skeleton.model.gameobject.Transform;
 
 /**
  * Represents the user-controlled actor in the game.
@@ -9,7 +10,7 @@ import inf112.skeleton.model.gameobject.Position;
  * @author Eivind H. Naasen
  */
 final public class Player extends Actor {
-    private Position pos;
+    private Transform transform;
     private Texture sprite;
     /**
      * Creates a new Player with the specified health and movement speed.
@@ -17,8 +18,8 @@ final public class Player extends Actor {
      * @param health        The initial health of the actor.
      * @param movementSpeed The movement speed of the actor.
      */
-    public Player(int health, int movementSpeed, Position pos, Texture sprite) {
-        super(health, movementSpeed, pos, sprite);
+    public Player(int health, int movementSpeed, Transform transform, Texture sprite) {
+        super(health, movementSpeed, transform, sprite);
     }
 
     public void jump() {
