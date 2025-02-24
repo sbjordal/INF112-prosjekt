@@ -31,7 +31,6 @@ public class WorldView implements Screen {
     private SpriteBatch batch;
     private Viewport viewport;
     private Sprite playerSprite;
-    private Texture background;
     private BitmapFont font;
 
 
@@ -41,14 +40,13 @@ public class WorldView implements Screen {
         this.screenRect = new Rectangle();
         this.model = model;
 //        this.batch = new SpriteBatch();
-//        this.background = new Texture(Gdx.files.internal("skeleton/background.png")); // Eivind: må sikkert avhenge av level og gamestate
         //this.player = model.getPlayerTexture();
 
     }
 
-    public Texture loadTexture(String path) {
-        return background;
-    }
+//    public Texture loadTexture(String path) {
+//        return background;
+//    }
 
 //    public void loadTexture(Texture texture) {}
 //    public void drawFrame() {}
@@ -88,22 +86,26 @@ public class WorldView implements Screen {
     }
 
     private void drawGameMenu() {
-        drawBasics();
+        Texture background = model.getPlayerTexture(); // Midlertidig input for å kunne kjøre koden
+        drawBasics(background);
     }
 
     private void drawGameActive() {
-        drawBasics();
+        Texture background = model.getPlayerTexture(); // Midlertidig input for å kunne kjøre koden
+        drawBasics(background);
     }
 
     private void drawGamePaused() {
-        drawBasics();
+        Texture background = model.getPlayerTexture(); // Midlertidig input for å kunne kjøre koden
+        drawBasics(background);
     }
 
     private void drawGameOver() {
-        drawBasics();
+        Texture background = model.getPlayerTexture(); // Midlertidig input for å kunne kjøre koden
+        drawBasics(background);
     }
 
-    private void drawBasics() {
+    private void drawBasics(Texture background) {
         ScreenUtils.clear(Color.CLEAR);
 
         // Camera center = sprite center
