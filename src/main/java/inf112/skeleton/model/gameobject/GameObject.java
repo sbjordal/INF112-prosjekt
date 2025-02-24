@@ -25,13 +25,11 @@ public class GameObject implements ViewableObject{
 
     @Override
     public Transform getTransform() {
-        // TODO
-        return null;
+        return transform;
     }
 
     @Override
     public Texture getTexture() {
-        // TODO
-        return null;
+        return texture;
     }
 }
