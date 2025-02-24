@@ -13,10 +13,10 @@ public interface ViewableWorldModel {
     Texture getPlayerTexture();
 
     /**
-     * Returns the players position in X and Y,
+     * Returns the players position in x and y,
      * and its size in height and width
      *
-     * @return Translate enum of Position and Size
+     * @return Transform enum of Position and Size
      */
     Transform getPlayerTransform();
 
