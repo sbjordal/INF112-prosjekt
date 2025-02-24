@@ -22,18 +22,17 @@ import inf112.skeleton.model.WorldModel;
 
 public class WorldView implements Screen {
 
-
-    private WorldModel model;
-   // private ShapeRenderer player;
-    private ShapeRenderer shapeRenderer;
-    private List<ShapeRenderer> platforms;
     private Rectangle screenRect;
+    private WorldModel model;
+    private ShapeRenderer shapeRenderer;
     private Map<String, Texture> textures = new HashMap<String, Texture>();
     private SpriteBatch batch;
     private Viewport viewport;
-    private Sprite playerSprite;
+    private ShapeRenderer player;
+    private Texture playerTexture;
     private Texture backgroundTexture;
     private BitmapFont font;
+
 
 
     public WorldView(WorldModel model, Viewport viewport) {
@@ -57,9 +56,9 @@ public class WorldView implements Screen {
     public void dispose() {
         shapeRenderer.dispose();
         batch.dispose();
-        for (ShapeRenderer platform : platforms) {
-            platform.dispose();
-        }
+//        for (ShapeRenderer platform : platforms) {
+//            platform.dispose();
+//        }
     }
 
     @Override
@@ -67,7 +66,7 @@ public class WorldView implements Screen {
         viewport = new ExtendViewport(100, 100);
         shapeRenderer = new ShapeRenderer();
         batch = new SpriteBatch();
-        playerSprite = new Sprite(model.getPlayerTexture());
+        playerTexture = model.getPlayerTexture();
     }
 
     @Override
@@ -103,17 +102,11 @@ public class WorldView implements Screen {
         drawBasics();
     }
 
-    public void loadBackground(String path) {
-        backgroundTexture = new Texture(Gdx.files.internal(path));
-    }
-
     private void drawBasics() {
-
-
         ScreenUtils.clear(Color.CLEAR);
 
         // Camera center = sprite center
-        viewport.getCamera().position.set(playerSprite.getX() + playerSprite.getWidth()/2, playerSprite.getY() + playerSprite.getHeight()/2, 0);
+        viewport.getCamera().position.set(model.getPlayerX() + model.getPlayerWidth()/2, model.getPlayerY() + model.getPlayerHeight()/2, 0);
         viewport.apply();
         batch.setProjectionMatrix(viewport.getCamera().combined);
 
@@ -123,20 +116,23 @@ public class WorldView implements Screen {
         shapeRenderer.rect(-5000, -5000, 10000, 10000);
         shapeRenderer.end();
 
-
+        // Finding the left corner of the window
         float camX = viewport.getCamera().position.x - viewport.getWorldWidth() / 2;
         float camY = viewport.getCamera().position.y - viewport.getWorldHeight() / 2;
 
         batch.begin();
         batch.draw(backgroundTexture, camX, camY, viewport.getWorldWidth(), viewport.getWorldHeight());
-        playerSprite.draw(batch);
+        batch.draw(playerTexture, model.getPlayerX(), model.getPlayerY(), model.getPlayerWidth() , model.getPlayerHeight());
         batch.end();
+    }
+
+    public void loadBackground(String path) {
+        backgroundTexture = new Texture(Gdx.files.internal(path));
     }
 
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height, true);
-
     }
 
     @Override

@@ -14,6 +14,12 @@ public interface ViewableWorldModel {
      */
     Texture getPlayerTexture();
 
+    //Position getPlayerPosition();
+    float getPlayerX();
+    float getPlayerY();
+    float getPlayerWidth();
+    float getPlayerHeight();
+
 
     /**
      * Tell us where the fixed positions are

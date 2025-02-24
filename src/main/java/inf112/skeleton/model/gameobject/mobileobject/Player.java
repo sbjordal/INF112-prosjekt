@@ -25,6 +25,26 @@ final public class Player extends Actor implements ViewableObject {
     }
 
     @Override
+    public float getX() {
+        return 0;
+    }
+
+    @Override
+    public float getY() {
+        return 0;
+    }
+
+    @Override
+    public float getWidth() {
+        return 48;
+    }
+
+    @Override
+    public float getHeight() {
+        return 70;
+    }
+
+    @Override
     public Texture getTexture() {
         return new Texture(Gdx.files.internal("sprite.png"));
     }

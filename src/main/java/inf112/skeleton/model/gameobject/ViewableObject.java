@@ -4,9 +4,9 @@ import com.badlogic.gdx.graphics.Texture;
 
 public interface ViewableObject {
 
-//    int getX();
-//    int getY();
-//    int getWidth();
-//    int getHeight();
+    float getX();
+    float getY();
+    float getWidth();
+    float getHeight();
     Texture getTexture();
 }
