@@ -27,7 +27,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         //Texture playerTexture = new Texture(Gdx.files.internal("sprite.png"));
         //Transform playerTransform = new Transform(new Position(0,0), new Size(50, 50));
         //this.player = new Player(1, 1, playerTransform, playerTexture); // TODO, legg til argument (foreløpig argumenter for å kunne kompilere prosjektet)
-        this.worldView = new WorldView(this, new ExtendViewport(100,100));
+        this.worldView = new WorldView(this, new ExtendViewport(board.width(),board.height()));
         this.board = board;}
 
     /**
@@ -69,7 +69,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     public void create() {
         Gdx.graphics.setForegroundFPS(60);
         worldView.show();
-        worldView.resize(480, 320);
+        worldView.resize(board.width(), board.height());
         // TODO, implement me :)
     }
 

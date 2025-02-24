@@ -32,6 +32,7 @@ public class WorldView implements Screen {
     private Texture playerTexture;
     private Texture backgroundTexture;
     private BitmapFont font;
+    // Lag final for windustørrelse
 
 
 
@@ -60,10 +61,9 @@ public class WorldView implements Screen {
 
     @Override
     public void show() {
-        viewport = new ExtendViewport(100, 100);
         shapeRenderer = new ShapeRenderer();
         batch = new SpriteBatch();
-        // TODO -  Fjern '//' når metoden er implementert
+        // TODO -  Fjern '//' under når getPlayerTexture() er implementert
         //playerTexture = model.getPlayerTexture(); // Kommenter inn når den er implementert
         playerTexture = new Texture(Gdx.files.internal("sprite.png")); // Fjern denne når model.getPlayerTexture() er implementert
     }
