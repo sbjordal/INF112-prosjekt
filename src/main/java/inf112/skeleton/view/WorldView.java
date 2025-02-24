@@ -36,19 +36,16 @@ public class WorldView implements Screen {
 
 
     public WorldView(WorldModel model, Viewport viewport) {
-        //this.font = new BitmapFont(Gdx.files.internal("skeleton.fnt")); Lag fil med font
+//        this.font = new BitmapFont(Gdx.files.internal("skeleton.fnt")); Lag fil med font
         this.viewport = viewport;
         this.screenRect = new Rectangle();
         this.model = model;
-//        this.batch = new SpriteBatch();
-        //this.player = model.getPlayerTexture();
+//       this.batch = new SpriteBatch();
+//        this.player = model.getPlayerTexture();
 
     }
 
-//    public Texture loadTexture(String path) {
-//        return background;
-//    }
-
+//    public Texture loadTexture(String path) {}
 //    public void drawFrame() {}
 //    public void drawObjects() {}
 
@@ -103,10 +100,16 @@ public class WorldView implements Screen {
     }
 
     private void drawBasics() {
+        // Player-data
+        float playerX = model.getPlayerTranslate().position().getX();
+        float playerY = model.getPlayerTranslate().position().getY();
+        float playerWidth = model.getPlayerTranslate().size().width();
+        float playerHeight = model.getPlayerTranslate().size().height();
+
         ScreenUtils.clear(Color.CLEAR);
 
         // Camera center = sprite center
-        viewport.getCamera().position.set(model.getPlayerX() + model.getPlayerWidth()/2, model.getPlayerY() + model.getPlayerHeight()/2, 0);
+        viewport.getCamera().position.set(playerX + playerWidth/2, playerY + playerHeight/2, 0);
         viewport.apply();
         batch.setProjectionMatrix(viewport.getCamera().combined);
 
@@ -122,7 +125,7 @@ public class WorldView implements Screen {
 
         batch.begin();
         batch.draw(backgroundTexture, camX, camY, viewport.getWorldWidth(), viewport.getWorldHeight());
-        batch.draw(playerTexture, model.getPlayerX(), model.getPlayerY(), model.getPlayerWidth() , model.getPlayerHeight());
+        batch.draw(playerTexture, playerX, playerY, playerWidth, playerHeight);
         batch.end();
     }
 

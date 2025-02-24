@@ -14,11 +14,28 @@ public interface ViewableWorldModel {
      */
     Texture getPlayerTexture();
 
-    //Position getPlayerPosition();
-    float getPlayerX();
-    float getPlayerY();
-    float getPlayerWidth();
-    float getPlayerHeight();
+    /**
+     * Returns the players position in X and Y,
+     * and its size in height and width
+     *
+     * @return Translate enum of Position and Size
+     */
+    Translate getPlayerTranslate();
+
+    /**
+     * Tells us the state of the game
+     *
+     * @return the state of the game
+     */
+    GameState getGameState();
+
+
+    /**
+     * Tells us the points the player has aquired
+     *
+     * @return the points scored
+     */
+    int getScore();
 
 
     /**
@@ -35,23 +52,7 @@ public interface ViewableWorldModel {
      *
      * @return position and sprite-images
      */
-   // List<Object> getEnemyObjects();
-
-
-    /**
-     * Tells us the state of the game
-     *
-     * @return the state of the game
-     */
-    GameState getGameState();
-
-
-    /**
-     * Tells us the points the player has aquired
-     *
-     * @return the points scored
-     */
-    int getScore();
+    // List<Object> getEnemyObjects();
 
 
 }

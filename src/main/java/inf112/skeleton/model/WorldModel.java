@@ -9,7 +9,7 @@ import inf112.skeleton.model.gameobject.mobileobject.Player;
 import inf112.skeleton.view.ViewableWorldModel;
 import inf112.skeleton.view.WorldView;
 
-public class WorldModel implements ControllableWorldModel, ViewableWorldModel, ApplicationListener {
+public class WorldModel implements ControllableWorldModel, ApplicationListener {
 
     public static final int SCREEN_WIDTH = 480;
     public static final int SCREEN_HEIGHT = 320;
@@ -82,31 +82,6 @@ public class WorldModel implements ControllableWorldModel, ViewableWorldModel, A
         // TODO, implement me :)
     }
 
-    @Override
-    public Texture getPlayerTexture() {
-        return player.getTexture();
-    }
-
-    @Override
-    public float getPlayerX() {
-        return player.getX();
-    }
-
-    @Override
-    public float getPlayerY() {
-        return player.getY();
-    }
-
-    @Override
-    public float getPlayerWidth() {
-        return player.getWidth();
-    }
-
-    @Override
-    public float getPlayerHeight() {
-        return player.getHeight();
-    }
-
     /**
      * Tells us the state of the game
      * @return the state of the game
@@ -116,10 +91,5 @@ public class WorldModel implements ControllableWorldModel, ViewableWorldModel, A
         return this.gameState;
     }
 
-    @Override
-    public int getScore() {
-        // TODO
-        return 0;
-    }
 
 }

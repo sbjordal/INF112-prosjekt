@@ -4,9 +4,17 @@ import com.badlogic.gdx.graphics.Texture;
 
 public interface ViewableObject {
 
-    float getX();
-    float getY();
-    float getWidth();
-    float getHeight();
+    /**
+     * Returns the objects position and size
+     *
+     * @return Translate of Position and Size
+     */
+    Translate getTranslate();
+
+    /**
+     * Returns the Texture of the object
+     *
+     * @return Texture of an image
+     */
     Texture getTexture();
 }
