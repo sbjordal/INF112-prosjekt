@@ -3,12 +3,14 @@ package inf112.skeleton.model;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import inf112.skeleton.controller.ControllableWorldModel;
 import inf112.skeleton.model.gameobject.Position;
 import inf112.skeleton.model.gameobject.Size;
 import inf112.skeleton.model.gameobject.Transform;
 import inf112.skeleton.model.gameobject.mobileobject.Player;
 import inf112.skeleton.view.ViewableWorldModel;
+import inf112.skeleton.view.WorldView;
 
 import java.util.List;
 
@@ -17,13 +19,15 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     private GameState gameState;
     private Player player;
     private WorldBoard board;
+    private WorldView worldView;
 //    private int gameScore;
 
     public WorldModel(WorldBoard board) {
         this.gameState = GameState.GAME_ACTIVE; // TODO, må endres etter at game menu er laget.
-        Texture playerTexture = new Texture(Gdx.files.internal("sprite.png"));
-        Transform playerTransform = new Transform(new Position(0,0), new Size(50, 50));
-        this.player = new Player(1, 1, playerTransform, playerTexture); // TODO, legg til argument (foreløpig argumenter for å kunne kompilere prosjektet)
+        //Texture playerTexture = new Texture(Gdx.files.internal("sprite.png"));
+        //Transform playerTransform = new Transform(new Position(0,0), new Size(50, 50));
+        //this.player = new Player(1, 1, playerTransform, playerTexture); // TODO, legg til argument (foreløpig argumenter for å kunne kompilere prosjektet)
+        this.worldView = new WorldView(this, new ExtendViewport(100,100));
         this.board = board;}
 
     /**
@@ -63,6 +67,9 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
     @Override
     public void create() {
+        Gdx.graphics.setForegroundFPS(60);
+        worldView.show();
+        worldView.resize(480, 320);
         // TODO, implement me :)
     }
 
@@ -73,6 +80,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
     @Override
     public void render() {
+        worldView.render(Gdx.graphics.getDeltaTime());
         // TODO, implement me :)
     }
 

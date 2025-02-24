@@ -63,25 +63,10 @@ public class WorldView implements Screen {
         viewport = new ExtendViewport(100, 100);
         shapeRenderer = new ShapeRenderer();
         batch = new SpriteBatch();
-        playerTexture = model.getPlayerTexture();
+        // TODO -  Fjern '//' når metoden er implementert
+        //playerTexture = model.getPlayerTexture(); // Kommenter inn når den er implementert
+        playerTexture = new Texture(Gdx.files.internal("sprite.png")); // Fjern denne når model.getPlayerTexture() er implementert
     }
-
-//    @Override
-//    public void render(float v) {
-//        if (model.getGameState() == GameState.GAME_MENU) {
-//            drawGameMenu();
-//        }
-//        else if (model.getGameState() == GameState.GAME_ACTIVE) {
-//            drawGameActive();
-//        }
-//        else if (model.getGameState() == GameState.GAME_PAUSED) {
-//            drawGamePaused();
-//        }
-//        else if (model.getGameState() == GameState.GAME_OVER) {
-//            drawGameOver();
-//        }
-//    }
-
 
     @Override
     public void render(float v) {
@@ -113,10 +98,11 @@ public class WorldView implements Screen {
 
     private void drawBasics() {
         // Player-data
-        float playerX = model.getPlayerTransform().pos().x();
-        float playerY = model.getPlayerTransform().pos().y();
-        float playerWidth = model.getPlayerTransform().size().width();
-        float playerHeight = model.getPlayerTransform().size().height();
+        // TODO - fjern tallene og sett inn de som er kommenert når de er implementert
+        float playerX = 0; //model.getPlayerTransform().pos().x();
+        float playerY = 0; //model.getPlayerTransform().pos().y();
+        float playerWidth = 50; // model.getPlayerTransform().size().width();
+        float playerHeight = 70; //model.getPlayerTransform().size().height();
 
         ScreenUtils.clear(Color.CLEAR);
 
