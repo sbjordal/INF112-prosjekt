@@ -17,4 +17,10 @@ public interface ViewableObject {
      * @return Texture of an image
      */
     Texture getTexture();
+
+    /**
+     * Returns the Texture and Transform combined in
+     * a ObjectProperties record
+     */
+    //ObjectProperties getObjectProperties();
 }

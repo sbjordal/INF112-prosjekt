@@ -80,6 +80,7 @@ public class WorldView implements Screen {
 
 
     private void drawGameMenu() {
+        loadBackground("backgroundTest.jpg");
         drawBasics();
     }
 
@@ -94,6 +95,7 @@ public class WorldView implements Screen {
     }
 
     private void drawGameOver() {
+        loadBackground("backgroundTest.jpg");
         drawBasics();
     }
 
@@ -102,8 +104,8 @@ public class WorldView implements Screen {
         // TODO - fjern tallene og sett inn de som er kommenert når de er implementert
         float playerX = 0; //model.getPlayerTransform().pos().x();
         float playerY = 0; //model.getPlayerTransform().pos().y();
-        float playerWidth = 50; // model.getPlayerTransform().size().width();
-        float playerHeight = 70; //model.getPlayerTransform().size().height();
+        float playerWidth = 100; // model.getPlayerTransform().size().width();
+        float playerHeight = 150; //model.getPlayerTransform().size().height();
 
         ScreenUtils.clear(Color.CLEAR);
 
