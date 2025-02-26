@@ -38,11 +38,11 @@ public interface ViewableWorldModel {
 
     /**
      * Tell us where the fixed positions are
-     * and gives us their sprites
+     * and gives us their textures
      *
-     * @return position and sprite-images
+     * @return position and textures-images
      */
-    //List<Object> getFixedObjectTextures();
+    //List<ObjectProperties> getFixedObjectProperties();
 
     /**
      * Tell us where the enemy's positions are

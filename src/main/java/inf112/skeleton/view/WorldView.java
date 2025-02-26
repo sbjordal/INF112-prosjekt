@@ -25,6 +25,7 @@ public class WorldView implements Screen {
     private Rectangle screenRect;
     private WorldModel model;
     private ShapeRenderer shapeRenderer;
+    private ShapeRenderer objectRenderer;
     private Map<String, Texture> textures = new HashMap<String, Texture>();
     private SpriteBatch batch;
     private Viewport viewport;
@@ -53,6 +54,7 @@ public class WorldView implements Screen {
     @Override
     public void dispose() {
         shapeRenderer.dispose();
+        objectRenderer.dispose();
         batch.dispose();
 //        for (ShapeRenderer platform : platforms) {
 //            platform.dispose();
@@ -62,6 +64,7 @@ public class WorldView implements Screen {
     @Override
     public void show() {
         shapeRenderer = new ShapeRenderer();
+        objectRenderer = new ShapeRenderer();
         batch = new SpriteBatch();
         // TODO -  Fjern '//' under når getPlayerTexture() er implementert
         //playerTexture = model.getPlayerTexture(); // Kommenter inn når den er implementert
@@ -80,6 +83,7 @@ public class WorldView implements Screen {
 
 
     private void drawGameMenu() {
+        loadBackground("backgroundTest.jpg");
         drawBasics();
     }
 
@@ -94,6 +98,7 @@ public class WorldView implements Screen {
     }
 
     private void drawGameOver() {
+        loadBackground("backgroundTest.jpg");
         drawBasics();
     }
 
@@ -102,8 +107,8 @@ public class WorldView implements Screen {
         // TODO - fjern tallene og sett inn de som er kommenert når de er implementert
         float playerX = 0; //model.getPlayerTransform().pos().x();
         float playerY = 0; //model.getPlayerTransform().pos().y();
-        float playerWidth = 50; // model.getPlayerTransform().size().width();
-        float playerHeight = 70; //model.getPlayerTransform().size().height();
+        float playerWidth = 100; // model.getPlayerTransform().size().width();
+        float playerHeight = 150; //model.getPlayerTransform().size().height();
 
         ScreenUtils.clear(Color.CLEAR);
 
@@ -118,6 +123,7 @@ public class WorldView implements Screen {
         shapeRenderer.rect(-5000, -5000, 10000, 10000);
         shapeRenderer.end();
 
+
         // Finding the left corner of the window
         float camX = viewport.getCamera().position.x - viewport.getWorldWidth() / 2;
         float camY = viewport.getCamera().position.y - viewport.getWorldHeight() / 2;
@@ -127,6 +133,14 @@ public class WorldView implements Screen {
         batch.draw(backgroundTexture, camX, camY, viewport.getWorldWidth(), viewport.getWorldHeight());
         batch.draw(playerTexture, playerX, playerY, playerWidth, playerHeight);
         batch.end();
+
+        // Object
+        objectRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        objectRenderer.setColor(Color.BLUE);
+        objectRenderer.rect(800, 105, 50, 50);
+        objectRenderer.rect(850, 105, 50, 100);
+        objectRenderer.end();
+
     }
 
     public void loadBackground(String path) {
