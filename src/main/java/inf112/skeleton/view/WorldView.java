@@ -31,14 +31,13 @@ public class WorldView implements Screen {
     private Viewport viewport;
     private ShapeRenderer player;
     private Texture playerTexture;
+    private Texture enemyTexture;
     private Texture backgroundTexture;
     private BitmapFont font;
-    // Lag final for windustørrelse
 
 
 
     public WorldView(WorldModel model, Viewport viewport) {
-//        this.font = new BitmapFont(Gdx.files.internal("skeleton.fnt")); Lag fil med font
         this.viewport = viewport;
         this.screenRect = new Rectangle();
         this.model = model;
@@ -56,19 +55,20 @@ public class WorldView implements Screen {
         shapeRenderer.dispose();
         objectRenderer.dispose();
         batch.dispose();
-//        for (ShapeRenderer platform : platforms) {
-//            platform.dispose();
-//        }
+        font.dispose();
     }
 
     @Override
     public void show() {
+        this.font = new BitmapFont(); //new BitmapFont(Gdx.files.internal("skeleton.fnt")); Lag fil med font
+        font.setColor(Color.WHITE);
         shapeRenderer = new ShapeRenderer();
         objectRenderer = new ShapeRenderer();
         batch = new SpriteBatch();
         // TODO -  Fjern '//' under når getPlayerTexture() er implementert
         //playerTexture = model.getPlayerTexture(); // Kommenter inn når den er implementert
         playerTexture = new Texture(Gdx.files.internal("sprite.png")); // Fjern denne når model.getPlayerTexture() er implementert
+       // enemyTexture = new Texture(Gdx.files.internal("enemy.png")); //   Samme med denne når model.getEnemyTexture() er implementert
     }
 
     @Override
@@ -110,6 +110,14 @@ public class WorldView implements Screen {
         float playerWidth = 100; // model.getPlayerTransform().size().width();
         float playerHeight = 150; //model.getPlayerTransform().size().height();
 
+        // Enemy-data TODO - hent verdier fra modellen når nødvendige metoder er implementert
+
+        float enemyX = 40;
+        float enemyY = 0;
+        float enemyWidth = 100;
+        float enemyHeight = 150;
+
+
         ScreenUtils.clear(Color.CLEAR);
 
         // Camera center = sprite center
@@ -128,13 +136,19 @@ public class WorldView implements Screen {
         float camX = viewport.getCamera().position.x - viewport.getWorldWidth() / 2;
         float camY = viewport.getCamera().position.y - viewport.getWorldHeight() / 2;
 
+        // Text to be shown
+        String totalScore = "Total score: "+"100";//String.valueOf(model.getTotalScore());
+        font.getData().setScale(2);
+
         // Drawing
         batch.begin();
         batch.draw(backgroundTexture, camX, camY, viewport.getWorldWidth(), viewport.getWorldHeight());
+        font.draw(batch, totalScore, camX+40, viewport.getWorldHeight()-330);
         batch.draw(playerTexture, playerX, playerY, playerWidth, playerHeight);
+       // batch.draw(enemyTexture, enemyX, enemyY, enemyWidth, enemyHeight);
         batch.end();
 
-        // Object
+        // Fixed-objects
         objectRenderer.begin(ShapeRenderer.ShapeType.Filled);
         objectRenderer.setColor(Color.BLUE);
         objectRenderer.rect(800, 105, 50, 50);
@@ -167,26 +181,4 @@ public class WorldView implements Screen {
     public void hide() {
 
     }
-
-    // test for å sjekke merging
-
-
-//
-//    @Override
-//    public void resize(int width, int height) {
-//        screenRect.width = width;
-//        screenRect.height = height;
-//    }
-//
-//    @Override
-//    public void render() {
-//        // 60fps
-//        // objectene har texture som parameter i konstruktøren som kan gis fra modellen
-//        shapeRenderer.setColor(1, 0, 0, 0);
-//        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-//        shapeRenderer.rect(0, 0, 100, 100);
-//        shapeRenderer.end();
-//    }
-//
-
 }
