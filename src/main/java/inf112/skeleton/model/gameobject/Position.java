@@ -1,4 +1,3 @@
 package inf112.skeleton.model.gameobject;
 
-public record Position() {
-}
+public record Position(int x, int y) { }

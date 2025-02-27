@@ -1,7 +1,9 @@
 package inf112.skeleton.model.gameobject.mobileobject;
 
+import com.badlogic.gdx.graphics.Texture;
 import inf112.skeleton.model.gameobject.Scorable;
 import inf112.skeleton.model.gameobject.GameObject;
+import inf112.skeleton.model.gameobject.Transform;
 
 /**
  * Represents all enemy types.
@@ -10,21 +12,23 @@ import inf112.skeleton.model.gameobject.GameObject;
  * @author Eivind H. Naasen
  */
 public class Enemy extends Actor implements Scorable {
-    final private int scoreValue;
+    final private int objectScore;
     final private int damage;
+    private Transform transform;
+    private Texture texture;
 
     /**
      * Creates a new Enemy with the specified health, movement speed, score value and damage.
      *
      * @param health        The initial health of the actor.
      * @param movementSpeed The movement speed of the actor.
-     * @param scoreValue    The score points obtained by defeating this enemy.
+     * @param objectScore    The score points obtained by defeating this enemy.
      * @param damage        The amount of damage this enemy can inflict.
      */
-    public Enemy(int health, int movementSpeed, int scoreValue, int damage) {
-        super(health, movementSpeed);
+    public Enemy(int health, int movementSpeed, int objectScore, int damage, Transform transform, Texture texture) {
+        super(health, movementSpeed, transform, texture);
 
-        this.scoreValue = scoreValue;
+        this.objectScore = objectScore;
         this.damage = damage;
     }
 
@@ -37,11 +41,10 @@ public class Enemy extends Actor implements Scorable {
         // TODO: implement this when the enemy type is conceptually defined.
     }
 
-/* TODO: uncomment when Scorable interface is integrated.
-    @override
-    public int getScoreValue() {
-        return scoreValue;
+    @Override
+    public int getObjectScore() {
+        return objectScore;
     }
-*/
+
 
 }

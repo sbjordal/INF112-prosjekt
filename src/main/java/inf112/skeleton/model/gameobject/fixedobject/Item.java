@@ -1,4 +1,23 @@
 package inf112.skeleton.model.gameobject.fixedobject;
+import com.badlogic.gdx.graphics.Texture;
+import inf112.skeleton.model.gameobject.Position;
+import inf112.skeleton.model.gameobject.Transform;
 
-public class Item {
+/**
+ * An Item is every fixed object that can be picked up
+ */
+
+public class Item extends FixedObject{
+    protected Transform transform;
+    protected Texture texture;
+
+    public Item(Transform transform, Texture texture) {
+        super(transform, texture);
+    }
+
+    private void pickUp(){ // TODO implement meg
+
+    }
+
+
 }

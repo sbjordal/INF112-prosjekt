@@ -1,48 +1,24 @@
 package inf112.skeleton.view;
 import inf112.skeleton.model.GameState;
-import inf112.skeleton.model.gameobject.Position;
 import com.badlogic.gdx.graphics.Texture;
-
-import java.util.List;
+import inf112.skeleton.model.gameobject.Transform;
 
 public interface ViewableWorldModel {
 
     /**
-     * Returns the sprite of the enemy
+     * Returns the sprite image of the player
      *
-     * @return an enemy's sprite-image
+     * @return sprite-image
      */
-    Texture getEnemySprite();
+    Texture getPlayerTexture();
 
     /**
-     * Returns the sprite of the player
+     * Returns the players position in x and y,
+     * and its size in height and width
      *
-     * @return the players sprite-image
+     * @return Transform enum of Position and Size
      */
-    Texture getPlayerSprite();
-
-
-    /**
-     *Tell us where the fixed objects are
-     *
-     * @return positions
-     */
-    List<Position> getFixedObjectPosition();
-
-    /**
-     * Tells us where the enemy are
-     *
-     * @return the positions of the enemy
-     */
-    List<Position> getEnemysPosition();
-
-
-    /**
-     * Tells us where the player is
-     *
-     * @return the position of the player
-     */
-    Position getPlayerPosition();
+    Transform getPlayerTransform();
 
     /**
      * Tells us the state of the game
@@ -53,11 +29,28 @@ public interface ViewableWorldModel {
 
 
     /**
-     * Tells us the points the player has aquired
+     * Tells us the points the player has aquired so far
      *
      * @return the points scored
      */
-    int getScore();
+    int getTotalScore();
+
+
+    /**
+     * Tell us where the fixed positions are
+     * and gives us their textures
+     *
+     * @return position and textures-images
+     */
+    //List<ObjectProperties> getFixedObjectProperties();
+
+    /**
+     * Tell us where the enemy's positions are
+     * and gives us their sprites
+     *
+     * @return position and sprite-images
+     */
+    // List<Object> getEnemyObjects();
 
 
 }
