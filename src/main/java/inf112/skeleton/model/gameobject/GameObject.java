@@ -6,8 +6,8 @@ import com.badlogic.gdx.graphics.Texture;
  *
  */
 public class GameObject implements ViewableObject{
-    protected Transform transform;
-    protected Texture texture;
+    private Transform transform;
+    private Texture texture;
 
     /**
      * Constructor that creates a game object based on its position
