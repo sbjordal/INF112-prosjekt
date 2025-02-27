@@ -139,6 +139,7 @@ public class WorldView implements Screen {
         objectRenderer.setColor(Color.BLUE);
         objectRenderer.rect(800, 105, 50, 50);
         objectRenderer.rect(850, 105, 50, 100);
+        objectRenderer.rect(900, 105, 50, 150);
         objectRenderer.end();
 
     }
