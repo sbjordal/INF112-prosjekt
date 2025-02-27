@@ -122,7 +122,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     }
 
     @Override
-    public int getScore() {
+    public int getTotalScore() {
         return 0;
     }
 

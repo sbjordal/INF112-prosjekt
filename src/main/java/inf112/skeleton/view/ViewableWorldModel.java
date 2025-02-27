@@ -29,11 +29,11 @@ public interface ViewableWorldModel {
 
 
     /**
-     * Tells us the points the player has aquired
+     * Tells us the points the player has aquired so far
      *
      * @return the points scored
      */
-    int getScore();
+    int getTotalScore();
 
 
     /**

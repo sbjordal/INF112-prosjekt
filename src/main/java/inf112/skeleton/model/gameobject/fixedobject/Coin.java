@@ -12,7 +12,7 @@ import inf112.skeleton.model.gameobject.Transform;
 public class Coin extends Item implements Scorable { // TODO: implementer logikken her
     private Transform transform;
     private Texture texture;
-    private int scoreValue;
+    private int objectScore;
 
     public Coin(Transform transform, Texture texture) {
         super(transform, texture);
@@ -20,7 +20,7 @@ public class Coin extends Item implements Scorable { // TODO: implementer logikk
     }
 
     @Override
-    public int getScoreValue() {
-        return scoreValue;
+    public int getObjectScore() {
+        return objectScore;
     }
 }
