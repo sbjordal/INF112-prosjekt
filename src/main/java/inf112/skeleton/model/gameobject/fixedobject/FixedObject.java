@@ -1,4 +1,19 @@
 package inf112.skeleton.model.gameobject.fixedobject;
+import com.badlogic.gdx.graphics.Texture;
+import inf112.skeleton.model.gameobject.GameObject;
+import inf112.skeleton.model.gameobject.Position;
+import inf112.skeleton.model.gameobject.Transform;
 
-public class FixedObject {
+/**
+ * Class that represent all game objects that dont move.
+ */
+
+public class FixedObject extends GameObject {
+    protected Transform transform;
+    protected Texture texture;
+
+    public FixedObject(Transform transform, Texture texture) {
+        super(transform, texture);
+
+    }
 }
