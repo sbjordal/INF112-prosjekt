@@ -7,7 +7,7 @@ public interface ViewableObject {
     /**
      * Returns the objects position and size
      *
-     * @return Translate of Position and Size
+     * @return Transform of Position and Size
      */
     Transform getTransform();
 
