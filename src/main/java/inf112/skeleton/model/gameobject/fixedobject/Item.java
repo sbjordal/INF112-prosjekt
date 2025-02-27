@@ -9,10 +9,10 @@ import inf112.skeleton.model.gameobject.Transform;
 
 public class Item extends FixedObject{
     protected Transform transform;
-    protected Texture sprite;
+    protected Texture texture;
 
-    public Item(Transform transform, Texture sprite) {
-        super(transform, sprite);
+    public Item(Transform transform, Texture texture) {
+        super(transform, texture);
     }
 
     private void pickUp(){ // TODO implement meg
