@@ -103,25 +103,41 @@ public class WorldView implements Screen {
     }
 
     private void drawBasics() {
+        // Map-data
+        float groundY  = 105;
+
+
         // Player-data
         // TODO - fjern tallene og sett inn de som er kommenert når de er implementert
-        float playerX = 0; //model.getPlayerTransform().pos().x();
-        float playerY = 0; //model.getPlayerTransform().pos().y();
+        float playerX = 380; //model.getPlayerTransform().pos().x();
+        float playerY = groundY-35; //model.getPlayerTransform().pos().y();
         float playerWidth = 100; // model.getPlayerTransform().size().width();
         float playerHeight = 150; //model.getPlayerTransform().size().height();
 
         // Enemy-data TODO - hent verdier fra modellen når nødvendige metoder er implementert
 
         float enemyX = 40;
-        float enemyY = -180;
         float enemyWidth = 50;
         float enemyHeight = 50;
 
 
         ScreenUtils.clear(Color.CLEAR);
 
+        // TODO - Holder player i sentrum av kamera, kommer nok til å slette dette
         // Camera center = sprite center
-        viewport.getCamera().position.set(playerX + playerWidth/2, playerY + playerHeight/2, 0);
+        //viewport.getCamera().position.set(playerX + playerWidth/2, playerY + playerHeight/2, 0);
+
+        // Kamera viser hele skjermen uavhengig av spiller
+        // Kan videreutvikles hvor camera justerer seg etter spillers posisjon
+        float camX = viewport.getCamera().position.x;
+        float camY = viewport.getCamera().position.y;
+        float worldWidth = viewport.getWorldWidth();
+        float worldHeight = viewport.getWorldHeight();
+
+        viewport.getCamera().position.set(camX, camY, 0);
+
+
+
         viewport.apply();
         batch.setProjectionMatrix(viewport.getCamera().combined);
 
@@ -133,8 +149,8 @@ public class WorldView implements Screen {
 
 
         // Finding the left corner of the window
-        float camX = viewport.getCamera().position.x - viewport.getWorldWidth() / 2;
-        float camY = viewport.getCamera().position.y - viewport.getWorldHeight() / 2;
+        float leftX = viewport.getCamera().position.x - viewport.getWorldWidth() / 2;
+        float bottomY = viewport.getCamera().position.y - viewport.getWorldHeight() / 2;
 
         // Text to be shown
         String totalScore = "Total score: "+"100";//String.valueOf(model.getTotalScore());
@@ -142,18 +158,18 @@ public class WorldView implements Screen {
 
         // Drawing
         batch.begin();
-        batch.draw(backgroundTexture, camX, camY, viewport.getWorldWidth(), viewport.getWorldHeight());
-        font.draw(batch, totalScore, camX+40, viewport.getWorldHeight()-330);
+        batch.draw(backgroundTexture, leftX, bottomY, viewport.getWorldWidth(), viewport.getWorldHeight());
+        font.draw(batch, totalScore, leftX, worldHeight-10);
         batch.draw(playerTexture, playerX, playerY, playerWidth, playerHeight);
-        batch.draw(enemyTexture, enemyX, enemyY, enemyWidth, enemyHeight);
+        batch.draw(enemyTexture, enemyX, groundY, enemyWidth, enemyHeight);
         batch.end();
 
         // Fixed-objects
         objectRenderer.begin(ShapeRenderer.ShapeType.Filled);
         objectRenderer.setColor(Color.BLUE);
-        objectRenderer.rect(800, 105, 50, 50);
-        objectRenderer.rect(850, 105, 50, 100);
-        objectRenderer.rect(900, 105, 50, 150);
+        objectRenderer.rect(800, groundY, 50, 50);
+        objectRenderer.rect(850, groundY, 50, 100);
+        objectRenderer.rect(900, groundY, 50, 150);
         objectRenderer.end();
 
     }
