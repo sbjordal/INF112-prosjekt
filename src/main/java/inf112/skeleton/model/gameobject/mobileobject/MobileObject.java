@@ -12,7 +12,7 @@ import inf112.skeleton.model.gameobject.Transform;
  *
  * @author Eivind H. Naasen
  */
-abstract class MobileObject extends GameObject {
+public abstract class MobileObject extends GameObject {
     private final int movementSpeed;
 
     /**

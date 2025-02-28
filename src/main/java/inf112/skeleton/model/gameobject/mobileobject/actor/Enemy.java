@@ -1,4 +1,4 @@
-package inf112.skeleton.model.gameobject.mobileobject;
+package inf112.skeleton.model.gameobject.mobileobject.actor;
 
 import com.badlogic.gdx.graphics.Texture;
 import inf112.skeleton.model.gameobject.Scorable;

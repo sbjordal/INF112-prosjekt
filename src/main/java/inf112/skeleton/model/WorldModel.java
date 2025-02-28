@@ -7,13 +7,10 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import inf112.skeleton.controller.ControllableWorldModel;
 import inf112.skeleton.controller.PlayerController;
 import inf112.skeleton.model.gameobject.Position;
-import inf112.skeleton.model.gameobject.Size;
 import inf112.skeleton.model.gameobject.Transform;
-import inf112.skeleton.model.gameobject.mobileobject.Player;
+import inf112.skeleton.model.gameobject.mobileobject.actor.Player;
 import inf112.skeleton.view.ViewableWorldModel;
 import inf112.skeleton.view.WorldView;
-
-import java.util.List;
 
 public class WorldModel implements ViewableWorldModel, ControllableWorldModel, ApplicationListener {
 

@@ -1,4 +1,4 @@
-package inf112.skeleton.model.gameobject.fixedobject;
+package inf112.skeleton.model.gameobject.fixedobject.item;
 
 import com.badlogic.gdx.graphics.Texture;
 import inf112.skeleton.model.gameobject.Scorable;

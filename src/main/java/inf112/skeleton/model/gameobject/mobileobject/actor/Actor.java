@@ -1,7 +1,8 @@
-package inf112.skeleton.model.gameobject.mobileobject;
+package inf112.skeleton.model.gameobject.mobileobject.actor;
 
 import com.badlogic.gdx.graphics.Texture;
 import inf112.skeleton.model.gameobject.Transform;
+import inf112.skeleton.model.gameobject.mobileobject.MobileObject;
 
 /**
  * Represents all living MobileObject types.
@@ -14,7 +15,7 @@ abstract class Actor extends MobileObject {
     private int health;
 
     /**
-     * Creates a new Actor with the specified health and movement speed.
+     * Creates a new actor with the specified health and movement speed.
      *
      * @param health        The initial health of the actor.
      * @param movementSpeed The movement speed of the actor.
