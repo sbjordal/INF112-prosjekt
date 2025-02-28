@@ -29,10 +29,12 @@ public class PlayerController implements InputProcessor {
             case Input.Keys.LEFT:
                 controllableModel.move(-1, 0);
                 System.out.println("MOVING LEFT DOWN!");
+                controllableModel.setGameState(GameState.GAME_PAUSED);
                 break;
             case Input.Keys.RIGHT:
                 controllableModel.move(1, 0);
                 System.out.println("MOVING RIGHT DOWN!");
+                controllableModel.setGameState(GameState.GAME_ACTIVE);
                 break;
         }
         return true;

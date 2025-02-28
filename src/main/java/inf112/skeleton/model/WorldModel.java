@@ -136,6 +136,11 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     }
 
     @Override
+    public void setGameState(GameState gameState) {
+        this.gameState = gameState;
+    }
+
+    @Override
     public int getTotalScore() {
         return 0;
     }

@@ -12,6 +12,13 @@ public interface ControllableWorldModel {
     GameState getGameState();
 
     /**
+     * Changes the state of the game
+     *
+     * @param gameState the new gamestate
+     */
+    public void setGameState(GameState gameState);
+
+    /**
      * Moves player left if the move is legal (also calls isLegalMove) TODO: finskriv
      */
     public void move(int deltaX, int deltaY);
