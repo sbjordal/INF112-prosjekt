@@ -12,6 +12,7 @@ public interface ControllableWorldModel {
     GameState getGameState();
 
     /**
+     * // TODO - Midlertidig, da Model har andre metoder som endrer gamestate, som jeg glemte at eksisterte :)
      * Changes the state of the game
      *
      * @param gameState the new gamestate
