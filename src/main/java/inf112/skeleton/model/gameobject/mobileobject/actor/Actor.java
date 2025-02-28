@@ -15,10 +15,12 @@ abstract class Actor extends MobileObject {
     private int health;
 
     /**
-     * Creates a new actor with the specified health and movement speed.
+     * Creates a new Actor with the specified health, movement speed, transform and texture.
      *
-     * @param health        The initial health of the actor.
-     * @param movementSpeed The movement speed of the actor.
+     * @param health        The initial health of this actor.
+     * @param movementSpeed The movement speed of this actor.
+     * @param transform     The transform of this actor.
+     * @param texture       The texture of this actor.
      */
     protected Actor(int health, int movementSpeed, Transform transform, Texture texture) {
         super(movementSpeed, transform, texture);

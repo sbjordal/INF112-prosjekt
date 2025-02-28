@@ -2,14 +2,10 @@ package inf112.skeleton.controller;
 
 import com.badlogic.gdx.Input;
 import inf112.skeleton.model.GameState;
-import inf112.skeleton.view.WorldView;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.ApplicationListener;
-
 
 /**
  * https://libgdx.com/wiki/input/event-handling
- *
  */
 public class PlayerController implements InputProcessor {
 

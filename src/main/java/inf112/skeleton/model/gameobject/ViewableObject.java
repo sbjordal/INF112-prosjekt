@@ -2,6 +2,7 @@ package inf112.skeleton.model.gameobject;
 
 import com.badlogic.gdx.graphics.Texture;
 
+// TODO: comment me :)
 public interface ViewableObject {
 
     /**
