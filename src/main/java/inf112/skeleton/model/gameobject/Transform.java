@@ -22,6 +22,8 @@ public class Transform{
         return size;
     }
 
+    // TODO: revisjon - vi har nå to forskjellige alterPosition metoder slik at man endre ved å gi ny Position eller -
+    // TODO: -- hvor mye objectet skal flytte seg i hver akse
     /**
      * TODO: skriv kommentar.
      */

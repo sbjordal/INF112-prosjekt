@@ -107,7 +107,6 @@ public class WorldView implements Screen {
 
 
         // Player-data
-        // TODO - fjern tallene og sett inn de som er kommenert når de er implementert
         float playerX = model.getPlayerTransform().getPos().x();
         float playerY = model.getPlayerTransform().getPos().y();
         float playerWidth = model.getPlayerTransform().getSize().width();

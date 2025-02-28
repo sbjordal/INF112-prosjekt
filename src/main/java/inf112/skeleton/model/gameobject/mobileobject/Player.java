@@ -12,6 +12,7 @@ import inf112.skeleton.model.gameobject.Transform;
  * @author Eivind H. Naasen
  */
 final public class Player extends Actor {
+    // TODO: revisjon - bestemmer nå bilde, plassering, størrelse på player her inne i player istedenfor i WorldModel
     private final static Texture PLAYER_TEXTURE = new Texture(Gdx.files.internal("sprite.png"));
     private final static Position START_POSITION = new Position(380, 70);
     private final static Size SIZE = new Size(50, 100);

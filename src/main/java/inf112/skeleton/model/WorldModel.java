@@ -49,7 +49,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         return isWithinWidthBound && isWithinHeightBound;
     }
 
-
+    // TODO: revisjon - en felles move istedenfor move right og left
     @Override
     public void move(int deltaX, int deltaY) {
         Position playerPosition = player.getTransform().getPos();
@@ -73,6 +73,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         worldView.show();
         worldView.resize(board.width(), board.height());
 
+        // TODO: revisjon - dette måtte ligge her for å gjøre koden kjørbar
         PlayerController playerController = new PlayerController(this);
         Gdx.input.setInputProcessor(playerController);
     }
