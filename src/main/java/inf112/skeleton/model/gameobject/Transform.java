@@ -22,8 +22,20 @@ public class Transform{
         return size;
     }
 
+    // TODO: revisjon - vi har nå to forskjellige alterPosition metoder slik at man endre ved å gi ny Position eller -
+    // TODO: -- hvor mye objectet skal flytte seg i hver akse
+    /**
+     * TODO: skriv kommentar.
+     */
     public void alterPosition(int deltaX, int deltaY) {
         this.pos = new Position(pos.x() + deltaX, pos.y() + deltaY);
+    }
+
+    /**
+     * TODO: skriv kommentar.
+     */
+    public void alterPosition(Position newPosition) {
+        this.pos = newPosition;
     }
 
     public void alterSize(int width, int height) {

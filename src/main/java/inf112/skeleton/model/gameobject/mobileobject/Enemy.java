@@ -14,8 +14,6 @@ import inf112.skeleton.model.gameobject.Transform;
 public class Enemy extends Actor implements Scorable {
     final private int objectScore;
     final private int damage;
-    private Transform transform;
-    private Texture texture;
 
     /**
      * Creates a new Enemy with the specified health, movement speed, score value and damage.

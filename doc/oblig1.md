@@ -30,6 +30,7 @@ Går datasikkerhet 3.året. Av programmeringsemner har jeg blant annet hatt inf 
 Endre:
 Jeg heter Endre Aspøy, er 26 år og går Informatikk: Datateknologi. Har hatt INF100, 101, 115, 102, 122. Har også tidligere tatt fagskole i Maskinteknikk (120sp) der vi skrev hovedoppgave (10sp) som på mange måter ligner på denne semesteroppgaven, der vi samarbeidet med en bedrift. Har også jobbet som Maskiningeniør/konstruktør i 2,5 år, der jeg hadde ansvar for diverse prosjekter som innebar design og levering av maskiner og stålstrukturer.
 
+## Møtereferater: Ligger lagret under Wiki-siden til prosjektet
 
 ## A1
 

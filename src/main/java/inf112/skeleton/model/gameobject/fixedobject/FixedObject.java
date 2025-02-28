@@ -9,9 +9,6 @@ import inf112.skeleton.model.gameobject.Transform;
  */
 
 public class FixedObject extends GameObject {
-    protected Transform transform;
-    protected Texture texture;
-
     public FixedObject(Transform transform, Texture texture) {
         super(transform, texture);
 
