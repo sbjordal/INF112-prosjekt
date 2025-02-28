@@ -2,7 +2,6 @@ package inf112.skeleton.model.gameobject.mobileobject;
 
 import com.badlogic.gdx.graphics.Texture;
 import inf112.skeleton.model.gameobject.GameObject;
-import inf112.skeleton.model.gameobject.Position;
 import inf112.skeleton.model.gameobject.Transform;
 
 /**
@@ -17,7 +16,7 @@ abstract class MobileObject extends GameObject {
     private boolean isMovingRight;
     private final int movementSpeed;
     private Transform transform;
-    private Texture sprite;
+    private Texture texture;
 
     /**
      * Creates a new MobileObject with the specified movement speed.
@@ -25,8 +24,8 @@ abstract class MobileObject extends GameObject {
      *
      * @param movementSpeed The movement speed of the MobileObject.
      */
-    protected MobileObject(int movementSpeed, Transform transform, Texture sprite) {
-        super(transform,sprite);
+    protected MobileObject(int movementSpeed, Transform transform, Texture texture) {
+        super(transform, texture);
         this.isMovingLeft = false;
         this.isMovingRight = false;
         this.movementSpeed = movementSpeed;

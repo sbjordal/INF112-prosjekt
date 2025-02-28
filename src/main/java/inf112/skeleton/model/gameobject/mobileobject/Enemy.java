@@ -15,7 +15,7 @@ public class Enemy extends Actor implements Scorable {
     final private int objectScore;
     final private int damage;
     private Transform transform;
-    private Texture sprite;
+    private Texture texture;
 
     /**
      * Creates a new Enemy with the specified health, movement speed, score value and damage.
@@ -25,8 +25,8 @@ public class Enemy extends Actor implements Scorable {
      * @param objectScore    The score points obtained by defeating this enemy.
      * @param damage        The amount of damage this enemy can inflict.
      */
-    public Enemy(int health, int movementSpeed, int objectScore, int damage, Transform transform, Texture sprite) {
-        super(health, movementSpeed, transform, sprite);
+    public Enemy(int health, int movementSpeed, int objectScore, int damage, Transform transform, Texture texture) {
+        super(health, movementSpeed, transform, texture);
 
         this.objectScore = objectScore;
         this.damage = damage;

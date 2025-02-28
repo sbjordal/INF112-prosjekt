@@ -1,7 +1,6 @@
 package inf112.skeleton.model.gameobject.mobileobject;
 
 import com.badlogic.gdx.graphics.Texture;
-import inf112.skeleton.model.gameobject.Position;
 import inf112.skeleton.model.gameobject.Transform;
 
 /**
@@ -14,7 +13,7 @@ abstract class Actor extends MobileObject {
     private boolean isAlive;
     private int health;
     private Transform transform;
-    private Texture sprite;
+    private Texture texture;
 
     /**
      * Creates a new Actor with the specified health and movement speed.
@@ -22,8 +21,8 @@ abstract class Actor extends MobileObject {
      * @param health        The initial health of the actor.
      * @param movementSpeed The movement speed of the actor.
      */
-    protected Actor(int health, int movementSpeed, Transform transform, Texture sprite) {
-        super(movementSpeed, transform, sprite);
+    protected Actor(int health, int movementSpeed, Transform transform, Texture texture) {
+        super(movementSpeed, transform, texture);
 
         if (health <= 0) {
             throw new IllegalArgumentException("Health must be positive.");
