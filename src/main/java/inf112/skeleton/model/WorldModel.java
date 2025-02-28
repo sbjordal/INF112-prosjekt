@@ -112,6 +112,18 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         return null;
     }
 
+    @Override
+    public Texture getEnemyTexture() {
+        // TODO
+        return null;
+    }
+
+    @Override
+    public Transform getEnemyTransform() {
+        // TODO
+        return null;
+    }
+
     /**
      * Tells us the state of the game
      * @return the state of the game

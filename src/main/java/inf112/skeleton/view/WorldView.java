@@ -109,10 +109,10 @@ public class WorldView implements Screen {
 
         // Player-data
         // TODO - fjern tallene og sett inn de som er kommenert når de er implementert
-        float playerX = 380; //model.getPlayerTransform().pos().x();
-        float playerY = groundY-35; //model.getPlayerTransform().pos().y();
-        float playerWidth = 100; // model.getPlayerTransform().size().width();
-        float playerHeight = 150; //model.getPlayerTransform().size().height();
+        float playerX = 380; //model.getPlayerTransform().getPos().x();
+        float playerY = groundY-35; //model.getPlayerTransform().getPos().y();
+        float playerWidth = 100; // model.getPlayerTransform().getSize().width();
+        float playerHeight = 150; //model.getPlayerTransform().getSize().height();
 
         // Enemy-data TODO - hent verdier fra modellen når nødvendige metoder er implementert
 
@@ -135,9 +135,6 @@ public class WorldView implements Screen {
         float worldHeight = viewport.getWorldHeight();
 
         viewport.getCamera().position.set(camX, camY, 0);
-
-
-
         viewport.apply();
         batch.setProjectionMatrix(viewport.getCamera().combined);
 
