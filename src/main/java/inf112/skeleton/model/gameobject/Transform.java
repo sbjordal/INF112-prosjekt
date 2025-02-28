@@ -6,16 +6,16 @@ package inf112.skeleton.model.gameobject;
  */
 
 public class Transform{
-    Position pos;
+    Position position;
     Size size;
 
-    public Transform(Position pos, Size size) {
-        this.pos = pos;
+    public Transform(Position position, Size size) {
+        this.position = position;
         this.size = size;
     }
 
     public Position getPos() {
-        return pos;
+        return position;
     }
 
     public Size getSize() {
@@ -28,14 +28,14 @@ public class Transform{
      * TODO: skriv kommentar.
      */
     public void alterPosition(int deltaX, int deltaY) {
-        this.pos = new Position(pos.x() + deltaX, pos.y() + deltaY);
+        this.position = new Position(position.x() + deltaX, position.y() + deltaY);
     }
 
     /**
      * TODO: skriv kommentar.
      */
     public void alterPosition(Position newPosition) {
-        this.pos = newPosition;
+        this.position = newPosition;
     }
 
     public void alterSize(int width, int height) {
