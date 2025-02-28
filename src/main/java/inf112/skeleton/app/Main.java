@@ -16,6 +16,6 @@ public class Main {
         cfg.setWindowedMode(windowWidth, windowHeight);
 
         new Lwjgl3Application(new WorldModel(board), cfg);
-        System.out.println("Eivind er dum i hode sitt");
+        System.out.println("Eivind er ikke dum i hode sitt");
     }
 }
