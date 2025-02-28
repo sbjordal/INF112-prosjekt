@@ -66,8 +66,7 @@ public class WorldView implements Screen {
         objectRenderer = new ShapeRenderer();
         batch = new SpriteBatch();
         // TODO -  Fjern '//' under når getPlayerTexture() er implementert
-        //playerTexture = model.getPlayerTexture(); // Kommenter inn når den er implementert
-        playerTexture = new Texture(Gdx.files.internal("sprite.png")); // Fjern denne når model.getPlayerTexture() er implementert
+        playerTexture = model.getPlayerTexture(); // Kommenter inn når den er implementert
         enemyTexture = new Texture(Gdx.files.internal("enemy.png")); //   Samme med denne når model.getEnemyTexture() er implementert
     }
 
@@ -109,10 +108,10 @@ public class WorldView implements Screen {
 
         // Player-data
         // TODO - fjern tallene og sett inn de som er kommenert når de er implementert
-        float playerX = 380; //model.getPlayerTransform().getPos().x();
-        float playerY = groundY-35; //model.getPlayerTransform().getPos().y();
-        float playerWidth = 100; // model.getPlayerTransform().getSize().width();
-        float playerHeight = 150; //model.getPlayerTransform().getSize().height();
+        float playerX = model.getPlayerTransform().getPos().x();
+        float playerY = model.getPlayerTransform().getPos().y();
+        float playerWidth = model.getPlayerTransform().getSize().width();
+        float playerHeight = model.getPlayerTransform().getSize().height();
 
         // Enemy-data TODO - hent verdier fra modellen når nødvendige metoder er implementert
 

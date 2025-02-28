@@ -18,8 +18,8 @@ public class PlayerControllerTest {
 
     @BeforeEach
     public void setUpBeforeEach() {
-        ControllableWorldModel controllableModel = new WorldModel();
-        PlayerController controller = new PlayerController(controllableModel, new WorldView());
+//        ControllableWorldModel controllableModel = new WorldModel();
+//        PlayerController controller = new PlayerController(controllableModel, new WorldView());
     }
 
 

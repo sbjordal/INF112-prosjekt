@@ -24,11 +24,9 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
     public WorldModel(WorldBoard board) {
         this.gameState = GameState.GAME_ACTIVE; // TODO, må endres etter at game menu er laget.
-        //Texture playerTexture = new Texture(Gdx.files.internal("sprite.png"));
-        //Transform playerTransform = new Transform(new Position(0,0), new Size(50, 50));
-        //this.player = new Player(1, 1, playerTransform, playerTexture); // TODO, legg til argument (foreløpig argumenter for å kunne kompilere prosjektet)
         this.worldView = new WorldView(this, new ExtendViewport(board.width(),board.height()));
-        this.board = board;}
+        this.board = board;
+    }
 
     /**
      * Checks if MobileObject can be moved where it wants to move or not.
@@ -52,21 +50,24 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
 
     @Override
-    public void movePlayerLeft() {
-//        if (isLegalMove()) { // må endre logikk i isLegalMove eller legge til pos her
-//            player.setMoveLeft(true);
-//        } else player.setMoveLeft(false);
+    public void move(int deltaX, int deltaY) {
+        Position playerPosition = player.getTransform().getPos();
+        Position newPosition = new Position(playerPosition.x() + deltaX, playerPosition.y() + deltaY);
+
+        if (isLegalMove(newPosition)) {
+            player.move(newPosition);
+        }
     }
 
     @Override
-    public void movePlayerRight() {
-//        if (isLegalMove()) { // må endre logikk i isLegalMove eller legge til pos her
-//            player.setMoveRight(true);
-//        } else player.setMoveRight(false);
+    public void jump() {
+        // TODO: implement this.
     }
 
     @Override
     public void create() {
+        this.player = new Player(1, 1); // TODO, legg til argument (foreløpig argumenter for å kunne kompilere prosjektet)
+
         Gdx.graphics.setForegroundFPS(60);
         worldView.show();
         worldView.resize(board.width(), board.height());
@@ -102,14 +103,12 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
     @Override
     public Texture getPlayerTexture() {
-        // TODO
-        return null;
+        return player.getTexture();
     }
 
     @Override
     public Transform getPlayerTransform() {
-        // TODO
-        return null;
+        return player.getTransform();
     }
 
     @Override

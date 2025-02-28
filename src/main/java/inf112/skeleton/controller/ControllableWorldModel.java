@@ -12,14 +12,14 @@ public interface ControllableWorldModel {
     GameState getGameState();
 
     /**
-     * Moves player left if the move is legal (also calls isLegalMove)
+     * Moves player left if the move is legal (also calls isLegalMove) TODO: finskriv
      */
-    public void movePlayerLeft();
+    public void move(int deltaX, int deltaY);
 
     /**
-     * Moves player left if the move is legal (also calls isLegalMove)
-     */
-    public void movePlayerRight();
+    *  Makes player jump. TODO: finskriv
+    */
+    public void jump();
 
     /**
      * Pauses the game and modifies GameState

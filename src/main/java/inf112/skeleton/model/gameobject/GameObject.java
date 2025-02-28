@@ -20,7 +20,6 @@ public class GameObject implements ViewableObject{
     public GameObject(Transform transform, Texture texture){
         this.transform = transform;
         this.texture = texture;
-
     }
 
     @Override
