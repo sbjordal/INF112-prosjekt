@@ -1,7 +1,9 @@
 package inf112.skeleton.app;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
+import inf112.skeleton.controller.PlayerController;
 import inf112.skeleton.model.WorldBoard;
 import inf112.skeleton.model.WorldModel;
 
@@ -16,6 +18,6 @@ public class Main {
         cfg.setWindowedMode(windowWidth, windowHeight);
 
         new Lwjgl3Application(new WorldModel(board), cfg);
-        System.out.println("Eivind er dum i hode sitt");
+        System.out.println("Eivind er ikke dum i hode sitt");
     }
 }

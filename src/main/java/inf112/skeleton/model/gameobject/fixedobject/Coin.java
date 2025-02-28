@@ -10,8 +10,6 @@ import inf112.skeleton.model.gameobject.Transform;
  */
 
 public class Coin extends Item implements Scorable { // TODO: implementer logikken her
-    private Transform transform;
-    private Texture texture;
     private int objectScore;
 
     public Coin(Transform transform, Texture texture) {

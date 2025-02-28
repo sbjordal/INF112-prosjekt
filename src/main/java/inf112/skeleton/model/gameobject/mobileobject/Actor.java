@@ -12,8 +12,6 @@ import inf112.skeleton.model.gameobject.Transform;
 abstract class Actor extends MobileObject {
     private boolean isAlive;
     private int health;
-    private Transform transform;
-    private Texture texture;
 
     /**
      * Creates a new Actor with the specified health and movement speed.
