@@ -28,13 +28,13 @@ public class PlayerController implements InputProcessor {
         {
             case Input.Keys.LEFT:
                 controllableModel.move(-1, 0);
-                System.out.println("MOVING LEFT DOWN!");
-                controllableModel.setGameState(GameState.GAME_PAUSED);
+                System.out.println("MOVING LEFT DOWN!"); // TODO: temp.
+                controllableModel.setGameState(GameState.GAME_PAUSED); // TODO: temp for å teste endring av gamestate
                 break;
             case Input.Keys.RIGHT:
                 controllableModel.move(1, 0);
-                System.out.println("MOVING RIGHT DOWN!");
-                controllableModel.setGameState(GameState.GAME_ACTIVE);
+                System.out.println("MOVING RIGHT DOWN!"); // TODO: temp.
+                controllableModel.setGameState(GameState.GAME_ACTIVE); // TODO: temp for å teste endring av gamestate
                 break;
         }
         return true;
@@ -63,7 +63,7 @@ public class PlayerController implements InputProcessor {
         if (controllableModel.getGameState() == GameState.GAME_ACTIVE) {
             switch (c) {
                 case Input.Keys.P:
-                    System.out.println("P PRESSED!");
+                    System.out.println("P PRESSED!"); // TODO: temp.
                     if (controllableModel.getGameState() == GameState.GAME_ACTIVE) {
                         controllableModel.pause();
                     }
