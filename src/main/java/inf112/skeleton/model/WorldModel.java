@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import inf112.skeleton.controller.ControllableWorldModel;
 import inf112.skeleton.controller.PlayerController;
+import inf112.skeleton.model.gameobject.GameObject;
 import inf112.skeleton.model.gameobject.Position;
 import inf112.skeleton.model.gameobject.Size;
 import inf112.skeleton.model.gameobject.Transform;
@@ -21,7 +22,8 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     private Player player;
     private WorldBoard board;
     private WorldView worldView;
-//    private int gameScore;
+    private int gameScore;
+    private int coinScore;
 
     public WorldModel(WorldBoard board) {
         this.gameState = GameState.GAME_ACTIVE; // TODO, må endres etter at game menu er laget.
@@ -143,6 +145,13 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     @Override
     public int getTotalScore() {
         return 0;
+    }
+    public int getCoinScore(){
+        return 0;
+
+    }
+    public boolean collidesWithGameObject(GameObject gameObject) {
+        return false;
     }
 
 }
