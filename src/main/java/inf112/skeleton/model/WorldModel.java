@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import inf112.skeleton.controller.ControllableWorldModel;
+import inf112.skeleton.controller.PlayerController;
 import inf112.skeleton.model.gameobject.Position;
 import inf112.skeleton.model.gameobject.Size;
 import inf112.skeleton.model.gameobject.Transform;
@@ -71,7 +72,9 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         Gdx.graphics.setForegroundFPS(60);
         worldView.show();
         worldView.resize(board.width(), board.height());
-        // TODO, implement me :)
+
+        PlayerController playerController = new PlayerController(this);
+        Gdx.input.setInputProcessor(playerController);
     }
 
     @Override

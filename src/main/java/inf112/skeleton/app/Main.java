@@ -17,11 +17,7 @@ public class Main {
         WorldBoard board = new WorldBoard(windowHeight,windowWidth);
         cfg.setWindowedMode(windowWidth, windowHeight);
 
-        WorldModel worldModel = new WorldModel(board);
-        PlayerController playerController = new PlayerController(worldModel);
-        Gdx.input.setInputProcessor(playerController);
-
-        new Lwjgl3Application(worldModel, cfg);
+        new Lwjgl3Application(new WorldModel(board), cfg);
         System.out.println("Eivind er ikke dum i hode sitt");
     }
 }
