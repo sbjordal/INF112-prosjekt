@@ -16,11 +16,17 @@ public class Coin extends Item implements Scorable { // TODO: implementer logikk
 
     public Coin(Transform transform, Texture texture) {
         super(transform, texture);
+        DefaultScoreValue();
 
     }
 
     @Override
     public int getObjectScore() {
         return objectScore;
+    }
+
+    private void DefaultScoreValue(){
+        this.objectScore =1;
+
     }
 }
