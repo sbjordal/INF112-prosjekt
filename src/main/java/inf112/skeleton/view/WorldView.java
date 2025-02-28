@@ -68,7 +68,7 @@ public class WorldView implements Screen {
         // TODO -  Fjern '//' under når getPlayerTexture() er implementert
         //playerTexture = model.getPlayerTexture(); // Kommenter inn når den er implementert
         playerTexture = new Texture(Gdx.files.internal("sprite.png")); // Fjern denne når model.getPlayerTexture() er implementert
-       // enemyTexture = new Texture(Gdx.files.internal("enemy.png")); //   Samme med denne når model.getEnemyTexture() er implementert
+        enemyTexture = new Texture(Gdx.files.internal("enemy.png")); //   Samme med denne når model.getEnemyTexture() er implementert
     }
 
     @Override
@@ -113,9 +113,9 @@ public class WorldView implements Screen {
         // Enemy-data TODO - hent verdier fra modellen når nødvendige metoder er implementert
 
         float enemyX = 40;
-        float enemyY = 0;
-        float enemyWidth = 100;
-        float enemyHeight = 150;
+        float enemyY = -180;
+        float enemyWidth = 50;
+        float enemyHeight = 50;
 
 
         ScreenUtils.clear(Color.CLEAR);
@@ -145,7 +145,7 @@ public class WorldView implements Screen {
         batch.draw(backgroundTexture, camX, camY, viewport.getWorldWidth(), viewport.getWorldHeight());
         font.draw(batch, totalScore, camX+40, viewport.getWorldHeight()-330);
         batch.draw(playerTexture, playerX, playerY, playerWidth, playerHeight);
-       // batch.draw(enemyTexture, enemyX, enemyY, enemyWidth, enemyHeight);
+        batch.draw(enemyTexture, enemyX, enemyY, enemyWidth, enemyHeight);
         batch.end();
 
         // Fixed-objects
