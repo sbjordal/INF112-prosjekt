@@ -29,9 +29,11 @@ public class PlayerController implements InputProcessor {
             case Input.Keys.LEFT:
                 controllableModel.move(-1, 0);
                 System.out.println("MOVING LEFT DOWN!");
+                break;
             case Input.Keys.RIGHT:
                 controllableModel.move(1, 0);
                 System.out.println("MOVING RIGHT DOWN!");
+                break;
         }
         return true;
     }
@@ -43,9 +45,11 @@ public class PlayerController implements InputProcessor {
                 case Input.Keys.LEFT:
                     controllableModel.move(-1, 0);
                     System.out.println("MOVING LEFT UP!"); // TODO: temp.
+                    break;
                 case Input.Keys.RIGHT:
                     controllableModel.move(1, 0);
                     System.out.println("MOVING RIGHT UP!"); // TODO: temp.
+                    break;
             }
             return true;
         }
