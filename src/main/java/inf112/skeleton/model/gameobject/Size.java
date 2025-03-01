@@ -7,5 +7,4 @@ package inf112.skeleton.model.gameobject;
  * @param width     The horizontal length of the size.
  * @param height    The vertical length of the size.
  */
-public record Size(int width, int height) {
-}
+public record Size(int width, int height) { }
