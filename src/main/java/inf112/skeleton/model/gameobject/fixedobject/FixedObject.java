@@ -14,7 +14,7 @@ public class FixedObject extends GameObject {
     /**
      * Creates a new FixedObject with the specified transform and texture.
      *
-     * @param transform The rate of which the FixedObject moves horizontally.
+     * @param transform The fixed position and size of the FixedObject.
      * @param texture   The visual representation of the FixedObject.
      */
     public FixedObject(Transform transform, Texture texture) {

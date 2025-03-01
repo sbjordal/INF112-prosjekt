@@ -15,9 +15,9 @@ public class Coin extends Item implements Scorable {
     private final int objectScore;
 
     /**
-     * Creates a new Coin at the position and size defined by a transform.
+     * Creates a new Coin with the specified transform.
      *
-     * @param transform The transform to define the position and size.
+     * @param transform The fixed position and size of the Coin.
      */
     public Coin(Transform transform) {
         super(transform, COIN_TEXTURE);

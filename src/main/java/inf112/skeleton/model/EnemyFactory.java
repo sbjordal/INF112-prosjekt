@@ -1,4 +1,6 @@
 package inf112.skeleton.model;
 
-public class EnemyFactory {
-}
+/**
+ * TODO: implement me :)
+ */
+public class EnemyFactory { }
