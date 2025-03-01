@@ -7,7 +7,7 @@ import inf112.skeleton.model.gameobject.Transform;
 /**
  * Represents all fixed object types.
  * A fixed object is any {@link GameObject} that has a fixed position.
- * Its position can not be altered once instantiated.
+ * A fixed position can not be altered once instantiated.
  */
 public class FixedObject extends GameObject {
     public FixedObject(Transform transform, Texture texture) {

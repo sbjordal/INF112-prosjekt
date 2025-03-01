@@ -7,8 +7,6 @@ import inf112.skeleton.model.gameobject.mobileobject.MobileObject;
 /**
  * Represents all living MobileObject types.
  * A living object is any {@link MobileObject} that has health.
- *
- * @author Eivind H. Naasen
  */
 abstract class Actor extends MobileObject {
     private boolean isAlive;

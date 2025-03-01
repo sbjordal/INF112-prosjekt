@@ -8,8 +8,6 @@ import inf112.skeleton.model.gameobject.Transform;
 
 /**
  * Represents the user-controlled actor in the game.
- *
- * @author Eivind H. Naasen
  */
 final public class Player extends Actor {
     private final static Texture PLAYER_TEXTURE = new Texture(Gdx.files.internal("sprite.png"));

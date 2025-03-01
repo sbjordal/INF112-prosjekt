@@ -9,8 +9,6 @@ import inf112.skeleton.model.gameobject.Transform;
  * Represents all mobile object types.
  * A mobile object is any {@link GameObject} that has a variable position.
  * Its position is updated in real time for each rendered frame.
- *
- * @author Eivind H. Naasen
  */
 public abstract class MobileObject extends GameObject {
     private final int movementSpeed;
