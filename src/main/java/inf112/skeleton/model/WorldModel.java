@@ -7,7 +7,9 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import inf112.skeleton.controller.ControllableWorldModel;
 import inf112.skeleton.controller.PlayerController;
 import inf112.skeleton.model.gameobject.Position;
+import inf112.skeleton.model.gameobject.Size;
 import inf112.skeleton.model.gameobject.Transform;
+import inf112.skeleton.model.gameobject.mobileobject.actor.Enemy;
 import inf112.skeleton.model.gameobject.mobileobject.actor.Player;
 import inf112.skeleton.view.ViewableWorldModel;
 import inf112.skeleton.view.WorldView;
@@ -16,6 +18,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
     private GameState gameState;
     private Player player;
+    private Enemy enemy;
     private WorldBoard board;
     private WorldView worldView;
 //    private int gameScore;
@@ -66,6 +69,11 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     public void create() {
         this.player = new Player(1, 1); // TODO, legg til argument (foreløpig argumenter for å kunne kompilere prosjektet)
 
+        // TODO: Denne måten å lage enemy er midlertidig for MVP med bare én enemy
+        Position enemyPos = new Position(40, 105);
+        Size enemySize = new Size(50, 50);
+        this.enemy = new Enemy(1,1,10,1, new Transform(enemyPos, enemySize));
+
         Gdx.graphics.setForegroundFPS(60);
         worldView.show();
         worldView.resize(board.width(), board.height());
@@ -112,16 +120,16 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         return player.getTransform();
     }
 
+    // TODO - Denne metoden for enemy er potensielt midlertidig for MVP med tanke på én enemy
     @Override
     public Texture getEnemyTexture() {
-        // TODO
-        return null;
+        return enemy.getTexture();
     }
 
+    // TODO - samme som metoden over
     @Override
     public Transform getEnemyTransform() {
-        // TODO
-        return null;
+        return enemy.getTransform();
     }
 
     /**
