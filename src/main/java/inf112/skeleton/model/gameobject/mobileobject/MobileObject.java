@@ -47,7 +47,7 @@ public abstract class MobileObject extends GameObject {
     }
 
     /**
-     * Returns the movement speed of the object.
+     * Returns this MobileObject's movement speed.
      *
      * @return The movement speed as an integer.
      */

@@ -5,8 +5,8 @@ import inf112.skeleton.model.gameobject.Transform;
 import inf112.skeleton.model.gameobject.mobileobject.MobileObject;
 
 /**
- * Represents all living MobileObject types.
- * A living object is any {@link MobileObject} that has health.
+ * Represents all living mobile objects.
+ * A living mobile object is any {@link MobileObject} that has health.
  */
 abstract class Actor extends MobileObject {
     private boolean isAlive;
@@ -31,8 +31,21 @@ abstract class Actor extends MobileObject {
         this.health = health;
     }
 
-    protected boolean isAlive() { return isAlive; }
-    protected int getHealth() { return health; }
+    /**
+     * Checks if this actor is currently alive.
+     */
+    protected boolean isAlive() {
+        return isAlive;
+    }
+
+    /**
+     * Returns the current health of this actor.
+     *
+     * @return The current health as an integer.
+     */
+    protected int getHealth() {
+        return health;
+    }
 
     /**
      * Reduces the actor's health by the specified damage amount.

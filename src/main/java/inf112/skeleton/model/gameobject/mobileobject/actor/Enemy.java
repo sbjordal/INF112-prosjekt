@@ -32,7 +32,14 @@ public class Enemy extends Actor implements Scorable {
         this.damage = damage;
     }
 
-    int getDamage() { return damage; }
+    /**
+     * Returns the amount of damage this enemy can inflict.
+     *
+     * @return The damage value as an integer.
+     */
+    int getDamage() {
+        return damage;
+    }
 
     /**
      * Moves this enemy in a predefined movement pattern.

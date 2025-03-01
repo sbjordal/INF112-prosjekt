@@ -2,12 +2,15 @@ package inf112.skeleton.model.gameobject.mobileobject.actor;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import inf112.skeleton.model.gameobject.GameObject;
 import inf112.skeleton.model.gameobject.Position;
 import inf112.skeleton.model.gameobject.Size;
 import inf112.skeleton.model.gameobject.Transform;
 
 /**
  * Represents the user-controlled actor in the game.
+ * The user-controlled actor is unique and is defined as the only {@link GameObject}
+ * that responds to user-input.
  */
 final public class Player extends Actor {
     private final static Texture PLAYER_TEXTURE = new Texture(Gdx.files.internal("sprite.png"));
