@@ -19,11 +19,11 @@ public class Enemy extends Actor implements Scorable {
     /**
      * Creates a new Enemy with the specified health, movement speed, object score, damage and transform.
      *
-     * @param health        The initial health of this enemy.
-     * @param movementSpeed The movement speed of this enemy.
-     * @param objectScore   The score points obtained by defeating this enemy.
-     * @param damage        The amount of damage this enemy can inflict.
-     * @param transform     The initial transform of this enemy.
+     * @param health        The initial health of the Enemy.
+     * @param movementSpeed The rate of which the Enemy moves horizontally.
+     * @param objectScore   The score points obtained by defeating the Enemy.
+     * @param damage        The amount of damage the Enemy will inflict.
+     * @param transform     The initial transform of the Enemy.
      */
     public Enemy(int health, int movementSpeed, int objectScore, int damage, Transform transform) {
         super(health, movementSpeed, transform, ENEMY_TEXTURE);
@@ -33,7 +33,7 @@ public class Enemy extends Actor implements Scorable {
     }
 
     /**
-     * Returns the amount of damage this enemy can inflict.
+     * Returns the amount of damage the Enemy can inflict.
      *
      * @return The damage value as an integer.
      */
@@ -42,7 +42,7 @@ public class Enemy extends Actor implements Scorable {
     }
 
     /**
-     * Moves this enemy in a predefined movement pattern.
+     * Moves the Enemy in a predefined movement pattern.
      */
     @Override
     public void move(Position newPosition) {

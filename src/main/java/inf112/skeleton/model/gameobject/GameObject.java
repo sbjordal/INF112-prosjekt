@@ -13,8 +13,8 @@ public class GameObject implements ViewableObject{
     /**
      * Creates a new GameObject with the specified transform and texture.
      *
-     * @param transform current position and size of object
-     * @param texture Texture object
+     * @param transform The initial position and size of the GameObject.
+     * @param texture   The visual representation of the GameObject.
      */
     public GameObject(Transform transform, Texture texture){
         this.transform = transform;

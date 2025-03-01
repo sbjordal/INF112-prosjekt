@@ -15,10 +15,10 @@ abstract class Actor extends MobileObject {
     /**
      * Creates a new Actor with the specified health, movement speed, transform and texture.
      *
-     * @param health        The initial health of this actor.
-     * @param movementSpeed The movement speed of this actor.
-     * @param transform     The transform of this actor.
-     * @param texture       The texture of this actor.
+     * @param health        The initial health of the Actor.
+     * @param movementSpeed The rate of which the Actor moves horizontally.
+     * @param transform     The initial position and size of the Actor.
+     * @param texture       The visual representation of the Actor.
      */
     protected Actor(int health, int movementSpeed, Transform transform, Texture texture) {
         super(movementSpeed, transform, texture);
@@ -32,14 +32,14 @@ abstract class Actor extends MobileObject {
     }
 
     /**
-     * Checks if this actor is currently alive.
+     * Checks if the Actor is currently alive.
      */
     protected boolean isAlive() {
         return isAlive;
     }
 
     /**
-     * Returns the current health of this actor.
+     * Returns the current health of the Actor.
      *
      * @return The current health as an integer.
      */
@@ -48,10 +48,10 @@ abstract class Actor extends MobileObject {
     }
 
     /**
-     * Reduces the actor's health by the specified damage amount.
-     * If the damage reduces health to zero or below, the actor dies.
+     * Reduces the Actor's health by the specified damage amount.
+     * If the damage reduces health to zero or below, the Actor dies.
      *
-     * @param damage The amount of damage to apply. Must be non-negative.
+     * @param damage The amount of damage to inflict. Must be non-negative.
      * @throws IllegalArgumentException if {@code damage} is negative.
      */
     protected void receiveDamage(int damage) {
@@ -67,9 +67,9 @@ abstract class Actor extends MobileObject {
     }
 
     /**
-     * Inflicts damage on another actor.
+     * Inflicts damage on another Actor.
      *
-     * @param target The actor receiving the damage.
+     * @param target The Actor receiving the damage.
      * @param damage The amount of damage to inflict.
      * @throws NullPointerException if {@code target} is null.
      */
@@ -81,7 +81,7 @@ abstract class Actor extends MobileObject {
     }
 
     /**
-     * Sets the actor's health to zero and marks it as dead.
+     * Sets the Actor's health to zero and marks it as dead.
      * This method is private because death should only occur through receiving damage.
      *
      * @see #receiveDamage(int)

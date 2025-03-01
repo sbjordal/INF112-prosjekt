@@ -17,7 +17,9 @@ public abstract class MobileObject extends GameObject {
      * Creates a new MobileObject with the specified movement speed.
      * The MobileObject is initially set to be standing still.
      *
-     * @param movementSpeed The movement speed of the MobileObject.
+     * @param movementSpeed The rate of which the MobileObject moves horizontally.
+     * @param transform     The initial position and size of the MobileObject.
+     * @param texture       The visual representation of the MobileObject.
      */
     protected MobileObject(int movementSpeed, Transform transform, Texture texture) {
         super(transform, texture);
@@ -26,7 +28,7 @@ public abstract class MobileObject extends GameObject {
     }
 
     /**
-     * Moves this {@link GameObject} based on absolute values.
+     * Moves the {@link GameObject} based on absolute values.
      * Absolute values are values that overwrite already existing values.
      *
      * @param newPosition   A {@link Position} containing the absolute values of the new position.
@@ -36,7 +38,7 @@ public abstract class MobileObject extends GameObject {
     }
 
     /**
-     * Moves this {@link GameObject} based on offset values.
+     * Moves the {@link GameObject} based on offset values.
      * Offset values are relative differences added to already existing values.
      *
      * @param deltaX    The horizontal offset value.
@@ -47,7 +49,7 @@ public abstract class MobileObject extends GameObject {
     }
 
     /**
-     * Returns this MobileObject's movement speed.
+     * Returns the MobileObject's movement speed.
      *
      * @return The movement speed as an integer.
      */

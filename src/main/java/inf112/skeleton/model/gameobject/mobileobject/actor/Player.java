@@ -21,8 +21,8 @@ final public class Player extends Actor {
     /**
      * Creates a new Player with the specified health and movement speed.
      *
-     * @param health        The initial health of the actor.
-     * @param movementSpeed The movement speed of the actor.
+     * @param health        The initial health of the Player.
+     * @param movementSpeed The rate of which the Player moves horizontally.
      */
     public Player(int health, int movementSpeed) {
         super(health, movementSpeed, PLAYER_TRANSFORM, PLAYER_TEXTURE);

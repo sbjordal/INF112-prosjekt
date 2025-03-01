@@ -24,7 +24,7 @@ public class Transform{
     public Size getSize() { return size; }
 
     /**
-     * Sets this transform's position based on offset values.
+     * Sets the transform's position based on offset values.
      * Offset values are relative differences added to already existing values.
      *
      * @param deltaX    The horizontal offset value.
@@ -35,7 +35,7 @@ public class Transform{
     }
 
     /**
-     * Sets this transform's position based on absolute values.
+     * Sets the transform's position based on absolute values.
      * Absolute values are values that overwrite already existing values.
      *
      * @param newPosition   A {@link Position} containing the absolute values of the new position.
@@ -45,7 +45,7 @@ public class Transform{
     }
 
     /**
-     * Sets this transform's size based on absolute values.
+     * Sets the transform's size based on absolute values.
      * Absolute values are values that overwrite already existing values.
      *
      * @param width     The absolute value of the size's horizontal length.
