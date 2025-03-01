@@ -8,7 +8,7 @@ import inf112.skeleton.model.gameobject.Transform;
 /**
  * Represents all mobile object types.
  * A mobile object is any {@link GameObject} that has a variable position.
- * Its position is updated in real time for each rendered frame.
+ * A variable position can be altered once instantiated.
  */
 public abstract class MobileObject extends GameObject {
     private final int movementSpeed;
@@ -36,8 +36,8 @@ public abstract class MobileObject extends GameObject {
     }
 
     /**
-     *  Moves this {@link GameObject} based on offset values.
-     *  Offset values are relative differences added to already existing values.
+     * Moves this {@link GameObject} based on offset values.
+     * Offset values are relative differences added to already existing values.
      *
      * @param deltaX    The horizontal offset value.
      * @param deltaY    The vertical offset value.
@@ -46,5 +46,12 @@ public abstract class MobileObject extends GameObject {
         this.getTransform().alterPosition(deltaX, deltaY);
     }
 
-    protected int getMovementSpeed() { return movementSpeed; }
+    /**
+     * Returns the movement speed of the object.
+     *
+     * @return The movement speed as an integer.
+     */
+    protected int getMovementSpeed() {
+        return movementSpeed;
+    }
 }

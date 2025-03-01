@@ -1,7 +1,9 @@
 package inf112.skeleton.model.gameobject;
 
 /**
- * Defines the {@link Position} and the {@link Size} of a {@link GameObject}.
+ * Defines the position and size of a {@link GameObject}.
+ * The position is represented by a {@link Position} object.
+ * The size is represented by a {@link Size} object.
  */
 public class Transform{
     Position position;

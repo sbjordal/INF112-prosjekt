@@ -11,8 +11,7 @@ public class GameObject implements ViewableObject{
     private Texture texture;
 
     /**
-     * Constructor that creates a game object based on its position
-     * and texture
+     * Creates a new GameObject with the specified transform and texture.
      *
      * @param transform current position and size of object
      * @param texture Texture object
