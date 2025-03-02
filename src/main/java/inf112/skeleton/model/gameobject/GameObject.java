@@ -1,5 +1,6 @@
 package inf112.skeleton.model.gameobject;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.TextureData;
 
 /**
  * This class represents every object that appears on the play screen.
@@ -29,6 +30,10 @@ public class GameObject implements ViewableObject{
 
     @Override
     public Texture getTexture() {
-        return texture;
+        TextureData textureData= texture.getTextureData();
+        if (!textureData.isPrepared()) {
+            textureData.prepare();
+        }
+        return new Texture(textureData);
     }
 }
