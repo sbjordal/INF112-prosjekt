@@ -68,7 +68,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
     @Override
     public void create() {
-        this.player = new Player(1, 1); // TODO, legg til argument (foreløpig argumenter for å kunne kompilere prosjektet)
+        this.player = new Player(1, 0); // TODO, legg til argument (foreløpig argumenter for å kunne kompilere prosjektet)
 
         // TODO: Denne måten å lage enemy er midlertidig for MVP med bare én enemy
         Position enemyPos = new Position(40, 105);
@@ -136,9 +136,13 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     public Transform getEnemyTransform() {
         return enemy.getTransform();
     }
-    //TODO- Vurdere om denne skal inn i Interface. Bakgrunn er avhengig av player sin movementspeed
+    //TODO- Lagt inn i Interface. Bakgrunn er avhengig av player sin movementspeed
     public int getMovementSpeed(){
         return player.getMovementSpeed();
+    }
+    //TODO- Lagt inn i interface. Bakgrunn er avhengig av player sin movementspeed
+    public void setMovementSpeed(int speed){
+        player.setMovementSpeed(speed);
     }
     /**
      * Tells us the state of the game

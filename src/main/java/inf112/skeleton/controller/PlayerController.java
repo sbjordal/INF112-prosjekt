@@ -40,9 +40,11 @@ public class PlayerController implements InputProcessor {
 
     public void update(){
         if (movingRight){
+            this.controllableModel.setMovementSpeed(1);
             controllableModel.move(1,0);
         }
         if (movingLeft){
+            this.controllableModel.setMovementSpeed(-1);
             controllableModel.move(-1,0);
         }
     }
@@ -52,10 +54,12 @@ public class PlayerController implements InputProcessor {
         if (controllableModel.getGameState() == GameState.GAME_ACTIVE) {
             switch (keyCode) {
                 case Input.Keys.LEFT:
+                    this.controllableModel.setMovementSpeed(0);
                     this.movingLeft = false;
                     //System.out.println("MOVING LEFT UP!"); // TODO: temp.
                     break;
                 case Input.Keys.RIGHT:
+                    this.controllableModel.setMovementSpeed(0);
                     this.movingRight = false;
                     //System.out.println("MOVING RIGHT UP!"); // TODO: temp.
                     break;
