@@ -21,6 +21,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     private Enemy enemy;
     private WorldBoard board;
     private WorldView worldView;
+    private PlayerController playerController;
 //    private int gameScore;
 
     public WorldModel(WorldBoard board) {
@@ -79,8 +80,9 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         worldView.resize(board.width(), board.height());
 
         // TODO: revisjon - dette måtte ligge her for å gjøre koden kjørbar
-        PlayerController playerController = new PlayerController(this);
-        Gdx.input.setInputProcessor(playerController);
+        this.playerController = new PlayerController(this);
+        Gdx.input.setInputProcessor(this.playerController);
+
     }
 
     @Override
@@ -90,6 +92,9 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
     @Override
     public void render() {
+        if (playerController != null) {
+            playerController.update();
+        }
         worldView.render(Gdx.graphics.getDeltaTime());
         // TODO, implement me :)
     }
@@ -131,7 +136,10 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     public Transform getEnemyTransform() {
         return enemy.getTransform();
     }
-
+    //TODO- Vurdere om denne skal inn i Interface. Bakgrunn er avhengig av player sin movementspeed
+    public int getMovementSpeed(){
+        return player.getMovementSpeed();
+    }
     /**
      * Tells us the state of the game
      * @return the state of the game

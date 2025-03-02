@@ -10,12 +10,15 @@ import com.badlogic.gdx.InputProcessor;
 public class PlayerController implements InputProcessor {
 
     private ControllableWorldModel controllableModel;
+    private boolean movingRight;
+    private boolean movingLeft;
     //private Timer timer;
 
     // TODO: revisjon - fjernet WorldView som parameter da den ikke er trengs her inne
     public PlayerController(ControllableWorldModel controllableModel) {
         this.controllableModel = controllableModel;
-
+        this.movingRight = false;
+        this.movingLeft = false;
         //this.timer = new Timer();
     }
 
@@ -24,17 +27,24 @@ public class PlayerController implements InputProcessor {
         switch (keyCode)
         {
             case Input.Keys.LEFT:   // TODO: revisjon - laget en felles move-metode istedenfor høyre og venstre
-                controllableModel.move(-1, 0);
-                System.out.println("MOVING LEFT DOWN!"); // TODO: temp.
-                controllableModel.setGameState(GameState.GAME_PAUSED); // TODO: temp for å teste endring av gamestate
+                this.movingLeft = true;
+                //controllableModel.setGameState(GameState.GAME_PAUSED); // TODO: temp for å teste endring av gamestate
                 break;
             case Input.Keys.RIGHT:
-                controllableModel.move(1, 0);
-                System.out.println("MOVING RIGHT DOWN!"); // TODO: temp.
-                controllableModel.setGameState(GameState.GAME_ACTIVE); // TODO: temp for å teste endring av gamestate
+                this.movingRight = true;
+                //controllableModel.setGameState(GameState.GAME_ACTIVE); // TODO: temp for å teste endring av gamestate
                 break;
         }
         return true;
+    }
+
+    public void update(){
+        if (movingRight){
+            controllableModel.move(1,0);
+        }
+        if (movingLeft){
+            controllableModel.move(-1,0);
+        }
     }
 
     @Override
@@ -42,12 +52,12 @@ public class PlayerController implements InputProcessor {
         if (controllableModel.getGameState() == GameState.GAME_ACTIVE) {
             switch (keyCode) {
                 case Input.Keys.LEFT:
-                    controllableModel.move(-1, 0);
-                    System.out.println("MOVING LEFT UP!"); // TODO: temp.
+                    this.movingLeft = false;
+                    //System.out.println("MOVING LEFT UP!"); // TODO: temp.
                     break;
                 case Input.Keys.RIGHT:
-                    controllableModel.move(1, 0);
-                    System.out.println("MOVING RIGHT UP!"); // TODO: temp.
+                    this.movingRight = false;
+                    //System.out.println("MOVING RIGHT UP!"); // TODO: temp.
                     break;
             }
             return true;

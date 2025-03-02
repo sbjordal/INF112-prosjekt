@@ -53,7 +53,7 @@ public abstract class MobileObject extends GameObject {
      *
      * @return The movement speed as an integer.
      */
-    protected int getMovementSpeed() {
+    public int getMovementSpeed() {
         return movementSpeed;
     }
 }

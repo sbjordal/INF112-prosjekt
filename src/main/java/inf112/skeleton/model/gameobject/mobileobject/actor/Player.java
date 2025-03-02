@@ -31,4 +31,9 @@ final public class Player extends Actor {
     public void jump() {
         // TODO: implement me :)
     }
+
+    @Override
+    public int getMovementSpeed() {
+        return super.getMovementSpeed();
+    }
 }
