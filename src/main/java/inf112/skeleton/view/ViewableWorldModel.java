@@ -6,9 +6,9 @@ import inf112.skeleton.model.gameobject.Transform;
 public interface ViewableWorldModel {
 
     /**
-     * Returns the sprite image of the player
+     * Returns the texture image of the player
      *
-     * @return sprite-image
+     * @return texture-image
      */
     Texture getPlayerTexture();
 
@@ -19,6 +19,21 @@ public interface ViewableWorldModel {
      * @return Transform enum of Position and Size
      */
     Transform getPlayerTransform();
+
+    /**
+     * Returns the texture image of the enemy
+     *
+     * @return texture-image
+     */
+    Texture getEnemyTexture();
+
+    /**
+     * Returns the enemys position in x and y,
+     * and its size in height and width
+     *
+     * @return Transform enum of Position and Size
+     */
+    Transform getEnemyTransform();
 
     /**
      * Tells us the state of the game

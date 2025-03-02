@@ -2,36 +2,58 @@ package inf112.skeleton.model.gameobject.mobileobject;
 
 import com.badlogic.gdx.graphics.Texture;
 import inf112.skeleton.model.gameobject.GameObject;
+import inf112.skeleton.model.gameobject.Position;
 import inf112.skeleton.model.gameobject.Transform;
 
 /**
- * Represents all mobile GameObject types.
+ * Represents all mobile object types.
  * A mobile object is any {@link GameObject} that has a variable position.
- * Its position updates in real time for each rendered frame.
- *
- * @author Eivind H. Naasen
+ * A variable position can be altered once instantiated.
  */
-abstract class MobileObject extends GameObject {
-    private boolean isMovingLeft;
-    private boolean isMovingRight;
+public abstract class MobileObject extends GameObject {
     private final int movementSpeed;
-    private Transform transform;
-    private Texture texture;
 
     /**
      * Creates a new MobileObject with the specified movement speed.
      * The MobileObject is initially set to be standing still.
      *
-     * @param movementSpeed The movement speed of the MobileObject.
+     * @param movementSpeed The rate of which the MobileObject moves horizontally.
+     * @param transform     The initial position and size of the MobileObject.
+     * @param texture       The visual representation of the MobileObject.
      */
     protected MobileObject(int movementSpeed, Transform transform, Texture texture) {
         super(transform, texture);
-        this.isMovingLeft = false;
-        this.isMovingRight = false;
+
         this.movementSpeed = movementSpeed;
     }
 
-    public void setMoveLeft(boolean isMovingLeft) { this.isMovingLeft = isMovingLeft; }
-    public void setMoveRight(boolean isMovingRight) { this.isMovingRight = isMovingRight; }
-    protected int getMovementSpeed() { return movementSpeed; }
+    /**
+     * Moves the {@link GameObject} based on absolute values.
+     * Absolute values are values that overwrite already existing values.
+     *
+     * @param newPosition   A {@link Position} containing the absolute values of the new position.
+     */
+    public void move(Position newPosition) {
+        this.getTransform().alterPosition(newPosition);
+    }
+
+    /**
+     * Moves the {@link GameObject} based on offset values.
+     * Offset values are relative differences added to already existing values.
+     *
+     * @param deltaX    The horizontal offset value.
+     * @param deltaY    The vertical offset value.
+     */
+    public void move(int deltaX, int deltaY) {
+        this.getTransform().alterPosition(deltaX, deltaY);
+    }
+
+    /**
+     * Returns the MobileObject's movement speed.
+     *
+     * @return The movement speed as an integer.
+     */
+    protected int getMovementSpeed() {
+        return movementSpeed;
+    }
 }

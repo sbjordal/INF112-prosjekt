@@ -5,30 +5,29 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import inf112.skeleton.controller.ControllableWorldModel;
+import inf112.skeleton.controller.PlayerController;
 import inf112.skeleton.model.gameobject.Position;
 import inf112.skeleton.model.gameobject.Size;
 import inf112.skeleton.model.gameobject.Transform;
-import inf112.skeleton.model.gameobject.mobileobject.Player;
+import inf112.skeleton.model.gameobject.mobileobject.actor.Enemy;
+import inf112.skeleton.model.gameobject.mobileobject.actor.Player;
 import inf112.skeleton.view.ViewableWorldModel;
 import inf112.skeleton.view.WorldView;
-
-import java.util.List;
 
 public class WorldModel implements ViewableWorldModel, ControllableWorldModel, ApplicationListener {
 
     private GameState gameState;
     private Player player;
+    private Enemy enemy;
     private WorldBoard board;
     private WorldView worldView;
 //    private int gameScore;
 
     public WorldModel(WorldBoard board) {
         this.gameState = GameState.GAME_ACTIVE; // TODO, må endres etter at game menu er laget.
-        //Texture playerTexture = new Texture(Gdx.files.internal("sprite.png"));
-        //Transform playerTransform = new Transform(new Position(0,0), new Size(50, 50));
-        //this.player = new Player(1, 1, playerTransform, playerTexture); // TODO, legg til argument (foreløpig argumenter for å kunne kompilere prosjektet)
         this.worldView = new WorldView(this, new ExtendViewport(board.width(),board.height()));
-        this.board = board;}
+        this.board = board;
+    }
 
     /**
      * Checks if MobileObject can be moved where it wants to move or not.
@@ -50,27 +49,38 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         return isWithinWidthBound && isWithinHeightBound;
     }
 
-
+    // TODO: revisjon - en felles move istedenfor move right og left
     @Override
-    public void movePlayerLeft() {
-//        if (isLegalMove()) { // må endre logikk i isLegalMove eller legge til pos her
-//            player.setMoveLeft(true);
-//        } else player.setMoveLeft(false);
+    public void move(int deltaX, int deltaY) {
+        Position playerPosition = player.getTransform().getPos();
+        Position newPosition = new Position(playerPosition.x() + deltaX, playerPosition.y() + deltaY);
+
+        if (isLegalMove(newPosition)) {
+            player.move(newPosition);
+        }
     }
 
     @Override
-    public void movePlayerRight() {
-//        if (isLegalMove()) { // må endre logikk i isLegalMove eller legge til pos her
-//            player.setMoveRight(true);
-//        } else player.setMoveRight(false);
+    public void jump() {
+        // TODO: implement this.
     }
 
     @Override
     public void create() {
+        this.player = new Player(1, 1); // TODO, legg til argument (foreløpig argumenter for å kunne kompilere prosjektet)
+
+        // TODO: Denne måten å lage enemy er midlertidig for MVP med bare én enemy
+        Position enemyPos = new Position(40, 105);
+        Size enemySize = new Size(50, 50);
+        this.enemy = new Enemy(1,1,10,1, new Transform(enemyPos, enemySize));
+
         Gdx.graphics.setForegroundFPS(60);
         worldView.show();
         worldView.resize(board.width(), board.height());
-        // TODO, implement me :)
+
+        // TODO: revisjon - dette måtte ligge her for å gjøre koden kjørbar
+        PlayerController playerController = new PlayerController(this);
+        Gdx.input.setInputProcessor(playerController);
     }
 
     @Override
@@ -102,14 +112,24 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
     @Override
     public Texture getPlayerTexture() {
-        // TODO
-        return null;
+        return player.getTexture();
     }
 
     @Override
     public Transform getPlayerTransform() {
-        // TODO
-        return null;
+        return player.getTransform();
+    }
+
+    // TODO - Denne metoden for enemy er potensielt midlertidig for MVP med tanke på én enemy
+    @Override
+    public Texture getEnemyTexture() {
+        return enemy.getTexture();
+    }
+
+    // TODO - samme som metoden over
+    @Override
+    public Transform getEnemyTransform() {
+        return enemy.getTransform();
     }
 
     /**
@@ -119,6 +139,11 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     @Override
     public GameState getGameState() {
         return this.gameState;
+    }
+
+    @Override
+    public void setGameState(GameState gameState) {
+        this.gameState = gameState;
     }
 
     @Override

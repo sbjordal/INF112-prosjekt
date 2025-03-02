@@ -1,3 +1,13 @@
 package inf112.skeleton.model;
 
+import inf112.skeleton.model.gameobject.GameObject;
+
+/**
+ * Represents the dimensions of the world board.
+ * The world board defines the confinements of the playable area.
+ * The playable area is wherever {@link GameObject} types are allowed to be positioned.
+ *
+ * @param height    The vertical length of the world board.
+ * @param width     The horizontal length of the world board.
+ */
 public record WorldBoard(int height, int width) { }

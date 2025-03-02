@@ -1,5 +1,6 @@
 package inf112.skeleton.model.gameobject;
 
+// TODO: comment me :)
 public interface Scorable {
 
     /**
@@ -7,5 +8,4 @@ public interface Scorable {
      * @return score value
      */
     int getObjectScore();
-
 }
