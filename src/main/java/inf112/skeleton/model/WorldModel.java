@@ -10,6 +10,7 @@ import inf112.skeleton.model.gameobject.GameObject;
 import inf112.skeleton.model.gameobject.Position;
 import inf112.skeleton.model.gameobject.Size;
 import inf112.skeleton.model.gameobject.Transform;
+import inf112.skeleton.model.gameobject.fixedobject.Coin;
 import inf112.skeleton.model.gameobject.mobileobject.Player;
 import inf112.skeleton.view.ViewableWorldModel;
 import inf112.skeleton.view.WorldView;
@@ -59,6 +60,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
         if (isLegalMove(newPosition)) {
             player.move(newPosition);
+
         }
     }
 
@@ -151,7 +153,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
     }
     public boolean collidesWithGameObject(GameObject gameObject) {
-        return false;
+        return true;
     }
 
 }
