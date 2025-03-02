@@ -65,9 +65,8 @@ public class WorldView implements Screen {
         shapeRenderer = new ShapeRenderer();
         objectRenderer = new ShapeRenderer();
         batch = new SpriteBatch();
-        // TODO -  Fjern '//' under når getPlayerTexture() er implementert
-        playerTexture = model.getPlayerTexture(); // Kommenter inn når den er implementert
-        enemyTexture = new Texture(Gdx.files.internal("enemy.png")); //   Samme med denne når model.getEnemyTexture() er implementert
+        playerTexture = model.getPlayerTexture();
+        enemyTexture = model.getEnemyTexture(); // TODO - Midlertidig for bare én enemy
     }
 
     @Override
@@ -107,7 +106,6 @@ public class WorldView implements Screen {
 
 
         // Player-data
-        // TODO - fjern tallene og sett inn de som er kommenert når de er implementert
         float playerX = model.getPlayerTransform().getPos().x();
         float playerY = model.getPlayerTransform().getPos().y();
         float playerWidth = model.getPlayerTransform().getSize().width();
@@ -115,9 +113,9 @@ public class WorldView implements Screen {
 
         // Enemy-data TODO - hent verdier fra modellen når nødvendige metoder er implementert
 
-        float enemyX = 40;
-        float enemyWidth = 50;
-        float enemyHeight = 50;
+        float enemyX = model.getEnemyTransform().getPos().x();
+        float enemyWidth = model.getEnemyTransform().getSize().width();
+        float enemyHeight = model.getEnemyTransform().getSize().height();
 
 
         ScreenUtils.clear(Color.CLEAR);

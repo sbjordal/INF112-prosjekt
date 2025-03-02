@@ -2,20 +2,17 @@ package inf112.skeleton.controller;
 
 import com.badlogic.gdx.Input;
 import inf112.skeleton.model.GameState;
-import inf112.skeleton.view.WorldView;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.ApplicationListener;
-
 
 /**
  * https://libgdx.com/wiki/input/event-handling
- *
  */
 public class PlayerController implements InputProcessor {
 
     private ControllableWorldModel controllableModel;
     //private Timer timer;
 
+    // TODO: revisjon - fjernet WorldView som parameter da den ikke er trengs her inne
     public PlayerController(ControllableWorldModel controllableModel) {
         this.controllableModel = controllableModel;
 
@@ -26,15 +23,15 @@ public class PlayerController implements InputProcessor {
     public boolean keyDown(int keyCode) {
         switch (keyCode)
         {
-            case Input.Keys.LEFT:
+            case Input.Keys.LEFT:   // TODO: revisjon - laget en felles move-metode istedenfor høyre og venstre
                 controllableModel.move(-1, 0);
-                System.out.println("MOVING LEFT DOWN!");
-                controllableModel.setGameState(GameState.GAME_PAUSED);
+                System.out.println("MOVING LEFT DOWN!"); // TODO: temp.
+                controllableModel.setGameState(GameState.GAME_PAUSED); // TODO: temp for å teste endring av gamestate
                 break;
             case Input.Keys.RIGHT:
                 controllableModel.move(1, 0);
-                System.out.println("MOVING RIGHT DOWN!");
-                controllableModel.setGameState(GameState.GAME_ACTIVE);
+                System.out.println("MOVING RIGHT DOWN!"); // TODO: temp.
+                controllableModel.setGameState(GameState.GAME_ACTIVE); // TODO: temp for å teste endring av gamestate
                 break;
         }
         return true;
@@ -63,7 +60,7 @@ public class PlayerController implements InputProcessor {
         if (controllableModel.getGameState() == GameState.GAME_ACTIVE) {
             switch (c) {
                 case Input.Keys.P:
-                    System.out.println("P PRESSED!");
+                    System.out.println("P PRESSED!"); // TODO: temp.
                     if (controllableModel.getGameState() == GameState.GAME_ACTIVE) {
                         controllableModel.pause();
                     }
