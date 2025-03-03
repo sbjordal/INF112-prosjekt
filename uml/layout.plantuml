@@ -32,5 +32,7 @@ remove node18
 'WorldModel -- EnemyFactory
 'Size -- Transform
 
+'ARROW THICKNESS
+' - Manually add thickness=4 to each relation in diagram.plantuml.
 
 @enduml

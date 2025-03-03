@@ -143,15 +143,15 @@ interface node0 as "package-info" << interface >>
 interface node1 as "package-info" << interface >>
 interface node18 as "package-info" << interface >>
 
-Actor                   -[#000082,plain]-^  MobileObject           
-Coin                    -[#000082,plain]-^  Item                   
-Coin                    -[#008200,dashed]-^  Scorable               
-Enemy                   -[#000082,plain]-^  Actor                  
-Enemy                   -[#008200,dashed]-^  Scorable               
+Actor                   -[#000082,thickness=4,plain]-^  MobileObject
+Coin                    -[#000082,thickness=4,plain]-^  Item
+Coin                    -[#008200,dashed,thickness=4]-^  Scorable
+Enemy                   -[#000082,thickness=4,plain]-^  Actor
+Enemy                   -[#008200,dashed,thickness=4]-^  Scorable
 GameObject             "1" *-[#595959,plain]-> "transform\n1" Transform              
-Item                    -[#000082,plain]-^  FixedObject            
-MobileObject            -[#000082,plain]-^  GameObject             
-Player                  -[#000082,plain]-^  Actor                  
+Item                    -[#000082,plain,thickness=4]-^  FixedObject
+MobileObject            -[#000082,plain,thickness=4]-^  GameObject
+Player                  -[#000082,plain,thickness=4]-^  Actor
 Player                 "1" *-[#595959,plain]-> "START_POSITION\n1" Position               
 Player                 "1" *-[#595959,plain]-> "SIZE\n1" Size                   
 Player                 "1" *-[#595959,plain]-> "PLAYER_TRANSFORM\n1" Transform              
@@ -160,7 +160,7 @@ PlayerControllerTest   "1" *-[#595959,plain]-> "controllableModel\n1" Controllab
 PlayerControllerTest   "1" *-[#595959,plain]-> "playerController\n1" PlayerController       
 Transform              "1" *-[#595959,plain]-> "position\n1" Position               
 Transform              "1" *-[#595959,plain]-> "size\n1" Size                   
-WorldModel              -[#008200,dashed]-^  ControllableWorldModel 
+WorldModel              -[#008200,dashed,thickness=4]-^  ControllableWorldModel
 WorldModel             "1" *-[#595959,plain]-> "enemy\n1" Enemy                  
 WorldModel             "1" *-[#595959,plain]-> "gameState\n1" GameState              
 WorldModel             "1" *-[#595959,plain]-> "player\n1" Player                 
