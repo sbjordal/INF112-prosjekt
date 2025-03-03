@@ -24,4 +24,8 @@ public interface ViewableObject {
      * a ObjectProperties record
      */
     //ObjectProperties getObjectProperties();
+
+    CollisionBox getCollisionBox();
+
+    void setCollisionBox(Transform transform);
 }

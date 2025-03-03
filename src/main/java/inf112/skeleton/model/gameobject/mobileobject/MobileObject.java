@@ -1,6 +1,7 @@
 package inf112.skeleton.model.gameobject.mobileobject;
 
 import com.badlogic.gdx.graphics.Texture;
+import inf112.skeleton.model.gameobject.CollisionBox;
 import inf112.skeleton.model.gameobject.GameObject;
 import inf112.skeleton.model.gameobject.Position;
 import inf112.skeleton.model.gameobject.Transform;
@@ -46,6 +47,10 @@ public abstract class MobileObject extends GameObject {
      */
     public void move(int deltaX, int deltaY) {
         this.getTransform().alterPosition(deltaX, deltaY);
+    }
+
+    private void updateCollisionBox(Transform transform) {
+
     }
 
     /**
