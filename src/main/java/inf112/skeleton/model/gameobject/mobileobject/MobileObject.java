@@ -11,7 +11,7 @@ import inf112.skeleton.model.gameobject.Transform;
  * A variable position can be altered once instantiated.
  */
 public abstract class MobileObject extends GameObject {
-    private final int movementSpeed;
+    private int movementSpeed;
 
     /**
      * Creates a new MobileObject with the specified movement speed.
@@ -53,7 +53,10 @@ public abstract class MobileObject extends GameObject {
      *
      * @return The movement speed as an integer.
      */
-    protected int getMovementSpeed() {
+    public int getMovementSpeed() {
         return movementSpeed;
+    }
+    public void setMovementSpeed(int speed){
+        this.movementSpeed = speed;
     }
 }

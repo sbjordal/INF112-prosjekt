@@ -33,6 +33,7 @@ public class WorldView implements Screen {
     private Texture playerTexture;
     private Texture enemyTexture;
     private Texture backgroundTexture;
+    private ParallaxBackground parallaxBackground;
     private BitmapFont font;
 
 
@@ -41,6 +42,7 @@ public class WorldView implements Screen {
         this.viewport = viewport;
         this.screenRect = new Rectangle();
         this.model = model;
+        this.parallaxBackground = new ParallaxBackground();
 //       this.batch = new SpriteBatch();
 //        this.player = model.getPlayerTexture();
 
@@ -56,6 +58,7 @@ public class WorldView implements Screen {
         objectRenderer.dispose();
         batch.dispose();
         font.dispose();
+        parallaxBackground.dispose();
     }
 
     @Override
@@ -67,6 +70,7 @@ public class WorldView implements Screen {
         batch = new SpriteBatch();
         playerTexture = model.getPlayerTexture();
         enemyTexture = model.getEnemyTexture(); // TODO - Midlertidig for bare én enemy
+        parallaxBackground.loadTextures();
     }
 
     @Override
@@ -103,13 +107,17 @@ public class WorldView implements Screen {
     private void drawBasics() {
         // Map-data
         float groundY  = 105;
-
+        float deltaTime = Gdx.graphics.getDeltaTime();
 
         // Player-data
         float playerX = model.getPlayerTransform().getPos().x();
         float playerY = model.getPlayerTransform().getPos().y();
         float playerWidth = model.getPlayerTransform().getSize().width();
         float playerHeight = model.getPlayerTransform().getSize().height();
+
+        float playerSpeed = model.getMovementSpeed();
+
+        parallaxBackground.update(playerSpeed, deltaTime);
 
         // Enemy-data TODO - hent verdier fra modellen når nødvendige metoder er implementert
 
@@ -152,7 +160,8 @@ public class WorldView implements Screen {
 
         // Drawing
         batch.begin();
-        batch.draw(backgroundTexture, leftX, bottomY, viewport.getWorldWidth(), viewport.getWorldHeight());
+        parallaxBackground.render(batch);
+        //batch.draw(backgroundTexture, leftX, bottomY, viewport.getWorldWidth(), viewport.getWorldHeight());
         font.draw(batch, totalScore, leftX, worldHeight-10);
         batch.draw(playerTexture, playerX, playerY, playerWidth, playerHeight);
         batch.draw(enemyTexture, enemyX, groundY, enemyWidth, enemyHeight);
