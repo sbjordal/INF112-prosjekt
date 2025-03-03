@@ -24,7 +24,10 @@ public class GameObject implements ViewableObject{
 
     @Override
     public Transform getTransform() {
-        return transform;
+        Position positionCopy= new Position(transform.position.x(), transform.position.y());
+        Size sizeCopy= new Size(transform.size.width(), transform.size.height());
+        return new Transform(positionCopy, sizeCopy);
+
     }
 
     @Override
