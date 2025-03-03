@@ -38,8 +38,7 @@ public class GameObject implements ViewableObject{
         return collisionBox;
     }
 
-    @Override
-    public void setCollisionBox(Transform transform) {
+    protected void setCollisionBox(Transform transform) {
         collisionBox = new CollisionBox(transform); // TODO: hvis vi ikke vil lage nye objekter hver gang, så endrer vi det senere.
     }
 }

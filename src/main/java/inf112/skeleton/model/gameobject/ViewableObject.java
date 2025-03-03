@@ -26,6 +26,4 @@ public interface ViewableObject {
     //ObjectProperties getObjectProperties();
 
     CollisionBox getCollisionBox();
-
-    void setCollisionBox(Transform transform);
 }
