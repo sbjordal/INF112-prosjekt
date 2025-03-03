@@ -10,8 +10,10 @@ import inf112.skeleton.model.gameobject.GameObject;
 import inf112.skeleton.model.gameobject.Position;
 import inf112.skeleton.model.gameobject.Size;
 import inf112.skeleton.model.gameobject.Transform;
-import inf112.skeleton.model.gameobject.fixedobject.Coin;
-import inf112.skeleton.model.gameobject.mobileobject.Player;
+import inf112.skeleton.model.gameobject.fixedobject.item.Coin;
+import inf112.skeleton.model.gameobject.mobileobject.actor.Enemy;
+import inf112.skeleton.model.gameobject.mobileobject.actor.Player;
+import inf112.skeleton.model.gameobject.mobileobject.actor.Player;
 import inf112.skeleton.view.ViewableWorldModel;
 import inf112.skeleton.view.WorldView;
 
@@ -21,6 +23,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
     private GameState gameState;
     private Player player;
+    private Enemy enemy;
     private WorldBoard board;
     private WorldView worldView;
     private int gameScore;
