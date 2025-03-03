@@ -7,7 +7,7 @@ Metadata
 Files
 - diagram.plantuml 	= regularly generated source code and updated manually via IntelliJ.
 - layout.plantuml 	= manually defined custom layout options.
-- UML_image.png 	= manually exported result as an image.
+- uml_img.png 		= manually exported result as an image.
 
 
 Known problems
