@@ -50,7 +50,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         return isWithinWidthBound && isWithinHeightBound;
     }
 
-    // TODO: revisjon - en felles move istedenfor move right og left
     @Override
     public void move(int deltaX, int deltaY) {
         Position playerPosition = player.getTransform().getPos();
@@ -70,7 +69,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     public void create() {
         this.player = new Player(1, 0); // TODO, legg til argument (foreløpig argumenter for å kunne kompilere prosjektet)
 
-        // TODO: Denne måten å lage enemy er midlertidig for MVP med bare én enemy
         Position enemyPos = new Position(40, 105);
         Size enemySize = new Size(50, 50);
         this.enemy = new Enemy(1,1,10,1, new Transform(enemyPos, enemySize));
@@ -79,7 +77,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         worldView.show();
         worldView.resize(board.width(), board.height());
 
-        // TODO: revisjon - dette måtte ligge her for å gjøre koden kjørbar
         this.playerController = new PlayerController(this);
         Gdx.input.setInputProcessor(this.playerController);
 

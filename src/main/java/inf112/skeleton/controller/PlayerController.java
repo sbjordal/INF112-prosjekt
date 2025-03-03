@@ -14,7 +14,6 @@ public class PlayerController implements InputProcessor {
     private boolean movingLeft;
     //private Timer timer;
 
-    // TODO: revisjon - fjernet WorldView som parameter da den ikke er trengs her inne
     public PlayerController(ControllableWorldModel controllableModel) {
         this.controllableModel = controllableModel;
         this.movingRight = false;
@@ -26,7 +25,7 @@ public class PlayerController implements InputProcessor {
     public boolean keyDown(int keyCode) {
         switch (keyCode)
         {
-            case Input.Keys.LEFT:   // TODO: revisjon - laget en felles move-metode istedenfor høyre og venstre
+            case Input.Keys.LEFT:
                 this.movingLeft = true;
                 //controllableModel.setGameState(GameState.GAME_PAUSED); // TODO: temp for å teste endring av gamestate
                 break;
