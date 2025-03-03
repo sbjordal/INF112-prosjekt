@@ -10,14 +10,14 @@ import com.badlogic.gdx.InputProcessor;
 public class PlayerController implements InputProcessor {
 
     private ControllableWorldModel controllableModel;
-    private boolean movingRight;
-    private boolean movingLeft;
+    private boolean isPressingRight;
+    private boolean isPressingLeft;
     //private Timer timer;
 
     public PlayerController(ControllableWorldModel controllableModel) {
         this.controllableModel = controllableModel;
-        this.movingRight = false;
-        this.movingLeft = false;
+        this.isPressingRight = false;
+        this.isPressingLeft = false;
         //this.timer = new Timer();
     }
 
@@ -26,11 +26,11 @@ public class PlayerController implements InputProcessor {
         switch (keyCode)
         {
             case Input.Keys.LEFT:
-                this.movingLeft = true;
+                this.isPressingLeft = true;
                 //controllableModel.setGameState(GameState.GAME_PAUSED); // TODO: temp for å teste endring av gamestate
                 break;
             case Input.Keys.RIGHT:
-                this.movingRight = true;
+                this.isPressingRight = true;
                 //controllableModel.setGameState(GameState.GAME_ACTIVE); // TODO: temp for å teste endring av gamestate
                 break;
         }
@@ -38,11 +38,11 @@ public class PlayerController implements InputProcessor {
     }
 
     public void update(){
-        if (movingRight){
+        if (isPressingRight){
             this.controllableModel.setMovementSpeed(1);
             controllableModel.move(1,0);
         }
-        if (movingLeft){
+        if (isPressingLeft){
             this.controllableModel.setMovementSpeed(-1);
             controllableModel.move(-1,0);
         }
@@ -54,12 +54,12 @@ public class PlayerController implements InputProcessor {
             switch (keyCode) {
                 case Input.Keys.LEFT:
                     this.controllableModel.setMovementSpeed(0);
-                    this.movingLeft = false;
+                    this.isPressingLeft = false;
                     //System.out.println("MOVING LEFT UP!"); // TODO: temp.
                     break;
                 case Input.Keys.RIGHT:
                     this.controllableModel.setMovementSpeed(0);
-                    this.movingRight = false;
+                    this.isPressingRight = false;
                     //System.out.println("MOVING RIGHT UP!"); // TODO: temp.
                     break;
             }

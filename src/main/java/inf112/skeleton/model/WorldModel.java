@@ -6,13 +6,17 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import inf112.skeleton.controller.ControllableWorldModel;
 import inf112.skeleton.controller.PlayerController;
+import inf112.skeleton.model.gameobject.GameObject;
 import inf112.skeleton.model.gameobject.Position;
 import inf112.skeleton.model.gameobject.Size;
 import inf112.skeleton.model.gameobject.Transform;
+import inf112.skeleton.model.gameobject.fixedobject.item.Coin;
 import inf112.skeleton.model.gameobject.mobileobject.actor.Enemy;
 import inf112.skeleton.model.gameobject.mobileobject.actor.Player;
 import inf112.skeleton.view.ViewableWorldModel;
 import inf112.skeleton.view.WorldView;
+
+import java.util.ArrayList;
 
 public class WorldModel implements ViewableWorldModel, ControllableWorldModel, ApplicationListener {
 
@@ -22,6 +26,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     private WorldBoard board;
     private WorldView worldView;
     private PlayerController playerController;
+    private ArrayList<GameObject> objectList;
 //    private int gameScore;
 
     public WorldModel(WorldBoard board) {
@@ -36,11 +41,27 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
      * @return True if the position is legal, false otherwise
      */
     private boolean isLegalMove(Position pos) {
-
         if(!positionIsOnBoard(pos)) {
+                return false;
+        }
+
+        if (isColliding()) {
             return false;
-        } // må legges til mer logikk her for fixedObject, movingObject osv
+        }
+
         return true;
+    }
+
+    private boolean isColliding() {
+        for (GameObject gameObject : objectList) {
+            if (player.getCollisionBox().isCollidingWith(gameObject.getCollisionBox())) {
+                System.out.println("Colliding!");
+                System.out.println(gameObject.getTransform());
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private boolean positionIsOnBoard(Position pos) {
@@ -77,9 +98,13 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         worldView.show();
         worldView.resize(board.width(), board.height());
 
+        // Fill up the object list
+        this.objectList = new ArrayList<>();
+        this.objectList.add(this.enemy); // TODO: må endres når vi har flere enemies.
+        this.objectList.add(new Coin(new Transform (new Position(0, 0), new Size(50, 50)))); // TODO: test coin for å teste collision.
+
         this.playerController = new PlayerController(this);
         Gdx.input.setInputProcessor(this.playerController);
-
     }
 
     @Override
