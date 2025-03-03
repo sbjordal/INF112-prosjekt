@@ -35,7 +35,8 @@ public abstract class MobileObject extends GameObject {
      * @param newPosition   A {@link Position} containing the absolute values of the new position.
      */
     public void move(Position newPosition) {
-        this.getTransform().alterPosition(newPosition);
+        getTransform().alterPosition(newPosition);
+        updateCollisionBox();
     }
 
     /**
@@ -46,11 +47,15 @@ public abstract class MobileObject extends GameObject {
      * @param deltaY    The vertical offset value.
      */
     public void move(int deltaX, int deltaY) {
-        this.getTransform().alterPosition(deltaX, deltaY);
+        getTransform().alterPosition(deltaX, deltaY);
+        updateCollisionBox();
     }
 
-    private void updateCollisionBox(Transform transform) {
-
+    /**
+     * Updates the transform of the collision box to match the current transform.
+     */
+    private void updateCollisionBox() {
+        setCollisionBox(getTransform());
     }
 
     /**
