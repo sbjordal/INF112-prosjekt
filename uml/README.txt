@@ -12,3 +12,5 @@ Files
 
 Known problems
 - Both dependency labels and arrows overlap each other. Makes relations look cluttered.
+- The file 'uml_img_(cleaner_version)' is a temporary file to illustrate how a a simpler
+	version could look like (without dependancies). Up for vote.
