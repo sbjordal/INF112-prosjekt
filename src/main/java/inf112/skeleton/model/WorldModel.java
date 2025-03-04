@@ -6,10 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import inf112.skeleton.controller.ControllableWorldModel;
 import inf112.skeleton.controller.PlayerController;
-import inf112.skeleton.model.gameobject.GameObject;
-import inf112.skeleton.model.gameobject.Position;
-import inf112.skeleton.model.gameobject.Size;
-import inf112.skeleton.model.gameobject.Transform;
+import inf112.skeleton.model.gameobject.*;
 import inf112.skeleton.model.gameobject.fixedobject.item.Coin;
 import inf112.skeleton.model.gameobject.mobileobject.actor.Enemy;
 import inf112.skeleton.model.gameobject.mobileobject.actor.Player;
@@ -40,23 +37,30 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
      *
      * @return True if the position is legal, false otherwise
      */
-    private boolean isLegalMove(Position pos) {
-        if(!positionIsOnBoard(pos)) {
+    private boolean isLegalMove(Position position) {
+        if(!positionIsOnBoard(position)) {
                 return false;
         }
 
-        if (isColliding()) {
+        if (isColliding(position)) {
             return false;
         }
 
         return true;
     }
 
-    private boolean isColliding() {
+    private boolean isColliding(Position position) {
+        Transform newPlayerTransform = player.getTransform();
+        newPlayerTransform.alterPosition(position);
+
+        // Collision box containing positions related to the input position
+        CollisionBox newPlayerCollisionBox = new CollisionBox(newPlayerTransform);
+
         for (GameObject gameObject : objectList) {
             if (player.getCollisionBox().isCollidingWith(gameObject.getCollisionBox())) {
                 System.out.println("Colliding!");
                 System.out.println(gameObject.getTransform());
+
                 return true;
             }
         }
@@ -64,9 +68,9 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         return false;
     }
 
-    private boolean positionIsOnBoard(Position pos) {
-        boolean isWithinWidthBound = pos.x() >= 0 && pos.x() < board.width();
-        boolean isWithinHeightBound = pos.y() >= 0  && pos.y() < board.height();
+    private boolean positionIsOnBoard(Position position) {
+        boolean isWithinWidthBound = position.x() >= 0 && position.x() < board.width();
+        boolean isWithinHeightBound = position.y() >= 0  && position.y() < board.height();
 
         return isWithinWidthBound && isWithinHeightBound;
     }
