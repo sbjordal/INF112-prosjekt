@@ -27,8 +27,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     private WorldView worldView;
     private PlayerController playerController;
     private ArrayList<GameObject> objectList;
-    private int gameScore;
-    private int coinScore;
+//    private int gameScore;
 
     public WorldModel(WorldBoard board) {
         this.gameState = GameState.GAME_ACTIVE; // TODO, må endres etter at game menu er laget.
@@ -43,7 +42,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
      */
     private boolean isLegalMove(Position pos) {
         if(!positionIsOnBoard(pos)) {
-                return false;
+            return false;
         }
 
         if (isColliding()) {
@@ -57,29 +56,12 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         for (GameObject gameObject : objectList) {
             if (player.getCollisionBox().isCollidingWith(gameObject.getCollisionBox())) {
                 System.out.println("Colliding!");
-                if (gameObject instanceof Coin) { // TODO: når jump er implementert kan vi legge til poeng økning ved kollisjon fra toppen på fiender
-                    handleCoinCollision(gameObject);
-                }
-                if (gameObject instanceof Enemy) {
-                    handleEnemyCollision(gameObject);
-                }
+                System.out.println(gameObject.getTransform());
                 return true;
             }
         }
 
         return false;
-    }
-
-    private void handleEnemyCollision(GameObject gameObject) { // TODO: health=1 + enemy kollisjon= død
-        System.out.println(gameScore);
-        gameScore--;
-        System.out.println(gameScore);
-    }
-
-    private void handleCoinCollision(GameObject gameObject) { // TODO revisjon: Burde dette være i pickup?
-        this.coinScore++;
-        this.gameScore++;
-        objectList.remove(gameObject);
     }
 
     private boolean positionIsOnBoard(Position pos) {
@@ -200,7 +182,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
     @Override
     public int getTotalScore() {
-        return gameScore;
+        return 0;
     }
 
 }
