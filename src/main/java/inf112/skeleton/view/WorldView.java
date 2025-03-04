@@ -178,7 +178,8 @@ public class WorldView implements Screen {
     }
 
     public void loadBackground(String path) {
-        backgroundTexture = new Texture(Gdx.files.internal(path));
+        // TODO: kommentert ut fordi det skapte memory overflow.
+        // backgroundTexture = new Texture(Gdx.files.internal(path));
     }
 
     @Override
