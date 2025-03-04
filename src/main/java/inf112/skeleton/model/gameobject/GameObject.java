@@ -28,7 +28,7 @@ public class GameObject implements ViewableObject{
     public Transform getTransform() {
         Position positionCopy= new Position(transform.position.x(), transform.position.y());
         Size sizeCopy= new Size(transform.size.width(), transform.size.height());
-        return new Transform(positionCopy, sizeCopy);
+        return transform;
 
     }
 
@@ -38,7 +38,7 @@ public class GameObject implements ViewableObject{
         if (!textureData.isPrepared()) {
             textureData.prepare();
         }
-        return new Texture(textureData);
+        return texture;
     }
 
     @Override

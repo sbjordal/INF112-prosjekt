@@ -41,9 +41,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
      * @return True if the position is legal, false otherwise
      */
     private boolean isLegalMove(Position pos) {
-        if(!positionIsOnBoard(pos)) {
-            return false;
-        }
+        if(!positionIsOnBoard(pos)) {return false;}
 
         if (isColliding()) {
             return false;
