@@ -67,6 +67,13 @@ public interface ViewableWorldModel {
      */
     // List<Object> getEnemyObjects();
 
+    /**
+     * Tells us how many coins the player has aquired so far
+     *
+     * @return the coins scored
+     */
+    int getCoinScore();
+
 
 }
 

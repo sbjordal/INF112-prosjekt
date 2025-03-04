@@ -27,12 +27,17 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     private WorldView worldView;
     private PlayerController playerController;
     private ArrayList<GameObject> objectList;
-//    private int gameScore;
+    private int gameScore;
+    private int coinScore;
+    private long lastScoreUpdate = System.currentTimeMillis();
+    private long lastEnemyCollisionTime = 0;  // Track when the player last collided with an enemy
+    private static final long COLLISION_COOLDOWN = 800;
 
     public WorldModel(WorldBoard board) {
         this.gameState = GameState.GAME_ACTIVE; // TODO, må endres etter at game menu er laget.
         this.worldView = new WorldView(this, new ExtendViewport(board.width(),board.height()));
         this.board = board;
+        gameScore = 150;
     }
 
     /**
@@ -53,13 +58,33 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     private boolean isColliding() {
         for (GameObject gameObject : objectList) {
             if (player.getCollisionBox().isCollidingWith(gameObject.getCollisionBox())) {
-                System.out.println("Colliding!");
-                System.out.println(gameObject.getTransform());
+                if (gameObject instanceof Coin) {
+                    handleCoinCollision(gameObject);
+                }
+                if (gameObject instanceof Enemy) { // TODO: legge til at dersom man hopper på en enemy får man poeng og fienden dør
+                    handleEnemyCollision(gameObject);
+                }
                 return true;
             }
         }
 
         return false;
+    }
+
+    private void handleEnemyCollision(GameObject gameObject) { // TODO: legge til if health=0 die() elns
+        long currentTime = System.currentTimeMillis();
+        if (currentTime - lastEnemyCollisionTime >= COLLISION_COOLDOWN) {
+            if (gameScore > 0) {
+                gameScore--;
+            }
+            lastEnemyCollisionTime = currentTime;
+        }
+    }
+
+    private void handleCoinCollision(GameObject coin) {// TODO revisjon: i pickup metoden eller som privat hjelpemetode her
+        this.coinScore++;
+        this.gameScore++;
+        this.objectList.remove(coin);
     }
 
     private boolean positionIsOnBoard(Position pos) {
@@ -112,6 +137,11 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
     @Override
     public void render() {
+        long currentTime = System.currentTimeMillis();
+        if (currentTime - lastScoreUpdate >= 1000 && gameScore>0) {
+            gameScore--;
+            lastScoreUpdate = currentTime;
+        }
         if (playerController != null) {
             playerController.update();
         }
@@ -180,7 +210,12 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
     @Override
     public int getTotalScore() {
-        return 0;
+        return this.gameScore;
+    }
+
+    @Override
+    public int getCoinScore() {
+        return this.coinScore;
     }
 
 }
