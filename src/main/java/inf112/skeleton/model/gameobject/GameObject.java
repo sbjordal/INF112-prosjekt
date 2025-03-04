@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.TextureData;
 public class GameObject implements ViewableObject{
     private Transform transform;
     private Texture texture;
+    private CollisionBox collisionBox;
 
     /**
      * Creates a new GameObject with the specified transform and texture.
@@ -20,6 +21,7 @@ public class GameObject implements ViewableObject{
     public GameObject(Transform transform, Texture texture){
         this.transform = transform;
         this.texture = texture;
+        this.collisionBox = new CollisionBox(transform);
     }
 
     @Override
@@ -37,5 +39,14 @@ public class GameObject implements ViewableObject{
             textureData.prepare();
         }
         return new Texture(textureData);
+    }
+
+    @Override
+    public CollisionBox getCollisionBox() {
+        return collisionBox;
+    }
+
+    protected void setCollisionBox(Transform transform) {
+        collisionBox = new CollisionBox(transform); // TODO: hvis vi ikke vil lage nye objekter hver gang, så endrer vi det senere.
     }
 }

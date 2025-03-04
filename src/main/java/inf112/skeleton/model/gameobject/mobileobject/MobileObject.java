@@ -1,6 +1,7 @@
 package inf112.skeleton.model.gameobject.mobileobject;
 
 import com.badlogic.gdx.graphics.Texture;
+import inf112.skeleton.model.gameobject.CollisionBox;
 import inf112.skeleton.model.gameobject.GameObject;
 import inf112.skeleton.model.gameobject.Position;
 import inf112.skeleton.model.gameobject.Transform;
@@ -11,7 +12,7 @@ import inf112.skeleton.model.gameobject.Transform;
  * A variable position can be altered once instantiated.
  */
 public abstract class MobileObject extends GameObject {
-    private final int movementSpeed;
+    private int movementSpeed;
 
     /**
      * Creates a new MobileObject with the specified movement speed.
@@ -34,7 +35,8 @@ public abstract class MobileObject extends GameObject {
      * @param newPosition   A {@link Position} containing the absolute values of the new position.
      */
     public void move(Position newPosition) {
-        this.getTransform().alterPosition(newPosition);
+        getTransform().alterPosition(newPosition);
+        updateCollisionBox();
     }
 
     /**
@@ -45,7 +47,15 @@ public abstract class MobileObject extends GameObject {
      * @param deltaY    The vertical offset value.
      */
     public void move(int deltaX, int deltaY) {
-        this.getTransform().alterPosition(deltaX, deltaY);
+        getTransform().alterPosition(deltaX, deltaY);
+        updateCollisionBox();
+    }
+
+    /**
+     * Updates the transform of the collision box to match the current transform.
+     */
+    private void updateCollisionBox() {
+        setCollisionBox(getTransform());
     }
 
     /**
@@ -53,7 +63,10 @@ public abstract class MobileObject extends GameObject {
      *
      * @return The movement speed as an integer.
      */
-    protected int getMovementSpeed() {
+    public int getMovementSpeed() {
         return movementSpeed;
+    }
+    public void setMovementSpeed(int speed){
+        this.movementSpeed = speed;
     }
 }
