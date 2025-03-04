@@ -30,7 +30,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     private int gameScore;
     private int coinScore;
     private long lastScoreUpdate = System.currentTimeMillis();
-    private long lastEnemyCollisionTime = 0;  // Track when the player last collided with an enemy
+    private long lastEnemyCollisionTime = 0;
     private static final long COLLISION_COOLDOWN = 800;
 
     public WorldModel(WorldBoard board) {
@@ -56,6 +56,9 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     }
 
     private boolean isColliding() {
+        if (gameState!=GameState.GAME_ACTIVE) {
+            return false;
+        }
         for (GameObject gameObject : objectList) {
             if (player.getCollisionBox().isCollidingWith(gameObject.getCollisionBox())) {
                 if (gameObject instanceof Coin) {
@@ -75,7 +78,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         long currentTime = System.currentTimeMillis();
         if (currentTime - lastEnemyCollisionTime >= COLLISION_COOLDOWN) {
             if (gameScore > 0) {
-                gameScore--;
+                gameScore-=4;
             }
             lastEnemyCollisionTime = currentTime;
         }
@@ -137,16 +140,20 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
     @Override
     public void render() {
-        long currentTime = System.currentTimeMillis();
-        if (currentTime - lastScoreUpdate >= 1000 && gameScore>0) {
+        if (shouldUpdateScore()) {
             gameScore--;
-            lastScoreUpdate = currentTime;
+            lastScoreUpdate = System.currentTimeMillis();
         }
         if (playerController != null) {
             playerController.update();
         }
         worldView.render(Gdx.graphics.getDeltaTime());
         // TODO, implement me :)
+    }
+
+    private boolean shouldUpdateScore() {
+        long currentTime = System.currentTimeMillis();
+        return currentTime - lastScoreUpdate >= 1000 && gameScore>0 && gameState == GameState.GAME_ACTIVE;
     }
 
     @Override
