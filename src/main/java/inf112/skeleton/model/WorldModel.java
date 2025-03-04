@@ -37,29 +37,28 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
      *
      * @return True if the position is legal, false otherwise
      */
-    private boolean isLegalMove(Position position) {
-        if(!positionIsOnBoard(position)) {
+    private boolean isLegalMove(Position pos) {
+        if(!positionIsOnBoard(pos)) {
                 return false;
         }
 
-        if (isColliding(position)) {
+        if (isColliding(pos)) {
             return false;
         }
 
         return true;
     }
 
-    private boolean isColliding(Position position) {
-        Transform newPlayerTransform = player.getTransform();
-        newPlayerTransform.alterPosition(position);
+    private boolean isColliding(Position pos) {
+        Size playerSize = player.getTransform().getSize();
+        Transform newPlayerTransform = new Transform(pos, playerSize);
 
-        // Collision box containing positions related to the input position
+        // Collision box containing positions related to the new input position
         CollisionBox newPlayerCollisionBox = new CollisionBox(newPlayerTransform);
 
         for (GameObject gameObject : objectList) {
-            if (player.getCollisionBox().isCollidingWith(gameObject.getCollisionBox())) {
-                System.out.println("Colliding!");
-                System.out.println(gameObject.getTransform());
+            if (newPlayerCollisionBox.isCollidingWith(gameObject.getCollisionBox())) {
+                System.out.println("Colliding with: " + gameObject);
 
                 return true;
             }
@@ -68,9 +67,9 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         return false;
     }
 
-    private boolean positionIsOnBoard(Position position) {
-        boolean isWithinWidthBound = position.x() >= 0 && position.x() < board.width();
-        boolean isWithinHeightBound = position.y() >= 0  && position.y() < board.height();
+    private boolean positionIsOnBoard(Position pos) {
+        boolean isWithinWidthBound = pos.x() >= 0 && pos.x() < board.width();
+        boolean isWithinHeightBound = pos.y() >= 0  && pos.y() < board.height();
 
         return isWithinWidthBound && isWithinHeightBound;
     }
