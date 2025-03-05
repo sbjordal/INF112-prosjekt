@@ -70,6 +70,7 @@ public class PlayerController implements InputProcessor {
         return false;
     }
 
+    //TODO, her må det endres slik at model ikke endrer direkte, men controller oppdaterer pos.
     public void update(){
         if (isPressingRight){
             this.controllableModel.setMovementSpeed(1);
@@ -98,6 +99,8 @@ public class PlayerController implements InputProcessor {
         return true;
     }
 
+
+    // TODO, få slettet metodene under, kommer ikke til å bruke disse, forslag: Lag en "mellomklasse" / grensesnitt
     @Override
     public boolean touchDown(int i, int i1, int i2, int i3) {
         return false;

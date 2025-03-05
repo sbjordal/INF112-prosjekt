@@ -155,6 +155,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
             gameScore--;
             lastScoreUpdate = System.currentTimeMillis();
         }
+        // TODO, her må controller oppdatere model, og ikke model oppdatere controller.
         if (playerController != null) {
             playerController.update();
         }
