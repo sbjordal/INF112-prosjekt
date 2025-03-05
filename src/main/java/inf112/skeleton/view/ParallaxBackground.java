@@ -15,11 +15,11 @@ public class ParallaxBackground {
     public ParallaxBackground() {
         layers = new Texture[5];
         layerX = new float[5];
-        scrollSpeeds = new float[]{0.4f, 0.8f, 1.6f, 2.4f, 4.0f};
+        scrollSpeeds = new float[]{0.4f, 0.8f, 2.0f, 4.0f, 8.0f};
     }
     public void loadTextures(){
        for (int i = 0; i < 5; i++) {
-           String file = "plx-" + (i + 1) + ".png";
+           String file = "background/plx-" + (i + 1) + ".png";
            layers[i] = new Texture(Gdx.files.internal(file));
        }
         this.screenWidth = Gdx.graphics.getWidth();
