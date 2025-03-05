@@ -99,7 +99,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     private void handleCoinCollision(GameObject coin) {// TODO revisjon: i pickup metoden eller som privat hjelpemetode her
         this.coinScore++;
         this.gameScore++;
-        //this.objectList.remove(coin);
+        //this.objectList.remove(coin); // TODO: legge til at dersom player kolliderer med coin så skal coin fjernes i view(gjennom kontroller?)
     }
 
     private boolean positionIsOnBoard(Position pos) {
