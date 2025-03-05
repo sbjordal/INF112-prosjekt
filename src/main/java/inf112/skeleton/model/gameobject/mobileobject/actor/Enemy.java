@@ -12,7 +12,7 @@ import inf112.skeleton.model.gameobject.Transform;
  * An enemy type is any {@link GameObject} that inflicts damage on the player.
  */
 public class Enemy extends Actor implements Scorable {
-    private final static Texture ENEMY_TEXTURE = new Texture(Gdx.files.internal("enemy.png"));
+    private final static Texture ENEMY_TEXTURE = new Texture(Gdx.files.internal("assets/enemy.png"));
     final private int objectScore;
     final private int damage;
 

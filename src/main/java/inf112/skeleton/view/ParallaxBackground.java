@@ -19,7 +19,7 @@ public class ParallaxBackground {
     }
     public void loadTextures(){
        for (int i = 0; i < 5; i++) {
-           String file = "plx-" + (i + 1) + ".png";
+           String file = "background/plx-" + (i + 1) + ".png";
            layers[i] = new Texture(Gdx.files.internal(file));
        }
         this.screenWidth = Gdx.graphics.getWidth();

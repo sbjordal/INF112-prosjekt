@@ -13,9 +13,9 @@ import inf112.skeleton.model.gameobject.Transform;
  * that responds to user-input.
  */
 final public class Player extends Actor {
-    private final static Texture PLAYER_TEXTURE = new Texture(Gdx.files.internal("sprite.png"));
+    private final static Texture PLAYER_TEXTURE = new Texture(Gdx.files.internal("player/idle/i1.png"));
     private final static Position START_POSITION = new Position(380, 70);
-    private final static Size SIZE = new Size(50, 100);
+    private final static Size SIZE = new Size(40, 80);
     private final static Transform PLAYER_TRANSFORM = new Transform(START_POSITION, SIZE);
 
     /**
