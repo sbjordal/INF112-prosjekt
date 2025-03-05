@@ -36,6 +36,21 @@ public interface ViewableWorldModel {
     Transform getEnemyTransform();
 
     /**
+     * Returns the texture image of the coin
+     *
+     * @return texture-image
+     */
+    Texture getCoinTexture();
+
+    /**
+     * Returns the coins position in x and y,
+     * and its size in height and width
+     *
+     * @return Transform enum of Position and Size
+     */
+    Transform getCoinTransform();
+
+    /**
      * Tells us the state of the game
      *
      * @return the state of the game

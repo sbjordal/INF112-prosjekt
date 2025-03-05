@@ -20,6 +20,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     private GameState gameState;
     private Player player;
     private Enemy enemy;
+    private Coin coin;
     private WorldBoard board;
     private WorldView worldView;
     private PlayerController playerController;
@@ -131,6 +132,10 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         Size enemySize = new Size(50, 50);
         this.enemy = new Enemy(1,1,10,1, new Transform(enemyPos, enemySize));
 
+        Position coinPos = new Position(600, 105);
+        Size coinSize = new Size(30, 30);
+        this.coin = new Coin(new Transform(coinPos, coinSize));
+
         Gdx.graphics.setForegroundFPS(60);
         worldView.show();
         worldView.resize(board.width(), board.height());
@@ -138,7 +143,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         // Fill up the object list
         this.objectList = new ArrayList<>();
         this.objectList.add(this.enemy); // TODO: må endres når vi har flere enemies.
-        this.objectList.add(new Coin(new Transform (new Position(0, 0), new Size(50, 50)))); // TODO: test coin for å teste collision.
+        this.objectList.add(this.coin); // TODO: test coin for å teste collision.
 
         this.playerController = new PlayerController(this);
         Gdx.input.setInputProcessor(this.playerController);
@@ -204,6 +209,17 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     public Transform getEnemyTransform() {
         return enemy.getTransform();
     }
+
+    @Override
+    public Texture getCoinTexture() {
+        return coin.getTexture();
+    }
+
+    @Override
+    public Transform getCoinTransform() {
+        return coin.getTransform();
+    }
+
     //TODO- Lagt inn i Interface. Bakgrunn er avhengig av player sin movementspeed
     public int getMovementSpeed(){
         return player.getMovementSpeed();
