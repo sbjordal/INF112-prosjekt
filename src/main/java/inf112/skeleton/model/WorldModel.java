@@ -197,41 +197,42 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         // TODO, implement me :)
     }
 
+    @Override
     public ViewableObject getViewablePlayer() {
         return player;
     }
 
-    @Override
-    public Texture getPlayerTexture() {
-        return player.getTexture();
-    }
-
-    @Override
-    public Transform getPlayerTransform() {
-        return player.getTransform();
-    }
-
-    // TODO - Denne metoden for enemy er potensielt midlertidig for MVP med tanke på én enemy
-    @Override
-    public Texture getEnemyTexture() {
-        return enemy.getTexture();
-    }
-
-    // TODO - samme som metoden over
-    @Override
-    public Transform getEnemyTransform() {
-        return enemy.getTransform();
-    }
-
-    @Override
-    public Texture getCoinTexture() {
-        return coin.getTexture();
-    }
-
-    @Override
-    public Transform getCoinTransform() {
-        return coin.getTransform();
-    }
+//    @Override
+//    public Texture getPlayerTexture() {
+//        return player.getTexture();
+//    }
+//
+//    @Override
+//    public Transform getPlayerTransform() {
+//        return player.getTransform();
+//    }
+//
+//    // TODO - Denne metoden for enemy er potensielt midlertidig for MVP med tanke på én enemy
+//    @Override
+//    public Texture getEnemyTexture() {
+//        return enemy.getTexture();
+//    }
+//
+//    // TODO - samme som metoden over
+//    @Override
+//    public Transform getEnemyTransform() {
+//        return enemy.getTransform();
+//    }
+//
+//    @Override
+//    public Texture getCoinTexture() {
+//        return coin.getTexture();
+//    }
+//
+//    @Override
+//    public Transform getCoinTransform() {
+//        return coin.getTransform();
+//    }
 
     //TODO- Lagt inn i Interface. Bakgrunn er avhengig av player sin movementspeed
     public int getMovementSpeed(){
