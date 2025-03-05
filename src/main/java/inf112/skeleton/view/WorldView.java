@@ -6,12 +6,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
-
-import java.util.List;
 
 import inf112.skeleton.model.WorldModel;
 import inf112.skeleton.model.gameobject.Transform;
@@ -20,12 +16,9 @@ import inf112.skeleton.model.gameobject.ViewableObject;
 
 public class WorldView implements Screen {
 
-//    private Rectangle screenRect;
     private WorldModel model;
-    private ShapeRenderer shapeRenderer;
     private SpriteBatch batch;
     private Viewport viewport;
-//    private ShapeRenderer player;
     private Texture playerTexture;
 //    private Texture backgroundTexture;
     private ParallaxBackground parallaxBackground;
@@ -35,14 +28,12 @@ public class WorldView implements Screen {
 
     public WorldView(WorldModel model, Viewport viewport) {
         this.viewport = viewport;
-//        this.screenRect = new Rectangle();
         this.model = model;
         this.parallaxBackground = new ParallaxBackground();
     }
 
     @Override
     public void dispose() {
-        shapeRenderer.dispose();
         batch.dispose();
         font.dispose();
         parallaxBackground.dispose();
@@ -52,7 +43,6 @@ public class WorldView implements Screen {
     public void show() {
         this.font = new BitmapFont(); //new BitmapFont(Gdx.files.internal("skeleton.fnt")); Lag fil med font
         font.setColor(Color.WHITE);
-        shapeRenderer = new ShapeRenderer();
         batch = new SpriteBatch();
         playerTexture = model.getViewablePlayer().getTexture();
         parallaxBackground.loadTextures();
@@ -110,10 +100,6 @@ public class WorldView implements Screen {
 
         ScreenUtils.clear(Color.CLEAR);
 
-        // TODO - Holder player i sentrum av kamera, kommer nok til å slette dette
-        // Camera center = sprite center
-        //viewport.getCamera().position.set(playerX + playerWidth/2, playerY + playerHeight/2, 0);
-
         // Kamera viser hele skjermen uavhengig av spiller
         // Kan videreutvikles hvor camera justerer seg etter spillers posisjon
         float camX = viewport.getCamera().position.x;
@@ -125,19 +111,12 @@ public class WorldView implements Screen {
         viewport.apply();
         batch.setProjectionMatrix(viewport.getCamera().combined);
 
-        // Make a big enough rectangle to cover the view for demonstration purposes
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(Color.CLEAR);
-        shapeRenderer.rect(-5000, -5000, 10000, 10000);
-        shapeRenderer.end();
-
-
         // Finding the left corner of the window
         float leftX = viewport.getCamera().position.x - worldWidth / 2;
         float bottomY = viewport.getCamera().position.y - worldHeight / 2;
 
         // Text to be shown
-        String totalScore = "Total score: "+ model.getTotalScore();//String.valueOf(model.getTotalScore());
+        String totalScore = "Total score: "+ model.getTotalScore();
         String coinCount = "Coins: " + model.getCoinScore();
         font.getData().setScale(2);
 
@@ -153,7 +132,7 @@ public class WorldView implements Screen {
 
     }
 
-    public void drawObjects() {
+    private void drawObjects() {
         for (ViewableObject object : model.getObjectList()) {
             Texture objectTexture = object.getTexture();
             float objectX = object.getTransform().getPos().x();
@@ -165,7 +144,7 @@ public class WorldView implements Screen {
         }
     }
 
-    public void loadBackground(String path) {
+    private void loadBackground(String path) {
         // TODO: kommentert ut fordi det skapte memory overflow.
         // backgroundTexture = new Texture(Gdx.files.internal(path));
     }

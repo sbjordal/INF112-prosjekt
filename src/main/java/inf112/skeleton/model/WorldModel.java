@@ -196,6 +196,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         if (playerController != null) {
             playerController.update();
         }
+        //enemy.move(1,0); // TODO: testing av at enemy går mot høyre
         worldView.render(Gdx.graphics.getDeltaTime());
         // TODO, implement me :)
     }
