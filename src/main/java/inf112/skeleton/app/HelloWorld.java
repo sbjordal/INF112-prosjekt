@@ -1,4 +1,5 @@
 package inf112.skeleton.app;
+// TEST STINE
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;

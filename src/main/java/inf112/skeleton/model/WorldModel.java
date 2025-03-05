@@ -42,30 +42,25 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
      *
      * @return True if the position is legal, false otherwise
      */
-    private boolean isLegalMove(Position pos) {
-        if(!positionIsOnBoard(pos)) {
+    private boolean isLegalMove(CollisionBox collisionBox) {
+        if(!positionIsOnBoard(collisionBox)) {
+
                 return false;
         }
 
-        if (isColliding(pos)) {
+        if (isColliding(collisionBox)) {
             return false;
         }
 
         return true;
     }
 
-    private boolean isColliding(Position pos) {
-        Size playerSize = player.getTransform().getSize();
-        Transform newPlayerTransform = new Transform(pos, playerSize);
-
-        // Collision box containing positions related to the new input position
-        CollisionBox newPlayerCollisionBox = new CollisionBox(newPlayerTransform);
-
+    private boolean isColliding(CollisionBox collisionBox) {
         if (gameState!=GameState.GAME_ACTIVE) {
             return false;
         }
         for (GameObject gameObject : objectList) {
-            if (newPlayerCollisionBox.isCollidingWith(gameObject.getCollisionBox())) {
+            if (collisionBox.isCollidingWith(gameObject.getCollisionBox())) {
                 if (gameObject instanceof Coin) {
                     handleCoinCollision(gameObject);
                 }
@@ -80,6 +75,12 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         return false;
     }
 
+    private boolean positionIsOnBoard(CollisionBox collisionBox) {
+        boolean isWithinWidthBound = collisionBox.botLeft.x() >= 0 && collisionBox.topRight.x() < board.width();
+        boolean isWithinHeightBound = collisionBox.botLeft.y() >= 0  && collisionBox.topRight.y() < board.height();
+
+        return isWithinWidthBound && isWithinHeightBound;
+    }
     private void handleEnemyCollision(GameObject gameObject) { // TODO: legge til if health=0 die() elns
         long currentTime = System.currentTimeMillis();
         if (currentTime - lastEnemyCollisionTime >= COLLISION_COOLDOWN) {
@@ -108,7 +109,11 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         Position playerPosition = player.getTransform().getPos();
         Position newPosition = new Position(playerPosition.x() + deltaX, playerPosition.y() + deltaY);
 
-        if (isLegalMove(newPosition)) {
+        Size playerSize = player.getTransform().getSize();
+        Transform newPlayerTransform = new Transform(newPosition, playerSize);
+        CollisionBox newPlayerCollisionBox = new CollisionBox(newPlayerTransform);
+
+        if (isLegalMove(newPlayerCollisionBox)) {
             player.move(newPosition);
         }
     }
