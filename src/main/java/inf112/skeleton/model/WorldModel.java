@@ -60,11 +60,12 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
         // Collision box containing positions related to the new input position
         CollisionBox newPlayerCollisionBox = new CollisionBox(newPlayerTransform);
+
         if (gameState!=GameState.GAME_ACTIVE) {
             return false;
         }
         for (GameObject gameObject : objectList) {
-            if (player.getCollisionBox().isCollidingWith(gameObject.getCollisionBox())) {
+            if (newPlayerCollisionBox.isCollidingWith(gameObject.getCollisionBox())) {
                 if (gameObject instanceof Coin) {
                     handleCoinCollision(gameObject);
                 }
