@@ -20,10 +20,9 @@ import inf112.skeleton.model.gameobject.ViewableObject;
 
 public class WorldView implements Screen {
 
-    private Rectangle screenRect;
+//    private Rectangle screenRect;
     private WorldModel model;
     private ShapeRenderer shapeRenderer;
-    private ShapeRenderer objectRenderer;
     private SpriteBatch batch;
     private Viewport viewport;
 //    private ShapeRenderer player;
@@ -36,17 +35,14 @@ public class WorldView implements Screen {
 
     public WorldView(WorldModel model, Viewport viewport) {
         this.viewport = viewport;
-        this.screenRect = new Rectangle();
+//        this.screenRect = new Rectangle();
         this.model = model;
         this.parallaxBackground = new ParallaxBackground();
     }
 
-//    public void drawFrame() {}
-
     @Override
     public void dispose() {
         shapeRenderer.dispose();
-        objectRenderer.dispose();
         batch.dispose();
         font.dispose();
         parallaxBackground.dispose();
@@ -57,7 +53,6 @@ public class WorldView implements Screen {
         this.font = new BitmapFont(); //new BitmapFont(Gdx.files.internal("skeleton.fnt")); Lag fil med font
         font.setColor(Color.WHITE);
         shapeRenderer = new ShapeRenderer();
-        objectRenderer = new ShapeRenderer();
         batch = new SpriteBatch();
         playerTexture = model.getViewablePlayer().getTexture();
         parallaxBackground.loadTextures();
@@ -100,7 +95,6 @@ public class WorldView implements Screen {
 
     private void drawBasics() {
         // Map-data
-        float groundY  = 105;
         float deltaTime = Gdx.graphics.getDeltaTime();
 
         // Player-data
@@ -157,20 +151,10 @@ public class WorldView implements Screen {
         drawObjects();
         batch.end();
 
-//        // Fixed-objects
-//        objectRenderer.begin(ShapeRenderer.ShapeType.Filled);
-//        objectRenderer.setColor(Color.BLUE);
-//        objectRenderer.rect(800, groundY, 50, 50);
-//        objectRenderer.rect(850, groundY, 50, 100);
-//        objectRenderer.rect(900, groundY, 50, 150);
-//        objectRenderer.end();
-
     }
 
     public void drawObjects() {
-        List<ViewableObject> objectList= model.getObjectList();
-
-        for (ViewableObject object : objectList) {
+        for (ViewableObject object : model.getObjectList()) {
             Texture objectTexture = object.getTexture();
             float objectX = object.getTransform().getPos().x();
             float objectY = object.getTransform().getPos().y();

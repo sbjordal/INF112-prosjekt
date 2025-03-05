@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.Texture;
 import inf112.skeleton.model.gameobject.Transform;
 import inf112.skeleton.model.gameobject.ViewableObject;
 
+import java.util.List;
+
 public interface ViewableWorldModel {
 
     /**
@@ -13,50 +15,16 @@ public interface ViewableWorldModel {
      */
     public ViewableObject getViewablePlayer();
 
-//    /**
-//     * Returns the texture image of the player
-//     *
-//     * @return texture-image
-//     */
-//    Texture getPlayerTexture();
-//
-//    /**
-//     * Returns the players position in x and y,
-//     * and its size in height and width
-//     *
-//     * @return Transform enum of Position and Size
-//     */
-//    Transform getPlayerTransform();
-//
-//    /**
-//     * Returns the texture image of the enemy
-//     *
-//     * @return texture-image
-//     */
-//    Texture getEnemyTexture();
-//
-//    /**
-//     * Returns the enemys position in x and y,
-//     * and its size in height and width
-//     *
-//     * @return Transform enum of Position and Size
-//     */
-//    Transform getEnemyTransform();
-//
-//    /**
-//     * Returns the texture image of the coin
-//     *
-//     * @return texture-image
-//     */
-//    Texture getCoinTexture();
-//
-//    /**
-//     * Returns the coins position in x and y,
-//     * and its size in height and width
-//     *
-//     * @return Transform enum of Position and Size
-//     */
-//    Transform getCoinTransform();
+
+    /**
+     * // TODO: revisjon - Vil vi ha det slik?
+     * Returns all GameObjects except player as
+     * ViewableObjects in a list
+     *
+     * @return list of ViewableObjects
+     */
+    public List<ViewableObject> getObjectList();
+
 
     /**
      * Tells us the state of the game
