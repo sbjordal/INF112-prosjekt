@@ -18,6 +18,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import inf112.skeleton.model.WorldModel;
+import inf112.skeleton.model.gameobject.GameObject;
+import inf112.skeleton.model.gameobject.fixedobject.item.Coin;
 
 
 public class WorldView implements Screen {
@@ -29,6 +31,7 @@ public class WorldView implements Screen {
     private Map<String, Texture> textures = new HashMap<String, Texture>();
     private SpriteBatch batch;
     private Viewport viewport;
+    private int coinCount;
     private ShapeRenderer player;
     private Texture playerTexture;
     private Texture enemyTexture;
@@ -44,6 +47,7 @@ public class WorldView implements Screen {
         this.screenRect = new Rectangle();
         this.model = model;
         this.parallaxBackground = new ParallaxBackground();
+        this.coinCount = 0;
 //       this.batch = new SpriteBatch();
 //        this.player = model.getPlayerTexture();
 
@@ -127,16 +131,17 @@ public class WorldView implements Screen {
 
         parallaxBackground.update(playerSpeed, deltaTime);
 
-        // Enemy-data
-        float enemyX = model.getEnemyTransform().getPos().x();
-        float enemyWidth = model.getEnemyTransform().getSize().width();
-        float enemyHeight = model.getEnemyTransform().getSize().height();
+//        // Enemy-data
+//        float enemyX = model.getEnemyTransform().getPos().x();
+//        float enemyWidth = model.getEnemyTransform().getSize().width();
+//        float enemyHeight = model.getEnemyTransform().getSize().height();
+//
+//        // Coin-data
+//        float coinX = model.getCoinTransform().getPos().x();
+//        float coinWidth = model.getCoinTransform().getSize().width();
+//        float coinHeight = model.getCoinTransform().getSize().height();
 
-        // Coin-data
-        float coinX = model.getCoinTransform().getPos().x();
-        float coinWidth = model.getCoinTransform().getSize().width();
-        float coinHeight = model.getCoinTransform().getSize().height();
-
+        List<GameObject> objectList= model.getObjectList();
 
         ScreenUtils.clear(Color.CLEAR);
 
@@ -168,6 +173,7 @@ public class WorldView implements Screen {
 
         // Text to be shown
         String totalScore = "Total score: "+ model.getTotalScore();//String.valueOf(model.getTotalScore());
+        String coinCount = "Coins: " + model.getCoinScore();
         font.getData().setScale(2);
 
         // Drawing
@@ -175,9 +181,19 @@ public class WorldView implements Screen {
         parallaxBackground.render(batch);
         //batch.draw(backgroundTexture, leftX, bottomY, viewport.getWorldWidth(), viewport.getWorldHeight());
         font.draw(batch, totalScore, leftX, worldHeight-10);
+        font.draw(batch, coinCount, leftX + 300, worldHeight-10);
         batch.draw(playerTexture, playerX, playerY, playerWidth, playerHeight);
-        batch.draw(enemyTexture, enemyX, groundY, enemyWidth, enemyHeight);
-        batch.draw(coinTexture, coinX, groundY, coinWidth, coinHeight);
+//        batch.draw(enemyTexture, enemyX, groundY, enemyWidth, enemyHeight);
+//        batch.draw(coinTexture, coinX, groundY, coinWidth, coinHeight);
+        for (GameObject object : objectList) {
+            Texture objectTexture = object.getTexture();
+            float objectX = object.getTransform().getPos().x();
+            float objectWidth = object.getTransform().getSize().width();
+            float objectHeight = object.getTransform().getSize().height();
+
+            batch.draw(objectTexture, objectX, groundY, objectWidth, objectHeight);
+        }
+
         batch.end();
 
         // Fixed-objects

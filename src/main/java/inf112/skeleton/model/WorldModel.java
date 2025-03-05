@@ -14,6 +14,8 @@ import inf112.skeleton.view.ViewableWorldModel;
 import inf112.skeleton.view.WorldView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class WorldModel implements ViewableWorldModel, ControllableWorldModel, ApplicationListener {
 
@@ -35,6 +37,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         this.gameState = GameState.GAME_ACTIVE; // TODO, må endres etter at game menu er laget.
         this.worldView = new WorldView(this, new ExtendViewport(board.width(),board.height()));
         this.board = board;
+        this.coinScore = 0;
         gameScore = 150; //
     }
 
@@ -99,7 +102,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     private void handleCoinCollision(GameObject coin) {// TODO revisjon: i pickup metoden eller som privat hjelpemetode her
         this.coinScore++;
         this.gameScore++;
-        //this.objectList.remove(coin);
+        this.objectList.remove(coin);
     }
 
     private boolean positionIsOnBoard(Position pos) {
@@ -256,6 +259,16 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     @Override
     public int getCoinScore() {
         return this.coinScore;
+    }
+
+    /**
+     * // TODO - er dette en mulig løsning for å tegne tingene i view
+     * Read-only list
+     *
+     * @return an unmodifiable list of objectList
+     */
+    public List<GameObject> getObjectList() {
+        return Collections.unmodifiableList(this.objectList);
     }
 
 }
