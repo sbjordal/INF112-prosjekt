@@ -148,19 +148,13 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         // TODO: en stygg måte å lage hindring på for nå
         Texture platformTexture = new Texture("wall128x128.png");
         Size platformSize = new Size(50, 50);
-        Position platformPos1 = new Position(700, 90);
-        Position platformPos2 = new Position(750, 90);
-        Position platformPos3 = new Position(800, 90);
-        Position platformPos4 = new Position(750, 140);
-        Position platformPos5 = new Position(800, 140);
-        Position platformPos6 = new Position(800, 190);
 
-        FixedObject platform1 = new FixedObject(new Transform(platformPos1, platformSize), platformTexture);
-        FixedObject platform2 = new FixedObject(new Transform(platformPos2, platformSize), platformTexture);
-        FixedObject platform3 = new FixedObject(new Transform(platformPos3, platformSize), platformTexture);
-        FixedObject platform4 = new FixedObject(new Transform(platformPos4, platformSize), platformTexture);
-        FixedObject platform5 = new FixedObject(new Transform(platformPos5, platformSize), platformTexture);
-        FixedObject platform6 = new FixedObject(new Transform(platformPos6, platformSize), platformTexture);
+        FixedObject platform1 = new FixedObject(new Transform(new Position(700, 90), platformSize), platformTexture);
+        FixedObject platform2 = new FixedObject(new Transform(new Position(750, 90), platformSize), platformTexture);
+        FixedObject platform3 = new FixedObject(new Transform(new Position(800, 90), platformSize), platformTexture);
+        FixedObject platform4 = new FixedObject(new Transform(new Position(750, 140), platformSize), platformTexture);
+        FixedObject platform5 = new FixedObject(new Transform(new Position(800, 140), platformSize), platformTexture);
+        FixedObject platform6 = new FixedObject(new Transform(new Position(800, 190), platformSize), platformTexture);
 
         Gdx.graphics.setForegroundFPS(60);
         worldView.show();
