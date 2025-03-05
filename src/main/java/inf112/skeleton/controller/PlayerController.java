@@ -3,8 +3,12 @@ package inf112.skeleton.controller;
 import com.badlogic.gdx.Input;
 import inf112.skeleton.model.GameState;
 import com.badlogic.gdx.InputProcessor;
+import inf112.skeleton.view.WorldView;
 
 /**
+ * A class that handles key input and manipulates the model accordingly.
+ *
+ * Reading material on event handling for use of LigGDX:
  * https://libgdx.com/wiki/input/event-handling
  */
 public class PlayerController implements InputProcessor {
@@ -18,23 +22,52 @@ public class PlayerController implements InputProcessor {
         this.controllableModel = controllableModel;
         this.isPressingRight = false;
         this.isPressingLeft = false;
-        //this.timer = new Timer();
     }
 
+    /**
+     * When keyboard key is pressed down once.
+     *
+     * @param keyCode
+     * @return True if successful
+     */
     @Override
     public boolean keyDown(int keyCode) {
-        switch (keyCode)
-        {
-            case Input.Keys.LEFT:
-                this.isPressingLeft = true;
-                //controllableModel.setGameState(GameState.GAME_PAUSED); // TODO: temp for å teste endring av gamestate
-                break;
-            case Input.Keys.RIGHT:
-                this.isPressingRight = true;
-                //controllableModel.setGameState(GameState.GAME_ACTIVE); // TODO: temp for å teste endring av gamestate
-                break;
+        if (controllableModel.getGameState() == GameState.GAME_ACTIVE) { // TODO, denne linjen blir brukt mange ganger her, mulig å gjøre mer generisk?
+            switch (keyCode) {
+                case Input.Keys.LEFT:
+                    this.isPressingLeft = true;
+                    break;
+                case Input.Keys.RIGHT:
+                    this.isPressingRight = true;
+                    break;
+            }
+            return true;
         }
-        return true;
+        return false;
+    }
+
+    /**
+     * When finger is lifted from key.
+     *
+     * @param keyCode
+     * @return
+     */
+    @Override
+    public boolean keyUp(int keyCode) {
+        if (controllableModel.getGameState() == GameState.GAME_ACTIVE) {
+            switch (keyCode) {
+                case Input.Keys.LEFT:
+                    this.controllableModel.setMovementSpeed(0);
+                    this.isPressingLeft = false;
+                    break;
+                case Input.Keys.RIGHT:
+                    this.controllableModel.setMovementSpeed(0);
+                    this.isPressingRight = false;
+                    break;
+            }
+            return true;
+        }
+        return false;
     }
 
     public void update(){
@@ -49,41 +82,17 @@ public class PlayerController implements InputProcessor {
     }
 
     @Override
-    public boolean keyUp(int keyCode) {
-        if (controllableModel.getGameState() == GameState.GAME_ACTIVE) {
-            switch (keyCode) {
-                case Input.Keys.LEFT:
-                    this.controllableModel.setMovementSpeed(0);
-                    this.isPressingLeft = false;
-                    //System.out.println("MOVING LEFT UP!"); // TODO: temp.
-                    break;
-                case Input.Keys.RIGHT:
-                    this.controllableModel.setMovementSpeed(0);
-                    this.isPressingRight = false;
-                    //System.out.println("MOVING RIGHT UP!"); // TODO: temp.
-                    break;
-            }
-            return true;
-        }
-        return false;
-    }
-
-    @Override
     public boolean keyTyped(char c) {
         if (controllableModel.getGameState() == GameState.GAME_ACTIVE) {
-            switch (c) {
-                case Input.Keys.P:
-                    System.out.println("P PRESSED!"); // TODO: temp.
-                    if (controllableModel.getGameState() == GameState.GAME_ACTIVE) {
-                        controllableModel.pause();
-                    }
-                    controllableModel.resume();
-                    break;
-//            case Input.Keys.D: // TODO Denne er ikke helt definert enda
-//                if (model.getGameState() == GameState.GAME_ACTIVE) {
-//                    model.pause();
-//                }
-//                break;
+            if (c == 'p') {
+                controllableModel.pause();
+                System.out.println(controllableModel.getGameState()); //TODO, temp debugging
+            }
+        }
+        else if (controllableModel.getGameState() == GameState.GAME_PAUSED) {
+            if (c == 'p')  {
+                controllableModel.resume();
+                System.out.println(controllableModel.getGameState()); //TODO, temp debugging
             }
         }
         return true;

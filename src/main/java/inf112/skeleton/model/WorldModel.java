@@ -6,10 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import inf112.skeleton.controller.ControllableWorldModel;
 import inf112.skeleton.controller.PlayerController;
-import inf112.skeleton.model.gameobject.GameObject;
-import inf112.skeleton.model.gameobject.Position;
-import inf112.skeleton.model.gameobject.Size;
-import inf112.skeleton.model.gameobject.Transform;
+import inf112.skeleton.model.gameobject.*;
 import inf112.skeleton.model.gameobject.fixedobject.item.Coin;
 import inf112.skeleton.model.gameobject.mobileobject.actor.Enemy;
 import inf112.skeleton.model.gameobject.mobileobject.actor.Player;
@@ -45,18 +42,24 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
                 return false;
         }
 
-        if (isColliding()) {
+        if (isColliding(pos)) {
             return false;
         }
 
         return true;
     }
 
-    private boolean isColliding() {
+    private boolean isColliding(Position pos) {
+        Size playerSize = player.getTransform().getSize();
+        Transform newPlayerTransform = new Transform(pos, playerSize);
+
+        // Collision box containing positions related to the new input position
+        CollisionBox newPlayerCollisionBox = new CollisionBox(newPlayerTransform);
+
         for (GameObject gameObject : objectList) {
-            if (player.getCollisionBox().isCollidingWith(gameObject.getCollisionBox())) {
-                System.out.println("Colliding!");
-                System.out.println(gameObject.getTransform());
+            if (newPlayerCollisionBox.isCollidingWith(gameObject.getCollisionBox())) {
+                System.out.println("Colliding with: " + gameObject);
+
                 return true;
             }
         }
