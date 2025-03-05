@@ -37,27 +37,22 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
      *
      * @return True if the position is legal, false otherwise
      */
-    private boolean isLegalMove(Position pos) {
-        if(!positionIsOnBoard(pos)) {
+    private boolean isLegalMove(CollisionBox collisionBox) {
+        if(!positionIsOnBoard(collisionBox)) {
+
                 return false;
         }
 
-        if (isColliding(pos)) {
+        if (isColliding(collisionBox)) {
             return false;
         }
 
         return true;
     }
 
-    private boolean isColliding(Position pos) {
-        Size playerSize = player.getTransform().getSize();
-        Transform newPlayerTransform = new Transform(pos, playerSize);
-
-        // Collision box containing positions related to the new input position
-        CollisionBox newPlayerCollisionBox = new CollisionBox(newPlayerTransform);
-
+    private boolean isColliding(CollisionBox collisionBox) {
         for (GameObject gameObject : objectList) {
-            if (newPlayerCollisionBox.isCollidingWith(gameObject.getCollisionBox())) {
+            if (collisionBox.isCollidingWith(gameObject.getCollisionBox())) {
                 System.out.println("Colliding with: " + gameObject);
 
                 return true;
@@ -67,9 +62,9 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         return false;
     }
 
-    private boolean positionIsOnBoard(Position pos) {
-        boolean isWithinWidthBound = pos.x() >= 0 && pos.x() < board.width();
-        boolean isWithinHeightBound = pos.y() >= 0  && pos.y() < board.height();
+    private boolean positionIsOnBoard(CollisionBox collisionBox) {
+        boolean isWithinWidthBound = collisionBox.botLeft.x() >= 0 && collisionBox.topRight.x() < board.width();
+        boolean isWithinHeightBound = collisionBox.botLeft.y() >= 0  && collisionBox.topRight.y() < board.height();
 
         return isWithinWidthBound && isWithinHeightBound;
     }
@@ -78,8 +73,10 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     public void move(int deltaX, int deltaY) {
         Position playerPosition = player.getTransform().getPos();
         Position newPosition = new Position(playerPosition.x() + deltaX, playerPosition.y() + deltaY);
-
-        if (isLegalMove(newPosition)) {
+        Size playerSize = player.getTransform().getSize();
+        Transform newPlayerTransform = new Transform(newPosition, playerSize);
+        CollisionBox newPlayerCollisionBox = new CollisionBox(newPlayerTransform);
+        if (isLegalMove(newPlayerCollisionBox)) {
             player.move(newPosition);
         }
     }
