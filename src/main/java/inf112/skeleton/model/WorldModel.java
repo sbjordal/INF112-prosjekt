@@ -37,7 +37,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         this.gameState = GameState.GAME_ACTIVE; // TODO, må endres etter at game menu er laget.
         this.worldView = new WorldView(this, new ExtendViewport(board.width(),board.height()));
         this.board = board;
-        gameScore = 150;
+        gameScore = 150; //
     }
 
     /**
@@ -64,7 +64,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
                 if (gameObject instanceof Coin) {
                     handleCoinCollision(gameObject);
                 }
-                if (gameObject instanceof Enemy) { // TODO: legge til at dersom man hopper på en enemy får man poeng og fienden dør
+                else if (gameObject instanceof Enemy) { // TODO: legge til at dersom man hopper på en enemy får man poeng og fienden dør
                     handleEnemyCollision(gameObject);
                 }
                 return true;
