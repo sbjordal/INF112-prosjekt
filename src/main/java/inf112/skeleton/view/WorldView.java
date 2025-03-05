@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 import inf112.skeleton.model.WorldModel;
 import inf112.skeleton.model.gameobject.GameObject;
+import inf112.skeleton.model.gameobject.ViewableObject;
 import inf112.skeleton.model.gameobject.fixedobject.item.Coin;
 
 
@@ -141,7 +142,7 @@ public class WorldView implements Screen {
 //        float coinWidth = model.getCoinTransform().getSize().width();
 //        float coinHeight = model.getCoinTransform().getSize().height();
 
-        List<GameObject> objectList= model.getObjectList();
+        List<ViewableObject> objectList= model.getObjectList();
 
         ScreenUtils.clear(Color.CLEAR);
 
@@ -185,7 +186,7 @@ public class WorldView implements Screen {
         batch.draw(playerTexture, playerX, playerY, playerWidth, playerHeight);
 //        batch.draw(enemyTexture, enemyX, groundY, enemyWidth, enemyHeight);
 //        batch.draw(coinTexture, coinX, groundY, coinWidth, coinHeight);
-        for (GameObject object : objectList) {
+        for (ViewableObject object : objectList) {
             Texture objectTexture = object.getTexture();
             float objectX = object.getTransform().getPos().x();
             float objectWidth = object.getTransform().getSize().width();

@@ -267,7 +267,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
      *
      * @return an unmodifiable list of objectList
      */
-    public List<GameObject> getObjectList() {
+    public List<ViewableObject> getObjectList() {
         return Collections.unmodifiableList(this.objectList);
     }
 
