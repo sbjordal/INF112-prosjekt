@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import inf112.skeleton.controller.ControllableWorldModel;
 import inf112.skeleton.controller.PlayerController;
 import inf112.skeleton.model.gameobject.*;
+import inf112.skeleton.model.gameobject.fixedobject.FixedObject;
 import inf112.skeleton.model.gameobject.fixedobject.item.Coin;
 import inf112.skeleton.model.gameobject.mobileobject.actor.Enemy;
 import inf112.skeleton.model.gameobject.mobileobject.actor.Player;
@@ -140,9 +141,26 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         Size enemySize = new Size(50, 50);
         this.enemy = new Enemy(1,1,10,1, new Transform(enemyPos, enemySize));
 
-        Position coinPos = new Position(100, 105);
+        Position coinPos = new Position(600, 105);
         Size coinSize = new Size(30, 30);
         this.coin = new Coin(new Transform(coinPos, coinSize));
+
+        // TODO: en stygg måte å lage hindring på for nå
+        Texture platformTexture = new Texture("wall128x128.png");
+        Size platformSize = new Size(50, 50);
+        Position platformPos1 = new Position(700, 90);
+        Position platformPos2 = new Position(750, 90);
+        Position platformPos3 = new Position(800, 90);
+        Position platformPos4 = new Position(750, 140);
+        Position platformPos5 = new Position(800, 140);
+        Position platformPos6 = new Position(800, 190);
+
+        FixedObject platform1 = new FixedObject(new Transform(platformPos1, platformSize), platformTexture);
+        FixedObject platform2 = new FixedObject(new Transform(platformPos2, platformSize), platformTexture);
+        FixedObject platform3 = new FixedObject(new Transform(platformPos3, platformSize), platformTexture);
+        FixedObject platform4 = new FixedObject(new Transform(platformPos4, platformSize), platformTexture);
+        FixedObject platform5 = new FixedObject(new Transform(platformPos5, platformSize), platformTexture);
+        FixedObject platform6 = new FixedObject(new Transform(platformPos6, platformSize), platformTexture);
 
         Gdx.graphics.setForegroundFPS(60);
         worldView.show();
@@ -152,6 +170,12 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         this.objectList = new ArrayList<>();
         this.objectList.add(this.enemy); // TODO: må endres når vi har flere enemies.
         this.objectList.add(this.coin); // TODO: test coin for å teste collision.
+        this.objectList.add(platform1);
+        this.objectList.add(platform2);
+        this.objectList.add(platform3);
+        this.objectList.add(platform4);
+        this.objectList.add(platform5);
+        this.objectList.add(platform6);
 
         this.playerController = new PlayerController(this);
         Gdx.input.setInputProcessor(this.playerController);
