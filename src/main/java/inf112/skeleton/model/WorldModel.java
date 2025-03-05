@@ -22,8 +22,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
     private GameState gameState;
     private Player player;
-    private Enemy enemy;
-    private Coin coin;
     private WorldBoard board;
     private WorldView worldView;
     private PlayerController playerController;
@@ -50,7 +48,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     private boolean isLegalMove(CollisionBox collisionBox) {
         if(!positionIsOnBoard(collisionBox)) {
 
-                return false;
+            return false;
         }
 
         if (isColliding(collisionBox)) {
@@ -137,42 +135,74 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     public void create() {
         this.player = new Player(1, 0); // TODO, legg til argument (foreløpig argumenter for å kunne kompilere prosjektet)
 
-        Position enemyPos = new Position(40, 105);
+        Position enemyPos = new Position(40, 100);
         Size enemySize = new Size(50, 50);
-        this.enemy = new Enemy(1,1,10,1, new Transform(enemyPos, enemySize));
+        Enemy enemy = new Enemy(1,1,10,1, new Transform(enemyPos, enemySize));
 
         Position coinPos = new Position(600, 105);
         Size coinSize = new Size(30, 30);
-        this.coin = new Coin(new Transform(coinPos, coinSize));
+        Coin coin = new Coin(new Transform(coinPos, coinSize));
 
         // TODO: en stygg måte å lage hindring på for nå
-        Texture platformTexture = new Texture("obstacles/castleMid.png");
-        Size platformSize = new Size(50, 50);
-
-        FixedObject platform1 = new FixedObject(new Transform(new Position(700, 90), platformSize), platformTexture);
-        FixedObject platform2 = new FixedObject(new Transform(new Position(750, 90), platformSize), platformTexture);
-        FixedObject platform3 = new FixedObject(new Transform(new Position(800, 90), platformSize), platformTexture);
-        FixedObject platform4 = new FixedObject(new Transform(new Position(750, 140), platformSize), platformTexture);
-        FixedObject platform5 = new FixedObject(new Transform(new Position(800, 140), platformSize), platformTexture);
-        FixedObject platform6 = new FixedObject(new Transform(new Position(800, 190), platformSize), platformTexture);
+        this.objectList = new ArrayList<>();
+        createGround();
+        createObstacles();
 
         Gdx.graphics.setForegroundFPS(60);
         worldView.show();
         worldView.resize(board.width(), board.height());
 
         // Fill up the object list
-        this.objectList = new ArrayList<>();
-        this.objectList.add(this.enemy); // TODO: må endres når vi har flere enemies.
-        this.objectList.add(this.coin); // TODO: test coin for å teste collision.
-        this.objectList.add(platform1);
-        this.objectList.add(platform2);
-        this.objectList.add(platform3);
-        this.objectList.add(platform4);
-        this.objectList.add(platform5);
-        this.objectList.add(platform6);
+        this.objectList.add(enemy); // TODO: må endres når vi har flere enemies.
+        this.objectList.add(coin); // TODO: test coin for å teste collision.
 
         this.playerController = new PlayerController(this);
         Gdx.input.setInputProcessor(this.playerController);
+    }
+
+    private void createGround() {
+        Texture groundTexture = new Texture("obstacles/castleCenter.png");
+        Texture otherTexture = new Texture("obstacles/castleMid.png");
+        Size size = new Size(50, 50);
+        int y = 0;
+
+        for (int i = 0; i < 2; i++) {
+            int widthFilled = 0;
+            int x = 0;
+            while (widthFilled < board.width()) {
+                FixedObject groundObject = new FixedObject(new Transform(new Position(x, y), size), groundTexture);
+                objectList.add(groundObject);
+                widthFilled += 50;
+                x += 50;
+            }
+            y += 50;
+            groundTexture = otherTexture;
+        }
+    }
+
+    private void createObstacles() {
+        Texture platformTextureMid = new Texture("obstacles/castleMid.png");
+        Texture platformTextureCen = new Texture("obstacles/castleCenter.png");
+        int x = 1130;
+        int y = 100;
+        int width = 50;
+        int height = 50;
+        Size platformSize = new Size(width, height);
+
+
+        FixedObject platform1 = new FixedObject(new Transform(new Position(x, y), platformSize), platformTextureMid);
+        FixedObject platform2 = new FixedObject(new Transform(new Position(x+width, y), platformSize), platformTextureCen);
+        FixedObject platform3 = new FixedObject(new Transform(new Position(x+width*2, y), platformSize), platformTextureCen);
+        FixedObject platform4 = new FixedObject(new Transform(new Position(x+width, y+height), platformSize), platformTextureMid);
+        FixedObject platform5 = new FixedObject(new Transform(new Position(x+width*2, y+height), platformSize), platformTextureCen);
+        FixedObject platform6 = new FixedObject(new Transform(new Position(x+width*2, y+2*height), platformSize), platformTextureMid);
+
+        objectList.add(platform1);
+        objectList.add(platform2);
+        objectList.add(platform3);
+        objectList.add(platform4);
+        objectList.add(platform5);
+        objectList.add(platform6);
     }
 
     @Override
