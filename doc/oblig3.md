@@ -1,6 +1,11 @@
 ## Team:
 * Gruppe 6 - *"Sjette_Etasje"*
-- Medlemmer: Endre H. Aspøy, Eivind H. Naasen, Julie Sandanger,
-  Aurora Bjørnerud, Thale Marie Bjerkreim, Stine Bjordal
+- Medlemmer og roller:
+  - Endre H. Aspøy: Teamleder, utvikler
+  - Eivind H. Naasen: Arkitekt, utvikler
+  - Julie Sandanger: Designansvarlig, utvikler
+  - Aurora Bjørnerud: Kundekontakt, ansvar for user Interface, utvikler
+  - Thale Marie Bjerkreim: Dokumentasjonsansvarlig, utvikler
+  - Stine Bjordal: Testansvarlig, utvikler
 
 
