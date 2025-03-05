@@ -161,7 +161,7 @@ public class WorldView implements Screen {
         float bottomY = viewport.getCamera().position.y - worldHeight / 2;
 
         // Text to be shown
-        String totalScore = "Total score: "+"100";//String.valueOf(model.getTotalScore());
+        String totalScore = "Total score: "+ model.getTotalScore();//String.valueOf(model.getTotalScore());
         font.getData().setScale(2);
 
         // Drawing

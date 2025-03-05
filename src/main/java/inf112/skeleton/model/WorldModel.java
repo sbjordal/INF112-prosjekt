@@ -24,12 +24,17 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     private WorldView worldView;
     private PlayerController playerController;
     private ArrayList<GameObject> objectList;
-//    private int gameScore;
+    private int gameScore;
+    private int coinScore;
+    private long lastScoreUpdate = System.currentTimeMillis();
+    private long lastEnemyCollisionTime = 0;
+    private static final long COLLISION_COOLDOWN = 800;
 
     public WorldModel(WorldBoard board) {
         this.gameState = GameState.GAME_ACTIVE; // TODO, må endres etter at game menu er laget.
         this.worldView = new WorldView(this, new ExtendViewport(board.width(),board.height()));
         this.board = board;
+        gameScore = 150; //
     }
 
     /**
@@ -51,9 +56,17 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     }
 
     private boolean isColliding(CollisionBox collisionBox) {
+        if (gameState!=GameState.GAME_ACTIVE) {
+            return false;
+        }
         for (GameObject gameObject : objectList) {
             if (collisionBox.isCollidingWith(gameObject.getCollisionBox())) {
-                System.out.println("Colliding with: " + gameObject);
+                if (gameObject instanceof Coin) {
+                    handleCoinCollision(gameObject);
+                }
+                else if (gameObject instanceof Enemy) { // TODO: legge til at dersom man hopper på en enemy får man poeng og fienden dør
+                    handleEnemyCollision(gameObject);
+                }
 
                 return true;
             }
@@ -68,14 +81,38 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
         return isWithinWidthBound && isWithinHeightBound;
     }
+    private void handleEnemyCollision(GameObject gameObject) { // TODO: legge til if health=0 die() elns
+        long currentTime = System.currentTimeMillis();
+        if (currentTime - lastEnemyCollisionTime >= COLLISION_COOLDOWN) {
+            if (gameScore > 0) {
+                gameScore-=4;
+            }
+            lastEnemyCollisionTime = currentTime;
+        }
+    }
+
+    private void handleCoinCollision(GameObject coin) {// TODO revisjon: i pickup metoden eller som privat hjelpemetode her
+        this.coinScore++;
+        this.gameScore++;
+        this.objectList.remove(coin);
+    }
+
+    private boolean positionIsOnBoard(Position pos) {
+        boolean isWithinWidthBound = pos.x() >= 0 && pos.x() < board.width();
+        boolean isWithinHeightBound = pos.y() >= 0  && pos.y() < board.height();
+
+        return isWithinWidthBound && isWithinHeightBound;
+    }
 
     @Override
     public void move(int deltaX, int deltaY) {
         Position playerPosition = player.getTransform().getPos();
         Position newPosition = new Position(playerPosition.x() + deltaX, playerPosition.y() + deltaY);
+
         Size playerSize = player.getTransform().getSize();
         Transform newPlayerTransform = new Transform(newPosition, playerSize);
         CollisionBox newPlayerCollisionBox = new CollisionBox(newPlayerTransform);
+
         if (isLegalMove(newPlayerCollisionBox)) {
             player.move(newPosition);
         }
@@ -114,11 +151,20 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
     @Override
     public void render() {
+        if (shouldUpdateScore()) {
+            gameScore--;
+            lastScoreUpdate = System.currentTimeMillis();
+        }
         if (playerController != null) {
             playerController.update();
         }
         worldView.render(Gdx.graphics.getDeltaTime());
         // TODO, implement me :)
+    }
+
+    private boolean shouldUpdateScore() {
+        long currentTime = System.currentTimeMillis();
+        return currentTime - lastScoreUpdate >= 1000 && gameScore>0 && gameState == GameState.GAME_ACTIVE;
     }
 
     @Override
@@ -182,7 +228,12 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
     @Override
     public int getTotalScore() {
-        return 0;
+        return this.gameScore;
+    }
+
+    @Override
+    public int getCoinScore() {
+        return this.coinScore;
     }
 
 }

@@ -1,6 +1,7 @@
 package inf112.skeleton.model.gameobject;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.TextureData;
 
 /**
  * Represents every object that is visualized on the screen.
@@ -26,6 +27,7 @@ public class GameObject implements ViewableObject{
     @Override
     public Transform getTransform() {
         return transform;
+
     }
 
     @Override
