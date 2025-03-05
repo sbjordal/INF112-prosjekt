@@ -37,7 +37,6 @@ public class HelloWorld implements ApplicationListener {
 	@Override
 	public void dispose() {
 		// Called at shutdown
-
 		// Graphics and sound resources aren't managed by Java's garbage collector, so
 		// they must generally be disposed of manually when no longer needed. But,
 		// any remaining resources are typically cleaned up automatically when the
