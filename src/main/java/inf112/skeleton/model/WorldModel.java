@@ -90,7 +90,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     public void create() {
         this.player = new Player(1, 0); // TODO, legg til argument (foreløpig argumenter for å kunne kompilere prosjektet)
 
-        Position enemyPos = new Position(400, 105);
+        Position enemyPos = new Position(40, 105);
         Size enemySize = new Size(50, 50);
         this.enemy = new Enemy(1,1,10,1, new Transform(enemyPos, enemySize));
 
