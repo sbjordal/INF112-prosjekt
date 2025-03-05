@@ -50,8 +50,10 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         }
 
         if (isColliding(collisionBox)) {
+            System.out.println("jeg skal ikke bevege meg");
             return false;
         }
+        System.out.println("jeg er her nå. det skal jeg ikke være");
 
         return true;
     }
@@ -63,6 +65,8 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         for (GameObject gameObject : objectList) {
             if (collisionBox.isCollidingWith(gameObject.getCollisionBox())) {
                 if (gameObject instanceof Coin) {
+                    System.out.println("jeg kommer hit");
+                    System.out.println(gameObject.getCollisionBox().botLeft);
                     handleCoinCollision(gameObject);
                 }
                 else if (gameObject instanceof Enemy) { // TODO: legge til at dersom man hopper på en enemy får man poeng og fienden dør
@@ -95,7 +99,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     private void handleCoinCollision(GameObject coin) {// TODO revisjon: i pickup metoden eller som privat hjelpemetode her
         this.coinScore++;
         this.gameScore++;
-        this.objectList.remove(coin);
+        //this.objectList.remove(coin);
     }
 
     private boolean positionIsOnBoard(Position pos) {
@@ -115,6 +119,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         CollisionBox newPlayerCollisionBox = new CollisionBox(newPlayerTransform);
 
         if (isLegalMove(newPlayerCollisionBox)) {
+            System.out.println("jeg beveger meg?");
             player.move(newPosition);
         }
     }
@@ -132,7 +137,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         Size enemySize = new Size(50, 50);
         this.enemy = new Enemy(1,1,10,1, new Transform(enemyPos, enemySize));
 
-        Position coinPos = new Position(600, 105);
+        Position coinPos = new Position(100, 105);
         Size coinSize = new Size(30, 30);
         this.coin = new Coin(new Transform(coinPos, coinSize));
 
