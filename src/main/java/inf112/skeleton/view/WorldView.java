@@ -11,9 +11,8 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
 import inf112.skeleton.model.WorldModel;
 import inf112.skeleton.model.gameobject.Transform;
 import inf112.skeleton.model.gameobject.ViewableObject;
@@ -25,13 +24,10 @@ public class WorldView implements Screen {
     private WorldModel model;
     private ShapeRenderer shapeRenderer;
     private ShapeRenderer objectRenderer;
-    private Map<String, Texture> textures = new HashMap<String, Texture>();
     private SpriteBatch batch;
     private Viewport viewport;
 //    private ShapeRenderer player;
     private Texture playerTexture;
-//    private Texture enemyTexture;
-//    private Texture coinTexture;
 //    private Texture backgroundTexture;
     private ParallaxBackground parallaxBackground;
     private BitmapFont font;
@@ -43,12 +39,8 @@ public class WorldView implements Screen {
         this.screenRect = new Rectangle();
         this.model = model;
         this.parallaxBackground = new ParallaxBackground();
-//       this.batch = new SpriteBatch();
-//        this.player = model.getPlayerTexture();
-
     }
 
-//    public Texture loadTexture(String path) {}
 //    public void drawFrame() {}
 
     @Override
@@ -68,8 +60,6 @@ public class WorldView implements Screen {
         objectRenderer = new ShapeRenderer();
         batch = new SpriteBatch();
         playerTexture = model.getViewablePlayer().getTexture();
-//        enemyTexture = model.getEnemyTexture(); // TODO - Midlertidig for bare én enemy
-//        coinTexture = model.getCoinTexture(); // TODO - Midlertidig for bare én coin
         parallaxBackground.loadTextures();
     }
 
@@ -90,12 +80,10 @@ public class WorldView implements Screen {
     }
 
     private void drawGameActive() {
-        loadBackground("backgroundTest.jpg");
         drawBasics();
     }
 
     private void drawGamePaused() {
-        loadBackground("backgroundTest2.jpg");
         drawBasics();
 
         // Writes "PAUSED" on the screen when GameState is paused
@@ -125,8 +113,6 @@ public class WorldView implements Screen {
         float playerSpeed = model.getMovementSpeed();
 
         parallaxBackground.update(playerSpeed, deltaTime);
-
-        List<ViewableObject> objectList= model.getObjectList();
 
         ScreenUtils.clear(Color.CLEAR);
 
@@ -168,22 +154,22 @@ public class WorldView implements Screen {
         font.draw(batch, totalScore, leftX, worldHeight-10);
         font.draw(batch, coinCount, leftX + 300, worldHeight-10);
         batch.draw(playerTexture, playerX, playerY, playerWidth, playerHeight);
-//        batch.draw(enemyTexture, enemyX, groundY, enemyWidth, enemyHeight);
-//        batch.draw(coinTexture, coinX, groundY, coinWidth, coinHeight);
-        drawObjects(objectList);
+        drawObjects();
         batch.end();
 
-        // Fixed-objects
-        objectRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        objectRenderer.setColor(Color.BLUE);
-        objectRenderer.rect(800, groundY, 50, 50);
-        objectRenderer.rect(850, groundY, 50, 100);
-        objectRenderer.rect(900, groundY, 50, 150);
-        objectRenderer.end();
+//        // Fixed-objects
+//        objectRenderer.begin(ShapeRenderer.ShapeType.Filled);
+//        objectRenderer.setColor(Color.BLUE);
+//        objectRenderer.rect(800, groundY, 50, 50);
+//        objectRenderer.rect(850, groundY, 50, 100);
+//        objectRenderer.rect(900, groundY, 50, 150);
+//        objectRenderer.end();
 
     }
 
-    public void drawObjects(List<ViewableObject> objectList) {
+    public void drawObjects() {
+        List<ViewableObject> objectList= model.getObjectList();
+
         for (ViewableObject object : objectList) {
             Texture objectTexture = object.getTexture();
             float objectX = object.getTransform().getPos().x();
