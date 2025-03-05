@@ -6,21 +6,28 @@
 
 ## Linker:
 * Lenke til GitLab: https://git.app.uib.no/inf112/25v/proj/sjette-etasje
-* Lenke til Jira: https://endre-aspoy.atlassian.net/jira/core/projects/IS/board
+* Lenke til Jira (krever invitert tilgang): https://endre-aspoy.atlassian.net/jira/core/projects/IS/board
 
----------------------------------- TODO -----------------------------------------------
 
 ## Om spillet (TODO)
-* «Kurt-Mario er i trøbbel igjen! Han er sent ute til eksamen, han har ikke lest nok – og hvor er egentlig eksamenslokalet? Hjelp Kurt-Mario å hoppe fra etasje til etasje på Høyteknologisenteret, plukke opp viktig kunnskap (og snacks!) på veien og nå frem til eksamen i tide. Men pass opp for de skumle professorene – vi har ikke tid til å høre om flere teoremer nå!»*
+
+Hvordan spille: 
+- Mål: komme lengst mulig, få høyest mulig score og ikke miste liv ved å komme borti monster/enemies. Man stater med ett liv.
+- Kontroller: høyre/venstre piltaster for frem og tilbake.
+
 
 ## Kjøring (TODO)
-* Kompileres med `mvn package`.
-* Kjøres med `java -jar target/kurt-mario-1.0-SNAPSHOT-fat.jar`
-* Krever Java 21 eller senere
+* Kompileres med `mvn package`, benytter Apache Maven 3.6.3.
+* Kjøres med `mvn exec:java`.
+* Krever Java 17.0.14 eller senere.
 
 ## Kjente feil (TODO)
-* Kurt-Mario blir *mindre* – ikke større – når han spiser sopp fra Nygårdsparken.
+- 
 
 ## Credits (TODO)
-* Super Mario Bros (Nintendo)
-* (legg til lyd/sprites sources)
+
+### Konsept
+- Super Mario Bros (1984) for inspirasjon.
+
+### Grafikk
+- 
