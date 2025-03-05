@@ -146,7 +146,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         this.coin = new Coin(new Transform(coinPos, coinSize));
 
         // TODO: en stygg måte å lage hindring på for nå
-        Texture platformTexture = new Texture("wall128x128.png");
+        Texture platformTexture = new Texture("obstacles/castleMid.png");
         Size platformSize = new Size(50, 50);
 
         FixedObject platform1 = new FixedObject(new Transform(new Position(700, 90), platformSize), platformTexture);

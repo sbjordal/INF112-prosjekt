@@ -60,7 +60,7 @@ public class WorldView implements Screen {
 
 
     private void drawGameMenu() {
-        loadBackground("backgroundTest.jpg");
+        //loadBackground("backgroundTest.jpg");
         drawBasics();
     }
 
@@ -79,7 +79,7 @@ public class WorldView implements Screen {
     }
 
     private void drawGameOver() {
-        loadBackground("backgroundTest.jpg");
+        //loadBackground("backgroundTest.jpg");
         drawBasics();
     }
 
