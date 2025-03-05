@@ -6,10 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import inf112.skeleton.controller.ControllableWorldModel;
 import inf112.skeleton.controller.PlayerController;
-import inf112.skeleton.model.gameobject.GameObject;
-import inf112.skeleton.model.gameobject.Position;
-import inf112.skeleton.model.gameobject.Size;
-import inf112.skeleton.model.gameobject.Transform;
+import inf112.skeleton.model.gameobject.*;
 import inf112.skeleton.model.gameobject.fixedobject.item.Coin;
 import inf112.skeleton.model.gameobject.mobileobject.actor.Enemy;
 import inf112.skeleton.model.gameobject.mobileobject.actor.Player;
@@ -46,16 +43,23 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
      * @return True if the position is legal, false otherwise
      */
     private boolean isLegalMove(Position pos) {
-        if(!positionIsOnBoard(pos)) {return false;}
+        if(!positionIsOnBoard(pos)) {
+                return false;
+        }
 
-        if (isColliding()) {
+        if (isColliding(pos)) {
             return false;
         }
 
         return true;
     }
 
-    private boolean isColliding() {
+    private boolean isColliding(Position pos) {
+        Size playerSize = player.getTransform().getSize();
+        Transform newPlayerTransform = new Transform(pos, playerSize);
+
+        // Collision box containing positions related to the new input position
+        CollisionBox newPlayerCollisionBox = new CollisionBox(newPlayerTransform);
         if (gameState!=GameState.GAME_ACTIVE) {
             return false;
         }
@@ -67,6 +71,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
                 else if (gameObject instanceof Enemy) { // TODO: legge til at dersom man hopper på en enemy får man poeng og fienden dør
                     handleEnemyCollision(gameObject);
                 }
+
                 return true;
             }
         }

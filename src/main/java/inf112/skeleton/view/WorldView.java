@@ -97,6 +97,12 @@ public class WorldView implements Screen {
     private void drawGamePaused() {
         loadBackground("backgroundTest2.jpg");
         drawBasics();
+
+        // Writes "PAUSED" on the screen when GameState is paused
+        font.getData().setScale(3);
+        batch.begin();
+        font.draw(batch, "PAUSED", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2);
+        batch.end();
     }
 
     private void drawGameOver() {
@@ -151,8 +157,8 @@ public class WorldView implements Screen {
 
 
         // Finding the left corner of the window
-        float leftX = viewport.getCamera().position.x - viewport.getWorldWidth() / 2;
-        float bottomY = viewport.getCamera().position.y - viewport.getWorldHeight() / 2;
+        float leftX = viewport.getCamera().position.x - worldWidth / 2;
+        float bottomY = viewport.getCamera().position.y - worldHeight / 2;
 
         // Text to be shown
         String totalScore = "Total score: "+ model.getTotalScore();//String.valueOf(model.getTotalScore());
@@ -178,7 +184,8 @@ public class WorldView implements Screen {
     }
 
     public void loadBackground(String path) {
-        backgroundTexture = new Texture(Gdx.files.internal(path));
+        // TODO: kommentert ut fordi det skapte memory overflow.
+        // backgroundTexture = new Texture(Gdx.files.internal(path));
     }
 
     @Override
