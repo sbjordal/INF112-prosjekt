@@ -5,22 +5,18 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import inf112.skeleton.model.GameState;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import inf112.skeleton.model.WorldModel;
-import inf112.skeleton.model.gameobject.GameObject;
+import inf112.skeleton.model.gameobject.Transform;
 import inf112.skeleton.model.gameobject.ViewableObject;
-import inf112.skeleton.model.gameobject.fixedobject.item.Coin;
 
 
 public class WorldView implements Screen {
@@ -32,12 +28,11 @@ public class WorldView implements Screen {
     private Map<String, Texture> textures = new HashMap<String, Texture>();
     private SpriteBatch batch;
     private Viewport viewport;
-    private int coinCount;
-    private ShapeRenderer player;
+//    private ShapeRenderer player;
     private Texture playerTexture;
-    private Texture enemyTexture;
-    private Texture coinTexture;
-    private Texture backgroundTexture;
+//    private Texture enemyTexture;
+//    private Texture coinTexture;
+//    private Texture backgroundTexture;
     private ParallaxBackground parallaxBackground;
     private BitmapFont font;
 
@@ -48,7 +43,6 @@ public class WorldView implements Screen {
         this.screenRect = new Rectangle();
         this.model = model;
         this.parallaxBackground = new ParallaxBackground();
-        this.coinCount = 0;
 //       this.batch = new SpriteBatch();
 //        this.player = model.getPlayerTexture();
 
@@ -56,7 +50,6 @@ public class WorldView implements Screen {
 
 //    public Texture loadTexture(String path) {}
 //    public void drawFrame() {}
-//    public void drawObjects() {}
 
     @Override
     public void dispose() {
@@ -74,9 +67,9 @@ public class WorldView implements Screen {
         shapeRenderer = new ShapeRenderer();
         objectRenderer = new ShapeRenderer();
         batch = new SpriteBatch();
-        playerTexture = model.getPlayerTexture();
-        enemyTexture = model.getEnemyTexture(); // TODO - Midlertidig for bare én enemy
-        coinTexture = model.getCoinTexture(); // TODO - Midlertidig for bare én coin
+        playerTexture = model.getViewablePlayer().getTexture();
+//        enemyTexture = model.getEnemyTexture(); // TODO - Midlertidig for bare én enemy
+//        coinTexture = model.getCoinTexture(); // TODO - Midlertidig for bare én coin
         parallaxBackground.loadTextures();
     }
 
@@ -123,24 +116,15 @@ public class WorldView implements Screen {
         float deltaTime = Gdx.graphics.getDeltaTime();
 
         // Player-data
-        float playerX = model.getPlayerTransform().getPos().x();
-        float playerY = model.getPlayerTransform().getPos().y();
-        float playerWidth = model.getPlayerTransform().getSize().width();
-        float playerHeight = model.getPlayerTransform().getSize().height();
+        Transform playerTransform = model.getViewablePlayer().getTransform();
+        float playerX = playerTransform.getPos().x();//model.getPlayerTransform().getPos().x();
+        float playerY = playerTransform.getPos().y();//model.getPlayerTransform().getPos().y();
+        float playerWidth = playerTransform.getSize().width();//model.getPlayerTransform().getSize().width();
+        float playerHeight = playerTransform.getSize().height();//model.getPlayerTransform().getSize().height();
 
         float playerSpeed = model.getMovementSpeed();
 
         parallaxBackground.update(playerSpeed, deltaTime);
-
-//        // Enemy-data
-//        float enemyX = model.getEnemyTransform().getPos().x();
-//        float enemyWidth = model.getEnemyTransform().getSize().width();
-//        float enemyHeight = model.getEnemyTransform().getSize().height();
-//
-//        // Coin-data
-//        float coinX = model.getCoinTransform().getPos().x();
-//        float coinWidth = model.getCoinTransform().getSize().width();
-//        float coinHeight = model.getCoinTransform().getSize().height();
 
         List<ViewableObject> objectList= model.getObjectList();
 
@@ -177,7 +161,7 @@ public class WorldView implements Screen {
         String coinCount = "Coins: " + model.getCoinScore();
         font.getData().setScale(2);
 
-        // Drawing
+        // Drawing objects
         batch.begin();
         parallaxBackground.render(batch);
         //batch.draw(backgroundTexture, leftX, bottomY, viewport.getWorldWidth(), viewport.getWorldHeight());
@@ -186,15 +170,7 @@ public class WorldView implements Screen {
         batch.draw(playerTexture, playerX, playerY, playerWidth, playerHeight);
 //        batch.draw(enemyTexture, enemyX, groundY, enemyWidth, enemyHeight);
 //        batch.draw(coinTexture, coinX, groundY, coinWidth, coinHeight);
-        for (ViewableObject object : objectList) {
-            Texture objectTexture = object.getTexture();
-            float objectX = object.getTransform().getPos().x();
-            float objectWidth = object.getTransform().getSize().width();
-            float objectHeight = object.getTransform().getSize().height();
-
-            batch.draw(objectTexture, objectX, groundY, objectWidth, objectHeight);
-        }
-
+        drawObjects(objectList);
         batch.end();
 
         // Fixed-objects
@@ -205,6 +181,18 @@ public class WorldView implements Screen {
         objectRenderer.rect(900, groundY, 50, 150);
         objectRenderer.end();
 
+    }
+
+    public void drawObjects(List<ViewableObject> objectList) {
+        for (ViewableObject object : objectList) {
+            Texture objectTexture = object.getTexture();
+            float objectX = object.getTransform().getPos().x();
+            float objectY = object.getTransform().getPos().y();
+            float objectWidth = object.getTransform().getSize().width();
+            float objectHeight = object.getTransform().getSize().height();
+
+            batch.draw(objectTexture, objectX, objectY, objectWidth, objectHeight);
+        }
     }
 
     public void loadBackground(String path) {

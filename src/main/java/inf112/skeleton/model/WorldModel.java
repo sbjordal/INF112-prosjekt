@@ -197,6 +197,10 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         // TODO, implement me :)
     }
 
+    public ViewableObject getViewablePlayer() {
+        return player;
+    }
+
     @Override
     public Texture getPlayerTexture() {
         return player.getTexture();
