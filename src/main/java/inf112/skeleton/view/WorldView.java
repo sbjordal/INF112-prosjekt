@@ -32,6 +32,7 @@ public class WorldView implements Screen {
     private ShapeRenderer player;
     private Texture playerTexture;
     private Texture enemyTexture;
+    private Texture coinTexture;
     private Texture backgroundTexture;
     private ParallaxBackground parallaxBackground;
     private BitmapFont font;
@@ -70,6 +71,7 @@ public class WorldView implements Screen {
         batch = new SpriteBatch();
         playerTexture = model.getPlayerTexture();
         enemyTexture = model.getEnemyTexture(); // TODO - Midlertidig for bare én enemy
+        coinTexture = model.getCoinTexture(); // TODO - Midlertidig for bare én coin
         parallaxBackground.loadTextures();
     }
 
@@ -125,11 +127,15 @@ public class WorldView implements Screen {
 
         parallaxBackground.update(playerSpeed, deltaTime);
 
-        // Enemy-data TODO - hent verdier fra modellen når nødvendige metoder er implementert
-
+        // Enemy-data
         float enemyX = model.getEnemyTransform().getPos().x();
         float enemyWidth = model.getEnemyTransform().getSize().width();
         float enemyHeight = model.getEnemyTransform().getSize().height();
+
+        // Coin-data
+        float coinX = model.getCoinTransform().getPos().x();
+        float coinWidth = model.getCoinTransform().getSize().width();
+        float coinHeight = model.getCoinTransform().getSize().height();
 
 
         ScreenUtils.clear(Color.CLEAR);
@@ -171,6 +177,7 @@ public class WorldView implements Screen {
         font.draw(batch, totalScore, leftX, worldHeight-10);
         batch.draw(playerTexture, playerX, playerY, playerWidth, playerHeight);
         batch.draw(enemyTexture, enemyX, groundY, enemyWidth, enemyHeight);
+        batch.draw(coinTexture, coinX, groundY, coinWidth, coinHeight);
         batch.end();
 
         // Fixed-objects
