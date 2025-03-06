@@ -1,44 +1,46 @@
 package inf112.skeleton.model.gameobject;
 
+import com.badlogic.gdx.math.Vector2;
+
 public class CollisionBox {
-    public Position botLeft;
-    public Position topRight;
+    public Vector2 botLeft;
+    public Vector2 topRight;
     private int width;
     private int height;
 
     // Anchor is at the bottom left of the box
     public CollisionBox(Transform transform) {
-        this.width = transform.getSize().width();
-        this.height = transform.getSize().height();
+        this.width = (int) transform.getSize().x;
+        this.height = (int) transform.getSize().y;
         this.botLeft = transform.getPos();
-        this.topRight = new Position(this.botLeft.x() + width, this.botLeft.y() + height);
+        this.topRight = new Vector2(this.botLeft.x + width, this.botLeft.y + height);
     }
 
-    public void setPosition(Position worldPosition) {
+    public void setPosition(Vector2 worldPosition) {
         this.botLeft = worldPosition;
-        this.topRight = new Position(this.botLeft.x() + width, this.botLeft.y() + height);
+        this.topRight = new Vector2(this.botLeft.x + width, this.botLeft.y + height);
     }
 
     public boolean isCollidingWith(CollisionBox other) {
-        return this.botLeft.x() < other.topRight.x() &&
-                this.topRight.x() > other.botLeft.x() &&
-                this.botLeft.y() < other.topRight.y() &&
-                this.topRight.y() > other.botLeft.y();
+        return this.botLeft.x < other.topRight.x &&
+                this.topRight.x > other.botLeft.x &&
+                this.botLeft.y < other.topRight.y &&
+                this.topRight.y > other.botLeft.y;
     }
 
     public boolean isCollidingFromLeft(CollisionBox other) {
-        return isCollidingWith(other) && this.botLeft.x() < other.botLeft.x() && this.topRight.x() > other.botLeft.x();
+        return isCollidingWith(other) && this.botLeft.x < other.botLeft.x && this.topRight.x > other.botLeft.x;
     }
 
     public boolean isCollidingFromRight(CollisionBox other) {
-        return isCollidingWith(other) && this.botLeft.x() < other.topRight.x() && this.topRight.x() > other.topRight.x();
+        return isCollidingWith(other) && this.botLeft.x < other.topRight.x && this.topRight.x > other.topRight.x;
     }
 
     public boolean isCollidingFromBottom(CollisionBox other) {
-        if (this.botLeft.y() <= other.topRight.y() &&
-                this.topRight.y() >= other.botLeft.y() &&
-                this.botLeft.x() <= other.topRight.x() &&
-                this.topRight.x() >= other.botLeft.x()) {
+        if (this.botLeft.y <= other.topRight.y &&
+                this.topRight.y >= other.botLeft.y &&
+                this.botLeft.x <= other.topRight.x &&
+                this.topRight.x >= other.botLeft.x) {
             return true;
         } else {
             return false;
@@ -46,6 +48,6 @@ public class CollisionBox {
     }
 
     public boolean isCollidingFromTop(CollisionBox other) {
-        return isCollidingWith(other) && this.botLeft.y() < other.topRight.y() && this.topRight.y() > other.topRight.y();
+        return isCollidingWith(other) && this.botLeft.y < other.topRight.y && this.topRight.y > other.topRight.y;
     }
 }

@@ -103,10 +103,10 @@ public class WorldView implements Screen {
 
         // Player-data
         Transform playerTransform = model.getViewablePlayer().getTransform();
-        float playerX = playerTransform.getPos().x();//model.getPlayerTransform().getPos().x();
-        float playerY = playerTransform.getPos().y();//model.getPlayerTransform().getPos().y();
-        float playerWidth = playerTransform.getSize().width();//model.getPlayerTransform().getSize().width();
-        float playerHeight = playerTransform.getSize().height();//model.getPlayerTransform().getSize().height();
+        float playerX = playerTransform.getPos().x;//model.getPlayerTransform().getPos().x();
+        float playerY = playerTransform.getPos().y;//model.getPlayerTransform().getPos().y();
+        float playerWidth = playerTransform.getSize().x;//model.getPlayerTransform().getSize().width();
+        float playerHeight = playerTransform.getSize().y;//model.getPlayerTransform().getSize().height();
 
         float playerSpeed = model.getMovementSpeed();
 
@@ -151,10 +151,10 @@ public class WorldView implements Screen {
     private void drawObjects() {
         for (ViewableObject object : model.getObjectList()) {
             Texture objectTexture = object.getTexture();
-            float objectX = object.getTransform().getPos().x();
-            float objectY = object.getTransform().getPos().y();
-            float objectWidth = object.getTransform().getSize().width();
-            float objectHeight = object.getTransform().getSize().height();
+            float objectX = object.getTransform().getPos().x;
+            float objectY = object.getTransform().getPos().y;
+            float objectWidth = object.getTransform().getSize().x;
+            float objectHeight = object.getTransform().getSize().y;
 
             batch.draw(objectTexture, objectX, objectY, objectWidth, objectHeight);
         }

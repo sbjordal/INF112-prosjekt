@@ -1,9 +1,8 @@
 package inf112.skeleton.model.gameobject.mobileobject;
 
 import com.badlogic.gdx.graphics.Texture;
-import inf112.skeleton.model.gameobject.CollisionBox;
+import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.model.gameobject.GameObject;
-import inf112.skeleton.model.gameobject.Position;
 import inf112.skeleton.model.gameobject.Transform;
 
 /**
@@ -32,9 +31,9 @@ public abstract class MobileObject extends GameObject {
      * Moves the {@link GameObject} based on absolute values.
      * Absolute values are values that overwrite already existing values.
      *
-     * @param newPosition   A {@link Position} containing the absolute values of the new position.
+     * @param newPosition   A {@link Vector2} containing the absolute values of the new position.
      */
-    public void move(Position newPosition) {
+    public void move(Vector2 newPosition) {
         getTransform().alterPosition(newPosition);
         updateCollisionBox();
     }

@@ -3,6 +3,7 @@ package inf112.skeleton.model;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import inf112.skeleton.controller.ControllableWorldModel;
 import inf112.skeleton.controller.PlayerController;
@@ -87,8 +88,8 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     }
 
     private boolean positionIsOnBoard(CollisionBox collisionBox) {
-        boolean isWithinWidthBound = collisionBox.botLeft.x() >= 0 && collisionBox.topRight.x() < board.width();
-        boolean isWithinHeightBound = collisionBox.botLeft.y() >= 0  && collisionBox.topRight.y() < board.height();
+        boolean isWithinWidthBound = collisionBox.botLeft.x >= 0 && collisionBox.topRight.x < board.width();
+        boolean isWithinHeightBound = collisionBox.botLeft.y >= 0  && collisionBox.topRight.y < board.height();
 
         return isWithinWidthBound && isWithinHeightBound;
     }
@@ -114,19 +115,19 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         this.objectList.remove(coin);
     }
 
-    private boolean positionIsOnBoard(Position pos) {
-        boolean isWithinWidthBound = pos.x() >= 0 && pos.x() < board.width();
-        boolean isWithinHeightBound = pos.y() >= 0  && pos.y() < board.height();
+    private boolean positionIsOnBoard(Vector2 pos) {
+        boolean isWithinWidthBound = pos.x >= 0 && pos.x < board.width();
+        boolean isWithinHeightBound = pos.y >= 0  && pos.y < board.height();
 
         return isWithinWidthBound && isWithinHeightBound;
     }
 
     @Override
     public void move(int deltaX, int deltaY) {
-        Position playerPosition = player.getTransform().getPos();
-        Position newPosition = new Position(playerPosition.x() + deltaX, playerPosition.y() + deltaY);
+        Vector2 playerPosition = player.getTransform().getPos();
+        Vector2 newPosition = new Vector2(playerPosition.x + deltaX, playerPosition.y + deltaY);
 
-        Size playerSize = player.getTransform().getSize();
+        Vector2 playerSize = player.getTransform().getSize();
         Transform newPlayerTransform = new Transform(newPosition, playerSize);
         CollisionBox newPlayerCollisionBox = new CollisionBox(newPlayerTransform);
 
@@ -145,12 +146,12 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     public void create() {
         this.player = new Player(1, 0); // TODO, legg til argument (foreløpig argumenter for å kunne kompilere prosjektet)
 
-        Position enemyPos = new Position(40, 100);
-        Size enemySize = new Size(50, 50);
+        Vector2 enemyPos = new Vector2(40, 100);
+        Vector2 enemySize = new Vector2(50, 50);
         Enemy enemy = new Enemy(1,1,10,1, new Transform(enemyPos, enemySize));
 
-        Position coinPos = new Position(600, 105);
-        Size coinSize = new Size(30, 30);
+        Vector2 coinPos = new Vector2(600, 105);
+        Vector2 coinSize = new Vector2(30, 30);
         Coin coin = new Coin(new Transform(coinPos, coinSize));
 
         // TODO: en stygg måte å lage hindring på for nå
@@ -173,14 +174,14 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     private void createGround() {
         Texture groundTexture = new Texture("obstacles/castleCenter.png");
         Texture otherTexture = new Texture("obstacles/castleMid.png");
-        Size size = new Size(50, 50);
+        Vector2 size = new Vector2(50, 50);
         int y = 0;
 
         for (int i = 0; i < 2; i++) {
             int widthFilled = 0;
             int x = 0;
             while (widthFilled < board.width()) {
-                FixedObject groundObject = new FixedObject(new Transform(new Position(x, y), size), groundTexture);
+                FixedObject groundObject = new FixedObject(new Transform(new Vector2(x, y), size), groundTexture);
                 objectList.add(groundObject);
                 widthFilled += 50;
                 x += 50;
@@ -197,15 +198,15 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         int y = 100;
         int width = 50;
         int height = 50;
-        Size platformSize = new Size(width, height);
+        Vector2 platformSize = new Vector2(width, height);
 
 
-        FixedObject platform1 = new FixedObject(new Transform(new Position(x, y), platformSize), platformTextureMid);
-        FixedObject platform2 = new FixedObject(new Transform(new Position(x+width, y), platformSize), platformTextureCen);
-        FixedObject platform3 = new FixedObject(new Transform(new Position(x+width*2, y), platformSize), platformTextureCen);
-        FixedObject platform4 = new FixedObject(new Transform(new Position(x+width, y+height), platformSize), platformTextureMid);
-        FixedObject platform5 = new FixedObject(new Transform(new Position(x+width*2, y+height), platformSize), platformTextureCen);
-        FixedObject platform6 = new FixedObject(new Transform(new Position(x+width*2, y+2*height), platformSize), platformTextureMid);
+        FixedObject platform1 = new FixedObject(new Transform(new Vector2(x, y), platformSize), platformTextureMid);
+        FixedObject platform2 = new FixedObject(new Transform(new Vector2(x+width, y), platformSize), platformTextureCen);
+        FixedObject platform3 = new FixedObject(new Transform(new Vector2(x+width*2, y), platformSize), platformTextureCen);
+        FixedObject platform4 = new FixedObject(new Transform(new Vector2(x+width, y+height), platformSize), platformTextureMid);
+        FixedObject platform5 = new FixedObject(new Transform(new Vector2(x+width*2, y+height), platformSize), platformTextureCen);
+        FixedObject platform6 = new FixedObject(new Transform(new Vector2(x+width*2, y+2*height), platformSize), platformTextureMid);
 
         objectList.add(platform1);
         objectList.add(platform2);
