@@ -118,6 +118,7 @@ public class WorldView implements Screen {
         // Text to be shown
         String totalScore = "Total score: "+ model.getTotalScore();
         String coinCount = "Coins: " + model.getCoinScore();
+        String health = "Health: " + model.getPlayerHealth();
         font.getData().setScale(2);
 
         // Drawing objects
@@ -126,6 +127,7 @@ public class WorldView implements Screen {
         //batch.draw(backgroundTexture, leftX, bottomY, viewport.getWorldWidth(), viewport.getWorldHeight());
         font.draw(batch, totalScore, leftX, worldHeight-10);
         font.draw(batch, coinCount, leftX + 300, worldHeight-10);
+        font.draw(batch, health, leftX + 500, worldHeight - 10);
         batch.draw(playerTexture, playerX, playerY, playerWidth, playerHeight);
         drawObjects();
         batch.end();

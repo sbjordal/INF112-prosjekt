@@ -43,7 +43,7 @@ abstract class Actor extends MobileObject {
      *
      * @return The current health as an integer.
      */
-    protected int getHealth() {
+    public int getHealth() {
         return health;
     }
 

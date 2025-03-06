@@ -256,11 +256,10 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         return Collections.unmodifiableList(this.objectList);
     }
 
-    //TODO- Lagt inn i Interface. Bakgrunn er avhengig av player sin movementspeed
     public int getMovementSpeed(){
         return player.getMovementSpeed();
     }
-    //TODO- Lagt inn i interface. Bakgrunn er avhengig av player sin movementspeed
+
     public void setMovementSpeed(int speed){
         player.setMovementSpeed(speed);
     }
@@ -286,6 +285,11 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     @Override
     public int getCoinScore() {
         return this.coinScore;
+    }
+
+    @Override
+    public int getPlayerHealth() {
+        return player.getHealth();
     }
 
 }

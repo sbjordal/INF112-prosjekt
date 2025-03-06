@@ -49,6 +49,11 @@ public interface ViewableWorldModel {
      */
     int getCoinScore();
 
-
+    /**
+     * Tells us the health of the player
+     *
+     * return an int representing the health
+     */
+    int getPlayerHealth();
 }
 
