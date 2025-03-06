@@ -50,6 +50,7 @@ public class WorldView implements Screen {
 
     @Override
     public void render(float v) {
+
         switch (model.getGameState()) {
             case GAME_MENU -> drawGameMenu();
             case GAME_ACTIVE -> drawGameActive();
@@ -76,6 +77,7 @@ public class WorldView implements Screen {
         batch.begin();
         font.draw(batch, "PAUSED", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2);
         batch.end();
+        System.out.println("Paused");
     }
 
     private void drawGameOver() {

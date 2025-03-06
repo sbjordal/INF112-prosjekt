@@ -229,12 +229,13 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
                 move(-1, 0);
             }
             //enemy.move(1,0); // TODO: testing av at enemy går mot høyre
-            worldView.render(Gdx.graphics.getDeltaTime());
+
             // TODO, implement me :)
         }
         if (!player.isAlive()){
             this.gameState = GameState.GAME_OVER;
         }
+        worldView.render(Gdx.graphics.getDeltaTime());
     }
 
     private boolean shouldUpdateScore() {
@@ -292,11 +293,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     @Override
     public GameState getGameState() {
         return this.gameState;
-    }
-
-    @Override
-    public void setGameState(GameState gameState) {
-        this.gameState = gameState;
     }
 
     @Override
