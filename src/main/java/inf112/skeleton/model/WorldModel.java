@@ -44,7 +44,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         this.worldView = new WorldView(this, new ExtendViewport(board.width(),board.height()));
         this.board = board;
         this.coinCounter = 0;
-        totalScore = 150; //
+        totalScore = 150;
         this.isMovingRight = false;
         this.isMovingLeft = false;
     }
@@ -67,15 +67,15 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     }
 
     private boolean isColliding(CollisionBox collisionBox) {
-        if (gameState!= GameState.GAME_ACTIVE) {
+        if (gameState != GameState.GAME_ACTIVE) {
             return false;
         }
+
         for (GameObject gameObject : objectList) {
             if (collisionBox.isCollidingWith(gameObject.getCollisionBox())) {
                 if (gameObject instanceof Coin) {
                     handleCoinCollision(gameObject);
-                }
-                else if (gameObject instanceof Enemy) { // TODO: legge til at dersom man hopper på en enemy får man poeng og fienden dør
+                } else if (gameObject instanceof Enemy) { // TODO: legge til at dersom man hopper på en enemy får man poeng og fienden dør
                     handleEnemyCollision(gameObject);
                 }
 
@@ -92,6 +92,14 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
         return isWithinWidthBound && isWithinHeightBound;
     }
+
+    private boolean positionIsOnBoard(Vector2 pos) {
+        boolean isWithinWidthBound = pos.x >= 0 && pos.x < board.width();
+        boolean isWithinHeightBound = pos.y >= 0  && pos.y < board.height();
+
+        return isWithinWidthBound && isWithinHeightBound;
+    }
+
     private void handleEnemyCollision(GameObject gameObject) {
         long currentTime = System.currentTimeMillis();
         if (currentTime - lastEnemyCollisionTime >= COLLISION_COOLDOWN) {
@@ -114,13 +122,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         this.objectList.remove(coin);
     }
 
-    private boolean positionIsOnBoard(Vector2 pos) {
-        boolean isWithinWidthBound = pos.x >= 0 && pos.x < board.width();
-        boolean isWithinHeightBound = pos.y >= 0  && pos.y < board.height();
-
-        return isWithinWidthBound && isWithinHeightBound;
-    }
-
     @Override
     public void move(int deltaX, int deltaY) {
         Vector2 playerPosition = player.getTransform().getPos();
@@ -141,7 +142,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
             if (isLegalMove(newPlayerCollisionBox)) {
                 player.move(newPosition);
-                System.out.println("i: " + i2);
+                // System.out.println("i: " + i2);
                 break;
             }
         }
@@ -158,8 +159,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         for (GameObject object : objectList) {
             CollisionBox objectCollisionBox = object.getCollisionBox();
             if (player.getCollisionBox().isCollidingFromBottom(objectCollisionBox)) {
-                // player.setVerticalVelocity(0); TODO: temporary
-
                 return true;
             }
         }
@@ -248,11 +247,17 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
     @Override
     public void render() {
+        final float deltaTime = Gdx.graphics.getDeltaTime();
+
         if (this.gameState.equals(GameState.GAME_ACTIVE)) {
+
+            // Update score
             if (shouldUpdateScore()) {
                 totalScore--;
                 lastScoreUpdate = System.currentTimeMillis();
             }
+
+            // Move player horizontally
             if (this.isMovingRight) {
                 move(1, 0);
             }
@@ -260,27 +265,23 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
                 move(-1, 0);
             }
 
-
-            if (isTouchingGround()) {
+            //
+            if (isTouchingGround() && player.getVerticalVelocity() <= 0 ) {
+                System.out.println("Touching ground");
                 player.setVerticalVelocity(0);
             } else {
                 player.addVerticalForce(GRAVITY);
             }
 
-            move(0, player.getVerticalVelocity());
+            move(0, (int) (player.getVerticalVelocity() * deltaTime));
             System.out.println("Velocity: " + player.getVerticalVelocity());
-
-
-            //enemy.move(1,0); // TODO: testing av at enemy går mot høyre
-
-            // TODO, implement me :)
         }
 
         if (!player.isAlive()){
             this.gameState = GameState.GAME_OVER;
         }
 
-        worldView.render(Gdx.graphics.getDeltaTime());
+        worldView.render(deltaTime);
     }
 
     private boolean shouldUpdateScore() {

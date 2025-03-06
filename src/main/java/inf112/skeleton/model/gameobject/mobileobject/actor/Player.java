@@ -28,7 +28,7 @@ final public class Player extends Actor {
     }
 
     public void jump(int jumpForce) {
-        addVerticalForce(jumpForce);
+        setVerticalVelocity(jumpForce);
     }
 
     @Override
