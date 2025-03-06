@@ -17,7 +17,7 @@ import inf112.skeleton.model.gameobject.ViewableObject;
 
 public class WorldView implements Screen {
 
-    private WorldModel model;
+    private ViewableWorldModel model;
     private SpriteBatch batch;
     private Viewport viewport;
     private Texture playerTexture;
@@ -28,7 +28,7 @@ public class WorldView implements Screen {
 
 
 
-    public WorldView(WorldModel model, Viewport viewport) {
+    public WorldView(ViewableWorldModel model, Viewport viewport) {
         this.viewport = viewport;
         this.model = model;
         this.parallaxBackground = new ParallaxBackground();
