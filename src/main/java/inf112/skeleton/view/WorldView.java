@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -23,6 +24,7 @@ public class WorldView implements Screen {
 //    private Texture backgroundTexture;
     private ParallaxBackground parallaxBackground;
     private BitmapFont font;
+    private GlyphLayout layout;
 
 
 
@@ -30,6 +32,7 @@ public class WorldView implements Screen {
         this.viewport = viewport;
         this.model = model;
         this.parallaxBackground = new ParallaxBackground();
+        this.layout = new GlyphLayout();
     }
 
     @Override
@@ -73,18 +76,24 @@ public class WorldView implements Screen {
         drawBasics();
 
         // Writes "PAUSED" on the screen when GameState is paused
-        font.getData().setScale(3);
-        batch.begin();
-        font.draw(batch, "PAUSED", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2);
-        batch.end();
-        System.out.println("Paused");
+        String pause = "PAUSED";
+        drawCenteredText(pause);
     }
 
     private void drawGameOver() {
         ScreenUtils.clear(Color.CLEAR);
-        batch.begin();
+        String gameOver = "GAME OVER";
+        drawCenteredText(gameOver);
+    }
+
+    private void drawCenteredText(String text) {
         font.getData().setScale(3);
-        font.draw(batch, "GAMEOVER", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2);
+        layout.setText(font, text);
+        float width = layout.width;
+        float height = layout.height;
+
+        batch.begin();
+        font.draw(batch, text, (viewport.getWorldWidth() - width )/ 2 , (viewport.getWorldHeight() - height)/ 2);
         batch.end();
     }
 
