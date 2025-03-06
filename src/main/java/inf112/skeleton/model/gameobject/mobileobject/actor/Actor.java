@@ -54,7 +54,7 @@ abstract class Actor extends MobileObject {
      * @param damage The amount of damage to inflict. Must be non-negative.
      * @throws IllegalArgumentException if {@code damage} is negative.
      */
-    protected void receiveDamage(int damage) {
+    public void receiveDamage(int damage) {
         if (damage < 0) {
             throw new IllegalArgumentException("Damage can not be negative.");
         }

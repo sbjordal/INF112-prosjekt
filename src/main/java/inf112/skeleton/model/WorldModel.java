@@ -72,6 +72,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
                     handleCoinCollision(gameObject);
                 }
                 else if (gameObject instanceof Enemy) { // TODO: legge til at dersom man hopper på en enemy får man poeng og fienden dør
+                    player.receiveDamage(1); // TODO: Hardkodet for å miste én healt, og ikke basert på enemien
                     handleEnemyCollision(gameObject);
                 }
 
