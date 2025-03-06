@@ -92,8 +92,8 @@ MVP:
 
 1.  **Vise et spillebrett på skjermen**
 * Brukerhistorie: Som spiller trenger jeg å kunne se brettet for å spille.
-* Akseptansekriterier: Programmet skal kunne kjøres samt at man skal kunne se et spillbrett.
-* Arbeidsoppgaver: Lag et vilkårlig spillbrett som vises på skjermen.
+* Akseptansekriterier: Programmet skal kunne kjøres samt at man skal kunne se spillbrett man skal spille på.
+* Arbeidsoppgaver:
 
 2.  **Vise en spiller på spillebrettet**
 * Brukerhistorie: Som spiller trenger jeg å kunne se spilleren for å spille.
@@ -102,45 +102,52 @@ MVP:
 
 3. **Spilleren kan bevege seg**
 * Brukerhistorie: Som spiller trenger jeg å kunne bevege spilleren for å utføre hensikten til spillet.
-* Akseptansekriterier: Når brukeren interagerer med (eks) piltastene vil spilleren på brettet flytte seg. Spilleren skal kunne hoppe opp, falle ned, samt gå både høyre og venstre.
-* Arbeidsoppgaver: I klassene det måtte gjelde skal det implementeres funksjonalitet slik at spillerens posisjon endrer seg iht. input fra brukeren eller spillets fysiske lover, endringene skal også fremstilles grafisk.
+* Akseptansekriterier: Når brukeren interagerer med (eks) piltastene vil spilleren på brettet flytte seg. Spilleren skal
+kunne hoppe opp, falle ned, samt gå både høyre og venstre.
+* Arbeidsoppgaver: I klassene det måtte gjelde skal det implementeres funksjonalitet slik at spillerens posisjon endrer
+seg iht. input fra brukeren eller spillets fysiske lover, endringene skal også fremstilles grafisk.
 
 4. **En bane har en start og en slutt**
-* Brukerhistorie: Som spiller trenger jeg et sted å starte et sted samt et sted å stoppe når målet er nådd.
-* Akseptansekriterier: Bane skal lages.
-* Arbeidsoppgaver: Designe bane(r) med start og slutt.
+ * Brukerhistorie: Som spiller trenger jeg et sted å starte et sted samt et sted å stoppe når målet er nådd.
+ * Akseptansekriterier: Bane skal lages.
+ * Arbeidsoppgaver: Designe bane(r) med start og slutt.
 
-5. **Viser fiender**
-* Brukerhistorie: Som spiller trenger jeg å se fiender for å kunne unngå evt. nedkjempe dem.
-* Akseptansekriterier: En grafisk fremstilling av en fiende på skjermen som er synlig for brukeren.
-* Arbeidsoppgaver:Lage fiender ved hjelp av en objektfabrikk. Fiendene skal ha en grafisk fremstilling.
+ 5. **Viser fiender**
+ * Brukerhistorie: Som spiller trenger jeg å se fiender for å kunne unngå evt. nedkjempe dem.
+ * Akseptansekriterier: En grafisk fremstilling av en fiende på skjermen som er synlig for brukeren.
+ * Arbeidsoppgaver:Lage fiender ved hjelp av en objektfabrikk. Fiendene skal ha en grafisk fremstilling.
 
-6. **Spilleren får verre fysisk tilstand ved kollisjon med fiender**
-* Brukerhistorie: Som spiller trenger jeg motstand for at spillet skal bli mer interessant.
-* Akseptansekriterier: Den fysiske tilstanden er representert på et vis, og den skal oppdateres/ svekkes når spilleren kolliderer med fiender.
-* Arbeidsoppgaver: Spillerens fysiske tilstand skal holdes styr på, samt at den skal endre seg når spilleren utfører handlinger som tilsier dette. Endringen skal fremstilles grafisk.
+ 6. **Spilleren får verre fysisk tilstand ved kollisjon med fiender**
+ * Brukerhistorie: Som spiller trenger jeg motstand for at spillet skal bli mer interessant.
+ * Akseptansekriterier: Den fysiske tilstanden er representert på et vis, og den skal oppdateres/ svekkes når spilleren
+   kolliderer med fiender.
+ * Arbeidsoppgaver: Spillerens fysiske tilstand skal holdes styr på, samt at den skal endre seg når spilleren utfører
+   handlinger som tilsier dette. Endringen skal fremstilles grafisk.
 
-7. **Spilleren kan dø**
-* Brukerhistorie: Som spiller trenger jeg at det å miste liv har konsekvenser.
-* Akseptansekriterier: Livene til spilleren representeres på et vis, samt at endringer i variablen skal oppdateres. Når spilleren dør, dvs. ikke har flere liv igjen, skal en form for spilltilstand endres til “gameover” eller lignende.
-* Arbeidsoppgaver: Implementere antall liv spilleren har. Når et liv mistes skal variablen endres, samt at det skal innføres funksjonalitet slik at når spilleren er tom for liv endres statusen til spillet til “gameover”.
+ 7. **Spilleren kan dø**
+ * Brukerhistorie: Som spiller trenger jeg at det å miste liv har konsekvenser.
+   * Akseptansekriterier: Livene til spilleren representeres på et vis, samt at endringer i variablen skal oppdateres. Når
+     spilleren dør, dvs. ikke har flere liv igjen, skal en form for spilltilstand endres til “gameover” eller lignende.
+   * Arbeidsoppgaver: Implementere antall liv spilleren har. Når et liv mistes skal variablen endres, samt at det skal
+     innføres funksjonalitet slik at når spilleren er tom for liv endres statusen til spillet til “gameover”.
 
-8. **Spilleren får poeng via et poengsystem**
-* Brukerhistorie: Som spiller trenger jeg å få poeng for å kunne sammenligne resultatet med tidligere resultater.
-* Akseptansekriterier: Når spilleren utfører en handling som å samle mynter eller drepe fiender, skal en poengsum oppdateres. Tidligere poengsummer skal lagres i en fil, og spilleren skal kunne sammenligne egen prestasjon mot tidligere prestasjoner.
-* Arbeidsoppgaver: I klassen det måtte gjelde skal spillerens totale antall poeng holdes styr på,
-  denne variablen skal oppdateres når spilleren utfører handlinger som m
-  dette. Poengsummen skal fremstilles grafisk til brukeren.
+ 8. **Spilleren får poeng via et poengsystem**
+ * Brukerhistorie: Som spiller trenger jeg å få poeng for å kunne sammenligne resultatet med tidligere resultater.
+ * Akseptansekriterier: Når spilleren utfører en handling som å samle mynter eller drepe fiender, skal en poengsum oppdateres.
+   Tidligere poengsummer skal lagres i en fil, og spilleren skal kunne sammenligne egen prestasjon mot tidligere prestasjoner.
+ * Arbeidsoppgaver: I klassen det måtte gjelde skal spillerens totale antall poeng holdes styr på,
+   denne variablen skal oppdateres når spilleren utfører handlinger som m
+   dette. Poengsummen skal fremstilles grafisk til brukeren.
 
-9. **Når spiller dør kommer en slutt-skjerm der spiller kan velge å starte banen på nytt**
-* Brukerhistorie: Som spiller trenger jeg å kunne prøve på nytt dersom jeg mislyktes.
-* Akseptansekriterier: Sluttskjerm vises med eventuell statistikk over poeng/cash(?)/hvor langt den kom(?). Det skal være instruksjon på skjermen om hvordan man starter et nytt spill. Dersom spiller følger instruksjonene skal et nytt spill starte, og alt av poeng/cash(?)/liv/ spiller status være resatt.
-* Arbeidsoppgaver: Lage en sluttskjerm som skal vises når spillet er over. Skjermen skal inneholde poengsummen spilleren oppnådde ved siste spill, sammenligning mot tidligere spill, samt instruksjoner om hvordan man kan starte spillet igjen og prøve på nytt.
+ 9. **Når spiller dør kommer en slutt-skjerm der spiller kan velge å starte banen på nytt**
+ * Brukerhistorie: Som spiller trenger jeg å kunne prøve på nytt dersom jeg mislyktes.
+ * Akseptansekriterier: Sluttskjerm vises med eventuell statistikk over poeng/cash(?)/hvor langt den kom(?). Det skal være instruksjon på skjermen om hvordan man starter et nytt spill. Dersom spiller følger instruksjonene skal et nytt spill starte, og alt av poeng/cash(?)/liv/ spiller status være resatt.
+ * Arbeidsoppgaver: Lage en sluttskjerm som skal vises når spillet er over. Skjermen skal inneholde poengsummen spilleren oppnådde ved siste spill, sammenligning mot tidligere spill, samt instruksjoner om hvordan man kan starte spillet igjen og prøve på nytt.
 
-10. **Når spillet åpnes møtes spiller med en start skjerm**
-* Brukerhistorie: Som spiller trenger jeg å vite hvordan man skal spille spillet.
-* Akseptansekriterier: En startskjerm vises når prosjektet kjøres. Den inneholder instruksjoner om hvordan spille spillet.
-* Arbeidsoppgaver: Lage startskjerm med instruksjoner/informasjon om hvordan spiller skal spille spillet. Av dette inngår målet med spiller, funksjonaliteten til karakteren, samt hvordan man starter spillet.
+ 10. **Når spillet åpnes møtes spiller med en start skjerm**
+ * Brukerhistorie: Som spiller trenger jeg å vite hvordan man skal spille spillet.
+ * Akseptansekriterier: En startskjerm vises når prosjektet kjøres. Den inneholder instruksjoner om hvordan spille spillet.
+ * Arbeidsoppgaver: Lage startskjerm med instruksjoner/informasjon om hvordan spiller skal spille spillet. Av dette inngår målet med spiller, funksjonaliteten til karakteren, samt hvordan man starter spillet.
 
 
 ### Team prosess
