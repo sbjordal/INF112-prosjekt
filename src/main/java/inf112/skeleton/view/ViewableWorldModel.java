@@ -15,7 +15,6 @@ public interface ViewableWorldModel {
 
 
     /**
-     * // TODO: revisjon - Vil vi ha det slik?
      * Returns all GameObjects except player as
      * ViewableObjects in a list
      *

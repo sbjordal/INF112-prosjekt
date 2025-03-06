@@ -66,26 +66,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         return true;
     }
 
-    private boolean isColliding(CollisionBox collisionBox) {
-        if (gameState != GameState.GAME_ACTIVE) {
-            return false;
-        }
-
-        for (GameObject gameObject : objectList) {
-            if (collisionBox.isCollidingWith(gameObject.getCollisionBox())) {
-                if (gameObject instanceof Coin) {
-                    handleCoinCollision(gameObject);
-                } else if (gameObject instanceof Enemy) { // TODO: legge til at dersom man hopper på en enemy får man poeng og fienden dør
-                    handleEnemyCollision(gameObject);
-                }
-
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     private boolean positionIsOnBoard(CollisionBox collisionBox) {
         boolean isWithinWidthBound = collisionBox.botLeft.x >= 0 && collisionBox.topRight.x < board.width();
         boolean isWithinHeightBound = collisionBox.botLeft.y >= 0  && collisionBox.topRight.y < board.height();
@@ -100,26 +80,47 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         return isWithinWidthBound && isWithinHeightBound;
     }
 
-    private void handleEnemyCollision(GameObject gameObject) {
+    private boolean isColliding(CollisionBox collisionBox) {
+        if (gameState != GameState.GAME_ACTIVE) {
+            return false;
+        }
+
+        for (GameObject gameObject : objectList) {
+            if (collisionBox.isCollidingWith(gameObject.getCollisionBox())) {
+                if (gameObject instanceof Coin coin) {
+                    handleCoinCollision(coin);
+                } else if (gameObject instanceof Enemy enemy) { // TODO: legge til at dersom man hopper på en enemy får man poeng og fienden dør
+                    handleEnemyCollision(enemy);
+                }
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private void handleEnemyCollision(Enemy enemy) {
         long currentTime = System.currentTimeMillis();
         if (currentTime - lastEnemyCollisionTime >= COLLISION_COOLDOWN) {
 
             // Enemy deals damage to the player
-            Enemy collidingEnemy = (Enemy) gameObject;
-            player.receiveDamage(collidingEnemy.getDamage());
+            player.receiveDamage(enemy.getDamage());
 
             // Reduce total score
-            if (totalScore > 0) {
-                totalScore -=4;
+            final int scorePenalty = 4;
+            if (totalScore >= scorePenalty) {
+                totalScore -= scorePenalty;
             }
             lastEnemyCollisionTime = currentTime;
         }
     }
 
-    private void handleCoinCollision(GameObject coin) {// TODO revisjon: i pickup metoden eller som privat hjelpemetode her
-        this.coinCounter++;
-        this.totalScore++;
-        this.objectList.remove(coin);
+    private void handleCoinCollision(Coin coin) {// TODO revisjon: i pickup metoden eller som privat hjelpemetode her
+        final int objectScore = coin.getObjectScore();
+        coinCounter++;
+        totalScore += objectScore;
+        objectList.remove(coin);
     }
 
     @Override
@@ -273,11 +274,13 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         final int movementSpeed = getMovementSpeed();
         final int distance = (int) (movementSpeed * deltaTime * 60); // TODO: magic number '60' is to increase the distance to a visually noticeable value. Note that 'deltaTime' is 0.0167 at 60fps.
 
+        // TODO: since movementSpeed can be negative (which should not be possible in the future),
+        //       then 'distance' should not be negated whenever 'isMovingLeft' = true.
         if (isMovingRight) {
             move(distance, 0);
         }
         if (isMovingLeft) {
-            move(-distance, 0);
+            move(distance, 0);
         }
     }
 

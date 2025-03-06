@@ -9,7 +9,6 @@ import inf112.skeleton.model.WorldBoard;
 import inf112.skeleton.model.WorldModel;
 import org.junit.jupiter.api.*;
 
-// TODO, revisjon, endret klassenavn fra PlayerControllerTest 04.03, tenker vi må dele opp i flere testklasser
 public class ControllerTest {
     private ControllableWorldModel controllableModel;
     private PlayerController playerController;
