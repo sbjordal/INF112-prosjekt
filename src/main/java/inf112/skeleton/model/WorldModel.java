@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import inf112.skeleton.controller.ControllableWorldModel;
+import inf112.skeleton.controller.Direction;
 import inf112.skeleton.controller.PlayerController;
 import inf112.skeleton.model.gameobject.*;
 import inf112.skeleton.model.gameobject.fixedobject.FixedObject;
@@ -20,6 +21,9 @@ import java.util.Collections;
 import java.util.List;
 
 public class WorldModel implements ViewableWorldModel, ControllableWorldModel, ApplicationListener {
+
+    private static final int GRAVITY = -45;
+    private static final int JUMP_FORCE = 950;
 
     private GameState gameState;
     private Player player;
@@ -52,7 +56,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
      */
     private boolean isLegalMove(CollisionBox collisionBox) {
         if(!positionIsOnBoard(collisionBox)) {
-
             return false;
         }
 
@@ -121,20 +124,46 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     @Override
     public void move(int deltaX, int deltaY) {
         Vector2 playerPosition = player.getTransform().getPos();
-        Vector2 newPosition = new Vector2(playerPosition.x + deltaX, playerPosition.y + deltaY);
-
         Vector2 playerSize = player.getTransform().getSize();
-        Transform newPlayerTransform = new Transform(newPosition, playerSize);
-        CollisionBox newPlayerCollisionBox = new CollisionBox(newPlayerTransform);
 
-        if (isLegalMove(newPlayerCollisionBox)) {
-            player.move(newPosition);
+        // TODO: finskriv
+        boolean isDeltaYNegative = (deltaY < 0);
+        for (int i = Math.abs(deltaY); i >= 0; i--) {
+            int i2 = i;
+            if (isDeltaYNegative) {
+                i2 = -i2;
+            }
+
+            Vector2 newPosition = new Vector2(playerPosition.x + deltaX, playerPosition.y + i2);
+            Transform newPlayerTransform = new Transform(newPosition, playerSize);
+            CollisionBox newPlayerCollisionBox = new CollisionBox(newPlayerTransform);
+
+            if (isLegalMove(newPlayerCollisionBox)) {
+                player.move(newPosition);
+                System.out.println("i: " + i2);
+                break;
+            }
         }
     }
 
     @Override
     public void jump() {
-        // TODO: implement this.
+        if (isTouchingGround()) {
+            player.jump(JUMP_FORCE);
+        }
+    }
+
+    private boolean isTouchingGround() {
+        for (GameObject object : objectList) {
+            CollisionBox objectCollisionBox = object.getCollisionBox();
+            if (player.getCollisionBox().isCollidingFromBottom(objectCollisionBox)) {
+                // player.setVerticalVelocity(0); TODO: temporary
+
+                return true;
+            }
+        }
+
+        return false;
     }
 
     @Override
@@ -229,13 +258,27 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
             if (this.isMovingLeft) {
                 move(-1, 0);
             }
+
+
+            if (isTouchingGround()) {
+                player.setVerticalVelocity(0);
+            } else {
+                player.addVerticalForce(GRAVITY);
+            }
+
+            move(0, player.getVerticalVelocity());
+            System.out.println("Velocity: " + player.getVerticalVelocity());
+
+
             //enemy.move(1,0); // TODO: testing av at enemy går mot høyre
 
             // TODO, implement me :)
         }
+
         if (!player.isAlive()){
             this.gameState = GameState.GAME_OVER;
         }
+
         worldView.render(Gdx.graphics.getDeltaTime());
     }
 
@@ -276,8 +319,8 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     }
 
     @Override
-    public void setMovement(String dir) {
-        if (dir.equals("right")){
+    public void setMovement(Direction direction) {
+        if (direction.equals(Direction.RIGHT)){
             this.isMovingRight = !this.isMovingRight;
         }
         else {

@@ -31,13 +31,15 @@ public class PlayerController implements InputProcessor {
         if (controllableModel.getGameState() == GameState.GAME_ACTIVE) { // TODO, denne linjen blir brukt mange ganger her, mulig å gjøre mer generisk?
             switch (keyCode) {
                 case Input.Keys.LEFT:
-                    this.controllableModel.setMovement("left");
+                    this.controllableModel.setMovement(Direction.LEFT);
                     this.controllableModel.setMovementSpeed(-1);
                     break;
                 case Input.Keys.RIGHT:
-                    this.controllableModel.setMovement("right");
+                    this.controllableModel.setMovement(Direction.RIGHT);
                     this.controllableModel.setMovementSpeed(1);
                     break;
+                case Input.Keys.UP:
+                    this.controllableModel.jump();
             }
             return true;
         }
@@ -56,11 +58,11 @@ public class PlayerController implements InputProcessor {
             switch (keyCode) {
                 case Input.Keys.LEFT:
                     this.controllableModel.setMovementSpeed(0);
-                    this.controllableModel.setMovement("left");
+                    this.controllableModel.setMovement(Direction.LEFT);
                     break;
                 case Input.Keys.RIGHT:
                     this.controllableModel.setMovementSpeed(0);
-                    this.controllableModel.setMovement("right");
+                    this.controllableModel.setMovement(Direction.RIGHT);
                     break;
             }
             return true;
