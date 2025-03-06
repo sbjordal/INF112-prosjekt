@@ -116,7 +116,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         }
     }
 
-    private void handleCoinCollision(Coin coin) {// TODO revisjon: i pickup metoden eller som privat hjelpemetode her
+    private void handleCoinCollision(Coin coin) {
         final int objectScore = coin.getObjectScore();
         coinCounter++;
         totalScore += objectScore;
@@ -128,7 +128,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         Vector2 playerPosition = player.getTransform().getPos();
         Vector2 playerSize = player.getTransform().getSize();
 
-        // TODO: finskriv
+        // TODO: finskriv denne!
         // TODO: inkluder deltaX i beregningen
         boolean isDeltaYNegative = (deltaY < 0);
         for (int i = Math.abs(deltaY); i >= 0; i--) {
