@@ -30,4 +30,14 @@ Hvordan spille:
 - Super Mario Bros (1984) for inspirasjon.
 
 ### Grafikk
-- 
+- Bakgrunn 
+  * [Jessie M.] (https://jesse-m.itch.io/jungle-pack)
+- Hindringer/bakke 
+  * [Kenney.nl] (https://opengameart.org/content/platformer-art-complete-pack-often-updated)
+- Spiller 
+  * [Jessie M.] (https://jesse-m.itch.io/jungle-pack)
+- Mynt 
+  * [Pritishor] (https://opengameart.org/content/simple-coin)
+- Snegle og sopp
+  * [Noto emoji by Google] (https://emoji.aranja.com/)
+  - Under Apache License 2.0
