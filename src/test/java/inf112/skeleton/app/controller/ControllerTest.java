@@ -18,7 +18,6 @@ public class ControllerTest {
     public void setUpBeforeEach() {
         this.controllableModel = new WorldModel(new WorldBoard(50,50)); // TODO, random argumenter for å initiere, må muligens endres senere
         this.playerController = new PlayerController(controllableModel);
-        //System.out.println("GAMESTATE:" + controllableModel.getGameState());
     }
 
     /**

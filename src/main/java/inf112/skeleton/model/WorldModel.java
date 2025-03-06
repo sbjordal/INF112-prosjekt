@@ -57,10 +57,8 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         }
 
         if (isColliding(collisionBox)) {
-            System.out.println("jeg skal ikke bevege meg");
             return false;
         }
-        System.out.println("jeg er her nå. det skal jeg ikke være");
 
         return true;
     }
@@ -72,7 +70,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         for (GameObject gameObject : objectList) {
             if (collisionBox.isCollidingWith(gameObject.getCollisionBox())) {
                 if (gameObject instanceof Coin) {
-                    System.out.println("jeg kommer hit");
                     System.out.println(gameObject.getCollisionBox().botLeft);
                     handleCoinCollision(gameObject);
                 }
@@ -132,7 +129,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         CollisionBox newPlayerCollisionBox = new CollisionBox(newPlayerTransform);
 
         if (isLegalMove(newPlayerCollisionBox)) {
-            System.out.println("jeg beveger meg?");
             player.move(newPosition);
         }
     }
