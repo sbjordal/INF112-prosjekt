@@ -31,6 +31,8 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     private long lastScoreUpdate = System.currentTimeMillis();
     private long lastEnemyCollisionTime = 0;
     private static final long COLLISION_COOLDOWN = 800;
+    public boolean isMovingRight; //TODO: vurdere private og heller getter og setter
+    public boolean isMovingLeft; //TODO: vurdere private og heller getter og setter
 
     public WorldModel(WorldBoard board) {
         this.gameState = GameState.GAME_ACTIVE; // TODO, må endres etter at game menu er laget.
@@ -38,6 +40,8 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         this.board = board;
         this.coinScore = 0;
         gameScore = 150; //
+        this.isMovingRight = false;
+        this.isMovingLeft = false;
     }
 
     /**
@@ -213,17 +217,21 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
     @Override
     public void render() {
-        if (shouldUpdateScore()) {
-            gameScore--;
-            lastScoreUpdate = System.currentTimeMillis();
+        if (this.gameState.equals(GameState.GAME_ACTIVE)) {
+            if (shouldUpdateScore()) {
+                gameScore--;
+                lastScoreUpdate = System.currentTimeMillis();
+            }
+            if (this.isMovingRight) {
+                move(1, 0);
+            }
+            if (this.isMovingLeft) {
+                move(-1, 0);
+            }
+            //enemy.move(1,0); // TODO: testing av at enemy går mot høyre
+            worldView.render(Gdx.graphics.getDeltaTime());
+            // TODO, implement me :)
         }
-        // TODO, her må controller oppdatere model, og ikke model oppdatere controller.
-        if (playerController != null) {
-            playerController.update();
-        }
-        //enemy.move(1,0); // TODO: testing av at enemy går mot høyre
-        worldView.render(Gdx.graphics.getDeltaTime());
-        // TODO, implement me :)
     }
 
     private boolean shouldUpdateScore() {
@@ -259,6 +267,17 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
     public int getMovementSpeed(){
         return player.getMovementSpeed();
+    }
+
+    @Override
+    public void setMovement(String dir) {
+        if (dir.equals("right")){
+            this.isMovingRight = !this.isMovingRight;
+        }
+        else {
+            this.isMovingLeft = !this.isMovingLeft;
+        }
+
     }
 
     public void setMovementSpeed(int speed){

@@ -14,14 +14,10 @@ import inf112.skeleton.view.WorldView;
 public class PlayerController implements InputProcessor {
 
     private ControllableWorldModel controllableModel;
-    private boolean isPressingRight;
-    private boolean isPressingLeft;
     //private Timer timer;
 
     public PlayerController(ControllableWorldModel controllableModel) {
         this.controllableModel = controllableModel;
-        this.isPressingRight = false;
-        this.isPressingLeft = false;
     }
 
     /**
@@ -35,10 +31,10 @@ public class PlayerController implements InputProcessor {
         if (controllableModel.getGameState() == GameState.GAME_ACTIVE) { // TODO, denne linjen blir brukt mange ganger her, mulig å gjøre mer generisk?
             switch (keyCode) {
                 case Input.Keys.LEFT:
-                    this.isPressingLeft = true;
+                    this.controllableModel.setMovement("left");
                     break;
                 case Input.Keys.RIGHT:
-                    this.isPressingRight = true;
+                    this.controllableModel.setMovement("right");
                     break;
             }
             return true;
@@ -58,28 +54,16 @@ public class PlayerController implements InputProcessor {
             switch (keyCode) {
                 case Input.Keys.LEFT:
                     this.controllableModel.setMovementSpeed(0);
-                    this.isPressingLeft = false;
+                    this.controllableModel.setMovement("left");
                     break;
                 case Input.Keys.RIGHT:
                     this.controllableModel.setMovementSpeed(0);
-                    this.isPressingRight = false;
+                    this.controllableModel.setMovement("right");
                     break;
             }
             return true;
         }
         return false;
-    }
-
-    //TODO, her må det endres slik at model ikke endrer direkte, men controller oppdaterer pos.
-    public void update(){
-        if (isPressingRight){
-            this.controllableModel.setMovementSpeed(1);
-            controllableModel.move(1,0);
-        }
-        if (isPressingLeft){
-            this.controllableModel.setMovementSpeed(-1);
-            controllableModel.move(-1,0);
-        }
     }
 
     @Override
