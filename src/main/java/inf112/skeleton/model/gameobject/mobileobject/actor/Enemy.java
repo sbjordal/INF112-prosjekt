@@ -37,7 +37,7 @@ public class Enemy extends Actor implements Scorable {
      *
      * @return The damage value as an integer.
      */
-    int getDamage() {
+    public int getDamage() {
         return damage;
     }
 

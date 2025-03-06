@@ -26,8 +26,8 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     private WorldView worldView;
     private PlayerController playerController;
     private ArrayList<GameObject> objectList;
-    private int gameScore;
-    private int coinScore;
+    private int totalScore;
+    private int coinCounter;
     private long lastScoreUpdate = System.currentTimeMillis();
     private long lastEnemyCollisionTime = 0;
     private static final long COLLISION_COOLDOWN = 800;
@@ -38,8 +38,8 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         this.gameState = GameState.GAME_ACTIVE; // TODO, må endres etter at game menu er laget.
         this.worldView = new WorldView(this, new ExtendViewport(board.width(),board.height()));
         this.board = board;
-        this.coinScore = 0;
-        gameScore = 150; //
+        this.coinCounter = 0;
+        totalScore = 150; //
         this.isMovingRight = false;
         this.isMovingLeft = false;
     }
@@ -76,7 +76,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
                     handleCoinCollision(gameObject);
                 }
                 else if (gameObject instanceof Enemy) { // TODO: legge til at dersom man hopper på en enemy får man poeng og fienden dør
-                    player.receiveDamage(1); // TODO: Hardkodet for å miste én healt, og ikke basert på enemien
                     handleEnemyCollision(gameObject);
                 }
 
@@ -93,19 +92,25 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
         return isWithinWidthBound && isWithinHeightBound;
     }
-    private void handleEnemyCollision(GameObject gameObject) { // TODO: legge til if health=0 die() elns
+    private void handleEnemyCollision(GameObject gameObject) {
         long currentTime = System.currentTimeMillis();
         if (currentTime - lastEnemyCollisionTime >= COLLISION_COOLDOWN) {
-            if (gameScore > 0) {
-                gameScore-=4;
+
+            // Enemy deals damage to the player.
+            Enemy collidingEnemy = (Enemy) gameObject;
+            player.receiveDamage(collidingEnemy.getDamage());
+
+            // Reduce
+            if (totalScore > 0) {
+                totalScore -=4;
             }
             lastEnemyCollisionTime = currentTime;
         }
     }
 
     private void handleCoinCollision(GameObject coin) {// TODO revisjon: i pickup metoden eller som privat hjelpemetode her
-        this.coinScore++;
-        this.gameScore++;
+        this.coinCounter++;
+        this.totalScore++;
         this.objectList.remove(coin);
     }
 
@@ -219,7 +224,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     public void render() {
         if (this.gameState.equals(GameState.GAME_ACTIVE)) {
             if (shouldUpdateScore()) {
-                gameScore--;
+                totalScore--;
                 lastScoreUpdate = System.currentTimeMillis();
             }
             if (this.isMovingRight) {
@@ -240,7 +245,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
     private boolean shouldUpdateScore() {
         long currentTime = System.currentTimeMillis();
-        return currentTime - lastScoreUpdate >= 1000 && gameScore>0 && gameState == GameState.GAME_ACTIVE;
+        return currentTime - lastScoreUpdate >= 1000 && totalScore >0 && gameState == GameState.GAME_ACTIVE;
     }
 
     @Override
@@ -297,12 +302,12 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
     @Override
     public int getTotalScore() {
-        return this.gameScore;
+        return this.totalScore;
     }
 
     @Override
-    public int getCoinScore() {
-        return this.coinScore;
+    public int getCoinCounter() {
+        return this.coinCounter;
     }
 
     @Override

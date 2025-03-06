@@ -1,7 +1,5 @@
 package inf112.skeleton.view;
 import inf112.skeleton.model.GameState;
-import com.badlogic.gdx.graphics.Texture;
-import inf112.skeleton.model.gameobject.Transform;
 import inf112.skeleton.model.gameobject.ViewableObject;
 
 import java.util.List;
@@ -47,7 +45,7 @@ public interface ViewableWorldModel {
      *
      * @return the coins scored
      */
-    int getCoinScore();
+    int getCoinCounter();
 
     /**
      * Tells us the health of the player

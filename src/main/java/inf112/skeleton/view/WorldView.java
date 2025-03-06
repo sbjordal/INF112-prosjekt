@@ -131,7 +131,7 @@ public class WorldView implements Screen {
 
         // Text to be shown
         String totalScore = "Total score: "+ model.getTotalScore();
-        String coinCount = "Coins: " + model.getCoinScore();
+        String coinCount = "Coins: " + model.getCoinCounter();
         String health = "Health: " + model.getPlayerHealth();
         font.getData().setScale(2);
 
