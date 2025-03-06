@@ -73,13 +73,11 @@ public class PlayerController implements InputProcessor {
         if (controllableModel.getGameState() == GameState.GAME_ACTIVE) {
             if (c == 'p') {
                 controllableModel.pause();
-                System.out.println(controllableModel.getGameState()); //TODO, temp debugging
             }
         }
         else if (controllableModel.getGameState() == GameState.GAME_PAUSED) {
             if (c == 'p')  {
                 controllableModel.resume();
-                System.out.println(controllableModel.getGameState()); //TODO, temp debugging
             }
         }
         return true;
