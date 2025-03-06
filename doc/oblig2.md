@@ -133,7 +133,68 @@ legges til skal følge kundens krav til produktet.
 
 2. For hvert krav dere jobber med, må dere lage 1) ordentlige brukerhistorier, 2) akseptansekriterier og 3) arbeidsoppgaver. 
 Husk at akseptansekriterier ofte skrives mer eller mindre som tester
-   ### MANGLER 
+   1.  **Vise et spillebrett på skjermen**
+   * Brukerhistorie: Som spiller trenger jeg å kunne se brettet for å spille.
+   * Akseptansekriterier: Et brett opprettes, endringer på brettet skjer i modellen. View tegner brettet.
+   * Arbeidsoppgaver: Opprette et brett med en bredde og en høyde. Dette brettet skal gis til modellen. View skal tegne
+     brettet basert på endringen modellen gjør der.
+
+   2.  **Vise en spiller på spillebrettet**
+   * Brukerhistorie: Som spiller trenger jeg å kunne se spilleren for å spille.
+   * Akseptansekriterier: En spiller opprettes. Spilleren representerer spilleren kunden skal styre. Attributter passende for
+     en spiller skal være tilgjengelig.
+   * Arbeidsoppgaver: Opprette en Player klasse med funksjonalitet passende for en spiller. En instans av spiller skal
+     finnes i modellen. View tegner spilleren gjennom informasjon fra modellen.
+
+   3. **Spilleren kan bevege seg**
+   * Brukerhistorie: Som spiller trenger jeg å kunne bevege spilleren for å utføre hensikten til spillet.
+   * Akseptansekriterier: Interaksjon med piltastene skal endre spillerens posisjon på skjermen i henhold til input fra brukeren.
+   * Arbeidsoppgaver: Gi spilleren metoder og variabler som tilrettelegger for bevegelse. Opprette en kontroller som tar inn
+     brukerinput. Kontrolleren kaller på modellen som videre kaller på player slik at endringene i posisjon utføres.
+
+   4. **En bane har en start og en slutt**
+   * Brukerhistorie: Som spiller trenger jeg et sted å starte et sted samt et sted å stoppe når målet er nådd.
+   * Akseptansekriterier: Modellen skal ikke la spilleren forlate banen. Per nå er start venstre side og stop høyre side.
+   * Arbeidsoppgaver: Sette grenser på banen som tegnes, slik at spilleren ikke kan bevege seg ut av brettet.
+
+   5. **Viser fiende**
+   * Brukerhistorie: Som spiller trenger jeg å se fiender for å kunne unngå evt. nedkjempe dem.
+   * Akseptansekriterier: Et fiendeobjekt kan opprettes, men funksjonalitet passende for en fiende. Denne fienden er
+     tilgjengelig i modellen, og skal tegnes i view.
+   * Arbeidsoppgaver: Opprette en fiendeklasse. Fienden skal tas inn i modellen, og view
+     skal tegne modellen (viewableWorldModel), derav tegne fienden.
+
+   6. **Spilleren får verre fysisk tilstand ved kollisjon med fiender**
+   * Brukerhistorie: Som spiller trenger jeg motstand for at spillet skal bli mer interessant.
+   * Akseptansekriterier: Kollisjon med en fiende skal endre spillerens fysiske tilstand.
+   * Arbeidsoppgaver: Spillerens health variable skal påvirkes av kollisjon med en fiende.
+
+   7. **Spilleren kan dø**
+   * Brukerhistorie: Som spiller trenger jeg at det å miste liv har konsekvenser.
+   * Akseptansekriterier: Når spilleren sin health er 0, skal spilleren "dø".
+   * Arbeidsoppgaver: Når spillerens health er 0, skal metoden som henter ut om spilleren er i live eller ei, returnere
+     at spilleren er død.
+
+   8. **Spilleren får poeng via et poengsystem**
+   * Brukerhistorie: Som spiller trenger jeg å få poeng for å kunne sammenligne resultatet med tidligere resultater.
+   * Akseptansekriterier: Når spilleren utfører en handling som å samle mynter eller drepe fiender, skal en poengsum oppdateres.
+   * Arbeidsoppgaver: I kollisjon med mynter skal spilleren sin score øke. Passende variabler og metoder må opprettes.
+
+   9. **Når spiller dør kommer en slutt-skjerm der spiller kan velge å starte banen på nytt**
+   * Brukerhistorie: Som spiller trenger jeg å kunne prøve på nytt dersom jeg mislyktes.
+   * Akseptansekriterier: Sluttskjerm vises med eventuell statistikk over poeng/cash(?)/hvor langt den kom(?). Det skal 
+   være instruksjon på skjermen om hvordan man starter et nytt spill. Dersom spiller følger instruksjonene skal et nytt spill 
+   starte, og alt av poeng/cash(?)/liv/ spiller status være resatt.
+   * Arbeidsoppgaver: Lage en sluttskjerm som skal vises når spillet er over. Skjermen skal inneholde poengsummen spilleren 
+   oppnådde ved siste spill, sammenligning mot tidligere spill, samt instruksjoner om hvordan man kan starte spillet igjen 
+   og prøve på nytt.
+
+   10. **Når spillet åpnes møtes spiller med en start skjerm**
+   * Brukerhistorie: Som spiller trenger jeg å vite hvordan man skal spille spillet.
+   * Akseptansekriterier: En startskjerm vises når prosjektet kjøres. Den inneholder instruksjoner om hvordan spille spillet.
+   * Arbeidsoppgaver: Lage startskjerm med instruksjoner/informasjon om hvordan spiller skal spille spillet. Av dette inngår 
+   målet med spiller, funksjonaliteten til karakteren, samt hvordan man starter spillet.
+
 
 3. Dersom dere har oppgaver som dere skal til å starte med, hvor dere har oversikt over både brukerhistorie, 
 akseptansekriterier og arbeidsoppgaver, kan dere ta med disse i innleveringen også.
