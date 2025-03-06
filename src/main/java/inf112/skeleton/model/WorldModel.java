@@ -31,8 +31,8 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     private long lastScoreUpdate = System.currentTimeMillis();
     private long lastEnemyCollisionTime = 0;
     private static final long COLLISION_COOLDOWN = 800;
-    public boolean isMovingRight; //TODO: vurdere private og heller getter og setter
-    public boolean isMovingLeft; //TODO: vurdere private og heller getter og setter
+    private boolean isMovingRight;
+    private boolean isMovingLeft;
 
     public WorldModel(WorldBoard board) {
         this.gameState = GameState.GAME_ACTIVE; // TODO, må endres etter at game menu er laget.
