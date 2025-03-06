@@ -67,6 +67,7 @@ public abstract class MobileObject extends GameObject {
     public int getMovementSpeed() {
         return movementSpeed;
     }
+
     public void setMovementSpeed(int speed){
         this.movementSpeed = speed;
     }

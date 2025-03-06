@@ -22,7 +22,7 @@ import java.util.List;
 
 public class WorldModel implements ViewableWorldModel, ControllableWorldModel, ApplicationListener {
 
-    private static final int GRAVITY = -45;
+    private static final int GRAVITY_FORCE = -45;
     private static final int JUMP_FORCE = 950;
 
     private GameState gameState;
@@ -44,7 +44,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         this.worldView = new WorldView(this, new ExtendViewport(board.width(),board.height()));
         this.board = board;
         this.coinCounter = 0;
-        totalScore = 150;
+        this.totalScore = 150;
         this.isMovingRight = false;
         this.isMovingLeft = false;
     }
@@ -270,7 +270,8 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     }
 
     private void moveHorizontally(float deltaTime) {
-        final int distance = (int) (60 * deltaTime); // TODO: magic number '60' should be player's movementSpeed
+        final int movementSpeed = getMovementSpeed();
+        final int distance = (int) (movementSpeed * deltaTime * 60); // TODO: magic number '60' is to increase the distance to a visually noticeable value. Note that 'deltaTime' is 0.0167 at 60fps.
 
         if (isMovingRight) {
             move(distance, 0);
@@ -291,7 +292,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         if (isTouchingGround() && player.getVerticalVelocity() <= 0 ) {
             player.setVerticalVelocity(0);
         } else {
-            player.addVerticalForce(GRAVITY);
+            player.addVerticalForce(GRAVITY_FORCE);
         }
     }
 
