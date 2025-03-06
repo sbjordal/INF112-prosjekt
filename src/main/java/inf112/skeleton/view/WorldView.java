@@ -79,8 +79,11 @@ public class WorldView implements Screen {
     }
 
     private void drawGameOver() {
-        //loadBackground("backgroundTest.jpg");
-        drawBasics();
+        ScreenUtils.clear(Color.CLEAR);
+        batch.begin();
+        font.getData().setScale(3);
+        font.draw(batch, "GAMEOVER", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2);
+        batch.end();
     }
 
     private void drawBasics() {

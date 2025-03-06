@@ -34,7 +34,7 @@ abstract class Actor extends MobileObject {
     /**
      * Checks if the Actor is currently alive.
      */
-    protected boolean isAlive() {
+    public boolean isAlive() {
         return isAlive;
     }
 

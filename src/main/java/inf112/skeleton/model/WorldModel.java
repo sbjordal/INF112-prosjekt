@@ -65,7 +65,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     }
 
     private boolean isColliding(CollisionBox collisionBox) {
-        if (gameState!=GameState.GAME_ACTIVE) {
+        if (gameState!= GameState.GAME_ACTIVE) {
             return false;
         }
         for (GameObject gameObject : objectList) {
@@ -232,6 +232,9 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
             worldView.render(Gdx.graphics.getDeltaTime());
             // TODO, implement me :)
         }
+        if (!player.isAlive()){
+            this.gameState = GameState.GAME_OVER;
+        }
     }
 
     private boolean shouldUpdateScore() {
@@ -277,7 +280,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         else {
             this.isMovingLeft = !this.isMovingLeft;
         }
-
     }
 
     public void setMovementSpeed(int speed){
