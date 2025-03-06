@@ -269,6 +269,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         return Collections.unmodifiableList(this.objectList);
     }
 
+    @Override
     public int getMovementSpeed(){
         return player.getMovementSpeed();
     }
