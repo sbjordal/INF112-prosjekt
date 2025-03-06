@@ -11,4 +11,4 @@ Files
 
 
 Known problems
-- Both dependency labels and arrows overlap each other. Makes relations look cluttered.
+- The resolution of "uml_img.png" is not optimal.
