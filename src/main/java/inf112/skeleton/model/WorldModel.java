@@ -96,11 +96,11 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         long currentTime = System.currentTimeMillis();
         if (currentTime - lastEnemyCollisionTime >= COLLISION_COOLDOWN) {
 
-            // Enemy deals damage to the player.
+            // Enemy deals damage to the player
             Enemy collidingEnemy = (Enemy) gameObject;
             player.receiveDamage(collidingEnemy.getDamage());
 
-            // Reduce
+            // Reduce total score
             if (totalScore > 0) {
                 totalScore -=4;
             }
@@ -127,6 +127,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         Vector2 playerSize = player.getTransform().getSize();
 
         // TODO: finskriv
+        // TODO: inkluder deltaX i beregningen
         boolean isDeltaYNegative = (deltaY < 0);
         for (int i = Math.abs(deltaY); i >= 0; i--) {
             int i2 = i;
