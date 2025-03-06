@@ -249,39 +249,50 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     public void render() {
         final float deltaTime = Gdx.graphics.getDeltaTime();
 
-        if (this.gameState.equals(GameState.GAME_ACTIVE)) {
-
-            // Update score
-            if (shouldUpdateScore()) {
-                totalScore--;
-                lastScoreUpdate = System.currentTimeMillis();
-            }
-
-            // Move player horizontally
-            if (this.isMovingRight) {
-                move(1, 0);
-            }
-            if (this.isMovingLeft) {
-                move(-1, 0);
-            }
-
-            //
-            if (isTouchingGround() && player.getVerticalVelocity() <= 0 ) {
-                System.out.println("Touching ground");
-                player.setVerticalVelocity(0);
-            } else {
-                player.addVerticalForce(GRAVITY);
-            }
-
-            move(0, (int) (player.getVerticalVelocity() * deltaTime));
-            System.out.println("Velocity: " + player.getVerticalVelocity());
+        if (gameState.equals(GameState.GAME_ACTIVE)) {
+            updateScore();
+            moveHorizontally(deltaTime);
+            moveVertically(deltaTime);
         }
 
         if (!player.isAlive()){
-            this.gameState = GameState.GAME_OVER;
+            gameState = GameState.GAME_OVER;
         }
 
         worldView.render(deltaTime);
+    }
+
+    private void updateScore() {
+        if (shouldUpdateScore()) {
+            totalScore--;
+            lastScoreUpdate = System.currentTimeMillis();
+        }
+    }
+
+    private void moveHorizontally(float deltaTime) {
+        final int distance = (int) (60 * deltaTime); // TODO: magic number '60' should be player's movementSpeed
+
+        if (isMovingRight) {
+            move(distance, 0);
+        }
+        if (isMovingLeft) {
+            move(-distance, 0);
+        }
+    }
+
+    private void moveVertically(float deltaTime) {
+        updateVerticalVelocity();
+        final int playerVelocity = player.getVerticalVelocity();
+        final int distance = (int) (playerVelocity * deltaTime);
+        move(0, distance);
+    }
+
+    private void updateVerticalVelocity() {
+        if (isTouchingGround() && player.getVerticalVelocity() <= 0 ) {
+            player.setVerticalVelocity(0);
+        } else {
+            player.addVerticalForce(GRAVITY);
+        }
     }
 
     private boolean shouldUpdateScore() {
