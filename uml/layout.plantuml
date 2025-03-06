@@ -31,6 +31,7 @@ remove PositionTest
 remove WorldBoardTest
 remove FixedObjectTest
 remove ControllerTest
+remove ModelTest
 
 'Remove package-info files
 remove node21
