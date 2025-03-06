@@ -22,7 +22,9 @@ Hvordan spille:
 * Krever Java 17.0.14 eller senere.
 
 ## Kjente feil (TODO)
-- 
+- Dersom man pauser under bevegelse vil spilleren fortsette å bevege når man returnerer til et aktivt spill, selv om
+piltasten ikke holdes inne.
+- Dersom man trykker begge piltaster samtidig vil bakgrunnen bevege seg, selv om spilleren ikke beveger seg.
 
 ## Credits (TODO)
 
