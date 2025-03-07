@@ -2,8 +2,8 @@
 
 class Actor {
   # Actor(int, int, Transform, Texture): 
-  - health: int
   - isAlive: boolean
+  - health: int
    isAlive: boolean
    health: int
 }
@@ -25,17 +25,20 @@ class CollisionBoxTest {
 interface ControllableWorldModel << interface >> {
    gameState: GameState
    movementSpeed: int
-   movement: String
+   movement: Direction
 }
 class ControllerTest {
   + ControllerTest(): 
 }
+enum Direction << enumeration >> {
+  - Direction(): 
+}
 class Enemy {
   + Enemy(int, int, int, int, Transform): 
-  - objectScore: int
   - damage: int
-   objectScore: int
+  - objectScore: int
    damage: int
+   objectScore: int
 }
 class EnemyFactory {
   + EnemyFactory(): 
@@ -60,9 +63,9 @@ class FixedObjectTest {
 }
 class GameObject {
   + GameObject(Transform, Texture): 
-  - texture: Texture
-  - collisionBox: CollisionBox
   - transform: Transform
+  - collisionBox: CollisionBox
+  - texture: Texture
    collisionBox: CollisionBox
    transform: Transform
    texture: Texture
@@ -82,7 +85,9 @@ class Main {
 class MobileObject {
   # MobileObject(int, Transform, Texture): 
   - movementSpeed: int
+  - verticalVelocity: int
    movementSpeed: int
+   verticalVelocity: int
 }
 class MobileObjectTest {
   + MobileObjectTest(): 
@@ -123,9 +128,9 @@ interface ViewableObject << interface >> {
 interface ViewableWorldModel << interface >> {
    viewablePlayer: ViewableObject
    objectList: List<ViewableObject>
-   coinCounter: int
-   totalScore: int
    movementSpeed: int
+   totalScore: int
+   coinCounter: int
    gameState: GameState
    playerHealth: int
 }
@@ -137,25 +142,26 @@ class WorldBoardTest {
 }
 class WorldModel {
   + WorldModel(WorldBoard): 
-  - gameState: GameState
   - objectList: ArrayList<GameObject>
   - totalScore: int
   - coinCounter: int
+  - gameState: GameState
+   movement: Direction
    viewablePlayer: ViewableObject
    objectList: List<ViewableObject>
-   coinCounter: int
-   totalScore: int
    movementSpeed: int
+   touchingGround: boolean
+   totalScore: int
+   coinCounter: int
    gameState: GameState
-   movement: String
    playerHealth: int
 }
 class WorldView {
   + WorldView(ViewableWorldModel, Viewport): 
 }
-interface node21 as "package-info" << interface >>
-interface node22 as "package-info" << interface >>
-interface node31 as "package-info" << interface >>
+interface node3 as "package-info" << interface >>
+interface node11 as "package-info" << interface >>
+interface node24 as "package-info" << interface >>
 
 Actor                   -[#000082,plain]-^  MobileObject           
 Coin                    -[#000082,plain]-^  Item                   

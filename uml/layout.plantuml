@@ -12,7 +12,7 @@ skinparam linetype ortho
 'Hides the "separator" lines when it's empty
 hide empty members
 
-'Remove unnecessary objects
+'Remove guaranteed unnecessary objects
 remove HelloWorld
 remove PlayerControllerTest
 remove ExampleIT
@@ -33,10 +33,13 @@ remove FixedObjectTest
 remove ControllerTest
 remove ModelTest
 
+'Remove potentially unnecessary objects
+remove Direction
+
 'Remove package-info files
-remove node21
-remove node22
-remove node31
+remove node3
+remove node11
+remove node24
 
 'Force rearrange objects
 'WorldModel -[hidden]-- WorldView
