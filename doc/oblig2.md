@@ -3,12 +3,13 @@
 * Gruppe 6 - *"Sjette_Etasje"*
 - Medlemmer og roller: 
   - Endre H. Aspøy: Teamleder, utvikler
-  - Eivind H. Naasen: Arkitekt, utvikler
-  - Julie Sandanger: Designansvarlig, utvikler
-  - Aurora Bjørnerud: Kundekontakt, ansvar for user Interface, utvikler
   - Thale Marie Bjerkreim: Dokumentasjonsansvarlig, utvikler
+  - Aurora Bjørnerud: Kundekontakt, ansvar for user Interface, utvikler
   - Stine Bjordal: Testansvarlig, utvikler
+  - Julie Sandanger: Designansvarlig, utvikler
+  - Eivind H. Naasen: Arkitekt, utvikler
 
+  
 ## Prosjektrapport
 
 1. Hvordan fungerer rollene i teamet? Trenger dere å oppdatere hvem som er teamlead eller kundekontakt?
@@ -32,7 +33,7 @@ hatt like mye å gjøre, ser vi for oss at dette kommer til å endre seg utover 
   - Kundekontakt (Aurora)
     - Kundekontakten skal være ansvarlig for at spillet vårt er brukervennlig. Av dette inngår det blant annet å sørge 
     for at brukeren forstår hensikten med spillet, spillets regler, samt hvordan det spilles. Ting som valg av farger 
-    for å tilrettelegge for også fargeblinde vil falle innunder denne kategorien.
+    for å tilrettelegge for også fargesvake vil falle innunder denne kategorien.
   - Testansvarlig (Stine)
     - Testansvarlig sin jobb er å sørge for at koden vår har nok tester, og at testene er tilstrekkelig, dette innebærer 
     blant annet at prosjektet har 75% coverage. Det faller ikke innunder rollen at personen skal skrive samtlige tester, 
