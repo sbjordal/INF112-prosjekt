@@ -1,7 +1,7 @@
 Metadata
 - PlantUML is used for creating the diagram.
 - See syntax: https://plantuml.com/class-diagram.
-- Only Constructors and Fields are included in the UML-diagram.
+- Only Constructors, Fields and Properties are included in the UML-diagram.
 
 
 Files
