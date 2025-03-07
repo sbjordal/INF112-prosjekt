@@ -110,12 +110,7 @@ child, slik at alt fremkommer i Jira.
 kommet forbi MVP? Forklar hvordan dere prioriterer ny funksjonalitet.
 - Vi har prioritert kravene våre i stigende rekkefølge hvor vi etter beste evne begynte med MVP krav 1 og jobbet oss 
 oppover. Mot tidsfristen så vi at vi begynte å gå tom for tid, og har derfor valgt å vente med MVP krav 9 og 10, som var 
-henholdsvis sluttskjerm når spiller dør, og velkomstskjerm når spillet starter. På MVP krav 3 som omhandler spillerens 
-bevegelse har vi implementert bevegelse i det horisontale planet, men ikke vertikalt enda. Dette fordi vi må implementere 
-spillets fysikk. Da vi begynte å implementere gav vi våre Actors en Transform, denne inneholder igjen en posisjon og en 
-størrelse. Vi registrerte etterhvert at dette gjorde ting tungvindt og byttet det derfor ut med Vector2 objekter, slik 
-at en Transform inneholder to vektorer heller. Ettersom vi hadde planer om å endre på dette, avventet vi å implementere 
-fysikk, og måtte dermed vente med å implementere hopp for spilleren. Vi har altså ikke kommet forbi MVP kravene enda. 
+henholdsvis sluttskjerm når spiller dør, og velkomstskjerm når spillet starter. Vi har altså ikke kommet forbi MVP kravene enda. 
 Måten vi vil prioritere fremover er å først og fremst fullføre de MVP kravene vi har satt. Deretter kommer vi til å først 
 tilrettelegge for ny funksjonalitet, og til slutt implementere ny funksjonalitet. Denne nye funksjonaliteten som skal 
 legges til skal følge kundens krav til produktet.
@@ -124,7 +119,7 @@ legges til skal følge kundens krav til produktet.
   - Siden forrige gang har vi implementert MVP krav:
   1. Vise et spillbrett på skjermen
   2. Vise en spiller på brettet
-  3. Spilleren kan bevege seg (horisontalt)
+  3. Spilleren kan bevege seg 
   4. Spilleren får poeng via et poengsystem
   5. En bane har en start og en slutt
   6. Vise fiende
@@ -149,12 +144,13 @@ Husk at akseptansekriterier ofte skrives mer eller mindre som tester
    3. **Spilleren kan bevege seg**
    * Brukerhistorie: Som spiller trenger jeg å kunne bevege spilleren for å utføre hensikten til spillet.
    * Akseptansekriterier: Interaksjon med piltastene skal endre spillerens posisjon på skjermen i henhold til input fra brukeren.
+   Dette inkluderer at spilleren kan bevege seg både horisontalt og vertikalt.
    * Arbeidsoppgaver: Gi spilleren metoder og variabler som tilrettelegger for bevegelse. Opprette en kontroller som tar inn
      brukerinput. Kontrolleren kaller på modellen som videre kaller på player slik at endringene i posisjon utføres.
 
    4. **En bane har en start og en slutt**
    * Brukerhistorie: Som spiller trenger jeg et sted å starte et sted samt et sted å stoppe når målet er nådd.
-   * Akseptansekriterier: Modellen skal ikke la spilleren forlate banen. Per nå er start venstre side og stop høyre side.
+   * Akseptansekriterier: Modellen skal ikke la spilleren forlate banen. Per nå er start venstre side og stopp høyre side.
    * Arbeidsoppgaver: Sette grenser på banen som tegnes, slik at spilleren ikke kan bevege seg ut av brettet.
 
    5. **Viser fiende**
@@ -182,9 +178,9 @@ Husk at akseptansekriterier ofte skrives mer eller mindre som tester
 
    9. **Når spiller dør kommer en slutt-skjerm der spiller kan velge å starte banen på nytt**
    * Brukerhistorie: Som spiller trenger jeg å kunne prøve på nytt dersom jeg mislyktes.
-   * Akseptansekriterier: Sluttskjerm vises med eventuell statistikk over poeng/cash(?)/hvor langt den kom(?). Det skal 
+   * Akseptansekriterier: Sluttskjerm vises med eventuell statistikk over poeng og cash. Det skal 
    være instruksjon på skjermen om hvordan man starter et nytt spill. Dersom spiller følger instruksjonene skal et nytt spill 
-   starte, og alt av poeng/cash(?)/liv/ spiller status være resatt.
+   starte, og alt av poeng, cash og liv som tilhører spiller status skal bli resatt.
    * Arbeidsoppgaver: Lage en sluttskjerm som skal vises når spillet er over. Skjermen skal inneholde poengsummen spilleren 
    oppnådde ved siste spill, sammenligning mot tidligere spill, samt instruksjoner om hvordan man kan starte spillet igjen 
    og prøve på nytt.
@@ -199,24 +195,16 @@ Husk at akseptansekriterier ofte skrives mer eller mindre som tester
 3. Dersom dere har oppgaver som dere skal til å starte med, hvor dere har oversikt over både brukerhistorie, 
 akseptansekriterier og arbeidsoppgaver, kan dere ta med disse i innleveringen også.
 - Oppgaver vi skal til å starte med er:
-    - Implementere fysikk (slik at vi kan fullføre MVP krav 3)
-      - Bruker historie:
-      Som utvikler trenger jeg et fysikksystem som håndterer bevegelse, kollisjoner og krefter slik at objekter i spillet 
-      oppfører seg realistisk.
-      - Akseptanse kriterie:
-      Objekter i spillet beveger seg i henhold til fysikkens lover. Spilleren kan hoppe. Spilleren kan falle ned.
-      - Arbeidsoppgaver:
-      Implementere fysikk. Objekter som beveger seg skal påvirkes av attributter som er gitt.
     - Lage en velkomstskjerm (MVP krav 9)
       - Gammelt MVP krav, se tidligere innlevering for brukerhistorie, akseptansekriterier og arbeidsoppgaver.
     - Lage en sluttskjerm (MVP krav 10)
       - Gammelt MVP krav, se tidligere innlevering for brukerhistorie, akseptansekriterier og arbeidsoppgaver.
 - Foreløpige krav til neste innlevering
   - Brukerhistorie, akseptansekriterier og arbeidsoppgaver vil bli skrevet når vi kommer til disse kravene.
-    - Lage og hente ut av en enemy-fabrikk (OPPGAVE KRAV)
-    - Legge til funksjonalitet for power-up  (OPPGAVE KRAV)
-    - Legge på lyd (OPPGAVE KRAV)
-    - TESTING, 75% coverage (OPPGAVE KRAV)
+    - Lage og hente ut av en enemy-fabrikk (Krav fra kunde)
+    - Legge til funksjonalitet for power-up  (Krav fra kunde)
+    - Legge på lyd (Krav fra kunde)
+    - TESTING, 75% coverage (Krav fra kunde)
   
 8. Forklar kort hvordan dere har prioritert oppgavene fremover
 - Vi har prioritert oppgavene fremover, slik at vi skal fullføre MVP kravet med høyest prioritet først, samt fullføre 
@@ -224,10 +212,9 @@ alle MVP krav før vi begynner på nye krav.
 
 9. Har dere gjort justeringer på kravene som er med i MVP? Forklar i så fall hvorfor. Hvis det er gjort endringer i 
 rekkefølge utfra hva som er gitt fra kunde, hvorfor er dette gjort?
-- Vi har gjort justeringer i MVP kravene. Disse endringene har ikke påvirket kravene fra kunde. Endringene vi har gjort 
+- Vi har gjort justeringer i ett av MVP kravene. Denne endringen har ikke påvirket kravene fra kunde. Endringen vi har gjort 
 er:
   - MVP krav 7: Vi viser 1 fiende, fremfor fiender i flertall.
-  - MVP krav 3: Spilleren kan ikke hoppe enda, kun bevege seg horisontalt.
 
 10. Oppdater hvilke krav dere har prioritert, hvor langt dere har kommet og hva dere har gjort siden forrige gang.
 - Se punkt 1
@@ -261,9 +248,11 @@ at stiene til grafikk og lyd og slikt matcher eksakt. Det samme vil antakelig og
 
 6. Kodekvalitet og testdekning vektlegges. Dersom dere ikke har automatiske tester for GUI-et, lager dere manuelle tester 
 som gruppelederne kan kjøre basert på akseptansekriteriene.
-- Test-hierarki er klart, starter på dette. Vi har bortimot 0% coverage per nå. Dette skyldes at endringene vi planla å 
-gjøre ville gjøre at vi måtte skrive om store deler av koden vår, og derfor hadde vi måttet skrive om alle testene også.
-Vi er klar over dette, og testing vil bli prioritert fremover. 
+- Test-hierarki er klart, og vi skal starte på dette. Vi har bortimot 0% coverage per nå. Opp til relativt nylig var ikke koden vår
+basert på vektorer for posisjon og størrelse. Vi innså at måten vi hadde implementert på gjorde ting tungvindt, derfor 
+hadde vi en plan om å endre det. Denne endringen var stor og påvirket mye funksjonalitet. Ettersom vi var klar over 
+dette valgte vi å vente med å skrive tester inntil dette var gjort, slik at vi unngikk ekstra arbeid med å skrive om testene 
+også. Vi er klar over at dette ikke er ideelt, og testing vil bli prioritert fremover. 
 
 7. Statiske analyseverktøy som SpotBugs eller SonarQube kan hjelpe med å finne feil dere ikke tenker på. Hvis dere prøver 
 det, skriv en kort oppsummering av hva dere fant / om det var nyttig.
@@ -275,6 +264,6 @@ koden som dekkes av testene – i Eclipse kan dette gjøres ved å installere Ec
 9. Utførte oppgaver skal være ferdige. Slett filer/kode som ikke virker eller ikke er relevant (ennå) for prosjektet. 
 (Så lenge dere har en egen git branch for innlevering, så er det ikke noe stress å fjerne ting fra / rydde den, selv om 
 dere fortsetter utviklingen på en annen gren.
-- Vi har fortsatt utviklingen vår på main branchen, og koden for innleveringen kan ses på branchen som heter "oblig2". 
+
 
 
