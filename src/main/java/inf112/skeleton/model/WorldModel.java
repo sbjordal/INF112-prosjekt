@@ -169,8 +169,8 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
     @Override
     public void create() {
-        this.player = new Player(1, 0); // TODO, legg til argument (foreløpig argumenter for å kunne kompilere prosjektet)
-
+        this.player = new Player(1, 5); // TODO, legg til argument (foreløpig argumenter for å kunne kompilere prosjektet)
+        player.setMovementSpeed(0);
         Vector2 enemyPos = new Vector2(40, 100);
         Vector2 enemySize = new Vector2(50, 50);
         Enemy enemy = new Enemy(1,1,10,1, new Transform(enemyPos, enemySize));
@@ -271,7 +271,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     }
 
     private void moveHorizontally(float deltaTime) {
-        final int movementSpeed = getMovementSpeed();
+        final int movementSpeed = getCurrentMovementSpeed();
         final int distance = (int) (movementSpeed * deltaTime * 60); // TODO: magic number '60' is to increase the distance to a visually noticeable value. Note that 'deltaTime' is 0.0167 at 60fps.
 
         // TODO: since movementSpeed can be negative (which should not be possible in the future),
@@ -331,8 +331,8 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     }
 
     @Override
-    public int getMovementSpeed(){
-        return player.getMovementSpeed();
+    public int getCurrentMovementSpeed(){
+        return player.getCurrentMovementSpeed();
     }
 
     @Override
@@ -343,6 +343,11 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         else {
             this.isMovingLeft = !this.isMovingLeft;
         }
+    }
+
+    @Override
+    public int getOriginalMovementSpeed() {
+        return player.getOriginalMovementSpeed();
     }
 
     public void setMovementSpeed(int speed){

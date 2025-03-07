@@ -42,12 +42,19 @@ public interface ControllableWorldModel {
      * Gets the movement speed of the object.
      * @return an int, the speed the object is moving in
      */
-    public int getMovementSpeed();
+    public int getCurrentMovementSpeed();
 
     /**
      * Set the direction the player is moving in
      * @param direction the direction the player moves in
      */ //TODO : Skrive dette mer forklarende/endre navn og skrive bedre dokumentasjon
     public void setMovement(Direction direction);
+
+    /**
+     * Gets the original speed of the object that was set when the object was initialized
+     * // TODO : ?
+     * @return the original speed of the object
+     */
+    int getOriginalMovementSpeed();
 }
 

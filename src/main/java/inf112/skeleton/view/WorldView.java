@@ -10,7 +10,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import inf112.skeleton.model.WorldModel;
 import inf112.skeleton.model.gameobject.Transform;
 import inf112.skeleton.model.gameobject.ViewableObject;
 
@@ -108,7 +107,7 @@ public class WorldView implements Screen {
         float playerWidth = playerTransform.getSize().x;//model.getPlayerTransform().getSize().width();
         float playerHeight = playerTransform.getSize().y;//model.getPlayerTransform().getSize().height();
 
-        float playerSpeed = model.getMovementSpeed();
+        float playerSpeed = model.getCurrentMovementSpeed();
 
         parallaxBackground.update(playerSpeed, deltaTime);
 

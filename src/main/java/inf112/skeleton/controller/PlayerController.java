@@ -32,11 +32,11 @@ public class PlayerController implements InputProcessor {
             switch (keyCode) {
                 case Input.Keys.LEFT:
                     this.controllableModel.setMovement(Direction.LEFT);
-                    this.controllableModel.setMovementSpeed(-1);
+                    this.controllableModel.setMovementSpeed(-controllableModel.getOriginalMovementSpeed());
                     break;
                 case Input.Keys.RIGHT:
                     this.controllableModel.setMovement(Direction.RIGHT);
-                    this.controllableModel.setMovementSpeed(1);
+                    this.controllableModel.setMovementSpeed(controllableModel.getOriginalMovementSpeed());
                     break;
                 case Input.Keys.UP:
                     this.controllableModel.jump();
