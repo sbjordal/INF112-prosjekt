@@ -21,7 +21,7 @@ public class Coin extends Item implements Scorable {
      */
     public Coin(Transform transform) {
         super(transform, COIN_TEXTURE);
-        this.objectScore = COIN_VALUE;
+        objectScore = COIN_VALUE;
     }
 
     @Override
