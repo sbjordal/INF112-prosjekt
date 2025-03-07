@@ -46,8 +46,8 @@ public interface ControllableWorldModel {
 
     /**
      * Set the direction the player is moving in
-     * @param dir the direction the player moves in
+     * @param direction the direction the player moves in
      */ //TODO : Skrive dette mer forklarende/endre navn og skrive bedre dokumentasjon
-    public void setMovement(String dir);
+    public void setMovement(Direction direction);
 }
 

@@ -13,7 +13,7 @@ import inf112.skeleton.model.gameobject.Transform;
  */
 final public class Player extends Actor {
     private final static Texture PLAYER_TEXTURE = new Texture(Gdx.files.internal("player/idle/i1.png"));
-    private final static Vector2 START_POSITION = new Vector2(380, 102);
+    private final static Vector2 START_POSITION = new Vector2(380, 500); // 102 = old value
     private final static Vector2 SIZE = new Vector2(40, 80);
     private final static Transform PLAYER_TRANSFORM = new Transform(START_POSITION, SIZE);
 
@@ -27,8 +27,8 @@ final public class Player extends Actor {
         super(health, movementSpeed, PLAYER_TRANSFORM, PLAYER_TEXTURE);
     }
 
-    public void jump() {
-        // TODO: implement me :)
+    public void jump(int jumpForce) {
+        setVerticalVelocity(jumpForce);
     }
 
     @Override

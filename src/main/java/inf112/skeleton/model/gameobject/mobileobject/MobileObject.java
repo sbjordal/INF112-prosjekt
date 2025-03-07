@@ -12,6 +12,7 @@ import inf112.skeleton.model.gameobject.Transform;
  */
 public abstract class MobileObject extends GameObject {
     private int movementSpeed;
+    private int verticalVelocity;
 
     /**
      * Creates a new MobileObject with the specified movement speed.
@@ -25,6 +26,7 @@ public abstract class MobileObject extends GameObject {
         super(transform, texture);
 
         this.movementSpeed = movementSpeed;
+        this.verticalVelocity = 0;
     }
 
     /**
@@ -65,7 +67,20 @@ public abstract class MobileObject extends GameObject {
     public int getMovementSpeed() {
         return movementSpeed;
     }
+
     public void setMovementSpeed(int speed){
         this.movementSpeed = speed;
+    }
+
+    public int getVerticalVelocity() {
+        return verticalVelocity;
+    }
+
+    public void addVerticalForce(int force) {
+        verticalVelocity += force;
+    }
+
+    public void setVerticalVelocity(int verticalVelocity) {
+        this.verticalVelocity = verticalVelocity;
     }
 }
