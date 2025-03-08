@@ -54,7 +54,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
      *
      * @return True if the position is legal, false otherwise
      */
-    private boolean isLegalMove(CollisionBox collisionBox) {
+    public boolean isLegalMove(CollisionBox collisionBox) {
         if(!positionIsOnBoard(collisionBox)) {
             return false;
         }
@@ -370,6 +370,16 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     @Override
     public int getPlayerHealth() {
         return player.getHealth();
+    }
+
+
+    // TODO: Revisjon, opprettet gettere av testskrivingshensyn
+    public boolean isMovingRight() {
+        return isMovingRight;
+    }
+
+    public boolean isMovingLeft() {
+        return isMovingLeft;
     }
 
 }
