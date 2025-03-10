@@ -3,7 +3,6 @@ package inf112.skeleton.controller;
 import com.badlogic.gdx.Input;
 import inf112.skeleton.model.GameState;
 import com.badlogic.gdx.InputProcessor;
-import inf112.skeleton.view.WorldView;
 
 /**
  * A class that handles key input and manipulates the model accordingly.
@@ -31,27 +30,26 @@ public class PlayerController implements InputProcessor {
         if (controllableModel.getGameState() == GameState.GAME_ACTIVE) { // TODO, denne linjen blir brukt mange ganger her, mulig å gjøre mer generisk?
             switch (keyCode) {
                 case Input.Keys.LEFT:
-                    this.controllableModel.setMovement(Direction.LEFT);
-                    this.controllableModel.setMovementSpeed(-controllableModel.getOriginalMovementSpeed());
+                    this.controllableModel.setMovingLeft(true);
                     break;
                 case Input.Keys.A:
-                    this.controllableModel.setMovement(Direction.LEFT);
-                    this.controllableModel.setMovementSpeed(-1);
+                    this.controllableModel.setMovingLeft(true);
                     break;
                 case Input.Keys.RIGHT:
-                    this.controllableModel.setMovement(Direction.RIGHT);
-                    this.controllableModel.setMovementSpeed(controllableModel.getOriginalMovementSpeed());
+                    this.controllableModel.setMovingRight(true);
                     break;
                 case Input.Keys.D:
-                    this.controllableModel.setMovement(Direction.RIGHT);
-                    this.controllableModel.setMovementSpeed(1);
+                    this.controllableModel.setMovingRight(true);
                     break;
                 case Input.Keys.UP:
                     this.controllableModel.jump();
+                    break;
                 case Input.Keys.W:
                     this.controllableModel.jump();
+                    break;
                 case Input.Keys.SPACE:
                     this.controllableModel.jump();
+                    break;
             }
             return true;
         }
@@ -70,20 +68,16 @@ public class PlayerController implements InputProcessor {
         if (controllableModel.getGameState() == GameState.GAME_ACTIVE) {
             switch (keyCode) {
                 case Input.Keys.LEFT:
-                    this.controllableModel.setMovement(Direction.LEFT);
-                    this.controllableModel.setMovementSpeed(-1);
+                    this.controllableModel.setMovingLeft(false);
                     break;
                 case Input.Keys.A:
-                    this.controllableModel.setMovement(Direction.LEFT);
-                    this.controllableModel.setMovementSpeed(-1);
+                    this.controllableModel.setMovingLeft(false);
                     break;
                 case Input.Keys.RIGHT:
-                    this.controllableModel.setMovement(Direction.RIGHT);
-                    this.controllableModel.setMovementSpeed(1);
+                    this.controllableModel.setMovingRight(false);
                     break;
                 case Input.Keys.D:
-                    this.controllableModel.setMovement(Direction.RIGHT);
-                    this.controllableModel.setMovementSpeed(1);
+                    this.controllableModel.setMovingRight(false);
                     break;
             }
             return true;

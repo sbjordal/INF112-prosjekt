@@ -28,7 +28,7 @@ public interface ViewableWorldModel {
      *
      * @return speed of player as int
      */
-    public int getCurrentMovementSpeed();
+    public int getMovementSpeed();
 
     /**
      * Tells us the state of the game

@@ -31,30 +31,23 @@ public interface ControllableWorldModel {
      */
     public void resume();
 
-    /**
-     * Set the movement speed for when the objet is moving
-     *
-     * @param speed the speed of the object
+    /***
+     * //TODO
+     * @param movingRight
      */
-    public void setMovementSpeed(int speed);
+    public void setMovingRight(boolean movingRight);
 
     /**
-     * Gets the movement speed of the object.
-     * @return an int, the speed the object is moving in
+     * // TODO
+     * @param movingLeft
      */
-    public int getCurrentMovementSpeed();
-
-    /**
-     * Set the direction the player is moving in
-     * @param direction the direction the player moves in
-     */ //TODO : Skrive dette mer forklarende/endre navn og skrive bedre dokumentasjon
-    public void setMovement(Direction direction);
+    public void setMovingLeft(boolean movingLeft);
 
     /**
      * Gets the original speed of the object that was set when the object was initialized
      * // TODO : ?
      * @return the original speed of the object
      */
-    int getOriginalMovementSpeed();
+    public int getMovementSpeed();
 }
 
