@@ -14,17 +14,17 @@ import inf112.skeleton.view.WorldView;
 public class PlayerController implements InputProcessor {
 
     private ControllableWorldModel controllableModel;
-    //private Timer timer;
 
     public PlayerController(ControllableWorldModel controllableModel) {
         this.controllableModel = controllableModel;
     }
 
     /**
-     * When keyboard key is pressed down once.
+     * When keyboard key is pressed down once. Used for player movement.
+     * Only works for player movement if Gamestate is Active.
      *
      * @param keyCode
-     * @return True if successful
+     * @return true if successful, false otherwise
      */
     @Override
     public boolean keyDown(int keyCode) {
@@ -34,11 +34,23 @@ public class PlayerController implements InputProcessor {
                     this.controllableModel.setMovement(Direction.LEFT);
                     this.controllableModel.setMovementSpeed(-controllableModel.getOriginalMovementSpeed());
                     break;
+                case Input.Keys.A:
+                    this.controllableModel.setMovement(Direction.LEFT);
+                    this.controllableModel.setMovementSpeed(-1);
+                    break;
                 case Input.Keys.RIGHT:
                     this.controllableModel.setMovement(Direction.RIGHT);
                     this.controllableModel.setMovementSpeed(controllableModel.getOriginalMovementSpeed());
                     break;
+                case Input.Keys.D:
+                    this.controllableModel.setMovement(Direction.RIGHT);
+                    this.controllableModel.setMovementSpeed(1);
+                    break;
                 case Input.Keys.UP:
+                    this.controllableModel.jump();
+                case Input.Keys.W:
+                    this.controllableModel.jump();
+                case Input.Keys.SPACE:
                     this.controllableModel.jump();
             }
             return true;
@@ -47,22 +59,31 @@ public class PlayerController implements InputProcessor {
     }
 
     /**
-     * When finger is lifted from key.
+     * When finger is lifted from key. Used for player movement.
+     * Only works for player movement if Gamestate is Active.
      *
      * @param keyCode
-     * @return
+     * @return true if successful, false otherwise
      */
     @Override
     public boolean keyUp(int keyCode) {
         if (controllableModel.getGameState() == GameState.GAME_ACTIVE) {
             switch (keyCode) {
                 case Input.Keys.LEFT:
-                    this.controllableModel.setMovementSpeed(0);
                     this.controllableModel.setMovement(Direction.LEFT);
+                    this.controllableModel.setMovementSpeed(-1);
+                    break;
+                case Input.Keys.A:
+                    this.controllableModel.setMovement(Direction.LEFT);
+                    this.controllableModel.setMovementSpeed(-1);
                     break;
                 case Input.Keys.RIGHT:
-                    this.controllableModel.setMovementSpeed(0);
                     this.controllableModel.setMovement(Direction.RIGHT);
+                    this.controllableModel.setMovementSpeed(1);
+                    break;
+                case Input.Keys.D:
+                    this.controllableModel.setMovement(Direction.RIGHT);
+                    this.controllableModel.setMovementSpeed(1);
                     break;
             }
             return true;
@@ -70,6 +91,12 @@ public class PlayerController implements InputProcessor {
         return false;
     }
 
+    /**
+     * When a keyboard key is pressed, and not held down.
+     * Mainly used for changing game state, like start, pause, unpause.
+     * @param c, spesific keyboard key
+     * @return true if sucessfull, false if not
+     */
     @Override
     public boolean keyTyped(char c) {
         if (controllableModel.getGameState() == GameState.GAME_ACTIVE) {

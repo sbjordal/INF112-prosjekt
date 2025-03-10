@@ -2,6 +2,7 @@ package inf112.skeleton.model;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
@@ -13,6 +14,7 @@ import inf112.skeleton.model.gameobject.fixedobject.FixedObject;
 import inf112.skeleton.model.gameobject.fixedobject.item.Coin;
 import inf112.skeleton.model.gameobject.mobileobject.actor.Enemy;
 import inf112.skeleton.model.gameobject.mobileobject.actor.Player;
+import inf112.skeleton.model.SoundHandler;
 import inf112.skeleton.view.ViewableWorldModel;
 import inf112.skeleton.view.WorldView;
 
@@ -31,6 +33,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     private WorldView worldView;
     private PlayerController playerController;
     private ArrayList<GameObject> objectList;
+    private SoundHandler soundHandler;
     private int totalScore;
     private int coinCounter;
     private long lastScoreUpdate = System.currentTimeMillis();
@@ -118,6 +121,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
     private void handleCoinCollision(Coin coin) {
         final int objectScore = coin.getObjectScore();
+        soundHandler.playCoinSound();
         coinCounter++;
         totalScore += objectScore;
         objectList.remove(coin);
@@ -194,6 +198,9 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
         this.playerController = new PlayerController(this);
         Gdx.input.setInputProcessor(this.playerController);
+
+        this.soundHandler = new SoundHandler();
+
     }
 
     private void createGround() {
