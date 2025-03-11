@@ -10,11 +10,11 @@ import com.badlogic.gdx.InputProcessor;
  * Reading material on event handling for use of LigGDX:
  * https://libgdx.com/wiki/input/event-handling
  */
-public class PlayerController implements InputProcessor {
+public class Controller implements InputProcessor {
 
     private ControllableWorldModel controllableModel;
 
-    public PlayerController(ControllableWorldModel controllableModel) {
+    public Controller(ControllableWorldModel controllableModel) {
         this.controllableModel = controllableModel;
     }
 

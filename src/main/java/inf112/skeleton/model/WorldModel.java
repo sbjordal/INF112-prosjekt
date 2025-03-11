@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import inf112.skeleton.controller.ControllableWorldModel;
-import inf112.skeleton.controller.PlayerController;
+import inf112.skeleton.controller.Controller;
 import inf112.skeleton.model.gameobject.*;
 import inf112.skeleton.model.gameobject.fixedobject.FixedObject;
 import inf112.skeleton.model.gameobject.fixedobject.item.Coin;
@@ -28,7 +28,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     private Player player;
     private WorldBoard board;
     private WorldView worldView;
-    private PlayerController playerController;
+    private Controller controller;
     private ArrayList<GameObject> objectList;
     private SoundHandler soundHandler;
     private int totalScore;
@@ -193,8 +193,8 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         this.objectList.add(enemy); // TODO: må endres når vi har flere enemies.
         this.objectList.add(coin); // TODO: test coin for å teste collision.
 
-        this.playerController = new PlayerController(this);
-        Gdx.input.setInputProcessor(this.playerController);
+        this.controller = new Controller(this);
+        Gdx.input.setInputProcessor(this.controller);
 
         this.soundHandler = new SoundHandler();
 
