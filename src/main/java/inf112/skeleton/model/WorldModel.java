@@ -49,6 +49,107 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         this.isMovingLeft = false;
     }
 
+    @Override
+    public void create() {
+        this.player = new Player(1, 300); // TODO, legg til argument (foreløpig argumenter for å kunne kompilere prosjektet)
+        Vector2 enemyPos = new Vector2(40, 100);
+        Vector2 enemySize = new Vector2(50, 50);
+        Enemy enemy = new Enemy(1,1,10,1, new Transform(enemyPos, enemySize));
+
+        Vector2 coinPos = new Vector2(600, 105);
+        Vector2 coinSize = new Vector2(30, 30);
+        Coin coin = new Coin(new Transform(coinPos, coinSize));
+
+        // TODO: en stygg måte å lage hindring på for nå
+        this.objectList = new ArrayList<>();
+        createGround();
+        createObstacles();
+
+        Gdx.graphics.setForegroundFPS(60);
+        worldView.show();
+        worldView.resize(board.width(), board.height());
+
+        // Fill up the object list
+        this.objectList.add(enemy); // TODO: må endres når vi har flere enemies.
+        this.objectList.add(coin); // TODO: test coin for å teste collision.
+
+        this.controller = new Controller(this);
+        Gdx.input.setInputProcessor(this.controller);
+
+        this.soundHandler = new SoundHandler();
+    }
+
+    private void createGround() {
+        Texture groundTexture = new Texture("obstacles/castleCenter.png");
+        Texture otherTexture = new Texture("obstacles/castleMid.png");
+        Vector2 size = new Vector2(50, 50);
+        int y = 0;
+
+        for (int i = 0; i < 2; i++) {
+            int widthFilled = 0;
+            int x = 0;
+            while (widthFilled < board.width()) {
+                FixedObject groundObject = new FixedObject(new Transform(new Vector2(x, y), size), groundTexture);
+                objectList.add(groundObject);
+                widthFilled += 50;
+                x += 50;
+            }
+            y += 50;
+            groundTexture = otherTexture;
+        }
+    }
+
+    private void createObstacles() {
+        Texture platformTextureMid = new Texture("obstacles/castleMid.png");
+        Texture platformTextureCen = new Texture("obstacles/castleCenter.png");
+        int x = 1130;
+        int y = 100;
+        int width = 50;
+        int height = 50;
+        Vector2 platformSize = new Vector2(width, height);
+
+
+        FixedObject platform1 = new FixedObject(new Transform(new Vector2(x, y), platformSize), platformTextureMid);
+        FixedObject platform2 = new FixedObject(new Transform(new Vector2(x+width, y), platformSize), platformTextureCen);
+        FixedObject platform3 = new FixedObject(new Transform(new Vector2(x+width*2, y), platformSize), platformTextureCen);
+        FixedObject platform4 = new FixedObject(new Transform(new Vector2(x+width, y+height), platformSize), platformTextureMid);
+        FixedObject platform5 = new FixedObject(new Transform(new Vector2(x+width*2, y+height), platformSize), platformTextureCen);
+        FixedObject platform6 = new FixedObject(new Transform(new Vector2(x+width*2, y+2*height), platformSize), platformTextureMid);
+
+        objectList.add(platform1);
+        objectList.add(platform2);
+        objectList.add(platform3);
+        objectList.add(platform4);
+        objectList.add(platform5);
+        objectList.add(platform6);
+    }
+
+    @Override
+    public void move(int deltaX, int deltaY) {
+        Vector2 playerPosition = player.getTransform().getPos();
+        Vector2 playerSize = player.getTransform().getSize();
+
+        // TODO: finskriv denne!
+        // TODO: inkluder deltaX i beregningen
+        boolean isDeltaYNegative = (deltaY < 0);
+        for (int i = Math.abs(deltaY); i >= 0; i--) {
+            int i2 = i;
+            if (isDeltaYNegative) {
+                i2 = -i2;
+            }
+
+            Vector2 newPosition = new Vector2(playerPosition.x + deltaX, playerPosition.y + i2);
+            Transform newPlayerTransform = new Transform(newPosition, playerSize);
+            CollisionBox newPlayerCollisionBox = new CollisionBox(newPlayerTransform);
+
+            if (isLegalMove(newPlayerCollisionBox)) {
+                player.move(newPosition);
+                // System.out.println("i: " + i2);
+                break;
+            }
+        }
+    }
+
     /**
      * Checks if MobileObject can be moved where it wants to move or not.
      *
@@ -125,32 +226,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     }
 
     @Override
-    public void move(int deltaX, int deltaY) {
-        Vector2 playerPosition = player.getTransform().getPos();
-        Vector2 playerSize = player.getTransform().getSize();
-
-        // TODO: finskriv denne!
-        // TODO: inkluder deltaX i beregningen
-        boolean isDeltaYNegative = (deltaY < 0);
-        for (int i = Math.abs(deltaY); i >= 0; i--) {
-            int i2 = i;
-            if (isDeltaYNegative) {
-                i2 = -i2;
-            }
-
-            Vector2 newPosition = new Vector2(playerPosition.x + deltaX, playerPosition.y + i2);
-            Transform newPlayerTransform = new Transform(newPosition, playerSize);
-            CollisionBox newPlayerCollisionBox = new CollisionBox(newPlayerTransform);
-
-            if (isLegalMove(newPlayerCollisionBox)) {
-                player.move(newPosition);
-                // System.out.println("i: " + i2);
-                break;
-            }
-        }
-    }
-
-    @Override
     public void jump() {
         if (isTouchingGround()) {
             final int distance = (int) (JUMP_FORCE * Gdx.graphics.getDeltaTime());
@@ -170,95 +245,14 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     }
 
     @Override
-    public void create() {
-        this.player = new Player(1, 300); // TODO, legg til argument (foreløpig argumenter for å kunne kompilere prosjektet)
-        Vector2 enemyPos = new Vector2(40, 100);
-        Vector2 enemySize = new Vector2(50, 50);
-        Enemy enemy = new Enemy(1,1,10,1, new Transform(enemyPos, enemySize));
-
-        Vector2 coinPos = new Vector2(600, 105);
-        Vector2 coinSize = new Vector2(30, 30);
-        Coin coin = new Coin(new Transform(coinPos, coinSize));
-
-        // TODO: en stygg måte å lage hindring på for nå
-        this.objectList = new ArrayList<>();
-        createGround();
-        createObstacles();
-
-        Gdx.graphics.setForegroundFPS(60);
-        worldView.show();
-        worldView.resize(board.width(), board.height());
-
-        // Fill up the object list
-        this.objectList.add(enemy); // TODO: må endres når vi har flere enemies.
-        this.objectList.add(coin); // TODO: test coin for å teste collision.
-
-        this.controller = new Controller(this);
-        Gdx.input.setInputProcessor(this.controller);
-
-        this.soundHandler = new SoundHandler();
-
-    }
-
-    private void createGround() {
-        Texture groundTexture = new Texture("obstacles/castleCenter.png");
-        Texture otherTexture = new Texture("obstacles/castleMid.png");
-        Vector2 size = new Vector2(50, 50);
-        int y = 0;
-
-        for (int i = 0; i < 2; i++) {
-            int widthFilled = 0;
-            int x = 0;
-            while (widthFilled < board.width()) {
-                FixedObject groundObject = new FixedObject(new Transform(new Vector2(x, y), size), groundTexture);
-                objectList.add(groundObject);
-                widthFilled += 50;
-                x += 50;
-            }
-            y += 50;
-            groundTexture = otherTexture;
-        }
-    }
-
-    private void createObstacles() {
-        Texture platformTextureMid = new Texture("obstacles/castleMid.png");
-        Texture platformTextureCen = new Texture("obstacles/castleCenter.png");
-        int x = 1130;
-        int y = 100;
-        int width = 50;
-        int height = 50;
-        Vector2 platformSize = new Vector2(width, height);
-
-
-        FixedObject platform1 = new FixedObject(new Transform(new Vector2(x, y), platformSize), platformTextureMid);
-        FixedObject platform2 = new FixedObject(new Transform(new Vector2(x+width, y), platformSize), platformTextureCen);
-        FixedObject platform3 = new FixedObject(new Transform(new Vector2(x+width*2, y), platformSize), platformTextureCen);
-        FixedObject platform4 = new FixedObject(new Transform(new Vector2(x+width, y+height), platformSize), platformTextureMid);
-        FixedObject platform5 = new FixedObject(new Transform(new Vector2(x+width*2, y+height), platformSize), platformTextureCen);
-        FixedObject platform6 = new FixedObject(new Transform(new Vector2(x+width*2, y+2*height), platformSize), platformTextureMid);
-
-        objectList.add(platform1);
-        objectList.add(platform2);
-        objectList.add(platform3);
-        objectList.add(platform4);
-        objectList.add(platform5);
-        objectList.add(platform6);
-    }
-
-    @Override
-    public void resize( int i, int i1){
-        // TODO, implement me :)
-    }
-
-    @Override
     public void render() {
         final float deltaTime = Gdx.graphics.getDeltaTime();
-
         if (gameState.equals(GameState.GAME_ACTIVE)) {
             updateScore();
             moveVertically(deltaTime);
 
-            if ((isMovingLeft && !isMovingRight) || (!isMovingLeft && isMovingRight)) {
+            final boolean isMoving = (isMovingLeft && !isMovingRight) || (!isMovingLeft && isMovingRight);
+            if (isMoving) {
                 moveHorizontally(deltaTime);
             }
         }
@@ -278,13 +272,9 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     }
 
     private void moveHorizontally(float deltaTime) {
-
-
         final int movementSpeed = getMovementSpeed();
         final int distance = (int) (movementSpeed * deltaTime);
 
-        // TODO: since movementSpeed can be negative (which should not be possible in the future),
-        //       then 'distance' should not be negated whenever 'isMovingLeft' = true.
         if (isMovingRight) {
             move(distance, 0);
         }
@@ -323,11 +313,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     @Override
     public void resume() {
         this.gameState = GameState.GAME_ACTIVE;
-    }
-
-    @Override
-    public void dispose() {
-        // TODO, implement me :)
     }
 
     @Override
@@ -378,4 +363,13 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         return player.getHealth();
     }
 
+    @Override
+    public void dispose() {
+        // TODO, implement me :)
+    }
+
+    @Override
+    public void resize( int i, int i1){
+        // TODO, implement me :)
+    }
 }
