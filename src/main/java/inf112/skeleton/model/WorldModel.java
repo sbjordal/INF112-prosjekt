@@ -2,19 +2,16 @@ package inf112.skeleton.model;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import inf112.skeleton.controller.ControllableWorldModel;
-import inf112.skeleton.controller.Direction;
 import inf112.skeleton.controller.PlayerController;
 import inf112.skeleton.model.gameobject.*;
 import inf112.skeleton.model.gameobject.fixedobject.FixedObject;
 import inf112.skeleton.model.gameobject.fixedobject.item.Coin;
 import inf112.skeleton.model.gameobject.mobileobject.actor.Enemy;
 import inf112.skeleton.model.gameobject.mobileobject.actor.Player;
-import inf112.skeleton.model.SoundHandler;
 import inf112.skeleton.view.ViewableWorldModel;
 import inf112.skeleton.view.WorldView;
 
@@ -24,8 +21,8 @@ import java.util.List;
 
 public class WorldModel implements ViewableWorldModel, ControllableWorldModel, ApplicationListener {
 
-    private static final int GRAVITY_FORCE = -45;
-    private static final int JUMP_FORCE = 950;
+    private static final int GRAVITY_FORCE = -1600;
+    private static final int JUMP_FORCE = 30000; // Må være høy
 
     private GameState gameState;
     private Player player;
@@ -156,7 +153,8 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     @Override
     public void jump() {
         if (isTouchingGround()) {
-            player.jump(JUMP_FORCE);
+            final int distance = (int) (JUMP_FORCE * Gdx.graphics.getDeltaTime());
+            player.jump(distance);
         }
     }
 
@@ -173,8 +171,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
     @Override
     public void create() {
-        this.player = new Player(1, 0); // TODO, legg til argument (foreløpig argumenter for å kunne kompilere prosjektet)
-
+        this.player = new Player(1, 300); // TODO, legg til argument (foreløpig argumenter for å kunne kompilere prosjektet)
         Vector2 enemyPos = new Vector2(40, 100);
         Vector2 enemySize = new Vector2(50, 50);
         Enemy enemy = new Enemy(1,1,10,1, new Transform(enemyPos, enemySize));
@@ -259,8 +256,11 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
         if (gameState.equals(GameState.GAME_ACTIVE)) {
             updateScore();
-            moveHorizontally(deltaTime);
             moveVertically(deltaTime);
+
+            if ((isMovingLeft && !isMovingRight) || (!isMovingLeft && isMovingRight)) {
+                moveHorizontally(deltaTime);
+            }
         }
 
         if (!player.isAlive()){
@@ -278,16 +278,18 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     }
 
     private void moveHorizontally(float deltaTime) {
+
+
         final int movementSpeed = getMovementSpeed();
-        final int distance = (int) (movementSpeed * deltaTime * 60); // TODO: magic number '60' is to increase the distance to a visually noticeable value. Note that 'deltaTime' is 0.0167 at 60fps.
+        final int distance = (int) (movementSpeed * deltaTime);
 
         // TODO: since movementSpeed can be negative (which should not be possible in the future),
         //       then 'distance' should not be negated whenever 'isMovingLeft' = true.
         if (isMovingRight) {
             move(distance, 0);
         }
-        if (isMovingLeft) {
-            move(distance, 0);
+        else if (isMovingLeft) {
+            move(-distance, 0);
         }
     }
 
@@ -302,7 +304,8 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         if (isTouchingGround() && player.getVerticalVelocity() <= 0 ) {
             player.setVerticalVelocity(0);
         } else {
-            player.addVerticalForce(GRAVITY_FORCE);
+            final int distance = (int) (GRAVITY_FORCE * Gdx.graphics.getDeltaTime());
+            player.addVerticalVelocity(distance);
         }
     }
 
@@ -338,22 +341,18 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     }
 
     @Override
-    public int getMovementSpeed(){
+    public int getMovementSpeed() {
         return player.getMovementSpeed();
     }
 
     @Override
-    public void setMovement(Direction direction) {
-        if (direction.equals(Direction.RIGHT)){
-            this.isMovingRight = !this.isMovingRight;
-        }
-        else {
-            this.isMovingLeft = !this.isMovingLeft;
-        }
+    public void setMovingRight(boolean movingRight) {
+        isMovingRight = movingRight;
     }
 
-    public void setMovementSpeed(int speed){
-        player.setMovementSpeed(speed);
+    @Override
+    public void setMovingLeft(boolean movingLeft) {
+        isMovingLeft = movingLeft;
     }
     /**
      * Tells us the state of the game

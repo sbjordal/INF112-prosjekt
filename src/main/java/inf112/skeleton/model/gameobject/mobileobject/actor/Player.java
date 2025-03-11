@@ -31,8 +31,8 @@ final public class Player extends Actor {
         setVerticalVelocity(jumpForce);
     }
 
-    @Override
-    public int getMovementSpeed() {
-        return super.getMovementSpeed();
-    }
+//    @Override
+//    public int getCurrentMovementSpeed() {
+//        return super.getCurrentMovementSpeed();
+//    }
 }
