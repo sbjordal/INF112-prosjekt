@@ -43,3 +43,10 @@ piltasten ikke holdes inne.
 - Snegle og sopp
   * [Noto emoji by Google] (https://emoji.aranja.com/)
   - Under Apache License 2.0
+
+### Lyder
+
+- coin/scoreUp
+  - https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=230517
+  - https://pixabay.com/sound-effects/coin-recieved-230517/
+  - 
