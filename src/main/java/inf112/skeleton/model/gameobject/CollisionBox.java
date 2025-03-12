@@ -1,6 +1,6 @@
 package inf112.skeleton.model.gameobject;
 
-public class CollisionBox {
+public class CollisionBox { // TODO: legg til kommentarer
     public Position botLeft;
     public Position topRight;
     private int width;
