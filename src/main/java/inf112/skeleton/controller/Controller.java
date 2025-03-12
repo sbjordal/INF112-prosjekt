@@ -41,6 +41,28 @@ public class Controller implements InputProcessor {
             }
             return true;
         }
+        else if (controllableModel.getGameState() == GameState.GAME_MENU) {
+            switch (keyCode) {
+                case Input.Keys.ENTER:
+                    controllableModel.resume();
+                    break;
+                case Input.Keys.I:
+                    controllableModel.setToInfoMode();
+                    break;
+            }
+        }
+        else if (controllableModel.getGameState() == GameState.GAME_INFO) {
+            switch (keyCode) {
+                case Input.Keys.ENTER:
+                    controllableModel.resume();
+                    break;
+                case Input.Keys.I:
+                    controllableModel.backToGameMenu();
+                    break;
+            }
+
+
+        }
         return false;
     }
 
