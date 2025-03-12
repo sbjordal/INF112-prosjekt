@@ -198,45 +198,40 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
                     handleCoinCollision(coin);
                 }
                 else if (gameObject instanceof Enemy enemy) {
-                    if (collisionBox.isCollidingFromTop(gameObject.getCollisionBox())) {
-                        handleEnemyCollisionFromTop(enemy);
+                    handleEnemyCollision(collisionBox, enemy);
                     }
-                    else {
-                        handleEnemyCollision(enemy);
-                    }
-                }
                 return true;
+                }
+
 
             }
-
-
-        }
         return false;
     }
 
 
 
+private void handleEnemyCollision(CollisionBox newPlayerCollisionBox, Enemy enemy) {
+    if (newPlayerCollisionBox.isCollidingFromTop(enemy.getCollisionBox())){
+        totalScore+=10;
+        objectList.remove(enemy);
+    }
+    else{
+            long currentTime = System.currentTimeMillis();
+            if (currentTime - lastEnemyCollisionTime >= COLLISION_COOLDOWN) {
 
-private void handleEnemyCollisionFromTop(Enemy enemy) {
-        this.totalScore+=10;
-        this.objectList.remove(enemy);
-}
+                // Enemy deals damage to the player
+                player.receiveDamage(enemy.getDamage());
 
-private void handleEnemyCollision(Enemy enemy) {
-        long currentTime = System.currentTimeMillis();
-        if (currentTime - lastEnemyCollisionTime >= COLLISION_COOLDOWN) {
-
-            // Enemy deals damage to the player
-            player.receiveDamage(enemy.getDamage());
-
-            // Reduce total score
-            final int scorePenalty = 4;
-            if (totalScore >= scorePenalty) {
-                totalScore -= scorePenalty;
+                // Reduce total score
+                final int scorePenalty = 4;
+                if (totalScore >= scorePenalty) {
+                    totalScore -= scorePenalty;
+                }
+                lastEnemyCollisionTime = currentTime;
             }
-            lastEnemyCollisionTime = currentTime;
         }
     }
+
 
     private void handleCoinCollision(Coin coin) {
         final int objectScore = coin.getObjectScore();
