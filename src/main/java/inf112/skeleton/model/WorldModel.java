@@ -43,7 +43,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     private boolean isMovingLeft;
 
     public WorldModel(WorldBoard board) {
-        this.gameState = GameState.GAME_ACTIVE; // TODO, må endres etter at game menu er laget.
+        this.gameState = GameState.GAME_MENU; // TODO, må endres etter at game menu er laget.
         this.worldView = new WorldView(this, new ExtendViewport(board.width(),board.height()));
         this.board = board;
         this.coinCounter = 0;
@@ -302,6 +302,16 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     private boolean shouldUpdateScore() {
         long currentTime = System.currentTimeMillis();
         return currentTime - lastScoreUpdate >= 1000 && totalScore >0 && gameState == GameState.GAME_ACTIVE;
+    }
+
+    @Override
+    public void setToInfoMode() {
+        this.gameState = GameState.GAME_INFO;
+    }
+
+    @Override
+    public void backToGameMenu() {
+        this.gameState = GameState.GAME_MENU;
     }
 
     @Override

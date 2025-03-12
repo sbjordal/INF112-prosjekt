@@ -22,6 +22,16 @@ public interface ControllableWorldModel {
     public void jump();
 
     /**
+     * Modifies gamestate to GAME_INFO
+     */
+    public void setToInfoMode();
+
+    /**
+     * Modifies gamestate to GAME_MENU
+     */
+    public void backToGameMenu();
+
+    /**
      * Pauses the game and modifies GameState
      */
     public void pause();

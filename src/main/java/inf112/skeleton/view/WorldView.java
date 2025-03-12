@@ -20,7 +20,7 @@ public class WorldView implements Screen {
     private SpriteBatch batch;
     private Viewport viewport;
     private Texture playerTexture;
-//    private Texture backgroundTexture;
+    private Texture menuBackgroundTexture;
     private ParallaxBackground parallaxBackground;
     private BitmapFont font;
     private GlyphLayout layout;
@@ -48,6 +48,7 @@ public class WorldView implements Screen {
         batch = new SpriteBatch();
         playerTexture = model.getViewablePlayer().getTexture();
         parallaxBackground.loadTextures();
+        this.menuBackgroundTexture = new Texture("background/plx-1.png");
     }
 
     @Override
@@ -55,6 +56,7 @@ public class WorldView implements Screen {
 
         switch (model.getGameState()) {
             case GAME_MENU -> drawGameMenu();
+            case GAME_INFO -> drawGameInfo();
             case GAME_ACTIVE -> drawGameActive();
             case GAME_PAUSED -> drawGamePaused();
             case GAME_OVER -> drawGameOver();
@@ -63,8 +65,23 @@ public class WorldView implements Screen {
 
 
     private void drawGameMenu() {
-        //loadBackground("backgroundTest.jpg");
-        drawBasics();
+        float worldWidth = viewport.getWorldWidth();
+        float worldHeight = viewport.getWorldHeight();
+        float leftX = viewport.getCamera().position.x - worldWidth / 2;
+        float bottomY = viewport.getCamera().position.y - worldHeight / 2;
+        batch.begin();
+        batch.draw(menuBackgroundTexture, leftX, bottomY, viewport.getWorldWidth(), viewport.getWorldHeight());
+        batch.end();
+
+        drawCenteredText("Press ENTER to start the game");
+    }
+
+    private void drawGameInfo() {
+        font.getData().setScale(2);
+        batch.begin();
+        font.draw(batch, "Her kommer masse spillinfo", 50, 100);
+        batch.end();
+
     }
 
     private void drawGameActive() {
@@ -137,7 +154,6 @@ public class WorldView implements Screen {
         // Drawing objects
         batch.begin();
         parallaxBackground.render(batch);
-        //batch.draw(backgroundTexture, leftX, bottomY, viewport.getWorldWidth(), viewport.getWorldHeight());
         font.draw(batch, totalScore, leftX, worldHeight-10);
         font.draw(batch, coinCount, leftX + 300, worldHeight-10);
         font.draw(batch, health, leftX + 500, worldHeight - 10);
