@@ -52,9 +52,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     @Override
     public void create() {
         this.player = new Player(1, 300); // TODO, legg til argument (foreløpig argumenter for å kunne kompilere prosjektet)
-        Vector2 enemyPos = new Vector2(40, 100);
-        Vector2 enemySize = new Vector2(50, 50);
-        Enemy enemy = new Enemy(1,1,10,1, new Transform(enemyPos, enemySize));
+        Enemy enemy = EnemyFactory.createEnemy(40, 100, 50, 50, 1, 1, 10, 1);
 
         Vector2 coinPos = new Vector2(600, 105);
         Vector2 coinSize = new Vector2(30, 30);

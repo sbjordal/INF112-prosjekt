@@ -2,7 +2,7 @@ package inf112.skeleton.model.gameobject;
 
 import com.badlogic.gdx.math.Vector2;
 
-public class CollisionBox {
+public class CollisionBox { // TODO: legg til kommentarer
     public Vector2 botLeft;
     public Vector2 topRight;
     private int width;
