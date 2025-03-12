@@ -13,6 +13,7 @@ import inf112.skeleton.model.gameobject.fixedobject.item.Coin;
 import inf112.skeleton.model.gameobject.fixedobject.item.CoinFactory;
 import inf112.skeleton.model.gameobject.mobileobject.actor.Enemy;
 import inf112.skeleton.model.gameobject.mobileobject.actor.EnemyFactory;
+import inf112.skeleton.model.gameobject.mobileobject.actor.EnemyType;
 import inf112.skeleton.model.gameobject.mobileobject.actor.Player;
 import inf112.skeleton.view.ViewableWorldModel;
 import inf112.skeleton.view.WorldView;
@@ -55,7 +56,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     public void create() {
         this.player = new Player(1, 300); // TODO, legg til argument (foreløpig argumenter for å kunne kompilere prosjektet)
 
-        Enemy enemy = EnemyFactory.createEnemy(40, 100); //TODO: Revisjon av createEnemy (fra enemyfactory)
+        Enemy enemy = EnemyFactory.createEnemy(40, 100, EnemyType.SNEGL); //TODO: Revisjon av createEnemy (fra enemyfactory)
 
         Coin coin = CoinFactory.createCoin(600, 105); //TODO: Revisjon av createCoin (fra Coinfactory)
 

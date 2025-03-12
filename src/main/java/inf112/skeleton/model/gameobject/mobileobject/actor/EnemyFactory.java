@@ -25,19 +25,24 @@ public class EnemyFactory {
      * @param damage        The damage the enemy gives
      * @return A new instance of Enemy
      */
-    public static Enemy createEnemy(float x, float y) {
+    public static Enemy createEnemy(float x, float y, EnemyType enemyType) {
 
-        float width = 50;
-        float height = 50;
-        int health = 1;
-        int movementSpeed = 1;
-        int objectScore = 1;
-        int damage = 1;
+//        float width = 50;
+//        float height = 50;
+//        int health = 1;
+//        int movementSpeed = 1;
+//        int objectScore = 1;
+//        int damage = 1;
+//
+//        Vector2 position = new Vector2(x, y);
+//        Vector2 size = new Vector2(width, height);
+//        Transform transform = new Transform(position, size);
 
-        Vector2 position = new Vector2(x, y);
-        Vector2 size = new Vector2(width, height);
-        Transform transform = new Transform(position, size);
+        Vector2 pos = new Vector2(x, y);
+        Vector2 size = new Vector2(enemyType.width, enemyType.height);
+        Transform transform = new Transform(pos, size);
 
-        return new Enemy(health, movementSpeed, objectScore, damage, transform);
+        return new Enemy(enemyType.health, enemyType.movementSpeed, enemyType.objectScore,
+                enemyType.damage, transform);
     }
 }
