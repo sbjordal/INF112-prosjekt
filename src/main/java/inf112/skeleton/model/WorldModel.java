@@ -124,8 +124,23 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
     @Override
     public void move(int deltaX, int deltaY) {
-        Vector2 playerPosition = player.getTransform().getPos();
-        Vector2 playerSize = player.getTransform().getSize();
+        Vector2 newPlayerPosition = filterPlayerPosition(deltaX, deltaY);
+        player.move(newPlayerPosition);
+    }
+
+    /**
+     * Filters player's position to be valid.
+     * A valid position is a position that does not overlap with any other {@link GameObject} types.
+     * The filter-algorithm will favor the desired distances.
+     *
+     * @param deltaX    the desired distance in the horizontal direction.
+     * @param deltaY    the desired distance in the vertical direction.
+     * @return          filtered player position.
+     */
+    private Vector2 filterPlayerPosition(int deltaX, int deltaY) {
+        Transform transform = player.getTransform();
+        Vector2 position = transform.getPos();
+        Vector2 size = transform.getSize();
 
         // TODO: finskriv denne!
         // TODO: inkluder deltaX i beregningen
@@ -136,16 +151,16 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
                 i2 = -i2;
             }
 
-            Vector2 newPosition = new Vector2(playerPosition.x + deltaX, playerPosition.y + i2);
-            Transform newPlayerTransform = new Transform(newPosition, playerSize);
-            CollisionBox newPlayerCollisionBox = new CollisionBox(newPlayerTransform);
+            Vector2 newPosition = new Vector2(position.x + deltaX, position.y + i2);
+            Transform newTransform = new Transform(newPosition, size);
+            CollisionBox newCollisionBox = new CollisionBox(newTransform);
 
-            if (isLegalMove(newPlayerCollisionBox)) {
-                player.move(newPosition);
-                // System.out.println("i: " + i2);
-                break;
+            if (isLegalMove(newCollisionBox)) {
+                return newPosition;
             }
         }
+
+        return position;
     }
 
     /**
