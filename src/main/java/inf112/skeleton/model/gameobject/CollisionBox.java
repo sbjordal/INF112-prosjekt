@@ -39,8 +39,8 @@ public class CollisionBox {
     public boolean isCollidingFromBottom(CollisionBox other) {
         if (this.botLeft.y <= other.topRight.y &&
                 this.topRight.y >= other.botLeft.y &&
-                this.botLeft.x <= other.topRight.x &&
-                this.topRight.x >= other.botLeft.x) {
+                this.botLeft.x < other.topRight.x &&
+                this.topRight.x > other.botLeft.x) {
             return true;
         } else {
             return false;
