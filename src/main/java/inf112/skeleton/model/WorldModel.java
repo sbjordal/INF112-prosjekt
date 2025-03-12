@@ -56,9 +56,11 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         Vector2 enemySize = new Vector2(50, 50);
         Enemy enemy = new Enemy(1,1,10,1, new Transform(enemyPos, enemySize));
 
-        Vector2 coinPos = new Vector2(600, 105);
+        Vector2 coin1Pos = new Vector2(510, 250);
+        Vector2 coin2Pos = new Vector2(1600, 105);
         Vector2 coinSize = new Vector2(30, 30);
-        Coin coin = new Coin(new Transform(coinPos, coinSize));
+        Coin coin1 = new Coin(new Transform(coin1Pos, coinSize));
+        Coin coin2 = new Coin(new Transform(coin2Pos, coinSize));
 
         // TODO: en stygg måte å lage hindring på for nå
         this.objectList = new ArrayList<>();
@@ -71,7 +73,8 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
         // Fill up the object list
         this.objectList.add(enemy); // TODO: må endres når vi har flere enemies.
-        this.objectList.add(coin); // TODO: test coin for å teste collision.
+        this.objectList.add(coin1); // TODO: må endres til å bruke coinfactory
+        this.objectList.add(coin2); // TODO: må endres til å bruke coinfactory
 
         this.controller = new Controller(this);
         Gdx.input.setInputProcessor(this.controller);
@@ -108,6 +111,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         int height = 50;
         Vector2 platformSize = new Vector2(width, height);
 
+        FixedObject coinPlatform = new FixedObject(new Transform(new Vector2(500, y), platformSize), platformTextureMid);
 
         FixedObject platform1 = new FixedObject(new Transform(new Vector2(x, y), platformSize), platformTextureMid);
         FixedObject platform2 = new FixedObject(new Transform(new Vector2(x+width, y), platformSize), platformTextureCen);
@@ -122,6 +126,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         objectList.add(platform4);
         objectList.add(platform5);
         objectList.add(platform6);
+        objectList.add(coinPlatform);
     }
 
     @Override
