@@ -13,16 +13,10 @@ import inf112.skeleton.model.gameobject.Transform;
 public class EnemyFactory {
 
     /**
-     * Creates a new Enemy
+     * Creates a new Enemy of the given enemy type
      *
      * @param x             X-position of the enemy
      * @param y             Y-position of the enemy
-     * @param width         Enemy width
-     * @param height        Enemy height
-     * @param health        Health of the enemy: Number of lives
-     * @param movementSpeed Enemy movement speed
-     * @param objectScore   The points you gain by defeating the enemy
-     * @param damage        The damage the enemy gives
      * @return A new instance of Enemy
      */
     public static Enemy createEnemy(float x, float y, EnemyType enemyType) {
