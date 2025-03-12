@@ -12,14 +12,6 @@ public interface ControllableWorldModel {
     GameState getGameState();
 
     /**
-     * // TODO - Midlertidig, da Model har andre metoder som endrer gamestate, som jeg glemte at eksisterte :)
-     * Changes the state of the game
-     *
-     * @param gameState the new gamestate
-     */
-    public void setGameState(GameState gameState);
-
-    /**
      * Moves player left if the move is legal (also calls isLegalMove) TODO: finskriv
      */
     public void move(int deltaX, int deltaY);
@@ -39,16 +31,22 @@ public interface ControllableWorldModel {
      */
     public void resume();
 
-    /**
-     * Set the movement speed for when the objet is moving
-     *
-     * @param speed the speed of the object
+    /***
+     * //TODO
+     * @param movingRight
      */
-    public void setMovementSpeed(int speed);
+    public void setMovingRight(boolean movingRight);
 
     /**
-     * Gets the movement speed of the object.
-     * @return an int, the speed the object is moving in
+     * // TODO
+     * @param movingLeft
+     */
+    public void setMovingLeft(boolean movingLeft);
+
+    /**
+     * Gets the original speed of the object that was set when the object was initialized
+     * // TODO : ?
+     * @return the original speed of the object
      */
     public int getMovementSpeed();
 }

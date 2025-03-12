@@ -1,9 +1,8 @@
 package inf112.skeleton.model.gameobject.mobileobject;
 
 import com.badlogic.gdx.graphics.Texture;
-import inf112.skeleton.model.gameobject.CollisionBox;
+import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.model.gameobject.GameObject;
-import inf112.skeleton.model.gameobject.Position;
 import inf112.skeleton.model.gameobject.Transform;
 
 /**
@@ -12,7 +11,8 @@ import inf112.skeleton.model.gameobject.Transform;
  * A variable position can be altered once instantiated.
  */
 public abstract class MobileObject extends GameObject {
-    private int movementSpeed;
+    private final int movementSpeed;
+    private int verticalVelocity;
 
     /**
      * Creates a new MobileObject with the specified movement speed.
@@ -26,15 +26,16 @@ public abstract class MobileObject extends GameObject {
         super(transform, texture);
 
         this.movementSpeed = movementSpeed;
+        this.verticalVelocity = 0;
     }
 
     /**
      * Moves the {@link GameObject} based on absolute values.
      * Absolute values are values that overwrite already existing values.
      *
-     * @param newPosition   A {@link Position} containing the absolute values of the new position.
+     * @param newPosition   A {@link Vector2} containing the absolute values of the new position.
      */
-    public void move(Position newPosition) {
+    public void move(Vector2 newPosition) {
         getTransform().alterPosition(newPosition);
         updateCollisionBox();
     }
@@ -63,10 +64,17 @@ public abstract class MobileObject extends GameObject {
      *
      * @return The movement speed as an integer.
      */
-    public int getMovementSpeed() {
-        return movementSpeed;
+    public int getMovementSpeed() { return movementSpeed; }
+
+    public int getVerticalVelocity() {
+        return verticalVelocity;
     }
-    public void setMovementSpeed(int speed){
-        this.movementSpeed = speed;
+
+    public void addVerticalVelocity(int velocity) {
+        verticalVelocity += velocity;
+    }
+
+    public void setVerticalVelocity(int verticalVelocity) {
+        this.verticalVelocity = verticalVelocity;
     }
 }

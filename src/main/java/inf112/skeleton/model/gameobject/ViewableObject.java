@@ -20,10 +20,8 @@ public interface ViewableObject {
     Texture getTexture();
 
     /**
-     * Returns the Texture and Transform combined in
-     * a ObjectProperties record
+     * TODO: comment me
+     * @return
      */
-    //ObjectProperties getObjectProperties();
-
     CollisionBox getCollisionBox();
 }

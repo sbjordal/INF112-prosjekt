@@ -3,7 +3,6 @@ package inf112.skeleton.controller;
 import com.badlogic.gdx.Input;
 import inf112.skeleton.model.GameState;
 import com.badlogic.gdx.InputProcessor;
-import inf112.skeleton.view.WorldView;
 
 /**
  * A class that handles key input and manipulates the model accordingly.
@@ -11,34 +10,33 @@ import inf112.skeleton.view.WorldView;
  * Reading material on event handling for use of LigGDX:
  * https://libgdx.com/wiki/input/event-handling
  */
-public class PlayerController implements InputProcessor {
+public class Controller implements InputProcessor {
 
-    private ControllableWorldModel controllableModel;
-    private boolean isPressingRight;
-    private boolean isPressingLeft;
-    //private Timer timer;
+    private final ControllableWorldModel controllableModel;
 
-    public PlayerController(ControllableWorldModel controllableModel) {
+    public Controller(ControllableWorldModel controllableModel) {
         this.controllableModel = controllableModel;
-        this.isPressingRight = false;
-        this.isPressingLeft = false;
     }
 
     /**
-     * When keyboard key is pressed down once.
+     * When keyboard key is pressed down once. Used for player movement.
+     * Only works for player movement if Gamestate is Active.
      *
-     * @param keyCode
-     * @return True if successful
+     * @param keyCode   integer corresponding to a key pressed.
+     * @return          true if successful, false otherwise.
      */
     @Override
     public boolean keyDown(int keyCode) {
         if (controllableModel.getGameState() == GameState.GAME_ACTIVE) { // TODO, denne linjen blir brukt mange ganger her, mulig å gjøre mer generisk?
             switch (keyCode) {
-                case Input.Keys.LEFT:
-                    this.isPressingLeft = true;
+                case Input.Keys.LEFT, Input.Keys.A:
+                    controllableModel.setMovingLeft(true);
                     break;
-                case Input.Keys.RIGHT:
-                    this.isPressingRight = true;
+                case Input.Keys.RIGHT, Input.Keys.D:
+                    controllableModel.setMovingRight(true);
+                    break;
+                case Input.Keys.UP, Input.Keys.W, Input.Keys.SPACE:
+                    controllableModel.jump();
                     break;
             }
             return true;
@@ -47,22 +45,21 @@ public class PlayerController implements InputProcessor {
     }
 
     /**
-     * When finger is lifted from key.
+     * When finger is lifted from key. Used for player movement.
+     * Only works for player movement if Gamestate is Active.
      *
-     * @param keyCode
-     * @return
+     * @param keyCode   integer corresponding to a key pressed.
+     * @return          true if successful, false otherwise.
      */
     @Override
     public boolean keyUp(int keyCode) {
         if (controllableModel.getGameState() == GameState.GAME_ACTIVE) {
             switch (keyCode) {
-                case Input.Keys.LEFT:
-                    this.controllableModel.setMovementSpeed(0);
-                    this.isPressingLeft = false;
+                case Input.Keys.LEFT, Input.Keys.A:
+                    controllableModel.setMovingLeft(false);
                     break;
-                case Input.Keys.RIGHT:
-                    this.controllableModel.setMovementSpeed(0);
-                    this.isPressingRight = false;
+                case Input.Keys.RIGHT, Input.Keys.D:
+                    controllableModel.setMovingRight(false);
                     break;
             }
             return true;
@@ -70,30 +67,24 @@ public class PlayerController implements InputProcessor {
         return false;
     }
 
-    //TODO, her må det endres slik at model ikke endrer direkte, men controller oppdaterer pos.
-    public void update(){
-        if (isPressingRight){
-            this.controllableModel.setMovementSpeed(1);
-            controllableModel.move(1,0);
-        }
-        if (isPressingLeft){
-            this.controllableModel.setMovementSpeed(-1);
-            controllableModel.move(-1,0);
-        }
-    }
-
+    /**
+     * When a keyboard key is pressed, and not held down.
+     * Mainly used for changing game state, like start, pause, unpause.
+     * @param c     specific keyboard key
+     * @return      true if successful, false if not
+     */
     @Override
     public boolean keyTyped(char c) {
         if (controllableModel.getGameState() == GameState.GAME_ACTIVE) {
             if (c == 'p') {
+                controllableModel.setMovingLeft(false);
+                controllableModel.setMovingRight(false);
                 controllableModel.pause();
-                System.out.println(controllableModel.getGameState()); //TODO, temp debugging
             }
         }
         else if (controllableModel.getGameState() == GameState.GAME_PAUSED) {
             if (c == 'p')  {
                 controllableModel.resume();
-                System.out.println(controllableModel.getGameState()); //TODO, temp debugging
             }
         }
         return true;

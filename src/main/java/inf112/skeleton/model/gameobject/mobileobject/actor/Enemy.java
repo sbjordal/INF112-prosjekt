@@ -2,7 +2,7 @@ package inf112.skeleton.model.gameobject.mobileobject.actor;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import inf112.skeleton.model.gameobject.Position;
+import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.model.gameobject.Scorable;
 import inf112.skeleton.model.gameobject.GameObject;
 import inf112.skeleton.model.gameobject.Transform;
@@ -12,7 +12,7 @@ import inf112.skeleton.model.gameobject.Transform;
  * An enemy type is any {@link GameObject} that inflicts damage on the player.
  */
 public class Enemy extends Actor implements Scorable {
-    private final static Texture ENEMY_TEXTURE = new Texture(Gdx.files.internal("enemy.png"));
+    private final static Texture ENEMY_TEXTURE = new Texture(Gdx.files.internal("assets/enemy.png"));
     final private int objectScore;
     final private int damage;
 
@@ -37,7 +37,7 @@ public class Enemy extends Actor implements Scorable {
      *
      * @return The damage value as an integer.
      */
-    int getDamage() {
+    public int getDamage() {
         return damage;
     }
 
@@ -45,7 +45,7 @@ public class Enemy extends Actor implements Scorable {
      * Moves the Enemy in a predefined movement pattern.
      */
     @Override
-    public void move(Position newPosition) {
+    public void move(Vector2 newPosition) {
         // TODO: implement me :)
     }
 

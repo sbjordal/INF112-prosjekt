@@ -6,8 +6,8 @@ import inf112.skeleton.model.WorldBoard;
 import inf112.skeleton.model.WorldModel;
 
 public class Main {
-    private final static int WINDOW_WIDTH = 1280;
-    private final static int WINDOW_HEIGHT = 720;
+    private final static int WINDOW_WIDTH = 1700;
+    private final static int WINDOW_HEIGHT = 920;
 
     public static void main(String[] args) {
         WorldBoard board = new WorldBoard(WINDOW_HEIGHT,WINDOW_WIDTH);

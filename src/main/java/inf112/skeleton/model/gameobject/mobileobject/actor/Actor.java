@@ -34,7 +34,7 @@ abstract class Actor extends MobileObject {
     /**
      * Checks if the Actor is currently alive.
      */
-    protected boolean isAlive() {
+    public boolean isAlive() {
         return isAlive;
     }
 
@@ -43,7 +43,7 @@ abstract class Actor extends MobileObject {
      *
      * @return The current health as an integer.
      */
-    protected int getHealth() {
+    public int getHealth() {
         return health;
     }
 
@@ -54,7 +54,7 @@ abstract class Actor extends MobileObject {
      * @param damage The amount of damage to inflict. Must be non-negative.
      * @throws IllegalArgumentException if {@code damage} is negative.
      */
-    protected void receiveDamage(int damage) {
+    public void receiveDamage(int damage) {
         if (damage < 0) {
             throw new IllegalArgumentException("Damage can not be negative.");
         }

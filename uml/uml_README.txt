@@ -1,7 +1,7 @@
 Metadata
 - PlantUML is used for creating the diagram.
 - See syntax: https://plantuml.com/class-diagram.
-- Only Constructors and Fields are included in the UML-diagram.
+- Only Constructors, Fields and Properties are included in the UML-diagram.
 
 
 Files
@@ -11,6 +11,4 @@ Files
 
 
 Known problems
-- Both dependency labels and arrows overlap each other. Makes relations look cluttered.
-- The file 'uml_img_(cleaner_version)' is a temporary file to illustrate how a a simpler
-	version could look like (without dependancies). Up for vote.
+- The resolution of "uml_img.png" is not optimal.

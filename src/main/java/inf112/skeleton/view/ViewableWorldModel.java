@@ -1,54 +1,34 @@
 package inf112.skeleton.view;
 import inf112.skeleton.model.GameState;
-import com.badlogic.gdx.graphics.Texture;
-import inf112.skeleton.model.gameobject.Transform;
+import inf112.skeleton.model.gameobject.ViewableObject;
+
+import java.util.List;
 
 public interface ViewableWorldModel {
 
     /**
-     * Returns the texture image of the player
+     * Returns the player as a ViewableObject
      *
-     * @return texture-image
+     * @return ViewableObject of the player
      */
-    Texture getPlayerTexture();
+    public ViewableObject getViewablePlayer();
+
 
     /**
-     * Returns the players position in x and y,
-     * and its size in height and width
+     * Returns all GameObjects except player as
+     * ViewableObjects in a list
      *
-     * @return Transform enum of Position and Size
+     * @return list of ViewableObjects
      */
-    Transform getPlayerTransform();
+    public List<ViewableObject> getObjectList();
+
 
     /**
-     * Returns the texture image of the enemy
+     * Returns the current speed of the player
      *
-     * @return texture-image
+     * @return speed of player as int
      */
-    Texture getEnemyTexture();
-
-    /**
-     * Returns the enemys position in x and y,
-     * and its size in height and width
-     *
-     * @return Transform enum of Position and Size
-     */
-    Transform getEnemyTransform();
-
-    /**
-     * Returns the texture image of the coin
-     *
-     * @return texture-image
-     */
-    Texture getCoinTexture();
-
-    /**
-     * Returns the coins position in x and y,
-     * and its size in height and width
-     *
-     * @return Transform enum of Position and Size
-     */
-    Transform getCoinTransform();
+    public int getMovementSpeed();
 
     /**
      * Tells us the state of the game
@@ -67,28 +47,17 @@ public interface ViewableWorldModel {
 
 
     /**
-     * Tell us where the fixed positions are
-     * and gives us their textures
-     *
-     * @return position and textures-images
-     */
-    //List<ObjectProperties> getFixedObjectProperties();
-
-    /**
-     * Tell us where the enemy's positions are
-     * and gives us their sprites
-     *
-     * @return position and sprite-images
-     */
-    // List<Object> getEnemyObjects();
-
-    /**
      * Tells us how many coins the player has aquired so far
      *
      * @return the coins scored
      */
-    int getCoinScore();
+    int getCoinCounter();
 
-
+    /**
+     * Tells us the health of the player
+     *
+     * return an int representing the health
+     */
+    int getPlayerHealth();
 }
 

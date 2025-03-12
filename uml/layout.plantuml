@@ -3,23 +3,43 @@
 'Rearrange the order of members in all objects
 'skinparam classAttributeOrder constructor, attribute, method
 
+'force vertical/horizontal lines
+skinparam linetype ortho
+
 'Run the generated PlantUML diagram
 !include diagram.plantuml
 
 'Hides the "separator" lines when it's empty
 hide empty members
 
-'Remove unnecessary objects
+'Remove guaranteed unnecessary objects
 remove HelloWorld
 remove PlayerControllerTest
 remove ExampleIT
 remove ExampleTest
 remove Main
+remove CoinTest
+remove CollisionBoxTest
+remove EnemyFactory
+remove EnemyFactoryTest
+remove EnemyTest
+remove fixedObjectTest
+remove GameStateTest
+remove MobileObjectTest
+remove PlayerTest
+remove PositionTest
+remove WorldBoardTest
+remove FixedObjectTest
+remove ControllerTest
+remove ModelTest
+
+'Remove potentially unnecessary objects
+remove Direction
 
 'Remove package-info files
-remove node0
-remove node1
-remove node18
+remove node3
+remove node11
+remove node24
 
 'Force rearrange objects
 'WorldModel -[hidden]-- WorldView

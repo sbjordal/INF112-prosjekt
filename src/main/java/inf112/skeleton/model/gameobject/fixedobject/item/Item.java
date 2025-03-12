@@ -20,7 +20,9 @@ public class Item extends FixedObject {// TODO: fjerne denne klassen siden den i
         super(transform, texture);
     }
 
-    private void pickUp() {
-        // TODO: implement me :)
+    public void pickUp() {
+        // TODO: remove this method. Logic is handled in WorldModel.
+        //       Java doesn't support passing by reference for primitives.
+        //       So updating 'coinCounter' and 'totalScore' would be cumbersome.
     }
 }
