@@ -22,7 +22,7 @@ import java.util.List;
 public class WorldModel implements ViewableWorldModel, ControllableWorldModel, ApplicationListener {
 
     private static final int GRAVITY_FORCE = -1600;
-    private static final int JUMP_FORCE = 30000; // Må være høy
+    private static final int JUMP_FORCE = 30000;
 
     private GameState gameState;
     private Player player;
@@ -142,25 +142,50 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         Vector2 position = transform.getPos();
         Vector2 size = transform.getSize();
 
-        // TODO: finskriv denne!
-        // TODO: inkluder deltaX i beregningen
-        boolean isDeltaYNegative = (deltaY < 0);
-        for (int i = Math.abs(deltaY); i >= 0; i--) {
-            int i2 = i;
-            if (isDeltaYNegative) {
-                i2 = -i2;
-            }
+        int lowX = 0;
+        int lowY = 0;
+        int highX = Math.abs(deltaX);
+        int highY = Math.abs(deltaY);
 
-            Vector2 newPosition = new Vector2(position.x + deltaX, position.y + i2);
+        boolean isDeltaXNegative = (deltaX < 0);
+        boolean isDeltaYNegative = (deltaY < 0);
+
+        // Binary search on x-axis
+        while (lowX < highX) {
+            int midX = (lowX + highX + 1) / 2;
+            int testX = isDeltaXNegative ? -midX : midX;
+
+            Vector2 newPosition = new Vector2(position.x + testX, position.y);
             Transform newTransform = new Transform(newPosition, size);
             CollisionBox newCollisionBox = new CollisionBox(newTransform);
 
             if (isLegalMove(newCollisionBox)) {
-                return newPosition;
+                lowX = midX;
+            } else {
+                highX = midX - 1;
             }
         }
 
-        return position;
+        // Binary search on y-axis
+        while (lowY < highY) {
+            int midY = (lowY + highY + 1) / 2;
+            int testY = isDeltaYNegative ? -midY : midY;
+
+            Vector2 newPosition = new Vector2(position.x + (isDeltaXNegative ? -lowX : lowX), position.y + testY);
+            Transform newTransform = new Transform(newPosition, size);
+            CollisionBox newCollisionBox = new CollisionBox(newTransform);
+
+            if (isLegalMove(newCollisionBox)) {
+                lowY = midY;
+            } else {
+                highY = midY - 1;
+            }
+        }
+
+        int newDeltaX = isDeltaXNegative ? -lowX : lowX;
+        int newDeltaY = isDeltaYNegative ? -lowY : lowY;
+
+        return new Vector2(position.x + newDeltaX, position.y + newDeltaY);
     }
 
     /**
