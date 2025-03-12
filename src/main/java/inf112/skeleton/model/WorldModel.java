@@ -10,7 +10,10 @@ import inf112.skeleton.controller.Controller;
 import inf112.skeleton.model.gameobject.*;
 import inf112.skeleton.model.gameobject.fixedobject.FixedObject;
 import inf112.skeleton.model.gameobject.fixedobject.item.Coin;
+import inf112.skeleton.model.gameobject.fixedobject.item.CoinFactory;
 import inf112.skeleton.model.gameobject.mobileobject.actor.Enemy;
+import inf112.skeleton.model.gameobject.mobileobject.actor.EnemyFactory;
+import inf112.skeleton.model.gameobject.mobileobject.actor.EnemyType;
 import inf112.skeleton.model.gameobject.mobileobject.actor.Player;
 import inf112.skeleton.view.ViewableWorldModel;
 import inf112.skeleton.view.WorldView;
@@ -40,7 +43,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     private boolean isMovingLeft;
 
     public WorldModel(WorldBoard board) {
-        this.gameState = GameState.GAME_ACTIVE; // TODO, må endres etter at game menu er laget.
+        this.gameState = GameState.GAME_MENU; // TODO, må endres etter at game menu er laget.
         this.worldView = new WorldView(this, new ExtendViewport(board.width(),board.height()));
         this.board = board;
         this.coinCounter = 0;
@@ -52,15 +55,11 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     @Override
     public void create() {
         this.player = new Player(1, 300); // TODO, legg til argument (foreløpig argumenter for å kunne kompilere prosjektet)
-        Vector2 enemyPos = new Vector2(40, 100);
-        Vector2 enemySize = new Vector2(50, 50);
-        Enemy enemy = new Enemy(1,1,10,1, new Transform(enemyPos, enemySize));
 
-        Vector2 coin1Pos = new Vector2(510, 250);
-        Vector2 coin2Pos = new Vector2(1600, 105);
-        Vector2 coinSize = new Vector2(30, 30);
-        Coin coin1 = new Coin(new Transform(coin1Pos, coinSize));
-        Coin coin2 = new Coin(new Transform(coin2Pos, coinSize));
+        Enemy enemy = EnemyFactory.createEnemy(40, 100, EnemyType.SNEGL); //TODO: Revisjon av createEnemy (fra enemyfactory)
+
+        Coin coin1 = CoinFactory.createCoin(510, 250); //TODO: Revisjon av createCoin (fra Coinfactory)
+        Coin coin2 = CoinFactory.createCoin(1600, 105);
 
         // TODO: en stygg måte å lage hindring på for nå
         this.objectList = new ArrayList<>();
@@ -307,6 +306,16 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     private boolean shouldUpdateScore() {
         long currentTime = System.currentTimeMillis();
         return currentTime - lastScoreUpdate >= 1000 && totalScore >0 && gameState == GameState.GAME_ACTIVE;
+    }
+
+    @Override
+    public void setToInfoMode() {
+        this.gameState = GameState.GAME_INFO;
+    }
+
+    @Override
+    public void backToGameMenu() {
+        this.gameState = GameState.GAME_MENU;
     }
 
     @Override
