@@ -287,7 +287,6 @@ private void handleEnemyCollision(Enemy enemy) {
 
     private void updateScore() {
         if (shouldUpdateCountDown()) {
-            System.out.println(this.countDown);
             countDown--;
             lastScoreUpdate = System.currentTimeMillis();
         }
@@ -393,6 +392,11 @@ private void handleEnemyCollision(Enemy enemy) {
     @Override
     public int getPlayerHealth() {
         return player.getHealth();
+    }
+
+    @Override
+    public int getCountDown() {
+        return this.countDown;
     }
 
     @Override
