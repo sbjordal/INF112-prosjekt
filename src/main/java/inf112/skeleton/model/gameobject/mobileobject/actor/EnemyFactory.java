@@ -1,11 +1,14 @@
-package inf112.skeleton.model;
+package inf112.skeleton.model.gameobject.mobileobject.actor;
 
 import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.model.gameobject.Transform;
-import inf112.skeleton.model.gameobject.mobileobject.actor.Enemy;
 
 /**
  * A factory class responsible for creating {@link Enemy} objects.
+ * // TODO: Revisjon av factory (og bruk i create, egen todo på dette)
+ * // TODO: Må oppdatere plassering i UML-diagram, flyttet EnemyFactory fra modellen inn hit (i actor)
+ * // TODO: Legge til Enemy type i argument og konstruktør og legge til rette for å kunne ha
+ *          ulike create-metoder for ulike enemy typer senere.
  */
 public class EnemyFactory {
 
@@ -22,8 +25,15 @@ public class EnemyFactory {
      * @param damage        The damage the enemy gives
      * @return A new instance of Enemy
      */
-    public static Enemy createEnemy(float x, float y, float width, float height,
-                                    int health, int movementSpeed, int objectScore, int damage) {
+    public static Enemy createEnemy(float x, float y) {
+
+        float width = 50;
+        float height = 50;
+        int health = 1;
+        int movementSpeed = 1;
+        int objectScore = 1;
+        int damage = 1;
+
         Vector2 position = new Vector2(x, y);
         Vector2 size = new Vector2(width, height);
         Transform transform = new Transform(position, size);
