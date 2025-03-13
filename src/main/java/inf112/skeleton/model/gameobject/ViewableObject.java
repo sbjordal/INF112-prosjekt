@@ -1,6 +1,7 @@
 package inf112.skeleton.model.gameobject;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 // TODO: comment me :)
 public interface ViewableObject {
@@ -24,4 +25,7 @@ public interface ViewableObject {
      * @return
      */
     CollisionBox getCollisionBox();
+    TextureRegion getCurrentFrame();
+
+    void update(float deltaTime);
 }

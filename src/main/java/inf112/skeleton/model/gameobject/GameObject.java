@@ -2,6 +2,7 @@ package inf112.skeleton.model.gameobject;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.TextureData;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 /**
  * Represents every object that is visualized on the screen.
@@ -38,6 +39,16 @@ public class GameObject implements ViewableObject{
     @Override
     public CollisionBox getCollisionBox() {
         return collisionBox;
+    }
+
+    @Override
+    public TextureRegion getCurrentFrame() {
+        return null;
+    }
+
+    @Override
+    public void update(float deltaTime) {
+
     }
 
     protected void setCollisionBox(Transform transform) {
