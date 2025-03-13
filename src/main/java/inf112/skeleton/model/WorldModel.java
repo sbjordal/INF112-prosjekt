@@ -60,7 +60,10 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
     @Override
     public void create() {
-        this.player = new Player(1, 300); // TODO, legg til argument (foreløpig argumenter for å kunne kompilere prosjektet)
+        Vector2 playerSize = new Vector2(40, 80);
+        Vector2 playerPosition = new Vector2(380, 500);
+        Transform playerTransform = new Transform(playerPosition, playerSize);
+        this.player = new Player(1, 300, playerTransform); // TODO, legg til argument (foreløpig argumenter for å kunne kompilere prosjektet)
 
         Enemy enemy = EnemyFactory.createEnemy(40, 100, EnemyType.SNEGL); //TODO: Revisjon av createEnemy (fra enemyfactory)
 

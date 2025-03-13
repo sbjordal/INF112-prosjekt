@@ -15,9 +15,6 @@ import inf112.skeleton.model.gameobject.Transform;
  */
 final public class Player extends Actor {
     private final static Texture PLAYER_TEXTURE;
-    private final static Vector2 START_POSITION = new Vector2(380, 500); // 102 = old value
-    private final static Vector2 SIZE = new Vector2(40, 80);
-    private final static Transform PLAYER_TRANSFORM = new Transform(START_POSITION, SIZE);
     private Animation<TextureRegion> runAnimationRight;
     private Animation<TextureRegion> runAnimationLeft;
     private Animation<TextureRegion> idleAnimation;
@@ -31,8 +28,8 @@ final public class Player extends Actor {
      * @param health        The initial health of the Player.
      * @param movementSpeed The rate of which the Player moves horizontally.
      */
-    public Player(int health, int movementSpeed) {
-        super(health, movementSpeed, PLAYER_TRANSFORM, PLAYER_TEXTURE);
+    public Player(int health, int movementSpeed, Transform transform) {
+        super(health, movementSpeed, transform, PLAYER_TEXTURE);
         this.stateTime = 0f;
         TextureRegion[] runFramesRight = new TextureRegion[8];
         TextureRegion[] runFramesLeft = new TextureRegion[8];
