@@ -316,9 +316,10 @@ private void handleEnemyCollision(CollisionBox newPlayerCollisionBox, Enemy enem
             }
         }
 
-        if (!player.isAlive()){
+        if (!player.isAlive() && gameState == GameState.GAME_ACTIVE){
             gameState = GameState.GAME_OVER;
         }
+
 
         worldView.render(deltaTime);
     }

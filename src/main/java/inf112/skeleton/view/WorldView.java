@@ -54,7 +54,7 @@ public class WorldView implements Screen {
 
     @Override
     public void render(float v) {
-
+        System.out.println(model.getGameState());
         switch (model.getGameState()) {
             case GAME_MENU -> drawGameMenu();
             case GAME_INFO -> drawGameInfo();
@@ -66,6 +66,7 @@ public class WorldView implements Screen {
 
 
     private void drawGameMenu() {
+        ScreenUtils.clear(Color.CLEAR);
         float worldWidth = viewport.getWorldWidth();
         float worldHeight = viewport.getWorldHeight();
         float leftX = viewport.getCamera().position.x - worldWidth / 2;
@@ -86,11 +87,11 @@ public class WorldView implements Screen {
     }
 
     private void drawGameActive() {
-        drawBasics();
+        drawLevel();
     }
 
     private void drawGamePaused() {
-        drawBasics();
+        drawLevel();
 
         // Writes "PAUSED" on the screen when GameState is paused
         String pause = "PAUSED";
@@ -98,6 +99,7 @@ public class WorldView implements Screen {
     }
 
     private void drawGameOver() {
+        ScreenUtils.clear(Color.CLEAR);
         String gameOver = "GAME OVER";
         drawCenteredText(gameOver);
     }
@@ -113,7 +115,7 @@ public class WorldView implements Screen {
         batch.end();
     }
 
-    private void drawBasics() {
+    private void drawLevel() {
         // Map-data
         float deltaTime = Gdx.graphics.getDeltaTime();
 

@@ -64,5 +64,7 @@ public interface ControllableWorldModel {
      * @return the original speed of the object
      */
     public int getMovementSpeed();
+
+    public void create();
 }
 

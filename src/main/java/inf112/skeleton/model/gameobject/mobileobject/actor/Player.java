@@ -87,4 +87,5 @@ final public class Player extends Actor {
             frame.getTexture().dispose();
         }
     }
+
 }

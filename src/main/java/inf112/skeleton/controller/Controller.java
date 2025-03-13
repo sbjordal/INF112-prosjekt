@@ -27,7 +27,32 @@ public class Controller implements InputProcessor {
      */
     @Override
     public boolean keyDown(int keyCode) {
-        if (controllableModel.getGameState() == GameState.GAME_ACTIVE) { // TODO, denne linjen blir brukt mange ganger her, mulig å gjøre mer generisk?
+        if (controllableModel.getGameState() == GameState.GAME_MENU) {
+            switch (keyCode) {
+                case Input.Keys.ENTER:
+                    controllableModel.setUpModel();
+                    controllableModel.create();
+                    controllableModel.resume();
+                    break;
+                case Input.Keys.I:
+                    controllableModel.setToInfoMode();
+                    break;
+            }
+            return true;
+        }
+        else if (controllableModel.getGameState() == GameState.GAME_INFO) {
+            switch (keyCode) {
+                case Input.Keys.ENTER:
+                    controllableModel.resume();
+                    break;
+                case Input.Keys.I:
+                    controllableModel.backToGameMenu();
+                    break;
+            }
+            return true;
+
+        }
+        else if (controllableModel.getGameState() == GameState.GAME_ACTIVE) { // TODO, denne linjen blir brukt mange ganger her, mulig å gjøre mer generisk?
             switch (keyCode) {
                 case Input.Keys.LEFT, Input.Keys.A:
                     controllableModel.setMovingLeft(true);
@@ -41,29 +66,16 @@ public class Controller implements InputProcessor {
             }
             return true;
         }
-        else if (controllableModel.getGameState() == GameState.GAME_MENU) {
+        else if (controllableModel.getGameState() == GameState.GAME_OVER) {
+            System.out.println("mode is game over");
             switch (keyCode) {
                 case Input.Keys.ENTER:
-                    controllableModel.setUpModel();
-                    controllableModel.resume();
-                    break;
-                case Input.Keys.I:
-                    controllableModel.setToInfoMode();
-                    break;
-            }
-        }
-        else if (controllableModel.getGameState() == GameState.GAME_INFO) {
-            switch (keyCode) {
-                case Input.Keys.ENTER:
-                    controllableModel.resume();
-                    break;
-                case Input.Keys.I:
                     controllableModel.backToGameMenu();
                     break;
             }
-
-
+            return true;
         }
+
         return false;
     }
 

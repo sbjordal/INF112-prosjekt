@@ -90,4 +90,5 @@ abstract class Actor extends MobileObject {
         health = 0;
         isAlive = false;
     }
+
 }
