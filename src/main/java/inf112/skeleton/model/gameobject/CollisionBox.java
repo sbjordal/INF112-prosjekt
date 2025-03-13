@@ -37,14 +37,12 @@ public class CollisionBox { // TODO: legg til kommentarer
     }
 
     public boolean isCollidingFromBottom(CollisionBox other) {
-        if (this.botLeft.y <= other.topRight.y &&
+        final int acceptanceRange = 5;
+
+        return this.botLeft.y <= other.topRight.y &&
                 this.topRight.y >= other.botLeft.y &&
-                this.botLeft.x < other.topRight.x &&
-                this.topRight.x > other.botLeft.x) {
-            return true;
-        } else {
-            return false;
-        }
+                this.botLeft.x < other.topRight.x - acceptanceRange &&
+                this.topRight.x > other.botLeft.x + acceptanceRange;
     }
 
     public boolean isCollidingFromTop(CollisionBox other) {
