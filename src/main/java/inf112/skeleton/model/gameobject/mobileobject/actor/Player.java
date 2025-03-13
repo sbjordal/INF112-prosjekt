@@ -18,7 +18,8 @@ final public class Player extends Actor {
     private final static Vector2 START_POSITION = new Vector2(380, 500); // 102 = old value
     private final static Vector2 SIZE = new Vector2(40, 80);
     private final static Transform PLAYER_TRANSFORM = new Transform(START_POSITION, SIZE);
-    private Animation<TextureRegion> runAnimation;
+    private Animation<TextureRegion> runAnimationRight;
+    private Animation<TextureRegion> runAnimationLeft;
     private Animation<TextureRegion> idleAnimation;
     private float stateTime;
     static {
@@ -33,12 +34,19 @@ final public class Player extends Actor {
     public Player(int health, int movementSpeed) {
         super(health, movementSpeed, PLAYER_TRANSFORM, PLAYER_TEXTURE);
         this.stateTime = 0f;
-        TextureRegion[] runFrames = new TextureRegion[8];
+        TextureRegion[] runFramesRight = new TextureRegion[8];
+        TextureRegion[] runFramesLeft = new TextureRegion[8];
         for (int i = 0; i < 8; i++) {
-            runFrames[i] = new TextureRegion(new Texture(Gdx.files.internal("player/run/r" + (i + 1) + ".png")));
+            TextureRegion frame = new TextureRegion(new Texture(Gdx.files.internal("player/run/r" + (i + 1) + ".png")));
+            runFramesRight[i] = frame;
+            runFramesLeft[i] = new TextureRegion(frame);
+            runFramesLeft[i].flip(true, false);
         }
-        runAnimation = new Animation<>(0.1f, runFrames);
-        runAnimation.setPlayMode(Animation.PlayMode.LOOP);
+
+        runAnimationRight = new Animation<>(0.1f, runFramesRight);
+        runAnimationRight.setPlayMode(Animation.PlayMode.LOOP);
+        runAnimationLeft = new Animation<>(0.1f, runFramesLeft);
+        runAnimationLeft.setPlayMode(Animation.PlayMode.LOOP);
 
         TextureRegion[] idleFrames = new TextureRegion[12];
         for (int i = 0; i < 12; i++) {
@@ -49,10 +57,13 @@ final public class Player extends Actor {
     }
     @Override
     public TextureRegion getCurrentFrame() {
-        if (getMovementDirection() == 0) {
+        int dir = getMovementDirection();
+        if (dir == 0) {
             return idleAnimation.getKeyFrame(stateTime, true);
-        } else {
-            return runAnimation.getKeyFrame(stateTime, true);
+        } else if (dir == 1) {
+            return runAnimationRight.getKeyFrame(stateTime, true);
+        } else{
+            return runAnimationLeft.getKeyFrame(stateTime, true);
         }
     }
     @Override
@@ -66,7 +77,10 @@ final public class Player extends Actor {
 
     @Override
     public void dispose() {
-        for (TextureRegion frame : runAnimation.getKeyFrames()) {
+        for (TextureRegion frame : runAnimationRight.getKeyFrames()) {
+            frame.getTexture().dispose();
+        }
+        for (TextureRegion frame : runAnimationLeft.getKeyFrames()){
             frame.getTexture().dispose();
         }
         for (TextureRegion frame : idleAnimation.getKeyFrames()) {

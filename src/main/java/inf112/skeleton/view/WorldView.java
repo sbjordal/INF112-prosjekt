@@ -98,7 +98,6 @@ public class WorldView implements Screen {
     }
 
     private void drawGameOver() {
-        ScreenUtils.clear(Color.CLEAR);
         String gameOver = "GAME OVER";
         drawCenteredText(gameOver);
     }
