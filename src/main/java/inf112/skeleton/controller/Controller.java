@@ -44,6 +44,7 @@ public class Controller implements InputProcessor {
         else if (controllableModel.getGameState() == GameState.GAME_MENU) {
             switch (keyCode) {
                 case Input.Keys.ENTER:
+                    controllableModel.setUpModel();
                     controllableModel.resume();
                     break;
                 case Input.Keys.I:

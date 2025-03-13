@@ -44,9 +44,13 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     private boolean isMovingLeft;
 
     public WorldModel(WorldBoard board) {
+        this.board = board;
+        setUpModel();
+    }
+
+    public void setUpModel() {
         this.gameState = GameState.GAME_MENU; // TODO, må endres etter at game menu er laget.
         this.worldView = new WorldView(this, new ExtendViewport(board.width(),board.height()));
-        this.board = board;
         this.coinCounter = 0;
         this.countDown = 150;
         this.totalScore = 0;

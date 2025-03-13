@@ -5,6 +5,11 @@ import inf112.skeleton.model.GameState;
 public interface ControllableWorldModel {
 
     /**
+     *  // TODO skriv
+     */
+    public void setUpModel();
+
+    /**
      * Tells us the state of the game
      *
      * @return the state of the game
