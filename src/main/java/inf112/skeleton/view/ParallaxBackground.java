@@ -15,7 +15,7 @@ public class ParallaxBackground {
     public ParallaxBackground() {
         layers = new Texture[5];
         layerX = new float[5];
-        scrollSpeeds = new float[]{0.4f, 0.8f, 2.0f, 4.0f, 8.0f};
+        scrollSpeeds = new float[]{0.4f, 0.8f, 4.0f, 10.0f, 14.0f};
     }
     public void loadTextures(){
        for (int i = 0; i < 5; i++) {
@@ -26,9 +26,9 @@ public class ParallaxBackground {
         this.screenHeight = Gdx.graphics.getHeight();
     }
 
-    public void update(float playerSpeed, float deltaTime) {
+    public void update(int movementDirection, float deltaTime) {
         for (int i = 0; i < layers.length; i++) {
-            layerX[i] -= playerSpeed * scrollSpeeds[i] * deltaTime;
+            layerX[i] -= movementDirection * scrollSpeeds[i] * deltaTime;
             if (layerX[i] < -screenWidth) {
                 layerX[i] += screenWidth;
             }

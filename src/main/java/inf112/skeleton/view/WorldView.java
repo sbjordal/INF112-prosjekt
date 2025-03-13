@@ -39,6 +39,7 @@ public class WorldView implements Screen {
         batch.dispose();
         font.dispose();
         parallaxBackground.dispose();
+        model.getViewablePlayer().dispose();
     }
 
     @Override
@@ -97,7 +98,6 @@ public class WorldView implements Screen {
     }
 
     private void drawGameOver() {
-        ScreenUtils.clear(Color.CLEAR);
         String gameOver = "GAME OVER";
         drawCenteredText(gameOver);
     }
@@ -124,9 +124,9 @@ public class WorldView implements Screen {
         float playerWidth = playerTransform.getSize().x;//model.getPlayerTransform().getSize().width();
         float playerHeight = playerTransform.getSize().y;//model.getPlayerTransform().getSize().height();
 
-        float playerSpeed = model.getMovementSpeed();
-
-        parallaxBackground.update(playerSpeed, deltaTime);
+        int movementDirection = model.getMovementDirection();
+        model.getViewablePlayer().update(Gdx.graphics.getDeltaTime());
+        parallaxBackground.update(movementDirection, deltaTime);
 
         ScreenUtils.clear(Color.CLEAR);
 
@@ -158,6 +158,8 @@ public class WorldView implements Screen {
         font.draw(batch, totalScore, leftX, worldHeight-10);
         font.draw(batch, coinCount, leftX + 300, worldHeight-10);
         font.draw(batch, health, leftX + 500, worldHeight - 10);
+        batch.draw(model.getViewablePlayer().getCurrentFrame(), playerX, playerY, playerWidth, playerHeight);
+        //batch.draw(playerTexture, playerX, playerY, playerWidth, playerHeight);
         font.draw(batch, countDown, leftX + 700, worldHeight - 10);
         batch.draw(playerTexture, playerX, playerY, playerWidth, playerHeight);
         drawObjects();

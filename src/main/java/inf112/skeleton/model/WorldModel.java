@@ -196,6 +196,8 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
             if (collisionBox.isCollidingWith(gameObject.getCollisionBox())) {
                 if (gameObject instanceof Coin coin) {
                     handleCoinCollision(coin);
+                } else if (gameObject instanceof Enemy enemy) { // TODO: legge til at dersom man hopper på en enemy får man poeng og fienden dør
+                    handleEnemyCollision(enemy);
                 }
                 else if (gameObject instanceof Enemy enemy) {
                     handleEnemyCollision(collisionBox, enemy);
@@ -229,9 +231,8 @@ private void handleEnemyCollision(CollisionBox newPlayerCollisionBox, Enemy enem
             }
             lastEnemyCollisionTime = currentTime;
         }
-        }
+     }
     }
-
 
     private void handleCoinCollision(Coin coin) {
         final int objectScore = coin.getObjectScore();

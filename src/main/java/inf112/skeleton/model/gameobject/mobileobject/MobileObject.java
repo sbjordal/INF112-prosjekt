@@ -13,6 +13,7 @@ import inf112.skeleton.model.gameobject.Transform;
 public abstract class MobileObject extends GameObject {
     private final int movementSpeed;
     private int verticalVelocity;
+    private int movementDirection;
 
     /**
      * Creates a new MobileObject with the specified movement speed.
@@ -27,6 +28,7 @@ public abstract class MobileObject extends GameObject {
 
         this.movementSpeed = movementSpeed;
         this.verticalVelocity = 0;
+        this.movementDirection = 0;
     }
 
     /**
@@ -36,9 +38,24 @@ public abstract class MobileObject extends GameObject {
      * @param newPosition   A {@link Vector2} containing the absolute values of the new position.
      */
     public void move(Vector2 newPosition) {
+        Vector2 oldPos = this.getTransform().getPos();
+        setMovementDirection(oldPos, newPosition);
         getTransform().alterPosition(newPosition);
         updateCollisionBox();
     }
+    private void setMovementDirection(Vector2 oldPos, Vector2 newPos){
+        float deltaX = newPos.x - oldPos.x;
+        if (deltaX > 0){
+            this.movementDirection = 1;
+        }
+        else if (deltaX < 0){
+            this.movementDirection = -1;
+        }
+        else {
+            this.movementDirection = 0;
+        }
+    }
+
 
     /**
      * Moves the {@link GameObject} based on offset values.
@@ -76,5 +93,9 @@ public abstract class MobileObject extends GameObject {
 
     public void setVerticalVelocity(int verticalVelocity) {
         this.verticalVelocity = verticalVelocity;
+    }
+
+    public int getMovementDirection(){
+        return this.movementDirection;
     }
 }
