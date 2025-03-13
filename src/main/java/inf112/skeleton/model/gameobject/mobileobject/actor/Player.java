@@ -23,6 +23,7 @@ final public class Player extends Actor {
     static {
         PLAYER_TEXTURE = new Texture(Gdx.files.internal("player/idle/i1.png"));
     }
+
     /**
      * Creates a new Player with the specified lives and movement speed.
      *

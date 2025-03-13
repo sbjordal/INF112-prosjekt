@@ -26,8 +26,10 @@ import java.util.List;
 public class WorldModel implements ViewableWorldModel, ControllableWorldModel, ApplicationListener {
 
     private static final int GRAVITY_FORCE = -1600;
-    private static final int JUMP_FORCE = 30000;
+    private static final int NORMAL_JUMP_FORCE = 30000;
+    private static final int BIG_JUMP_FORCE = 45000;
 
+    private int jumpForce;
     private GameState gameState;
     private Player player;
     private WorldBoard board;
@@ -57,6 +59,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         this.totalScore = 0;
         this.isMovingRight = false;
         this.isMovingLeft = false;
+        this.jumpForce = NORMAL_JUMP_FORCE;
     }
 
     @Override
@@ -290,13 +293,17 @@ private void handleEnemyCollision(CollisionBox newPlayerCollisionBox, Enemy enem
     }
 
     private void handleMushroomCollision(Mushroom mushroom) {
+        Vector2 bigSize = new Vector2(200, 200);
+        player.setHasPowerUp(true);
+        player.setSize(bigSize);
+        jumpForce = BIG_JUMP_FORCE;
         objectList.remove(mushroom);
     }
 
     @Override
     public void jump() {
         if (isTouchingGround()) {
-            final int distance = (int) (JUMP_FORCE * Gdx.graphics.getDeltaTime());
+            final int distance = (int) (jumpForce * Gdx.graphics.getDeltaTime());
             player.jump(distance);
         }
     }

@@ -3,6 +3,7 @@ package inf112.skeleton.model.gameobject;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.TextureData;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 
 /**
  * Represents every object that is visualized on the screen.
@@ -58,5 +59,9 @@ public class GameObject implements ViewableObject{
 
     protected void setCollisionBox(Transform transform) {
         collisionBox = new CollisionBox(transform); // TODO: hvis vi ikke vil lage nye objekter hver gang, så endrer vi det senere.
+    }
+
+    public void setSize(Vector2 size) {
+        transform.size = size;
     }
 }
