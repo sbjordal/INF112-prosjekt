@@ -216,19 +216,19 @@ private void handleEnemyCollision(CollisionBox newPlayerCollisionBox, Enemy enem
         objectList.remove(enemy);
     }
     else{
-            long currentTime = System.currentTimeMillis();
-            if (currentTime - lastEnemyCollisionTime >= COLLISION_COOLDOWN) {
+        long currentTime = System.currentTimeMillis();
+        if (currentTime - lastEnemyCollisionTime >= COLLISION_COOLDOWN) {
 
-                // Enemy deals damage to the player
-                player.receiveDamage(enemy.getDamage());
+            // Enemy deals damage to the player
+            player.receiveDamage(enemy.getDamage());
 
-                // Reduce total score
-                final int scorePenalty = 4;
-                if (totalScore >= scorePenalty) {
-                    totalScore -= scorePenalty;
-                }
-                lastEnemyCollisionTime = currentTime;
+            // Reduce total score
+            final int scorePenalty = 4;
+            if (totalScore >= scorePenalty) {
+                totalScore -= scorePenalty;
             }
+            lastEnemyCollisionTime = currentTime;
+        }
         }
     }
 
