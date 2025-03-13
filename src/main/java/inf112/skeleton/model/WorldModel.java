@@ -148,8 +148,12 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
             if (isLegalMove(newPlayerCollisionBox)) {
                 player.move(newPosition);
+                player.setRunning(true);
                 // System.out.println("i: " + i2);
                 break;
+            }
+            else {
+                player.setRunning(false);
             }
         }
     }
