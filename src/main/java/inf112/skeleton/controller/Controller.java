@@ -67,7 +67,6 @@ public class Controller implements InputProcessor {
             return true;
         }
         else if (controllableModel.getGameState() == GameState.GAME_OVER) {
-            System.out.println("mode is game over");
             switch (keyCode) {
                 case Input.Keys.ENTER:
                     controllableModel.backToGameMenu();

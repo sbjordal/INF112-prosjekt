@@ -54,7 +54,6 @@ public class WorldView implements Screen {
 
     @Override
     public void render(float v) {
-        System.out.println(model.getGameState());
         switch (model.getGameState()) {
             case GAME_MENU -> drawGameMenu();
             case GAME_INFO -> drawGameInfo();
