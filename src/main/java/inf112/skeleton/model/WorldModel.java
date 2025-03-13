@@ -25,7 +25,7 @@ import java.util.List;
 public class WorldModel implements ViewableWorldModel, ControllableWorldModel, ApplicationListener {
 
     private static final int GRAVITY_FORCE = -1600;
-    private static final int JUMP_FORCE = 30000; // Må være høy
+    private static final int JUMP_FORCE = 30000;
 
     private GameState gameState;
     private Player player;
@@ -132,28 +132,68 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
     @Override
     public void move(int deltaX, int deltaY) {
-        Vector2 playerPosition = player.getTransform().getPos();
-        Vector2 playerSize = player.getTransform().getSize();
+        Vector2 newPlayerPosition = filterPlayerPosition(deltaX, deltaY);
+        player.move(newPlayerPosition);
+    }
 
-        // TODO: finskriv denne!
-        // TODO: inkluder deltaX i beregningen
+    /**
+     * Filters player's position to be valid.
+     * A valid position is a position that does not overlap with any other {@link GameObject} types.
+     * The filter-algorithm will favor the desired distances.
+     *
+     * @param deltaX    the desired distance in the horizontal direction.
+     * @param deltaY    the desired distance in the vertical direction.
+     * @return          filtered player position.
+     */
+    private Vector2 filterPlayerPosition(int deltaX, int deltaY) {
+        Transform transform = player.getTransform();
+        Vector2 position = transform.getPos();
+        Vector2 size = transform.getSize();
+
+        int lowX = 0;
+        int lowY = 0;
+        int highX = Math.abs(deltaX);
+        int highY = Math.abs(deltaY);
+
+        boolean isDeltaXNegative = (deltaX < 0);
         boolean isDeltaYNegative = (deltaY < 0);
-        for (int i = Math.abs(deltaY); i >= 0; i--) {
-            int i2 = i;
-            if (isDeltaYNegative) {
-                i2 = -i2;
-            }
 
-            Vector2 newPosition = new Vector2(playerPosition.x + deltaX, playerPosition.y + i2);
-            Transform newPlayerTransform = new Transform(newPosition, playerSize);
-            CollisionBox newPlayerCollisionBox = new CollisionBox(newPlayerTransform);
+        // Binary search on x-axis
+        while (lowX < highX) {
+            int midX = (lowX + highX + 1) / 2;
+            int testX = isDeltaXNegative ? -midX : midX;
 
-            if (isLegalMove(newPlayerCollisionBox)) {
-                player.move(newPosition);
-                // System.out.println("i: " + i2);
-                break;
+            Vector2 newPosition = new Vector2(position.x + testX, position.y);
+            Transform newTransform = new Transform(newPosition, size);
+            CollisionBox newCollisionBox = new CollisionBox(newTransform);
+
+            if (isLegalMove(newCollisionBox)) {
+                lowX = midX;
+            } else {
+                highX = midX - 1;
             }
         }
+
+        // Binary search on y-axis
+        while (lowY < highY) {
+            int midY = (lowY + highY + 1) / 2;
+            int testY = isDeltaYNegative ? -midY : midY;
+
+            Vector2 newPosition = new Vector2(position.x + (isDeltaXNegative ? -lowX : lowX), position.y + testY);
+            Transform newTransform = new Transform(newPosition, size);
+            CollisionBox newCollisionBox = new CollisionBox(newTransform);
+
+            if (isLegalMove(newCollisionBox)) {
+                lowY = midY;
+            } else {
+                highY = midY - 1;
+            }
+        }
+
+        int newDeltaX = isDeltaXNegative ? -lowX : lowX;
+        int newDeltaY = isDeltaYNegative ? -lowY : lowY;
+
+        return new Vector2(position.x + newDeltaX, position.y + newDeltaY);
     }
 
     /**
