@@ -20,7 +20,6 @@ final public class Player extends Actor {
     private final static Transform PLAYER_TRANSFORM = new Transform(START_POSITION, SIZE);
     private Animation<TextureRegion> runAnimation;
     private Animation<TextureRegion> idleAnimation;
-    private boolean isRunning;
     private float stateTime;
     static {
         PLAYER_TEXTURE = new Texture(Gdx.files.internal("player/idle/i1.png"));
@@ -33,7 +32,6 @@ final public class Player extends Actor {
      */
     public Player(int health, int movementSpeed) {
         super(health, movementSpeed, PLAYER_TRANSFORM, PLAYER_TEXTURE);
-        this.isRunning = false;
         this.stateTime = 0f;
         TextureRegion[] runFrames = new TextureRegion[8];
         for (int i = 0; i < 8; i++) {
@@ -51,27 +49,22 @@ final public class Player extends Actor {
     }
     @Override
     public TextureRegion getCurrentFrame() {
-        return isRunning ? runAnimation.getKeyFrame(stateTime, true) : idleAnimation.getKeyFrame(stateTime, true);
+        if (getMovementDirection() == 0) {
+            return idleAnimation.getKeyFrame(stateTime, true);
+        } else {
+            return runAnimation.getKeyFrame(stateTime, true);
+        }
     }
     @Override
     public void update(float deltaTime) {
         this.stateTime += deltaTime;
-    }
-    public void setRunning(boolean running) {
-        if (this.isRunning != running) {
-            this.stateTime = 0;
-        }
-        this.isRunning = running;
     }
 
     public void jump(int jumpForce) {
         setVerticalVelocity(jumpForce);
     }
 
-//    @Override
-//    public int getCurrentMovementSpeed() {
-//        return super.getCurrentMovementSpeed();
-//    }
+    @Override
     public void dispose() {
         for (TextureRegion frame : runAnimation.getKeyFrames()) {
             frame.getTexture().dispose();

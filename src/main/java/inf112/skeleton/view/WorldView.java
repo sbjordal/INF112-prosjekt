@@ -39,6 +39,7 @@ public class WorldView implements Screen {
         batch.dispose();
         font.dispose();
         parallaxBackground.dispose();
+        model.getViewablePlayer().dispose();
     }
 
     @Override
@@ -157,7 +158,8 @@ public class WorldView implements Screen {
         font.draw(batch, totalScore, leftX, worldHeight-10);
         font.draw(batch, coinCount, leftX + 300, worldHeight-10);
         font.draw(batch, health, leftX + 500, worldHeight - 10);
-        batch.draw(playerTexture, playerX, playerY, playerWidth, playerHeight);
+        batch.draw(model.getViewablePlayer().getCurrentFrame(), playerX, playerY, playerWidth, playerHeight);
+        //batch.draw(playerTexture, playerX, playerY, playerWidth, playerHeight);
         drawObjects();
         batch.end();
 

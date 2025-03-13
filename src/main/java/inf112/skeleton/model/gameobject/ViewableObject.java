@@ -28,4 +28,6 @@ public interface ViewableObject {
     TextureRegion getCurrentFrame();
 
     void update(float deltaTime);
+
+    void dispose();
 }
