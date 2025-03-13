@@ -341,7 +341,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
     @Override
     public int getMovementSpeed() {
-        System.out.println(player.getMovementSpeed());
         return player.getMovementSpeed();
     }
 
