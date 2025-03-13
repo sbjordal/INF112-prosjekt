@@ -395,7 +395,8 @@ private void handleEnemyCollision(CollisionBox newPlayerCollisionBox, Enemy enem
 
     @Override
     public int getMovementDirection() {
-        return 0;
+        return player.getMovementDirection();
+
     }
 
     @Override
