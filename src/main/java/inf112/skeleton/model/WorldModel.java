@@ -45,9 +45,13 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     private boolean isMovingLeft;
 
     public WorldModel(WorldBoard board) {
-        this.gameState = GameState.GAME_MENU; // TODO, må endres etter at game menu er laget.
-        this.worldView = new WorldView(this, new ExtendViewport(board.width(),board.height()));
         this.board = board;
+        this.worldView = new WorldView(this, new ExtendViewport(board.width(),board.height()));
+        this.gameState = GameState.GAME_MENU; // TODO, må endres etter at game menu er laget.
+        setUpModel();
+    }
+
+    public void setUpModel() {
         this.coinCounter = 0;
         this.countDown = 150;
         this.totalScore = 0;
@@ -57,7 +61,10 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
     @Override
     public void create() {
-        this.player = new Player(3, 300); // TODO, legg til argument (foreløpig argumenter for å kunne kompilere prosjektet)
+        Vector2 playerSize = new Vector2(40, 80);
+        Vector2 playerPosition = new Vector2(380, 500);
+        Transform playerTransform = new Transform(playerPosition, playerSize);
+        this.player = new Player(1, 300, playerTransform); // TODO, legg til argument (foreløpig argumenter for å kunne kompilere prosjektet)
 
         Enemy enemy = EnemyFactory.createEnemy(40, 100, EnemyType.SNEGL); //TODO: Revisjon av createEnemy (fra enemyfactory)
 
@@ -318,7 +325,7 @@ private void handleEnemyCollision(CollisionBox newPlayerCollisionBox, Enemy enem
             }
         }
 
-        if (!player.isAlive()){
+        if (!player.isAlive() && gameState == GameState.GAME_ACTIVE){
             gameState = GameState.GAME_OVER;
         }
 
