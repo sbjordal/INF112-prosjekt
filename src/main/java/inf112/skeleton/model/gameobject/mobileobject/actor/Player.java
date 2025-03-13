@@ -49,9 +49,11 @@ final public class Player extends Actor {
         idleAnimation = new Animation<>(0.1f, idleFrames);
         idleAnimation.setPlayMode(Animation.PlayMode.LOOP);
     }
+    @Override
     public TextureRegion getCurrentFrame() {
         return isRunning ? runAnimation.getKeyFrame(stateTime, true) : idleAnimation.getKeyFrame(stateTime, true);
     }
+    @Override
     public void update(float deltaTime) {
         this.stateTime += deltaTime;
     }
