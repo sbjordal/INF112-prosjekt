@@ -159,9 +159,7 @@ public class WorldView implements Screen {
         font.draw(batch, coinCount, leftX + 300, worldHeight-10);
         font.draw(batch, health, leftX + 500, worldHeight - 10);
         batch.draw(model.getViewablePlayer().getCurrentFrame(), playerX, playerY, playerWidth, playerHeight);
-        //batch.draw(playerTexture, playerX, playerY, playerWidth, playerHeight);
         font.draw(batch, countDown, leftX + 700, worldHeight - 10);
-        batch.draw(playerTexture, playerX, playerY, playerWidth, playerHeight);
         drawObjects();
         batch.end();
 
