@@ -16,12 +16,13 @@ import inf112.skeleton.model.gameobject.Transform;
 final public class Player extends Actor {
     private final static Texture PLAYER_TEXTURE;
     private final static Vector2 START_POSITION = new Vector2(380, 500); // 102 = old value
-    private final static Vector2 SIZE = new Vector2(40, 80);
+    private static Vector2 SIZE = new Vector2(40, 80);
     private final static Transform PLAYER_TRANSFORM = new Transform(START_POSITION, SIZE);
     private Animation<TextureRegion> runAnimationRight;
     private Animation<TextureRegion> runAnimationLeft;
     private Animation<TextureRegion> idleAnimation;
     private float stateTime;
+    private boolean hasPowerUp;
     static {
         PLAYER_TEXTURE = new Texture(Gdx.files.internal("player/idle/i1.png"));
     }
@@ -33,6 +34,7 @@ final public class Player extends Actor {
      */
     public Player(int lives, int movementSpeed) {
         super(lives, movementSpeed, PLAYER_TRANSFORM, PLAYER_TEXTURE);
+        this.hasPowerUp = false;
         this.stateTime = 0f;
         TextureRegion[] runFramesRight = new TextureRegion[8];
         TextureRegion[] runFramesLeft = new TextureRegion[8];
@@ -55,6 +57,7 @@ final public class Player extends Actor {
         idleAnimation = new Animation<>(0.1f, idleFrames);
         idleAnimation.setPlayMode(Animation.PlayMode.LOOP);
     }
+
     @Override
     public TextureRegion getCurrentFrame() {
         int dir = getMovementDirection();
@@ -86,5 +89,13 @@ final public class Player extends Actor {
         for (TextureRegion frame : idleAnimation.getKeyFrames()) {
             frame.getTexture().dispose();
         }
+    }
+
+    public void setHasPowerUp(boolean hasPowerUp) {
+        this.hasPowerUp = hasPowerUp;
+    }
+
+    public boolean getHasPowerUp() {
+        return hasPowerUp;
     }
 }
