@@ -26,13 +26,13 @@ final public class Player extends Actor {
         PLAYER_TEXTURE = new Texture(Gdx.files.internal("player/idle/i1.png"));
     }
     /**
-     * Creates a new Player with the specified health and movement speed.
+     * Creates a new Player with the specified lives and movement speed.
      *
-     * @param health        The initial health of the Player.
+     * @param lives         The initial lives of the Player.
      * @param movementSpeed The rate of which the Player moves horizontally.
      */
-    public Player(int health, int movementSpeed) {
-        super(health, movementSpeed, PLAYER_TRANSFORM, PLAYER_TEXTURE);
+    public Player(int lives, int movementSpeed) {
+        super(lives, movementSpeed, PLAYER_TRANSFORM, PLAYER_TEXTURE);
         this.stateTime = 0f;
         TextureRegion[] runFramesRight = new TextureRegion[8];
         TextureRegion[] runFramesLeft = new TextureRegion[8];

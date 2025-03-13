@@ -10,7 +10,8 @@ import inf112.skeleton.controller.Controller;
 import inf112.skeleton.model.gameobject.*;
 import inf112.skeleton.model.gameobject.fixedobject.FixedObject;
 import inf112.skeleton.model.gameobject.fixedobject.item.Coin;
-import inf112.skeleton.model.gameobject.fixedobject.item.CoinFactory;
+import inf112.skeleton.model.gameobject.fixedobject.item.ItemFactory;
+import inf112.skeleton.model.gameobject.fixedobject.item.Mushroom;
 import inf112.skeleton.model.gameobject.mobileobject.actor.Enemy;
 import inf112.skeleton.model.gameobject.mobileobject.actor.EnemyFactory;
 import inf112.skeleton.model.gameobject.mobileobject.actor.EnemyType;
@@ -56,12 +57,14 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
     @Override
     public void create() {
-        this.player = new Player(1, 300); // TODO, legg til argument (foreløpig argumenter for å kunne kompilere prosjektet)
+        this.player = new Player(3, 300); // TODO, legg til argument (foreløpig argumenter for å kunne kompilere prosjektet)
 
         Enemy enemy = EnemyFactory.createEnemy(40, 100, EnemyType.SNEGL); //TODO: Revisjon av createEnemy (fra enemyfactory)
 
-        Coin coin1 = CoinFactory.createCoin(510, 250); //TODO: Revisjon av createCoin (fra Coinfactory)
-        Coin coin2 = CoinFactory.createCoin(1600, 105);
+        Coin coin1 = ItemFactory.createCoin(510, 250); //TODO: Revisjon av createCoin (fra Coinfactory)
+        Coin coin2 = ItemFactory.createCoin(1400, 105);
+
+        Mushroom mushroom = ItemFactory.createMushroom(700, 100);
 
         // TODO: en stygg måte å lage hindring på for nå
         this.objectList = new ArrayList<>();
@@ -76,6 +79,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         this.objectList.add(enemy); // TODO: må endres når vi har flere enemies.
         this.objectList.add(coin1); // TODO: må endres til å bruke coinfactory
         this.objectList.add(coin2); // TODO: må endres til å bruke coinfactory
+        this.objectList.add(mushroom); // TODO: må endres til å bruke coinfactory
 
         this.controller = new Controller(this);
         Gdx.input.setInputProcessor(this.controller);
@@ -239,16 +243,14 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
                 }
                 else if (gameObject instanceof Enemy enemy) {
                     handleEnemyCollision(collisionBox, enemy);
-                    }
-                return true;
+                } else if (gameObject instanceof Mushroom mushroom) {
+                    handleMushroomCollision(mushroom);
                 }
-
-
+                return true;
             }
+        }
         return false;
     }
-
-
 
 private void handleEnemyCollision(CollisionBox newPlayerCollisionBox, Enemy enemy) {
     if (newPlayerCollisionBox.isCollidingFromTop(enemy.getCollisionBox())){
@@ -278,6 +280,10 @@ private void handleEnemyCollision(CollisionBox newPlayerCollisionBox, Enemy enem
         coinCounter++;
         totalScore += objectScore;
         objectList.remove(coin);
+    }
+
+    private void handleMushroomCollision(Mushroom mushroom) {
+        objectList.remove(mushroom);
     }
 
     @Override
@@ -424,8 +430,8 @@ private void handleEnemyCollision(CollisionBox newPlayerCollisionBox, Enemy enem
     }
 
     @Override
-    public int getPlayerHealth() {
-        return player.getHealth();
+    public int getPlayerLives() {
+        return player.getLives();
     }
 
     @Override

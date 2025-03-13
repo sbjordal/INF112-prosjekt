@@ -25,7 +25,7 @@ public class EnemyFactory {
         Vector2 size = new Vector2(enemyType.width, enemyType.height);
         Transform transform = new Transform(pos, size);
 
-        return new Enemy(enemyType.health, enemyType.movementSpeed, enemyType.objectScore,
+        return new Enemy(enemyType.movementSpeed, enemyType.objectScore,
                 enemyType.damage, transform);
     }
 }

@@ -10,25 +10,25 @@ import inf112.skeleton.model.gameobject.mobileobject.MobileObject;
  */
 abstract class Actor extends MobileObject {
     private boolean isAlive;
-    private int health;
+    private int lives;
 
     /**
      * Creates a new Actor with the specified health, movement speed, transform and texture.
      *
-     * @param health        The initial health of the Actor.
+     * @param lives        The initial health of the Actor.
      * @param movementSpeed The rate of which the Actor moves horizontally.
      * @param transform     The initial position and size of the Actor.
      * @param texture       The visual representation of the Actor.
      */
-    protected Actor(int health, int movementSpeed, Transform transform, Texture texture) {
+    protected Actor(int lives, int movementSpeed, Transform transform, Texture texture) {
         super(movementSpeed, transform, texture);
 
-        if (health <= 0) {
+        if (lives <= 0) {
             throw new IllegalArgumentException("Health must be positive.");
         }
 
         this.isAlive = true;
-        this.health = health;
+        this.lives = lives;
     }
 
     /**
@@ -43,8 +43,8 @@ abstract class Actor extends MobileObject {
      *
      * @return The current health as an integer.
      */
-    public int getHealth() {
-        return health;
+    public int getLives() {
+        return lives;
     }
 
     /**
@@ -59,10 +59,10 @@ abstract class Actor extends MobileObject {
             throw new IllegalArgumentException("Damage can not be negative.");
         }
 
-        if (damage >= health) {
+        if (damage >= lives) {
             die();
         } else {
-            health -= damage;
+            lives -= damage;
         }
     }
 
@@ -87,7 +87,7 @@ abstract class Actor extends MobileObject {
      * @see #receiveDamage(int)
      */
     private void die() {
-        health = 0;
+        lives = 0;
         isAlive = false;
     }
 }

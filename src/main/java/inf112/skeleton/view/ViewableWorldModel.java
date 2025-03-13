@@ -58,7 +58,7 @@ public interface ViewableWorldModel {
      *
      * return an int representing the health
      */
-    int getPlayerHealth();
+    int getPlayerLives();
 
     int getCountDown();
 

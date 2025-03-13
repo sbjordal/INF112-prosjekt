@@ -148,7 +148,7 @@ public class WorldView implements Screen {
         // Text to be shown
         String totalScore = "Total score: "+ model.getTotalScore();
         String coinCount = "Coins: " + model.getCoinCounter();
-        String health = "Health: " + model.getPlayerHealth();
+        String lives = "Lives: " + model.getPlayerLives();
         String countDown = "CountDown: " + model.getCountDown();
         font.getData().setScale(2);
 
@@ -157,7 +157,7 @@ public class WorldView implements Screen {
         parallaxBackground.render(batch);
         font.draw(batch, totalScore, leftX, worldHeight-10);
         font.draw(batch, coinCount, leftX + 300, worldHeight-10);
-        font.draw(batch, health, leftX + 500, worldHeight - 10);
+        font.draw(batch, lives, leftX + 500, worldHeight - 10);
         batch.draw(model.getViewablePlayer().getCurrentFrame(), playerX, playerY, playerWidth, playerHeight);
         font.draw(batch, countDown, leftX + 700, worldHeight - 10);
         drawObjects();
