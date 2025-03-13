@@ -2,7 +2,6 @@ package inf112.skeleton.app.model;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
-import inf112.skeleton.controller.Direction;
 import inf112.skeleton.model.WorldBoard;
 import inf112.skeleton.model.WorldModel;
 import inf112.skeleton.model.gameobject.CollisionBox;
