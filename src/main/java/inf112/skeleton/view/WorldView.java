@@ -124,9 +124,9 @@ public class WorldView implements Screen {
         float playerWidth = playerTransform.getSize().x;//model.getPlayerTransform().getSize().width();
         float playerHeight = playerTransform.getSize().y;//model.getPlayerTransform().getSize().height();
 
-        float playerSpeed = model.getMovementSpeed();
+        int movementDirection = model.getMovementDirection();
 
-        parallaxBackground.update(playerSpeed, deltaTime);
+        parallaxBackground.update(movementDirection, deltaTime);
 
         ScreenUtils.clear(Color.CLEAR);
 

@@ -59,5 +59,12 @@ public interface ViewableWorldModel {
      * return an int representing the health
      */
     int getPlayerHealth();
+
+    /**
+     * Get the direction the player is moving in.
+     * -1 = left, 1 = right and 0 = idle
+     * @return
+     */
+    int getMovementDirection();
 }
 

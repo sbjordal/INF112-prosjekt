@@ -341,6 +341,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
     @Override
     public int getMovementSpeed() {
+        System.out.println(player.getMovementSpeed());
         return player.getMovementSpeed();
     }
 
@@ -375,6 +376,11 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     @Override
     public int getPlayerHealth() {
         return player.getHealth();
+    }
+
+    @Override
+    public int getMovementDirection() {
+        return player.getMovementDirection();
     }
 
     @Override
