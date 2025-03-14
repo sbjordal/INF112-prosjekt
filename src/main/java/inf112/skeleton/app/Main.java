@@ -7,6 +7,8 @@ import inf112.skeleton.model.WorldModel;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
+import java.time.LocalDateTime;
+
 public class Main {
     private final static int WINDOW_WIDTH = 1500;
     private final static int WINDOW_HEIGHT = 920;
@@ -15,8 +17,7 @@ public class Main {
         Logger logger = LoggerFactory.getLogger(Main.class);
         WorldBoard board = new WorldBoard(WINDOW_HEIGHT, WINDOW_WIDTH);
         Lwjgl3ApplicationConfiguration cfg = new Lwjgl3ApplicationConfiguration();
-        logger.info("Test");
-
+        logger.info("App started: {}", LocalDateTime.now());
         cfg.setResizable(false);
         cfg.setTitle("Mario 2");
         cfg.setWindowedMode(WINDOW_WIDTH, WINDOW_HEIGHT);

@@ -18,6 +18,8 @@ import inf112.skeleton.model.gameobject.mobileobject.actor.EnemyType;
 import inf112.skeleton.model.gameobject.mobileobject.actor.Player;
 import inf112.skeleton.view.ViewableWorldModel;
 import inf112.skeleton.view.WorldView;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -44,11 +46,13 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     private static final long COLLISION_COOLDOWN = 800;
     private boolean isMovingRight;
     private boolean isMovingLeft;
+    private final Logger logger;
 
     public WorldModel(WorldBoard board) {
         this.board = board;
         this.worldView = new WorldView(this, new ExtendViewport(board.width(),board.height()));
         this.gameState = GameState.GAME_MENU; // TODO, må endres etter at game menu er laget.
+        this.logger = LoggerFactory.getLogger(WorldModel.class);
         setUpModel();
     }
 
@@ -94,6 +98,9 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         Gdx.input.setInputProcessor(this.controller);
 
         this.soundHandler = new SoundHandler();
+        this.logger.info("FPS {}", Gdx.graphics.getFramesPerSecond());
+        this.logger.info("Height {}", Gdx.graphics.getHeight());
+        this.logger.info("Width {}", Gdx.graphics.getWidth());
     }
 
     private void createGround() {
