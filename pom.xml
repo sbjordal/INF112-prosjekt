@@ -84,13 +84,12 @@
 			<!-- SLF4J logging framework: https://slf4j.org/-->
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>${slf4j.version}</version>
+			<version>2.0.17</version>
 		</dependency>
 		<dependency>
-			<!-- minimal logger implementation -->
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-simple</artifactId>
-			<version>${slf4j.version}</version>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>1.5.15</version>
 		</dependency>
 		<dependency>
 			<groupId>com.badlogicgames.gdx</groupId>

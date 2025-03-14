@@ -18,6 +18,7 @@ import inf112.skeleton.model.gameobject.mobileobject.actor.EnemyType;
 import inf112.skeleton.model.gameobject.mobileobject.actor.Player;
 import inf112.skeleton.view.ViewableWorldModel;
 import inf112.skeleton.view.WorldView;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -27,7 +28,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     private static final int GRAVITY_FORCE = -1600;
     private static final int NORMAL_JUMP_FORCE = 30000;
     private static final int BIG_JUMP_FORCE = 45000;
-
     private int jumpForce;
     private GameState gameState;
     private Player player;
