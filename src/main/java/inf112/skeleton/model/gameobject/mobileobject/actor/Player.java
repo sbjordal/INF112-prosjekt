@@ -34,6 +34,10 @@ final public class Player extends Actor {
         super(lives, movementSpeed, transform, PLAYER_TEXTURE);
         this.hasPowerUp = false;
         this.stateTime = 0f;
+        animate();
+
+    }
+    private void animate(){
         TextureRegion[] runFramesRight = new TextureRegion[8];
         TextureRegion[] runFramesLeft = new TextureRegion[8];
         for (int i = 0; i < 8; i++) {
@@ -43,17 +47,17 @@ final public class Player extends Actor {
             runFramesLeft[i].flip(true, false);
         }
 
-        runAnimationRight = new Animation<>(0.1f, runFramesRight);
-        runAnimationRight.setPlayMode(Animation.PlayMode.LOOP);
-        runAnimationLeft = new Animation<>(0.1f, runFramesLeft);
-        runAnimationLeft.setPlayMode(Animation.PlayMode.LOOP);
+        this.runAnimationRight = new Animation<>(0.1f, runFramesRight);
+        this.runAnimationRight.setPlayMode(Animation.PlayMode.LOOP);
+        this.runAnimationLeft = new Animation<>(0.1f, runFramesLeft);
+        this.runAnimationLeft.setPlayMode(Animation.PlayMode.LOOP);
 
         TextureRegion[] idleFrames = new TextureRegion[12];
         for (int i = 0; i < 12; i++) {
             idleFrames[i] = new TextureRegion(new Texture(Gdx.files.internal("player/idle/i" + (i + 1) + ".png")));
         }
-        idleAnimation = new Animation<>(0.1f, idleFrames);
-        idleAnimation.setPlayMode(Animation.PlayMode.LOOP);
+        this.idleAnimation = new Animation<>(0.1f, idleFrames);
+        this.idleAnimation.setPlayMode(Animation.PlayMode.LOOP);
     }
 
     @Override

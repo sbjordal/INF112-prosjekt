@@ -18,7 +18,6 @@ import inf112.skeleton.model.gameobject.mobileobject.actor.EnemyType;
 import inf112.skeleton.model.gameobject.mobileobject.actor.Player;
 import inf112.skeleton.view.ViewableWorldModel;
 import inf112.skeleton.view.WorldView;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
