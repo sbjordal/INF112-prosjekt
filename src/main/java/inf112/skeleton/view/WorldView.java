@@ -44,7 +44,6 @@ public class WorldView implements Screen {
 
     @Override
     public void show() {
-        resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         this.font = new BitmapFont(); //new BitmapFont(Gdx.files.internal("skeleton.fnt")); Lag fil med font
         font.setColor(Color.WHITE);
         batch = new SpriteBatch();
@@ -69,8 +68,6 @@ public class WorldView implements Screen {
         ScreenUtils.clear(Color.CLEAR);
         float worldWidth = viewport.getWorldWidth();
         float worldHeight = viewport.getWorldHeight();
-        System.out.println("width: " + worldWidth);
-        System.out.println("height: " + worldHeight);
         float leftX = viewport.getCamera().position.x - worldWidth / 2;
         float bottomY = viewport.getCamera().position.y - worldHeight / 2;
         batch.begin();

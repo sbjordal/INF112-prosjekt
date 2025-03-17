@@ -90,7 +90,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         createObstacles();
 
         Gdx.graphics.setForegroundFPS(60);
-//        worldView.resize(viewport.getScreenWidth(), viewport.getScreenHeight());
+        worldView.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         worldView.show();
 
         // Fill up the object list
