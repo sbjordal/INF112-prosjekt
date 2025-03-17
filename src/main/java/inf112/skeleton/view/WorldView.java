@@ -66,10 +66,8 @@ public class WorldView implements Screen {
 
     private void drawGameMenu() {
         ScreenUtils.clear(Color.CLEAR);
-        float worldWidth = viewport.getWorldWidth();
-        float worldHeight = viewport.getWorldHeight();
-        float leftX = viewport.getCamera().position.x - worldWidth / 2;
-        float bottomY = viewport.getCamera().position.y - worldHeight / 2;
+        float leftX = getViewportLeftX();
+        float bottomY = viewport.getCamera().position.y - viewport.getWorldHeight() / 2;
         batch.begin();
         batch.draw(menuBackgroundTexture, leftX, bottomY, viewport.getWorldWidth(), viewport.getWorldHeight());
         batch.end();
@@ -82,7 +80,6 @@ public class WorldView implements Screen {
         batch.begin();
         font.draw(batch, "Her kommer masse spillinfo", 50, 100);
         batch.end();
-
     }
 
     private void drawGameActive() {
@@ -91,26 +88,25 @@ public class WorldView implements Screen {
 
     private void drawGamePaused() {
         drawLevel();
-
-        // Writes "PAUSED" on the screen when GameState is paused
-        String pause = "PAUSED";
-        drawCenteredText(pause);
+        drawCenteredText("PAUSED");
     }
 
     private void drawGameOver() {
         ScreenUtils.clear(Color.CLEAR);
-        String gameOver = "GAME OVER";
-        drawCenteredText(gameOver);
+        drawCenteredText("GAME OVER");
     }
 
     private void drawCenteredText(String text) {
         font.getData().setScale(3);
         layout.setText(font, text);
+
+        float centerX = viewport.getCamera().position.x;
+        float centerY = viewport.getCamera().position.y;
         float width = layout.width;
         float height = layout.height;
 
         batch.begin();
-        font.draw(batch, text, (viewport.getWorldWidth() - width )/ 2 , (viewport.getWorldHeight() - height)/ 2);
+        font.draw(batch, text, centerX- width/2, centerY - height/2);
         batch.end();
     }
 
@@ -125,33 +121,15 @@ public class WorldView implements Screen {
         float playerWidth = playerTransform.getSize().x;
         float playerHeight = playerTransform.getSize().y;
 
+        // Parallax background
         int movementDirection = model.getMovementDirection();
         model.getViewablePlayer().update(Gdx.graphics.getDeltaTime());
         parallaxBackground.update(movementDirection, deltaTime);
 
+        // Camera
         ScreenUtils.clear(Color.CLEAR);
-
-
-        float BOARD_WIDTH = 5000; // Example world width
-        float camX = viewport.getCamera().position.x;
-        float camY = viewport.getCamera().position.y;
-        float screenWidth = viewport.getWorldWidth();
-        float screenHeight = viewport.getWorldHeight();
-
-        float playerCenterX = playerX + playerWidth / 2;
-
-        if (playerCenterX > camX) {
-            camX = playerCenterX;
-        }
-        camX = MathUtils.clamp(camX, screenWidth/2, BOARD_WIDTH - screenWidth/2);
-
-        viewport.getCamera().position.set(camX, camY, 0);
-        viewport.apply();
+        updateViewportCamera();
         batch.setProjectionMatrix(viewport.getCamera().combined);
-
-        // Finding the left corner of the window
-        float leftX = viewport.getCamera().position.x - screenWidth / 2;
-        float bottomY = viewport.getCamera().position.y - screenHeight / 2;
 
         // Text to be shown
         String totalScore = "Total score: "+ model.getTotalScore();
@@ -159,6 +137,10 @@ public class WorldView implements Screen {
         String lives = "Lives: " + model.getPlayerLives();
         String countDown = "CountDown: " + model.getCountDown();
         font.getData().setScale(2);
+
+
+        float screenHeight = viewport.getWorldHeight();
+        float leftX = getViewportLeftX();
 
         // Drawing objects
         batch.begin();
@@ -173,6 +155,24 @@ public class WorldView implements Screen {
 
     }
 
+    private void updateViewportCamera() {
+        Transform playerTransform = model.getViewablePlayer().getTransform();
+        float playerX = playerTransform.getPos().x;
+        float playerWidth = playerTransform.getSize().x;
+        float playerCenterX = playerX + playerWidth / 2;
+        float camX = viewport.getCamera().position.x;
+        float camY = viewport.getCamera().position.y;
+        float screenWidth = viewport.getWorldWidth();
+
+        if (playerCenterX > camX && camX < model.getBoardWidth() - screenWidth / 2) {
+            camX = playerCenterX;
+        }
+        camX = MathUtils.clamp(camX, screenWidth/2, 5000 - screenWidth/2); // bytt 5000 med bredden av brettet
+
+        viewport.getCamera().position.set(camX, camY, 0);
+        viewport.apply();
+    }
+
     private void drawObjects() {
         for (ViewableObject object : model.getObjectList()) {
             Texture objectTexture = object.getTexture();
@@ -183,6 +183,10 @@ public class WorldView implements Screen {
 
             batch.draw(objectTexture, objectX, objectY, objectWidth, objectHeight);
         }
+    }
+
+    public float getViewportLeftX() {
+        return viewport.getCamera().position.x - viewport.getWorldWidth() / 2;
     }
 
     private void loadBackground(String path) {

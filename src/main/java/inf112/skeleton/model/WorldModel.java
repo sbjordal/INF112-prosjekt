@@ -239,7 +239,9 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     }
 
     private boolean positionIsOnBoard(CollisionBox collisionBox) {
-        boolean isWithinWidthBound = collisionBox.botLeft.x >= 0 && collisionBox.topRight.x < board.width();
+        boolean isWithinWidthBound = collisionBox.botLeft.x >= 0 &&
+                collisionBox.botLeft.x > worldView.getViewportLeftX() &&
+                collisionBox.topRight.x < board.width();
         boolean isWithinHeightBound = collisionBox.botLeft.y >= 0  && collisionBox.topRight.y < board.height();
 
         return isWithinWidthBound && isWithinHeightBound;
@@ -409,6 +411,11 @@ private void handleEnemyCollision(CollisionBox newPlayerCollisionBox, Enemy enem
     @Override
     public void resume() {
         this.gameState = GameState.GAME_ACTIVE;
+    }
+
+    @Override
+    public int getBoardWidth() {
+        return board.width();
     }
 
     @Override

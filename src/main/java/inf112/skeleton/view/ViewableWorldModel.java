@@ -7,6 +7,13 @@ import java.util.List;
 public interface ViewableWorldModel {
 
     /**
+     * returs the width of the board
+     *
+     * @return board width
+     */
+    public int getBoardWidth();
+
+    /**
      * Returns the player as a ViewableObject
      *
      * @return ViewableObject of the player
