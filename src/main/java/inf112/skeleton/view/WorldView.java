@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -120,10 +121,10 @@ public class WorldView implements Screen {
 
         // Player-data
         Transform playerTransform = model.getViewablePlayer().getTransform();
-        float playerX = playerTransform.getPos().x;//model.getPlayerTransform().getPos().x();
-        float playerY = playerTransform.getPos().y;//model.getPlayerTransform().getPos().y();
-        float playerWidth = playerTransform.getSize().x;//model.getPlayerTransform().getSize().width();
-        float playerHeight = playerTransform.getSize().y;//model.getPlayerTransform().getSize().height();
+        float playerX = playerTransform.getPos().x;
+        float playerY = playerTransform.getPos().y;
+        float playerWidth = playerTransform.getSize().x;
+        float playerHeight = playerTransform.getSize().y;
 
         int movementDirection = model.getMovementDirection();
         model.getViewablePlayer().update(Gdx.graphics.getDeltaTime());
@@ -131,20 +132,27 @@ public class WorldView implements Screen {
 
         ScreenUtils.clear(Color.CLEAR);
 
-        // Kamera viser hele skjermen uavhengig av spiller
-        // Kan videreutvikles hvor camera justerer seg etter spillers posisjon
+
+        float BOARD_WIDTH = 5000; // Example world width
         float camX = viewport.getCamera().position.x;
         float camY = viewport.getCamera().position.y;
-        float worldWidth = viewport.getWorldWidth();
-        float worldHeight = viewport.getWorldHeight();
+        float screenWidth = viewport.getWorldWidth();
+        float screenHeight = viewport.getWorldHeight();
+
+        float playerCenterX = playerX + playerWidth / 2;
+
+        if (playerCenterX > camX) {
+            camX = playerCenterX;
+        }
+        camX = MathUtils.clamp(camX, screenWidth/2, BOARD_WIDTH - screenWidth/2);
 
         viewport.getCamera().position.set(camX, camY, 0);
         viewport.apply();
         batch.setProjectionMatrix(viewport.getCamera().combined);
 
         // Finding the left corner of the window
-        float leftX = viewport.getCamera().position.x - worldWidth / 2;
-        float bottomY = viewport.getCamera().position.y - worldHeight / 2;
+        float leftX = viewport.getCamera().position.x - screenWidth / 2;
+        float bottomY = viewport.getCamera().position.y - screenHeight / 2;
 
         // Text to be shown
         String totalScore = "Total score: "+ model.getTotalScore();
@@ -156,11 +164,11 @@ public class WorldView implements Screen {
         // Drawing objects
         batch.begin();
         parallaxBackground.render(batch);
-        font.draw(batch, totalScore, leftX, worldHeight-10);
-        font.draw(batch, coinCount, leftX + 300, worldHeight-10);
-        font.draw(batch, lives, leftX + 500, worldHeight - 10);
+        font.draw(batch, totalScore, leftX, screenHeight-10);
+        font.draw(batch, coinCount, leftX + 300, screenHeight-10);
+        font.draw(batch, lives, leftX + 500, screenHeight - 10);
         batch.draw(model.getViewablePlayer().getCurrentFrame(), playerX, playerY, playerWidth, playerHeight);
-        font.draw(batch, countDown, leftX + 700, worldHeight - 10);
+        font.draw(batch, countDown, leftX + 700, screenHeight - 10);
         drawObjects();
         batch.end();
 
