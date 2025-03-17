@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import inf112.skeleton.controller.ControllableWorldModel;
 import inf112.skeleton.controller.Controller;
 import inf112.skeleton.model.gameobject.*;
@@ -30,6 +31,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     private static final int GRAVITY_FORCE = -1600;
     private static final int NORMAL_JUMP_FORCE = 30000;
     private static final int BIG_JUMP_FORCE = 45000;
+    private static final int LEVEL_WIDTH = 4500;
     private int jumpForce;
     private GameState gameState;
     private Player player;
@@ -47,10 +49,11 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     private boolean isMovingRight;
     private boolean isMovingLeft;
     private final Logger logger;
+    private final int height;
 
-    public WorldModel(WorldBoard board) {
-        this.board = board;
-        this.worldView = new WorldView(this, new ExtendViewport(board.width(),board.height()));
+    public WorldModel(int width, int height) {
+        this.height = height;
+        this.worldView = new WorldView(this, width, height);
         this.gameState = GameState.GAME_MENU; // TODO, må endres etter at game menu er laget.
         this.logger = LoggerFactory.getLogger(WorldModel.class);
         setUpModel();
@@ -67,6 +70,8 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
     @Override
     public void create() {
+        this.board = new WorldBoard(LEVEL_WIDTH, height);
+
         Vector2 playerSize = new Vector2(40, 80);
         Vector2 playerPosition = new Vector2(380, 500);
         Transform playerTransform = new Transform(playerPosition, playerSize);
@@ -85,8 +90,8 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         createObstacles();
 
         Gdx.graphics.setForegroundFPS(60);
+//        worldView.resize(viewport.getScreenWidth(), viewport.getScreenHeight());
         worldView.show();
-        worldView.resize(board.width(), board.height());
 
         // Fill up the object list
         this.objectList.add(enemy); // TODO: må endres når vi har flere enemies.

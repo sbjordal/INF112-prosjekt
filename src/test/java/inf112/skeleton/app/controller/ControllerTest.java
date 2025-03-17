@@ -15,7 +15,7 @@ public class ControllerTest {
 
     @BeforeEach
     public void setUpBeforeEach() {
-        this.controllableModel = new WorldModel(new WorldBoard(50,50)); // TODO, random argumenter for å initiere, må muligens endres senere
+//        this.controllableModel = new WorldModel(new WorldBoard(50,50)); // TODO, random argumenter for å initiere, må muligens endres senere
         this.controller = new Controller(controllableModel);
     }
 

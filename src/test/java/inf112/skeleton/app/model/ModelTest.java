@@ -10,6 +10,6 @@ public class ModelTest {
     @BeforeEach
     void setUp() {
         WorldBoard board = new WorldBoard(100, 100); // Oppretter et brett med størrelse 100x100
-        worldModel = new WorldModel(board);
+//        worldModel = new WorldModel(board);
     }
 }

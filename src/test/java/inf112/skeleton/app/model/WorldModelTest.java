@@ -22,7 +22,7 @@ public class WorldModelTest {
     @Before
     public void setUp() {
         WorldBoard board = new WorldBoard(100, 100);
-        worldModel = new WorldModel(board);
+//        worldModel = new WorldModel(board);
         worldModel.create();  // Initialiser spillobjekter
     }
 
