@@ -28,14 +28,16 @@ public class ParallaxBackground {
         this.screenHeight = Gdx.graphics.getHeight();
     }
 
-    public void update(int movementDirection, float deltaTime) {
-        for (int i = 0; i < layers.length; i++) {
-            layerX[i] -= movementDirection * scrollSpeeds[i] * deltaTime;
-            if (layerX[i] < -screenWidth) {
-                layerX[i] += 2 * screenWidth;
-            }
-            if (layerX[i] > screenWidth) {
-                layerX[i] -= 2 * screenWidth;
+    public void update(int movementDirection, float deltaTime, boolean isPaused) {
+        if (!isPaused) {
+            for (int i = 0; i < layers.length; i++) {
+                layerX[i] -= movementDirection * scrollSpeeds[i] * deltaTime;
+                if (layerX[i] < -screenWidth) {
+                    layerX[i] += 2 * screenWidth;
+                }
+                if (layerX[i] > screenWidth) {
+                    layerX[i] -= 2 * screenWidth;
+                }
             }
         }
     }

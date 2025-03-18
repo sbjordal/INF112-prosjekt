@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import inf112.skeleton.model.GameState;
 import inf112.skeleton.model.gameobject.Transform;
 import inf112.skeleton.model.gameobject.ViewableObject;
 
@@ -29,12 +30,14 @@ public class WorldView implements Screen {
     private GlyphLayout layout;
     private HashMap<String, Texture> textures;
     private PlayerAnimation playerAnimation;
+    private GameState gameState;
 
     public WorldView(ViewableWorldModel model, int width, int height) {
         this.viewport = new ExtendViewport(width, height);
         this.model = model;
         this.layout = new GlyphLayout();
         this.textures = new HashMap<>();
+        this.gameState = model.getGameState();
     }
 
     @Override
@@ -61,6 +64,7 @@ public class WorldView implements Screen {
 
     @Override
     public void render(float v) {
+        this.gameState = model.getGameState();
         switch (model.getGameState()) {
             case GAME_MENU -> drawGameMenu();
             case GAME_INFO -> drawGameInfo();
@@ -118,6 +122,7 @@ public class WorldView implements Screen {
     }
 
     private void drawLevel() {
+
         // Map-data
         float deltaTime = Gdx.graphics.getDeltaTime();
 
@@ -127,10 +132,6 @@ public class WorldView implements Screen {
         float playerY = playerTransform.getPos().y;
         float playerWidth = playerTransform.getSize().x;
         float playerHeight = playerTransform.getSize().y;
-
-        // Parallax background
-        int movementDirection = model.getMovementDirection();
-        parallaxBackground.update(movementDirection, deltaTime);
 
         // Camera
         ScreenUtils.clear(Color.CLEAR);
@@ -148,6 +149,11 @@ public class WorldView implements Screen {
         float screenHeight = viewport.getWorldHeight();
         float leftX = getViewportLeftX();
 
+
+        // Parallax background
+        int movementDirection = model.getMovementDirection();
+        parallaxBackground.update(movementDirection, deltaTime, model.getGameState() != GameState.GAME_ACTIVE);
+
         // Drawing objects
         batch.begin();
         parallaxBackground.render(batch);
@@ -155,7 +161,7 @@ public class WorldView implements Screen {
         font.draw(batch, coinCount, leftX + 300, screenHeight-10);
         font.draw(batch, lives, leftX + 500, screenHeight - 10);
         TextureRegion currentFrame = playerAnimation.getFrame(movementDirection);
-        playerAnimation.update(deltaTime);
+        playerAnimation.update(deltaTime,  model.getGameState() != GameState.GAME_ACTIVE);
         batch.draw(currentFrame, playerX, playerY, playerWidth, playerHeight);
         font.draw(batch, countDown, leftX + 700, screenHeight - 10);
         drawObjects();

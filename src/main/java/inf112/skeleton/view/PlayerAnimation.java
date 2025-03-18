@@ -42,8 +42,10 @@ public class PlayerAnimation {
         this.animations.get("idle").setPlayMode(Animation.PlayMode.LOOP);
     }
 
-    public void update(float deltaTime) {
-        this.stateTime += deltaTime;
+    public void update(float deltaTime, boolean isPaused) {
+        if (!isPaused) {
+            this.stateTime += deltaTime;
+        }
     }
 
     public TextureRegion getFrame(int direction) {
