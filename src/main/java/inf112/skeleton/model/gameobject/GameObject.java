@@ -1,60 +1,32 @@
 package inf112.skeleton.model.gameobject;
-
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.TextureData;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 /**
  * Represents every object that is visualized on the screen.
- * To visualize the object, both a {@link Transform} and a {@link Texture} is required.
+ * To visualize the object a {@link Transform} is required.
  */
 public class GameObject implements ViewableObject{
     private Transform transform;
-    private Texture texture;
     private CollisionBox collisionBox;
 
     /**
      * Creates a new GameObject with the specified transform and texture.
      *
      * @param transform The initial position and size of the GameObject.
-     * @param texture   The visual representation of the GameObject.
      */
-    public GameObject(Transform transform, Texture texture){
+    public GameObject(Transform transform){
         this.transform = transform;
-        this.texture = texture;
         this.collisionBox = new CollisionBox(transform);
     }
 
     @Override
     public Transform getTransform() {
         return transform;
-
-    }
-
-    @Override
-    public Texture getTexture() {
-        return texture;
     }
 
     @Override
     public CollisionBox getCollisionBox() {
         return collisionBox;
-    }
-
-    @Override
-    public TextureRegion getCurrentFrame() {
-        return null;
-    }
-
-    @Override
-    public void update(float deltaTime) {
-
-    }
-
-    @Override
-    public void dispose() {
-
     }
 
     protected void setCollisionBox(Transform transform) {

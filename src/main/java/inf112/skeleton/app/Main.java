@@ -2,9 +2,6 @@ package inf112.skeleton.app;
 
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
-import inf112.skeleton.model.WorldBoard;
 import inf112.skeleton.model.WorldModel;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;

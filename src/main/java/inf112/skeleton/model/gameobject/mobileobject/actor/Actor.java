@@ -1,6 +1,5 @@
 package inf112.skeleton.model.gameobject.mobileobject.actor;
 
-import com.badlogic.gdx.graphics.Texture;
 import inf112.skeleton.model.gameobject.Transform;
 import inf112.skeleton.model.gameobject.mobileobject.MobileObject;
 
@@ -18,10 +17,9 @@ abstract class Actor extends MobileObject {
      * @param lives        The initial health of the Actor.
      * @param movementSpeed The rate of which the Actor moves horizontally.
      * @param transform     The initial position and size of the Actor.
-     * @param texture       The visual representation of the Actor.
      */
-    protected Actor(int lives, int movementSpeed, Transform transform, Texture texture) {
-        super(movementSpeed, transform, texture);
+    protected Actor(int lives, int movementSpeed, Transform transform) {
+        super(movementSpeed, transform);
 
         if (lives <= 0) {
             throw new IllegalArgumentException("Health must be positive.");

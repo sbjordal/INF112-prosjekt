@@ -3,7 +3,7 @@ package inf112.skeleton.model.gameobject.mobileobject.actor;
 // TODO: Revisjon. Kan legge til flere enemytyper under SNEGL,
 //       usikker på om dette er beste implementasjon
 public enum EnemyType {
-    SNEGL (50, 50, 1, 1, 100, 100);
+    SNEGL (50, 50, 1, 1, 60, 60);
 
     public final int health;
     public final int movementSpeed;

@@ -21,10 +21,9 @@ public abstract class MobileObject extends GameObject {
      *
      * @param movementSpeed The rate of which the MobileObject moves horizontally.
      * @param transform     The initial position and size of the MobileObject.
-     * @param texture       The visual representation of the MobileObject.
      */
-    protected MobileObject(int movementSpeed, Transform transform, Texture texture) {
-        super(transform, texture);
+    protected MobileObject(int movementSpeed, Transform transform) {
+        super(transform);
 
         this.movementSpeed = movementSpeed;
         this.verticalVelocity = 0;

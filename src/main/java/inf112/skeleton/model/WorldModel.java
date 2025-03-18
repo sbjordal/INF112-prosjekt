@@ -109,8 +109,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     }
 
     private void createGround() {
-        Texture groundTexture = new Texture("obstacles/castleCenter.png");
-        Texture otherTexture = new Texture("obstacles/castleMid.png");
         Vector2 size = new Vector2(50, 50);
         int y = 0;
 
@@ -118,33 +116,30 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
             int widthFilled = 0;
             int x = 0;
             while (widthFilled < board.width()) {
-                FixedObject groundObject = new FixedObject(new Transform(new Vector2(x, y), size), groundTexture);
+                FixedObject groundObject = new FixedObject(new Transform(new Vector2(x, y), size));
                 objectList.add(groundObject);
                 widthFilled += 50;
                 x += 50;
             }
             y += 50;
-            groundTexture = otherTexture;
         }
     }
 
     private void createObstacles() {
-        Texture platformTextureMid = new Texture("obstacles/castleMid.png");
-        Texture platformTextureCen = new Texture("obstacles/castleCenter.png");
         int x = 1130;
         int y = 100;
         int width = 50;
         int height = 50;
         Vector2 platformSize = new Vector2(width, height);
 
-        FixedObject coinPlatform = new FixedObject(new Transform(new Vector2(500, y), platformSize), platformTextureMid);
+        FixedObject coinPlatform = new FixedObject(new Transform(new Vector2(500, y), platformSize));
 
-        FixedObject platform1 = new FixedObject(new Transform(new Vector2(x, y), platformSize), platformTextureMid);
-        FixedObject platform2 = new FixedObject(new Transform(new Vector2(x+width, y), platformSize), platformTextureCen);
-        FixedObject platform3 = new FixedObject(new Transform(new Vector2(x+width*2, y), platformSize), platformTextureCen);
-        FixedObject platform4 = new FixedObject(new Transform(new Vector2(x+width, y+height), platformSize), platformTextureMid);
-        FixedObject platform5 = new FixedObject(new Transform(new Vector2(x+width*2, y+height), platformSize), platformTextureCen);
-        FixedObject platform6 = new FixedObject(new Transform(new Vector2(x+width*2, y+2*height), platformSize), platformTextureMid);
+        FixedObject platform1 = new FixedObject(new Transform(new Vector2(x, y), platformSize));
+        FixedObject platform2 = new FixedObject(new Transform(new Vector2(x+width, y), platformSize));
+        FixedObject platform3 = new FixedObject(new Transform(new Vector2(x+width*2, y), platformSize));
+        FixedObject platform4 = new FixedObject(new Transform(new Vector2(x+width, y+height), platformSize));
+        FixedObject platform5 = new FixedObject(new Transform(new Vector2(x+width*2, y+height), platformSize));
+        FixedObject platform6 = new FixedObject(new Transform(new Vector2(x+width*2, y+2*height), platformSize));
 
         objectList.add(platform1);
         objectList.add(platform2);
@@ -306,7 +301,7 @@ private void handleEnemyCollision(CollisionBox newPlayerCollisionBox, Enemy enem
     }
 
     private void handleMushroomCollision(Mushroom mushroom) {
-        Vector2 bigSize = new Vector2(200, 200);
+        Vector2 bigSize = new Vector2(150, 150);
         player.setHasPowerUp(true);
         player.setSize(bigSize);
         jumpForce = BIG_JUMP_FORCE;

@@ -1,7 +1,5 @@
 package inf112.skeleton.model.gameobject.mobileobject.actor;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.model.gameobject.Scorable;
 import inf112.skeleton.model.gameobject.GameObject;
@@ -12,7 +10,6 @@ import inf112.skeleton.model.gameobject.Transform;
  * An enemy type is any {@link GameObject} that inflicts damage on the player.
  */
 public class Enemy extends Actor implements Scorable {
-    private final static Texture ENEMY_TEXTURE = new Texture(Gdx.files.internal("assets/enemy.png"));
     final private int objectScore;
     final private int damage;
 
@@ -25,7 +22,7 @@ public class Enemy extends Actor implements Scorable {
      * @param transform     The initial transform of the Enemy.
      */
     public Enemy(int movementSpeed, int objectScore, int damage, Transform transform) {
-        super(1, movementSpeed, transform, ENEMY_TEXTURE);
+        super(1, movementSpeed, transform);
 
         this.objectScore = objectScore;
         this.damage = damage;

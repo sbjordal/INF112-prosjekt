@@ -7,13 +7,15 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-
 import inf112.skeleton.model.gameobject.Transform;
 import inf112.skeleton.model.gameobject.ViewableObject;
+
+import java.util.HashMap;
 
 
 public class WorldView implements Screen {
@@ -21,17 +23,19 @@ public class WorldView implements Screen {
     private ViewableWorldModel model;
     private SpriteBatch batch;
     private Viewport viewport;
-    private Texture playerTexture;
     private Texture menuBackgroundTexture;
     private ParallaxBackground parallaxBackground;
     private BitmapFont font;
     private GlyphLayout layout;
+    private HashMap<String, Texture> textures;
+    private PlayerAnimation playerAnimation;
 
     public WorldView(ViewableWorldModel model, int width, int height) {
         this.viewport = new ExtendViewport(width, height);
         this.model = model;
         this.parallaxBackground = new ParallaxBackground();
         this.layout = new GlyphLayout();
+        this.textures = new HashMap<>();
     }
 
     @Override
@@ -39,15 +43,19 @@ public class WorldView implements Screen {
         batch.dispose();
         font.dispose();
         parallaxBackground.dispose();
-        model.getViewablePlayer().dispose();
+        playerAnimation.dispose();
+        for (Texture texture : textures.values()){
+            texture.dispose();
+        }
     }
 
     @Override
     public void show() {
+        this.playerAnimation = new PlayerAnimation();
+        loadTextures();
         this.font = new BitmapFont(); //new BitmapFont(Gdx.files.internal("skeleton.fnt")); Lag fil med font
         font.setColor(Color.WHITE);
         batch = new SpriteBatch();
-        playerTexture = model.getViewablePlayer().getTexture();
         parallaxBackground.loadTextures();
         this.menuBackgroundTexture = new Texture("background/plx-1.png");
     }
@@ -123,7 +131,6 @@ public class WorldView implements Screen {
 
         // Parallax background
         int movementDirection = model.getMovementDirection();
-        model.getViewablePlayer().update(Gdx.graphics.getDeltaTime());
         parallaxBackground.update(movementDirection, deltaTime);
 
         // Camera
@@ -148,7 +155,9 @@ public class WorldView implements Screen {
         font.draw(batch, totalScore, leftX, screenHeight-10);
         font.draw(batch, coinCount, leftX + 300, screenHeight-10);
         font.draw(batch, lives, leftX + 500, screenHeight - 10);
-        batch.draw(model.getViewablePlayer().getCurrentFrame(), playerX, playerY, playerWidth, playerHeight);
+        TextureRegion currentFrame = playerAnimation.getFrame(movementDirection);
+        playerAnimation.update(deltaTime);
+        batch.draw(currentFrame, playerX, playerY, playerWidth, playerHeight);
         font.draw(batch, countDown, leftX + 700, screenHeight - 10);
         drawObjects();
         batch.end();
@@ -173,25 +182,37 @@ public class WorldView implements Screen {
         viewport.apply();
     }
 
+    private void loadTextures(){
+        this.textures.put("enemy", new Texture("assets/enemy.png"));
+        this.textures.put("coin", new Texture("assets/coin.png"));
+        this.textures.put("powerup", new Texture("assets/mushroom.png"));
+        this.textures.put("ground", new Texture("obstacles/castleCenter.png"));
+    }
+
+    private Texture getTexture(ViewableObject obj){
+        String className = obj.getClass().getSimpleName();
+        return switch (className) {
+            case "Enemy" -> textures.get("enemy");
+            case "Coin" -> textures.get("coin");
+            case "Mushroom" -> textures.get("powerup");
+            case "FixedObject" -> textures.get("ground");
+            default -> null;
+        };
+    }
+
     private void drawObjects() {
         for (ViewableObject object : model.getObjectList()) {
-            Texture objectTexture = object.getTexture();
+            Texture objectTexture = getTexture(object);
             float objectX = object.getTransform().getPos().x;
             float objectY = object.getTransform().getPos().y;
             float objectWidth = object.getTransform().getSize().x;
             float objectHeight = object.getTransform().getSize().y;
-
             batch.draw(objectTexture, objectX, objectY, objectWidth, objectHeight);
         }
     }
 
     public float getViewportLeftX() {
         return viewport.getCamera().position.x - viewport.getWorldWidth() / 2;
-    }
-
-    private void loadBackground(String path) {
-        // TODO: kommentert ut fordi det skapte memory overflow.
-        // backgroundTexture = new Texture(Gdx.files.internal(path));
     }
 
     @Override

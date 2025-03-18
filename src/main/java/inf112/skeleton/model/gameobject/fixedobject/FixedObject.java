@@ -1,6 +1,5 @@
 package inf112.skeleton.model.gameobject.fixedobject;
 
-import com.badlogic.gdx.graphics.Texture;
 import inf112.skeleton.model.gameobject.GameObject;
 import inf112.skeleton.model.gameobject.Transform;
 
@@ -15,9 +14,8 @@ public class FixedObject extends GameObject { // TODO: fjerne denne klassen side
      * Creates a new FixedObject with the specified transform and texture.
      *
      * @param transform The fixed position and size of the FixedObject.
-     * @param texture   The visual representation of the FixedObject.
      */
-    public FixedObject(Transform transform, Texture texture) {
-        super(transform, texture);
+    public FixedObject(Transform transform) {
+        super(transform);
     }
 }
