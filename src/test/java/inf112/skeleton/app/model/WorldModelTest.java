@@ -1,5 +1,10 @@
 package inf112.skeleton.app.model;
 
+import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.ApplicationListener;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.backends.headless.HeadlessApplication;
+import com.badlogic.gdx.backends.headless.HeadlessApplicationConfiguration;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.model.WorldBoard;
@@ -8,23 +13,45 @@ import inf112.skeleton.model.gameobject.CollisionBox;
 import inf112.skeleton.model.gameobject.GameObject;
 import inf112.skeleton.model.gameobject.Transform;
 import inf112.skeleton.model.gameobject.fixedobject.FixedObject;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.MockitoAnnotations;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 // TODO: Testene fungerer ikke, får nullpointerexception fra gdx.
 //  Må finne løsning for å kunne teste alt som har med gdx å gjøre. Mockito?
 public class WorldModelTest {
-    private WorldModel worldModel;
 
-    @Before
-    public void setUp() {
-        WorldBoard board = new WorldBoard(100, 100);
-//        worldModel = new WorldModel(board);
-        worldModel.create();  // Initialiser spillobjekter
+    WorldModel worldModel;
+
+    @BeforeAll
+    static void setUpBeforeALl() {
+        HeadlessApplicationConfiguration config = new HeadlessApplicationConfiguration();
+        ApplicationListener listener = new ApplicationAdapter() {
+        };
+        new HeadlessApplication(listener, config);
+
     }
+
+    /**
+     * Setup method called before each of the test methods
+     */
+    @BeforeEach
+    void setUpBeforeEach() {
+        MockitoAnnotations.openMocks(this);
+        worldModel = new WorldModel(800, 600);
+
+        // Mock Gdx.graphics
+        Gdx.graphics = mock(com.badlogic.gdx.Graphics.class);
+        when(Gdx.graphics.getDeltaTime()).thenReturn(1.0f);
+    }
+}
+
 
 //    @Test
 //    public void testSetMovement_rightDirection() {
@@ -84,5 +111,4 @@ public class WorldModelTest {
 //
 //        assertFalse(worldModel.isLegalMove(collisionMove));
 //    }
-}
 
