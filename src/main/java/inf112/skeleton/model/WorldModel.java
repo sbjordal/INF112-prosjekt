@@ -2,10 +2,7 @@ package inf112.skeleton.model;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import inf112.skeleton.controller.ControllableWorldModel;
 import inf112.skeleton.controller.Controller;
 import inf112.skeleton.model.gameobject.*;
@@ -470,6 +467,11 @@ private void handleEnemyCollision(CollisionBox newPlayerCollisionBox, Enemy enem
     public int getMovementDirection() {
         return player.getMovementDirection();
 
+    }
+
+    @Override
+    public int getLevelWidth() {
+        return LEVEL_WIDTH;
     }
 
     @Override

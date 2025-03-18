@@ -75,5 +75,10 @@ public interface ViewableWorldModel {
      * @return
      */
     int getMovementDirection();
+
+    /**
+     * Get world width
+     */
+    int getLevelWidth();
 }
 

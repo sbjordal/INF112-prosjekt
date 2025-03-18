@@ -33,7 +33,6 @@ public class WorldView implements Screen {
     public WorldView(ViewableWorldModel model, int width, int height) {
         this.viewport = new ExtendViewport(width, height);
         this.model = model;
-        this.parallaxBackground = new ParallaxBackground();
         this.layout = new GlyphLayout();
         this.textures = new HashMap<>();
     }
@@ -51,12 +50,12 @@ public class WorldView implements Screen {
 
     @Override
     public void show() {
+        this.parallaxBackground = new ParallaxBackground(model.getLevelWidth());
         this.playerAnimation = new PlayerAnimation();
         loadTextures();
         this.font = new BitmapFont(); //new BitmapFont(Gdx.files.internal("skeleton.fnt")); Lag fil med font
         font.setColor(Color.WHITE);
         batch = new SpriteBatch();
-        parallaxBackground.loadTextures();
         this.menuBackgroundTexture = new Texture("background/plx-1.png");
     }
 
