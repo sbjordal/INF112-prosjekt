@@ -31,12 +31,12 @@ public class ControllerTest {
 
         // Test for Enter og I
         controller.keyDown(Input.Keys.ENTER);
-        verify(controllableModel).setUpModel();
-        verify(controllableModel).create();
-        verify(controllableModel).resume();
+        Mockito.verify(controllableModel).setUpModel();
+        Mockito.verify(controllableModel).create();
+        Mockito.verify(controllableModel).resume();
 
         controller.keyDown(Input.Keys.I);
-        verify(controllableModel).setToInfoMode();
+        Mockito.verify(controllableModel).setToInfoMode();
     }
 
     @Test
@@ -46,10 +46,10 @@ public class ControllerTest {
 
         // Test for Enter og I
         controller.keyDown(Input.Keys.ENTER);
-        verify(controllableModel).resume();
+        Mockito.verify(controllableModel).resume();
 
         controller.keyDown(Input.Keys.I);
-        verify(controllableModel).backToGameMenu();
+        Mockito.verify(controllableModel).backToGameMenu();
     }
 
     @Test
@@ -59,12 +59,12 @@ public class ControllerTest {
 
         // Test for bevegelse
         controller.keyDown(Input.Keys.LEFT);
-        verify(controllableModel).setMovingLeft(true);
+        Mockito.verify(controllableModel).setMovingLeft(true);
 
 
 
         controller.keyDown(Input.Keys.RIGHT);
-        verify(controllableModel).setMovingRight(true);
+        Mockito.verify(controllableModel).setMovingRight(true);
 
 
 //        // Test for hopp
@@ -83,7 +83,7 @@ public class ControllerTest {
 
         // Test for Enter
         controller.keyDown(Input.Keys.ENTER);
-        verify(controllableModel).backToGameMenu();
+        Mockito.verify(controllableModel).backToGameMenu();
     }
 
     @Test
@@ -93,10 +93,10 @@ public class ControllerTest {
 
         // Test for slipp av taster
         controller.keyUp(Input.Keys.LEFT);
-        verify(controllableModel).setMovingLeft(false);
+        Mockito.verify(controllableModel).setMovingLeft(false);
 
         controller.keyUp(Input.Keys.RIGHT);
-        verify(controllableModel).setMovingRight(false);
+        Mockito.verify(controllableModel).setMovingRight(false);
     }
 
     @Test
@@ -106,11 +106,11 @@ public class ControllerTest {
 
         // Test for pause
         controller.keyTyped('p');
-        verify(controllableModel).pause();
+        Mockito.verify(controllableModel).pause();
 
 
-        verify(controllableModel).setMovingLeft(false);    // Check if movingLeft was set to false
-        verify(controllableModel).setMovingRight(false);   // Check if movingRight was set to false
+        Mockito.verify(controllableModel).setMovingLeft(false);    // Check if movingLeft was set to false
+        Mockito.verify(controllableModel).setMovingRight(false);   // Check if movingRight was set to false
     }
 
     @Test
@@ -120,7 +120,7 @@ public class ControllerTest {
 
         // Test for resume
         controller.keyTyped('p');
-        verify(controllableModel).resume();
+        Mockito.verify(controllableModel).resume();
     }
 
     @Test
