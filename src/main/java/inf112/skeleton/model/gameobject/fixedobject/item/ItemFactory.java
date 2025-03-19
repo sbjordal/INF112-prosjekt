@@ -21,7 +21,7 @@ public class ItemFactory {
     public static Mushroom createMushroom(float x, float y){
 
         int width = 50;
-        int height = (int) (width * 1.0625f);
+        int height = 53;
         Vector2 pos = new Vector2(x, y);
         Vector2 size = new Vector2(width, height);
         Transform transform = new Transform(pos, size);
