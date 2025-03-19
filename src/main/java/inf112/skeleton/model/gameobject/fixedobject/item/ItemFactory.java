@@ -4,10 +4,6 @@ import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.model.gameobject.Transform;
 
 public class ItemFactory {
-    // TODO: Revisjon av CoinFactory
-    // TODO: Må oppdatere UML-diagram til å inneholde CoinFactory
-
-
     public static Coin createCoin(float x, float y){
 
         int DIAMETER = 30;
