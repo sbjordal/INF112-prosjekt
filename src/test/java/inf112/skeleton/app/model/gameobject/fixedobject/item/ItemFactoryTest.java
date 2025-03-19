@@ -1,8 +1,8 @@
 package inf112.skeleton.app.model.gameobject.fixedobject.item;
 
+import inf112.skeleton.model.gameobject.fixedobject.item.Banana;
 import inf112.skeleton.model.gameobject.fixedobject.item.Coin;
 import inf112.skeleton.model.gameobject.fixedobject.item.ItemFactory;
-import inf112.skeleton.model.gameobject.fixedobject.item.Mushroom;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -17,8 +17,8 @@ public class ItemFactoryTest {
 
     @Test
     void testCreateMushroomNotNull() {
-        Mushroom mushroom = ItemFactory.createMushroom(15, 25);
-        assertNotNull(mushroom, "Mushroom should not be null");
+        Banana banana = ItemFactory.createMushroom(15, 25);
+        assertNotNull(banana, "Banana should not be null");
     }
 
     @Test
@@ -36,13 +36,13 @@ public class ItemFactoryTest {
     @Test
     void testCreateMushroomHasCorrectPositionAndSize() {
         float x = 15f, y = 25f;
-        Mushroom mushroom = ItemFactory.createMushroom(x, y);
+        Banana banana = ItemFactory.createMushroom(x, y);
 
-        assertEquals(x, mushroom.getTransform().getPos().x, 0.001, "X position should match");
-        assertEquals(y, mushroom.getTransform().getPos().y, 0.001, "Y position should match");
+        assertEquals(x, banana.getTransform().getPos().x, 0.001, "X position should match");
+        assertEquals(y, banana.getTransform().getPos().y, 0.001, "Y position should match");
 
-        assertEquals(50, mushroom.getTransform().getSize().x, "Mushroom width should be 50");
-        assertEquals(53, mushroom.getTransform().getSize().y, 0.001, "Mushroom height should be 53");
+        assertEquals(50, banana.getTransform().getSize().x, "Banana width should be 50");
+        assertEquals(53, banana.getTransform().getSize().y, 0.001, "Banana height should be 53");
     }
 
     @Test
@@ -55,10 +55,10 @@ public class ItemFactoryTest {
 
     @Test
     void testCreatedMushroomsAreNotSameObject() {
-        Mushroom mushroom1 = ItemFactory.createMushroom(10, 10);
-        Mushroom mushroom2 = ItemFactory.createMushroom(10, 10);
+        Banana banana1 = ItemFactory.createMushroom(10, 10);
+        Banana banana2 = ItemFactory.createMushroom(10, 10);
 
-        assertNotEquals(mushroom1, mushroom2, "Two created mushrooms should be different objects");
+        assertNotEquals(banana1, banana2, "Two created mushrooms should be different objects");
     }
 
 }

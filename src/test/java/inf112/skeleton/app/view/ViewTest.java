@@ -29,7 +29,7 @@ public class ViewTest {
     @Test
     public void testLoadFile() {
         // innlesing av filer funker med HeadlessApplication
-        assertNotNull(Gdx.files.internal("enemy.png"), "This should work if you've enabled HeadlessApplication");
+        assertNotNull(Gdx.files.internal("snail.png"), "This should work if you've enabled HeadlessApplication");
     }
 
 

@@ -7,9 +7,9 @@ import inf112.skeleton.controller.ControllableWorldModel;
 import inf112.skeleton.controller.Controller;
 import inf112.skeleton.model.gameobject.*;
 import inf112.skeleton.model.gameobject.fixedobject.FixedObject;
+import inf112.skeleton.model.gameobject.fixedobject.item.Banana;
 import inf112.skeleton.model.gameobject.fixedobject.item.Coin;
 import inf112.skeleton.model.gameobject.fixedobject.item.ItemFactory;
-import inf112.skeleton.model.gameobject.fixedobject.item.Mushroom;
 import inf112.skeleton.model.gameobject.mobileobject.actor.Enemy;
 import inf112.skeleton.model.gameobject.mobileobject.actor.EnemyFactory;
 import inf112.skeleton.model.gameobject.mobileobject.actor.EnemyType;
@@ -103,7 +103,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         Coin coin1 = ItemFactory.createCoin(510, 250);
         Coin coin2 = ItemFactory.createCoin(1400, 105);
 
-        Mushroom mushroom = ItemFactory.createMushroom(700, 100);
+        Banana banana = ItemFactory.createMushroom(700, 100);
 
         // TODO: en stygg måte å lage hindring på for nå
         this.objectList = new ArrayList<>();
@@ -115,10 +115,11 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         worldView.show();
 
         // Fill up the object list
-        this.objectList.add(enemy); // TODO: må endres når vi har flere enemies.
+        this.objectList.add(snail); // TODO: må endres når vi har flere enemies.
+        this.objectList.add(leopard);
         this.objectList.add(coin1); // TODO: må endres til å bruke coinfactory
         this.objectList.add(coin2); // TODO: må endres til å bruke coinfactory
-        this.objectList.add(mushroom); // TODO: må endres til å bruke coinfactory
+        this.objectList.add(banana); // TODO: må endres til å bruke coinfactory
 
         this.controller = new Controller(this);
         Gdx.input.setInputProcessor(this.controller);
@@ -281,8 +282,8 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
                 }
                 else if (gameObject instanceof Enemy enemy) {
                     handleEnemyCollision(collisionBox, enemy);
-                } else if (gameObject instanceof Mushroom mushroom) {
-                    handleMushroomCollision(mushroom);
+                } else if (gameObject instanceof Banana banana) {
+                    handleMushroomCollision(banana);
                 }
                 return true;
             }
@@ -320,12 +321,12 @@ private void handleEnemyCollision(CollisionBox newPlayerCollisionBox, Enemy enem
         objectList.remove(coin);
     }
 
-    private void handleMushroomCollision(Mushroom mushroom) {
+    private void handleMushroomCollision(Banana banana) {
         Vector2 bigSize = new Vector2(150, 150);
         player.setHasPowerUp(true);
         player.setSize(bigSize);
         jumpForce = BIG_JUMP_FORCE;
-        objectList.remove(mushroom);
+        objectList.remove(banana);
     }
 
     @Override
