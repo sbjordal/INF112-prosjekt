@@ -28,6 +28,13 @@ class PlayerTest {
     }
 
     @Test
+    void testPlayerCreation() {
+        assertNotNull(player, "Player should not be null");
+        assertEquals(3, player.getLives(), "Player should have 3 lives initially");
+        assertEquals(5, player.getMovementSpeed(), "Player should have a movement speed of 5");
+    }
+
+    @Test
     void testReceiveDamageReducesLives() {
         player.receiveDamage(1);
         assertEquals(2, player.getLives());
@@ -56,12 +63,7 @@ class PlayerTest {
         assertFalse(player.getHasPowerUp());
     }
 
-    @Test
-    void testPlayerCreation() {
-        assertNotNull(player, "Player should not be null");
-        assertEquals(3, player.getLives(), "Player should have 3 lives initially");
-        assertEquals(5, player.getMovementSpeed(), "Player should have a movement speed of 5");
-    }
+
 
     @Test
     void testJumpSetsVerticalVelocity() {
