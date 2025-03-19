@@ -100,11 +100,12 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
         Enemy snail = EnemyFactory.createEnemy(150, 100, EnemyType.SNAIL);
         Enemy leopard = EnemyFactory.createEnemy(40, 100, EnemyType.LEOPARD);
+        Enemy leopard2 = EnemyFactory.createEnemy(2200, 100, EnemyType.LEOPARD);
 
         Coin coin1 = ItemFactory.createCoin(510, 250);
         Coin coin2 = ItemFactory.createCoin(1400, 105);
 
-        Banana banana = ItemFactory.createMushroom(700, 100);
+        Banana banana = ItemFactory.createMushroom(550, 100);
         Banana banana2 = ItemFactory.createMushroom(850, 100);
 
         // TODO: en stygg måte å lage hindring på for nå
@@ -119,6 +120,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         // Fill up the object list
         this.objectList.add(snail); // TODO: må endres når vi har flere enemies.
         this.objectList.add(leopard);
+        this.objectList.add(leopard2);
         this.objectList.add(coin1); // TODO: må endres til å bruke coinfactory
         this.objectList.add(coin2); // TODO: må endres til å bruke coinfactory
         this.objectList.add(banana); // TODO: må endres til å bruke coinfactory
