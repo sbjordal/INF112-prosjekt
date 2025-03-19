@@ -1,7 +1,7 @@
 package inf112.skeleton.model.gameobject.mobileobject.actor;
 
 public enum EnemyType {
-    SNEGL (50, 50, 1, 1, 60, 60);
+    SNEGL (50, 50, 10, 1, 60, 60);
 
     public final int health;
     public final int movementSpeed;

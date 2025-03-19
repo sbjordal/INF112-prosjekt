@@ -274,7 +274,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
 private void handleEnemyCollision(CollisionBox newPlayerCollisionBox, Enemy enemy) {
     if (newPlayerCollisionBox.isCollidingFromBottom(enemy.getCollisionBox())){
-        totalScore+=10; // TODO: dette skal være enemy typen sin objectScore.
+        totalScore += enemy.getObjectScore(); // TODO: dette skal være enemy typen sin objectScore.
         objectList.remove(enemy);
     }
     else{
