@@ -32,6 +32,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     private int jumpForce;
     private GameState gameState;
     private Player player;
+    private Vector2 standardPlayerSize;
     private WorldBoard board;
     private WorldView worldView;
     private Controller controller;
@@ -92,9 +93,9 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         createGround();
         createObstacles();
 
-        Vector2 playerSize = new Vector2(40, 80);
+        this.standardPlayerSize = new Vector2(40, 80);
         Vector2 playerPosition = new Vector2(380, 500);
-        Transform playerTransform = new Transform(playerPosition, playerSize);
+        Transform playerTransform = new Transform(playerPosition, standardPlayerSize);
         player = new Player(1, 300, playerTransform); // TODO, legg til argument (foreløpig argumenter for å kunne kompilere prosjektet)
 
         Enemy snail = EnemyFactory.createEnemy(150, 100, EnemyType.SNAIL);
@@ -104,6 +105,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         Coin coin2 = ItemFactory.createCoin(1400, 105);
 
         Banana banana = ItemFactory.createMushroom(700, 100);
+        Banana banana2 = ItemFactory.createMushroom(850, 100);
 
         // TODO: en stygg måte å lage hindring på for nå
         this.objectList = new ArrayList<>();
@@ -120,6 +122,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         this.objectList.add(coin1); // TODO: må endres til å bruke coinfactory
         this.objectList.add(coin2); // TODO: må endres til å bruke coinfactory
         this.objectList.add(banana); // TODO: må endres til å bruke coinfactory
+        this.objectList.add(banana2); // TODO: må endres til å bruke coinfactory
 
         this.controller = new Controller(this);
         Gdx.input.setInputProcessor(this.controller);
@@ -293,15 +296,23 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
 private void handleEnemyCollision(CollisionBox newPlayerCollisionBox, Enemy enemy) {
     if (newPlayerCollisionBox.isCollidingFromBottom(enemy.getCollisionBox())){
-        totalScore += enemy.getObjectScore(); // TODO: dette skal være enemy typen sin objectScore.
+        totalScore += enemy.getObjectScore();
         objectList.remove(enemy);
     }
     else{
         long currentTime = System.currentTimeMillis();
         if (currentTime - lastEnemyCollisionTime >= COLLISION_COOLDOWN) {
 
-            // Enemy deals damage to the player
-            player.receiveDamage(enemy.getDamage());
+            // If the player has a powerUp it loses this power up instead of receiving damage
+            if (player.getHasPowerUp()) {
+                player.setHasPowerUp(false);
+                player.setSize(standardPlayerSize);
+                jumpForce = NORMAL_JUMP_FORCE;
+            }
+            else {
+                // Enemy deals damage to the player
+                player.receiveDamage(enemy.getDamage());
+            }
 
             // Reduce total score
             final int scorePenalty = 4;
