@@ -50,6 +50,8 @@ public class WorldModelTest {
         assertEquals(0, worldModel.getCoinCounter());
         assertEquals(GameState.GAME_MENU, worldModel.getGameState());
     }
+
+    // TODO: Denne fungerer ikke pga manglende soundhandler.. Justere implementasjon av sound?
     @Test
     public void testScoreIncreasesWhenCoinCollected() {
         int initialScore = worldModel.getTotalScore();
