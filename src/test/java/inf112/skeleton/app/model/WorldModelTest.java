@@ -7,17 +7,21 @@ import com.badlogic.gdx.backends.headless.HeadlessApplication;
 import com.badlogic.gdx.backends.headless.HeadlessApplicationConfiguration;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
+import inf112.skeleton.model.GameState;
 import inf112.skeleton.model.WorldBoard;
 import inf112.skeleton.model.WorldModel;
 import inf112.skeleton.model.gameobject.CollisionBox;
 import inf112.skeleton.model.gameobject.GameObject;
 import inf112.skeleton.model.gameobject.Transform;
 import inf112.skeleton.model.gameobject.fixedobject.FixedObject;
+import inf112.skeleton.model.gameobject.mobileobject.actor.Player;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
@@ -27,30 +31,49 @@ import static org.mockito.Mockito.when;
 //  Må finne løsning for å kunne teste alt som har med gdx å gjøre. Mockito?
 public class WorldModelTest {
 
-    WorldModel worldModel;
+    private WorldModel worldModel;
+    private Player player;
+    private Transform transform;
 
-    @BeforeAll
-    static void setUpBeforeALl() {
-        HeadlessApplicationConfiguration config = new HeadlessApplicationConfiguration();
-        ApplicationListener listener = new ApplicationAdapter() {
-        };
-        new HeadlessApplication(listener, config);
-
-    }
-
-    /**
-     * Setup method called before each of the test methods
-     */
     @BeforeEach
-    void setUpBeforeEach() {
-        MockitoAnnotations.openMocks(this);
-        worldModel = new WorldModel(800, 600);
-
-        // Mock Gdx.graphics
-        Gdx.graphics = mock(com.badlogic.gdx.Graphics.class);
-        when(Gdx.graphics.getDeltaTime()).thenReturn(1.0f);
+    void setUp() {
+        worldModel = new WorldModel(1000, 500);
+        transform = new Transform(new Vector2(10, 20), new Vector2(30, 30));
+        player = new Player(3, 5, transform);
     }
+
+    @Test
+    void testWorldModelInitialization() {
+        assertNotNull(worldModel);
+        assertEquals(0, worldModel.getTotalScore());
+        assertEquals(0, worldModel.getCoinCounter());
+        assertEquals(GameState.GAME_MENU, worldModel.getGameState());
+    }
+
 }
+
+//    @BeforeAll
+//    static void setUpBeforeALl() {
+//        HeadlessApplicationConfiguration config = new HeadlessApplicationConfiguration();
+//        ApplicationListener listener = new ApplicationAdapter() {
+//        };
+//        new HeadlessApplication(listener, config);
+//
+//    }
+//
+//    /**
+//     * Setup method called before each of the test methods
+//     */
+//    @BeforeEach
+//    void setUpBeforeEach() {
+//        MockitoAnnotations.openMocks(this);
+//        worldModel = new WorldModel(800, 600);
+//
+//        // Mock Gdx.graphics
+//        Gdx.graphics = mock(com.badlogic.gdx.Graphics.class);
+//        when(Gdx.graphics.getDeltaTime()).thenReturn(1.0f);
+//    }
+//}
 
 
 //    @Test
