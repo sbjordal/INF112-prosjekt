@@ -5,18 +5,20 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class WorldBoardTest {
+    // worldboard statisk
 
     @Test
     void constructorShouldSetHeightAndWidthCorrectly() {
-        WorldBoard board = new WorldBoard(10, 15);
-        assertEquals(10, board.height());
+        WorldBoard board = new WorldBoard(15, 10);
         assertEquals(15, board.width());
+        assertEquals(10, board.height());
+
     }
 
     @Test
     void testHashCodeAndEquals() {
-        WorldBoard board1 = new WorldBoard(5, 5);
-        WorldBoard board2 = new WorldBoard(5, 5);
+        WorldBoard board1 = new WorldBoard(10, 5);
+        WorldBoard board2 = new WorldBoard(10, 5);
 
         assertEquals(board1, board2);
         assertEquals(board1.hashCode(), board2.hashCode());
@@ -32,8 +34,8 @@ class WorldBoardTest {
 
     @Test
     void testToString() {
-        WorldBoard board = new WorldBoard(7, 8);
-        String expected = "WorldBoard[height=7, width=8]";
+        WorldBoard board = new WorldBoard(8, 7);
+        String expected = "WorldBoard[width=8, height=7]";
 
         assertEquals(expected, board.toString());
     }
