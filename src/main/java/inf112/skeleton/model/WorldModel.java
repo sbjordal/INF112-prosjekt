@@ -97,7 +97,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         Transform playerTransform = new Transform(playerPosition, playerSize);
         player = new Player(1, 300, playerTransform); // TODO, legg til argument (foreløpig argumenter for å kunne kompilere prosjektet)
 
-        Enemy enemy = EnemyFactory.createEnemy(40, 100, EnemyType.SNEGL);
+        Enemy enemy = EnemyFactory.createEnemy(40, 100, EnemyType.SNAIL);
 
         Coin coin1 = ItemFactory.createCoin(510, 250);
         Coin coin2 = ItemFactory.createCoin(1400, 105);
