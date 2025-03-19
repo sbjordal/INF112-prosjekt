@@ -74,7 +74,8 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         Transform playerTransform = new Transform(playerPosition, playerSize);
         this.player = new Player(1, 300, playerTransform); // TODO, legg til argument (foreløpig argumenter for å kunne kompilere prosjektet)
 
-        Enemy enemy = EnemyFactory.createEnemy(40, 100, EnemyType.SNEGL);
+        Enemy snail = EnemyFactory.createEnemy(150, 100, EnemyType.SNAIL);
+        Enemy leopard = EnemyFactory.createEnemy(40, 100, EnemyType.LEOPARD);
 
         Coin coin1 = ItemFactory.createCoin(510, 250);
         Coin coin2 = ItemFactory.createCoin(1400, 105);
@@ -91,7 +92,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         worldView.show();
 
         // Fill up the object list
-        this.objectList.add(enemy); // TODO: må endres når vi har flere enemies.
+        this.objectList.add(snail); // TODO: må endres når vi har flere enemies.
         this.objectList.add(coin1); // TODO: må endres til å bruke coinfactory
         this.objectList.add(coin2); // TODO: må endres til å bruke coinfactory
         this.objectList.add(mushroom); // TODO: må endres til å bruke coinfactory
