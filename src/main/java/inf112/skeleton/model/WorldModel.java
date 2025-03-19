@@ -51,7 +51,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     public WorldModel(int width, int height) {
         this.height = height;
         this.worldView = new WorldView(this, width, height);
-        this.gameState = GameState.GAME_MENU; // TODO, må endres etter at game menu er laget.
+        this.gameState = GameState.GAME_MENU;
         this.logger = LoggerFactory.getLogger(WorldModel.class);
         setUpModel();
     }
