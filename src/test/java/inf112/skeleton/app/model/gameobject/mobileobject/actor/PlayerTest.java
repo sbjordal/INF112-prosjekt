@@ -50,9 +50,9 @@ class PlayerTest {
 
     @Test
     void testReceiveDamageThrowsExceptionForNegativeDamage() {
-        assertThrows(IllegalArgumentException.class, () -> player.receiveDamage(-1));
+        assertThrows(IllegalArgumentException.class, () -> player.receiveDamage(-1), "Damage can not be negative.");
+        assertThrows(IllegalArgumentException.class, () -> player.dealDamage(player, -1), "Damage can not be negative.");
     }
-
 
     @Test
     void testSetAndGetHasPowerUp() {
@@ -89,6 +89,19 @@ class PlayerTest {
         assertEquals(3, player.getLives(), "Player should have 3 lives initially");
 
     }
+
+    @Test
+    void testPlayerThrowsExceptionForNonPositiveLives() {
+
+        assertThrows(IllegalArgumentException.class, () -> new Player(0, 5, transform));
+        assertThrows(IllegalArgumentException.class, () -> new Player(-1, 5, transform));
+    }
+
+    @Test
+    void testDealDamageThrowsExceptionForNullTarget() {
+        assertThrows(IllegalArgumentException.class, () -> player.dealDamage(null, 1));
+    }
+
 
 
 }

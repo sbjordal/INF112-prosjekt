@@ -42,7 +42,7 @@ public class Enemy extends Actor implements Scorable {
      */
     @Override
     public void move(Vector2 newPosition) {
-        // TODO: implement me :)
+        // TODO: implement me :) OBS: Trenger også tester for move av enemy
     }
 
     @Override

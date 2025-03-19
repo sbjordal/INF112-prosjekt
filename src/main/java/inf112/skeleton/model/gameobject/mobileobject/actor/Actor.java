@@ -71,7 +71,7 @@ abstract class Actor extends MobileObject {
      * @param damage The amount of damage to inflict.
      * @throws NullPointerException if {@code target} is null.
      */
-    protected void dealDamage(Actor target, int damage) {
+    public void dealDamage(Actor target, int damage) {
         if (target == null) {
             throw new IllegalArgumentException("Target can not be null.");
         }
