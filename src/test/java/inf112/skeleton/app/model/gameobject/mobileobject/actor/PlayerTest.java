@@ -15,10 +15,45 @@ class PlayerTest {
 
     @BeforeEach
     void setUp() {
-        // Opprette en transform med en posisjon og størrelse
         transform = new Transform(new Vector2(10, 20), new Vector2(30, 30));
-        // Initialisere player med 3 liv og hastighet på 5
         player = new Player(3, 5, transform);
+    }
+
+    @Test
+    void testPlayerInitialization() {
+        assertNotNull(player);
+        assertEquals(3, player.getLives());
+        assertTrue(player.isAlive());
+        assertFalse(player.getHasPowerUp());
+    }
+
+    @Test
+    void testReceiveDamageReducesLives() {
+        player.receiveDamage(1);
+        assertEquals(2, player.getLives());
+        assertTrue(player.isAlive());
+    }
+
+    @Test
+    void testReceiveDamageKillsPlayerWhenLivesAreZero() {
+        player.receiveDamage(3);
+        assertEquals(0, player.getLives());
+        assertFalse(player.isAlive());
+    }
+
+    @Test
+    void testReceiveDamageThrowsExceptionForNegativeDamage() {
+        assertThrows(IllegalArgumentException.class, () -> player.receiveDamage(-1));
+    }
+
+
+    @Test
+    void testSetAndGetHasPowerUp() {
+        player.setHasPowerUp(true);
+        assertTrue(player.getHasPowerUp());
+
+        player.setHasPowerUp(false);
+        assertFalse(player.getHasPowerUp());
     }
 
     @Test
