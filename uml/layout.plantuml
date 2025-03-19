@@ -32,14 +32,19 @@ remove WorldBoardTest
 remove FixedObjectTest
 remove ControllerTest
 remove ModelTest
+remove MushroomTest
+remove PlayerAnimation
+remove SoundHandlerTest
+remove SoundHandlerTest
+remove ItemFactoryTest
 
 'Remove potentially unnecessary objects
 remove Direction
 
 'Remove package-info files
-remove node3
-remove node11
-remove node24
+remove node29
+remove node39
+remove node40
 
 'Force rearrange objects
 'WorldModel -[hidden]-- WorldView
