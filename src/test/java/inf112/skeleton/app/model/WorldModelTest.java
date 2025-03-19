@@ -14,6 +14,7 @@ import inf112.skeleton.model.gameobject.CollisionBox;
 import inf112.skeleton.model.gameobject.GameObject;
 import inf112.skeleton.model.gameobject.Transform;
 import inf112.skeleton.model.gameobject.fixedobject.FixedObject;
+import inf112.skeleton.model.gameobject.fixedobject.item.Coin;
 import inf112.skeleton.model.gameobject.mobileobject.actor.Player;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -48,6 +49,12 @@ public class WorldModelTest {
         assertEquals(0, worldModel.getTotalScore());
         assertEquals(0, worldModel.getCoinCounter());
         assertEquals(GameState.GAME_MENU, worldModel.getGameState());
+    }
+    @Test
+    public void testScoreIncreasesWhenCoinCollected() {
+        int initialScore = worldModel.getTotalScore();
+        worldModel.handleCoinCollision(new Coin(transform));
+        assertTrue(worldModel.getTotalScore() > initialScore);
     }
 
 }

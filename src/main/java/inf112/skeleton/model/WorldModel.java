@@ -313,7 +313,7 @@ private void handleEnemyCollision(CollisionBox newPlayerCollisionBox, Enemy enem
      }
     }
 
-    private void handleCoinCollision(Coin coin) {
+    public void handleCoinCollision(Coin coin) {
         final int objectScore = coin.getObjectScore();
         soundHandler.playCoinSound();
         coinCounter++;
