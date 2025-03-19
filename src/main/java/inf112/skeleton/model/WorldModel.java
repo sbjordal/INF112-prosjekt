@@ -381,6 +381,10 @@ private void handleEnemyCollision(CollisionBox newPlayerCollisionBox, Enemy enem
 
     private boolean shouldUpdateCountDown() {
         long currentTime = System.currentTimeMillis();
+        if (countDown == 0) {
+            gameState = GameState.GAME_OVER;
+        }
+
         return currentTime - lastScoreUpdate >= 1000 && countDown >0 && gameState == GameState.GAME_ACTIVE;
     }
 
