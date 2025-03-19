@@ -97,18 +97,36 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         Transform playerTransform = new Transform(playerPosition, playerSize);
         player = new Player(1, 300, playerTransform); // TODO, legg til argument (foreløpig argumenter for å kunne kompilere prosjektet)
 
-        Enemy enemy = EnemyFactory.createEnemy(40, 100, EnemyType.SNAIL);
+        Enemy snail = EnemyFactory.createEnemy(150, 100, EnemyType.SNAIL);
+        Enemy leopard = EnemyFactory.createEnemy(40, 100, EnemyType.LEOPARD);
 
         Coin coin1 = ItemFactory.createCoin(510, 250);
         Coin coin2 = ItemFactory.createCoin(1400, 105);
 
         Mushroom mushroom = ItemFactory.createMushroom(700, 100);
 
+        // TODO: en stygg måte å lage hindring på for nå
+        this.objectList = new ArrayList<>();
+        createGround();
+        createObstacles();
+
+        Gdx.graphics.setForegroundFPS(60);
+        worldView.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        worldView.show();
+
         // Fill up the object list
-        objectList.add(enemy); // TODO: må endres når vi har flere enemies.
-        objectList.add(coin1); // TODO: må endres til å bruke coinfactory
-        objectList.add(coin2); // TODO: må endres til å bruke coinfactory
-        objectList.add(mushroom);
+        this.objectList.add(enemy); // TODO: må endres når vi har flere enemies.
+        this.objectList.add(coin1); // TODO: må endres til å bruke coinfactory
+        this.objectList.add(coin2); // TODO: må endres til å bruke coinfactory
+        this.objectList.add(mushroom); // TODO: må endres til å bruke coinfactory
+
+        this.controller = new Controller(this);
+        Gdx.input.setInputProcessor(this.controller);
+
+        this.soundHandler = new SoundHandler();
+        this.logger.info("FPS {}", Gdx.graphics.getFramesPerSecond());
+        this.logger.info("Height {}", Gdx.graphics.getHeight());
+        this.logger.info("Width {}", Gdx.graphics.getWidth());
     }
 
     /**

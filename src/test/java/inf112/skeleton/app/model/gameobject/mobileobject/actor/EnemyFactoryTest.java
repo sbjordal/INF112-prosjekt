@@ -12,14 +12,14 @@ public class EnemyFactoryTest {
 
     @BeforeEach
     void setUp() {
-        Enemy enemy = EnemyFactory.createEnemy(5, 10, EnemyType.SNEGL);
+        Enemy enemy = EnemyFactory.createEnemy(5, 10, EnemyType.SNAIL);
         assertNotNull(enemy, "Enemy should not be null");
     }
 
     @Test
     void testCreateEnemyHasCorrectPosition() {
         float x = 5f, y = 10f;
-        Enemy enemy = EnemyFactory.createEnemy(x, y, EnemyType.SNEGL);
+        Enemy enemy = EnemyFactory.createEnemy(x, y, EnemyType.SNAIL);
 
         assertEquals(x, enemy.getTransform().getPos().x, 0.001, "X position should match");
         assertEquals(y, enemy.getTransform().getPos().y, 0.001, "Y position should match");
@@ -27,25 +27,25 @@ public class EnemyFactoryTest {
 
     @Test
     void testCreateEnemyHasCorrectSize() {
-        Enemy enemy = EnemyFactory.createEnemy(5, 10, EnemyType.SNEGL);
+        Enemy enemy = EnemyFactory.createEnemy(5, 10, EnemyType.SNAIL);
 
-        assertEquals(EnemyType.SNEGL.width, enemy.getTransform().getSize().x, 0.001, "Width should match");
-        assertEquals(EnemyType.SNEGL.height, enemy.getTransform().getSize().y, 0.001, "Height should match");
+        assertEquals(EnemyType.SNAIL.width, enemy.getTransform().getSize().x, 0.001, "Width should match");
+        assertEquals(EnemyType.SNAIL.height, enemy.getTransform().getSize().y, 0.001, "Height should match");
     }
 
     @Test
     void testCreateEnemyHasCorrectAttributes() {
-        Enemy enemy = EnemyFactory.createEnemy(5, 10, EnemyType.SNEGL);
+        Enemy enemy = EnemyFactory.createEnemy(5, 10, EnemyType.SNAIL);
 
-        assertEquals(EnemyType.SNEGL.movementSpeed, enemy.getMovementSpeed(), "Movement speed should match");
-        assertEquals(EnemyType.SNEGL.objectScore, enemy.getObjectScore(), "Object score should match");
-        assertEquals(EnemyType.SNEGL.damage, enemy.getDamage(), "Damage should match");
+        assertEquals(EnemyType.SNAIL.movementSpeed, enemy.getMovementSpeed(), "Movement speed should match");
+        assertEquals(EnemyType.SNAIL.objectScore, enemy.getObjectScore(), "Object score should match");
+        assertEquals(EnemyType.SNAIL.damage, enemy.getDamage(), "Damage should match");
     }
 
     @Test
     void testCreateEnemyAtNegativePosition() {
         float x = -10f, y = -20f;
-        Enemy enemy = EnemyFactory.createEnemy(x, y, EnemyType.SNEGL);
+        Enemy enemy = EnemyFactory.createEnemy(x, y, EnemyType.SNAIL);
 
         assertEquals(x, enemy.getTransform().getPos().x, 0.001, "X position should match negative value");
         assertEquals(y, enemy.getTransform().getPos().y, 0.001, "Y position should match negative value");
@@ -53,8 +53,8 @@ public class EnemyFactoryTest {
 
     @Test
     void testEnemiesAreNotEqualButHaveSameAttributes() {
-        Enemy enemy1 = EnemyFactory.createEnemy(5, 10, EnemyType.SNEGL);
-        Enemy enemy2 = EnemyFactory.createEnemy(5, 10, EnemyType.SNEGL);
+        Enemy enemy1 = EnemyFactory.createEnemy(5, 10, EnemyType.SNAIL);
+        Enemy enemy2 = EnemyFactory.createEnemy(5, 10, EnemyType.SNAIL);
 
         assertNotEquals(enemy1, enemy2, "Enemies should not be the same object");
 
