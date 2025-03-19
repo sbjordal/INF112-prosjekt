@@ -67,12 +67,35 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
     @Override
     public void create() {
-        this.board = new WorldBoard(LEVEL_WIDTH, height);
+        board = new WorldBoard(LEVEL_WIDTH, height);
+
+        Gdx.graphics.setForegroundFPS(60);
+        worldView.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        worldView.show();
+
+        controller = new Controller(this);
+        Gdx.input.setInputProcessor(controller);
+
+        soundHandler = new SoundHandler();
+        logger.info("FPS {}", Gdx.graphics.getFramesPerSecond());
+        logger.info("Height {}", Gdx.graphics.getHeight());
+        logger.info("Width {}", Gdx.graphics.getWidth());
+        initiateGameObjects(); //TODO, må muligens endres etter vi bruker input-fil for level design
+    }
+
+    /**
+     * Initiates all instances of type GameObject (level-design)
+     *
+     */
+    private void initiateGameObjects() { //TODO, må endres etter ny måte for level-design
+        objectList = new ArrayList<>();
+        createGround();
+        createObstacles();
 
         Vector2 playerSize = new Vector2(40, 80);
         Vector2 playerPosition = new Vector2(380, 500);
         Transform playerTransform = new Transform(playerPosition, playerSize);
-        this.player = new Player(1, 300, playerTransform); // TODO, legg til argument (foreløpig argumenter for å kunne kompilere prosjektet)
+        player = new Player(1, 300, playerTransform); // TODO, legg til argument (foreløpig argumenter for å kunne kompilere prosjektet)
 
         Enemy enemy = EnemyFactory.createEnemy(40, 100, EnemyType.SNEGL);
 
@@ -81,31 +104,17 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
         Mushroom mushroom = ItemFactory.createMushroom(700, 100);
 
-        // TODO: en stygg måte å lage hindring på for nå
-        this.objectList = new ArrayList<>();
-        createGround();
-        createObstacles();
-
-        Gdx.graphics.setForegroundFPS(60);
-        worldView.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        worldView.show();
-
         // Fill up the object list
-        this.objectList.add(enemy); // TODO: må endres når vi har flere enemies.
-        this.objectList.add(coin1); // TODO: må endres til å bruke coinfactory
-        this.objectList.add(coin2); // TODO: må endres til å bruke coinfactory
-        this.objectList.add(mushroom); // TODO: må endres til å bruke coinfactory
-
-        this.controller = new Controller(this);
-        Gdx.input.setInputProcessor(this.controller);
-
-        this.soundHandler = new SoundHandler();
-        this.logger.info("FPS {}", Gdx.graphics.getFramesPerSecond());
-        this.logger.info("Height {}", Gdx.graphics.getHeight());
-        this.logger.info("Width {}", Gdx.graphics.getWidth());
+        objectList.add(enemy); // TODO: må endres når vi har flere enemies.
+        objectList.add(coin1); // TODO: må endres til å bruke coinfactory
+        objectList.add(coin2); // TODO: må endres til å bruke coinfactory
+        objectList.add(mushroom);
     }
 
-    private void createGround() {
+    /**
+     * Helper function for level-design.
+     */
+    private void createGround() { //TODO, må endres etter ny måte for level-design
         Vector2 size = new Vector2(50, 50);
         int y = 0;
 
@@ -122,7 +131,10 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         }
     }
 
-    private void createObstacles() {
+    /**
+     * Helper function for level-design.
+     */
+    private void createObstacles() { //TODO, må endres etter ny måte for level-design
         int x = 1130;
         int y = 100;
         int width = 50;
@@ -235,13 +247,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
                 collisionBox.botLeft.x > worldView.getViewportLeftX() &&
                 collisionBox.topRight.x < board.width();
         boolean isWithinHeightBound = collisionBox.botLeft.y >= 0  && collisionBox.topRight.y < board.height();
-
-        return isWithinWidthBound && isWithinHeightBound;
-    }
-
-    private boolean positionIsOnBoard(Vector2 pos) {
-        boolean isWithinWidthBound = pos.x >= 0 && pos.x < board.width();
-        boolean isWithinHeightBound = pos.y >= 0  && pos.y < board.height();
 
         return isWithinWidthBound && isWithinHeightBound;
     }
@@ -386,23 +391,23 @@ private void handleEnemyCollision(CollisionBox newPlayerCollisionBox, Enemy enem
 
     @Override
     public void setToInfoMode() {
-        this.gameState = GameState.GAME_INFO;
+        gameState = GameState.GAME_INFO;
     }
 
     @Override
     public void backToGameMenu() {
-        this.gameState = GameState.GAME_MENU;
+        gameState = GameState.GAME_MENU;
     }
 
     @Override
     public void pause() {
-        this.gameState = GameState.GAME_PAUSED;
+        gameState = GameState.GAME_PAUSED;
 
     }
 
     @Override
     public void resume() {
-        this.gameState = GameState.GAME_ACTIVE;
+        gameState = GameState.GAME_ACTIVE;
     }
 
     @Override
@@ -417,7 +422,7 @@ private void handleEnemyCollision(CollisionBox newPlayerCollisionBox, Enemy enem
 
     @Override
     public List<ViewableObject> getObjectList() {
-        return Collections.unmodifiableList(this.objectList);
+        return Collections.unmodifiableList(objectList);
     }
 
     @Override
@@ -440,17 +445,17 @@ private void handleEnemyCollision(CollisionBox newPlayerCollisionBox, Enemy enem
      */
     @Override
     public GameState getGameState() {
-        return this.gameState;
+        return gameState;
     }
 
     @Override
     public int getTotalScore() {
-        return this.totalScore;
+        return totalScore;
     }
 
     @Override
     public int getCoinCounter() {
-        return this.coinCounter;
+        return coinCounter;
     }
 
     @Override
@@ -460,7 +465,7 @@ private void handleEnemyCollision(CollisionBox newPlayerCollisionBox, Enemy enem
 
     @Override
     public int getCountDown() {
-        return this.countDown;
+        return countDown;
     }
 
     @Override
