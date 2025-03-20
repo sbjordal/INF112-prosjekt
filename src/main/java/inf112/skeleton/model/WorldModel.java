@@ -299,7 +299,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 private void handleEnemyCollision(CollisionBox newPlayerCollisionBox, Enemy enemy) {
     if (newPlayerCollisionBox.isCollidingFromBottom(enemy.getCollisionBox())){
         totalScore += enemy.getObjectScore();
-        objectList.remove(enemy);
+        objectList.remove(enemy); // TODO: enemy skal kun bli fjernet om health <= 0. Eventuelt fjern health variabelen fra enemies.
     }
     else{
         long currentTime = System.currentTimeMillis();
