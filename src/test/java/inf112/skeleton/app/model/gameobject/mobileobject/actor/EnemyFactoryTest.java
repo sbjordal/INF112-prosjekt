@@ -1,8 +1,8 @@
 package inf112.skeleton.app.model.gameobject.mobileobject.actor;
 
-import inf112.skeleton.model.gameobject.mobileobject.actor.Enemy;
-import inf112.skeleton.model.gameobject.mobileobject.actor.EnemyFactory;
-import inf112.skeleton.model.gameobject.mobileobject.actor.EnemyType;
+import inf112.skeleton.model.gameobject.mobileobject.actor.enemy.Enemy;
+import inf112.skeleton.model.gameobject.mobileobject.actor.enemy.EnemyFactory;
+import inf112.skeleton.model.gameobject.mobileobject.actor.enemy.EnemyType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

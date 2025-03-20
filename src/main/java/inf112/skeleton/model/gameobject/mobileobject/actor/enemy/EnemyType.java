@@ -1,4 +1,4 @@
-package inf112.skeleton.model.gameobject.mobileobject.actor;
+package inf112.skeleton.model.gameobject.mobileobject.actor.enemy;
 
 public enum EnemyType {
     SNAIL(50, 50, 10, 1, 60, 60),

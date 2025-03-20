@@ -1,9 +1,10 @@
-package inf112.skeleton.model.gameobject.mobileobject.actor;
+package inf112.skeleton.model.gameobject.mobileobject.actor.enemy;
 
 import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.model.gameobject.Scorable;
 import inf112.skeleton.model.gameobject.GameObject;
 import inf112.skeleton.model.gameobject.Transform;
+import inf112.skeleton.model.gameobject.mobileobject.actor.Actor;
 
 /**
  * Represents all enemy types.
@@ -37,18 +38,8 @@ public class Enemy extends Actor implements Scorable {
         return damage;
     }
 
-    /**
-     * Moves the Enemy in a predefined movement pattern.
-     */
-    @Override
-    public void move(Vector2 newPosition) { // TODO: Trenger også tester for move av enemy
-
-    }
-
     @Override
     public int getObjectScore() {
         return objectScore;
     }
-
-
 }
