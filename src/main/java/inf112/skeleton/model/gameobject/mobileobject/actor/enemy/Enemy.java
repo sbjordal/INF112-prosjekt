@@ -16,8 +16,10 @@ import java.util.List;
  * An enemy type is any {@link GameObject} that inflicts damage on the player.
  */
 public abstract class Enemy extends Actor implements Scorable {
+    final private static long COLLISION_COOLDOWN = 48;
     final private int objectScore;
     final private int damage;
+    private long lastCollisionTime;
     protected Direction direction;
 
     /**
@@ -33,20 +35,7 @@ public abstract class Enemy extends Actor implements Scorable {
 
         this.objectScore = objectScore;
         this.damage = damage;
-    }
-
-    /**
-     * Returns the amount of damage the Enemy can inflict.
-     *
-     * @return The damage value as an integer.
-     */
-    public int getDamage() {
-        return damage;
-    }
-
-    @Override
-    public int getObjectScore() {
-        return objectScore;
+        this.lastCollisionTime = 0;
     }
 
     /**
@@ -63,15 +52,17 @@ public abstract class Enemy extends Actor implements Scorable {
                 continue;
             }
 
+            // Switches direction when colliding
             CollisionBox otherCollisionBox = gameObject.getCollisionBox();
-            boolean isCollidingFromFront = isCollidingFromFront(otherCollisionBox);
+            boolean isColliding = getCollisionBox().isCollidingWith(otherCollisionBox);
             boolean isCollidingFromBottom = getCollisionBox().isCollidingFromBottom(otherCollisionBox);
             boolean isOutsideLevel = getTransform().getPos().x < 0 || getTransform().getPos().x > WorldModel.LEVEL_WIDTH;
 
-            // Switches direction when colliding
-            if ((isCollidingFromFront && !isCollidingFromBottom) || isOutsideLevel) {
-                switchDirection();
-                break;
+            if ((isColliding && !isCollidingFromBottom) || isOutsideLevel) {
+                if (isReadyToCollide()) {
+                    switchDirection();
+                    break;
+                }
             }
         }
 
@@ -83,16 +74,14 @@ public abstract class Enemy extends Actor implements Scorable {
         move(distance, 0);
     }
 
-    private boolean isCollidingFromFront(CollisionBox otherCollisionBox) {
-        if (otherCollisionBox == null) {
-            throw new NullPointerException("CollisionBox is null.");
+    private boolean isReadyToCollide() {
+        long currentTime = System.currentTimeMillis();
+        if (currentTime - lastCollisionTime >= COLLISION_COOLDOWN) {
+            lastCollisionTime = currentTime;
+            return true;
         }
 
-        return switch (direction) {
-            case LEFT -> getCollisionBox().isCollidingFromLeft(otherCollisionBox);
-            case RIGHT -> getCollisionBox().isCollidingFromRight(otherCollisionBox);
-        };
-
+        return false;
     }
 
     /**
@@ -112,4 +101,33 @@ public abstract class Enemy extends Actor implements Scorable {
             case RIGHT: direction = Direction.LEFT; break;
         }
     }
+
+    /**
+     * Returns the amount of damage the Enemy can inflict.
+     *
+     * @return The damage value as an integer.
+     */
+    public int getDamage() {
+        return damage;
+    }
+
+    @Override
+    public int getObjectScore() {
+        return objectScore;
+    }
+
+
+    // TODO: prøvde å få enemy til å kun skifte retning når den kolliderer fra retning fremover.
+    //  Fungerer ikke helt som den skal på grunn av kollisjons håndteringen fra vesntre/høyre.
+//    private boolean isCollidingFromFront(CollisionBox otherCollisionBox) {
+//        if (otherCollisionBox == null) {
+//            throw new NullPointerException("CollisionBox is null.");
+//        }
+//
+//        return switch (direction) {
+//            case LEFT -> getCollisionBox().isCollidingFromLeft(otherCollisionBox);
+//            case RIGHT -> getCollisionBox().isCollidingFromRight(otherCollisionBox);
+//        };
+//    }
+
 }
