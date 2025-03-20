@@ -9,6 +9,7 @@ import inf112.skeleton.model.gameobject.*;
 import inf112.skeleton.model.gameobject.fixedobject.FixedObject;
 import inf112.skeleton.model.gameobject.fixedobject.item.Banana;
 import inf112.skeleton.model.gameobject.fixedobject.item.Coin;
+import inf112.skeleton.model.gameobject.fixedobject.item.Item;
 import inf112.skeleton.model.gameobject.fixedobject.item.ItemFactory;
 import inf112.skeleton.model.gameobject.mobileobject.actor.enemy.*;
 import inf112.skeleton.model.gameobject.mobileobject.actor.Player;
@@ -335,6 +336,12 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
     private boolean isTouchingGround() {
         for (GameObject object : objectList) {
+
+            // enemies and items are not the ground
+            if (object instanceof Enemy || object instanceof Item) {
+                continue;
+            }
+
             CollisionBox objectCollisionBox = object.getCollisionBox();
             if (player.getCollisionBox().isCollidingFromBottom(objectCollisionBox)) {
                 return true;
