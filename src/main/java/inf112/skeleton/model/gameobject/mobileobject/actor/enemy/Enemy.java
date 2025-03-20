@@ -47,12 +47,12 @@ public abstract class Enemy extends Actor implements Scorable {
                 throw new NullPointerException("GameObject is null.");
             }
 
-            // Makes enemy able to move through items
+            // makes enemy able to move through items
             if (gameObject instanceof Item) {
                 continue;
             }
 
-            // Switches direction when colliding
+            // switches direction when colliding
             CollisionBox otherCollisionBox = gameObject.getCollisionBox();
             boolean isColliding = getCollisionBox().isCollidingWith(otherCollisionBox);
             boolean isCollidingFromBottom = getCollisionBox().isCollidingFromBottom(otherCollisionBox);
@@ -87,7 +87,7 @@ public abstract class Enemy extends Actor implements Scorable {
     /**
      * Represents the direction an enemy can move.
      */
-    public enum Direction {
+    protected enum Direction {
         LEFT,
         RIGHT
     }

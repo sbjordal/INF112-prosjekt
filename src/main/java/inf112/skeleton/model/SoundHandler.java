@@ -12,7 +12,7 @@ public class SoundHandler {
     }
 
     public void playCoinSound() {
-        coinSound.play(1.0f);
+        coinSound.play(0.25f);
     }
 
 }

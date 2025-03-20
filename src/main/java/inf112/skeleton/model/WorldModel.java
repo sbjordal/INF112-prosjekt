@@ -25,13 +25,14 @@ import java.util.List;
 public class WorldModel implements ViewableWorldModel, ControllableWorldModel, ApplicationListener {
 
     private static final int GRAVITY_FORCE = -1600;
-    private static final int NORMAL_JUMP_FORCE = 30000;
-    private static final int BIG_JUMP_FORCE = 45000;
+    private static final int NORMAL_JUMP_FORCE = 33000;
+    private static final int BIG_JUMP_FORCE = 41000;
     public static final int LEVEL_WIDTH = 4500;
+    private static final Vector2 STANDARD_PLAYER_SIZE = new Vector2(40, 80);
+    private static final Vector2 LARGE_PLAYER_SIZE = new Vector2(65, 135);
     private int jumpForce;
     private GameState gameState;
     private Player player;
-    private Vector2 standardPlayerSize;
     private WorldBoard board;
     private WorldView worldView;
     private Controller controller;
@@ -92,9 +93,8 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         createGround();
         createObstacles();
 
-        this.standardPlayerSize = new Vector2(40, 80);
         Vector2 playerPosition = new Vector2(380, 500);
-        Transform playerTransform = new Transform(playerPosition, standardPlayerSize);
+        Transform playerTransform = new Transform(playerPosition, STANDARD_PLAYER_SIZE);
         player = new Player(1, 300, playerTransform); // TODO, legg til argument (foreløpig argumenter for å kunne kompilere prosjektet)
 
         Snail snail = EnemyFactory.createSnail(150, 100, EnemyType.SNAIL);
@@ -228,8 +228,8 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
             }
         }
 
-        float startCoordinate = isX ? startX : startY;
-        float endCoordinate = isNegative ? -low : low;
+        final float startCoordinate = isX ? startX : startY;
+        final float endCoordinate = isNegative ? -low : low;
 
         return startCoordinate + endCoordinate;
     }
@@ -292,7 +292,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
                 // If the player has a powerUp it loses this power up instead of receiving damage
                 if (player.getHasPowerUp()) {
                     player.setHasPowerUp(false);
-                    player.setSize(standardPlayerSize);
+                    player.setSize(STANDARD_PLAYER_SIZE);
                     jumpForce = NORMAL_JUMP_FORCE;
                 } else {
                     // Enemy deals damage to the player
@@ -319,9 +319,8 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     }
 
     private void handleMushroomCollision(Banana banana) {
-        Vector2 bigSize = new Vector2(150, 150);
         player.setHasPowerUp(true);
-        player.setSize(bigSize);
+        player.setSize(LARGE_PLAYER_SIZE);
         jumpForce = BIG_JUMP_FORCE;
         objectList.remove(banana);
     }
