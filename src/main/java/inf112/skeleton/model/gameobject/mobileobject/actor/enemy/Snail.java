@@ -20,7 +20,7 @@ public final class Snail extends Enemy {
     }
 
     @Override
-    public void moveEnemy() { // TODO: Trenger tester for enemy movement
+    public void moveEnemy(float deltaTime) { // TODO: Trenger tester for enemy movement
         System.out.println("Snail moving...");
     }
 }

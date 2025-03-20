@@ -46,5 +46,5 @@ public abstract class Enemy extends Actor implements Scorable {
     /**
      * Moves the Enemy in a predefined movement pattern.
      */
-    abstract public void moveEnemy();
+    abstract public void moveEnemy(float deltaTime);
 }

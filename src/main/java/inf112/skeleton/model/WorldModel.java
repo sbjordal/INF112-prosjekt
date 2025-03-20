@@ -362,21 +362,13 @@ private void handleEnemyCollision(CollisionBox newPlayerCollisionBox, Enemy enem
     @Override
     public void render() {
         final float deltaTime = Gdx.graphics.getDeltaTime();
+
         if (gameState.equals(GameState.GAME_ACTIVE)) {
             updateScore();
-            moveVertically(deltaTime);
-
-            final boolean isMoving = (isMovingLeft && !isMovingRight) || (!isMovingLeft && isMovingRight);
-            if (isMoving) {
-                moveHorizontally(deltaTime);
-            }
+            moveEnemies(deltaTime);
+            movePlayer(deltaTime);
+            checkForGameOver();
         }
-
-        if (!player.isAlive() && gameState == GameState.GAME_ACTIVE){
-            gameState = GameState.GAME_OVER;
-        }
-
-        moveEnemies();
 
         worldView.render(deltaTime);
     }
@@ -385,34 +377,6 @@ private void handleEnemyCollision(CollisionBox newPlayerCollisionBox, Enemy enem
         if (shouldUpdateCountDown()) {
             countDown--;
             lastScoreUpdate = System.currentTimeMillis();
-        }
-    }
-
-    private void moveHorizontally(float deltaTime) {
-        final int movementSpeed = getMovementSpeed();
-        final int distance = (int) (movementSpeed * deltaTime);
-
-        if (isMovingRight) {
-            move(distance, 0);
-        }
-        else if (isMovingLeft) {
-            move(-distance, 0);
-        }
-    }
-
-    private void moveVertically(float deltaTime) {
-        updateVerticalVelocity();
-        final int playerVelocity = player.getVerticalVelocity();
-        final int distance = (int) (playerVelocity * deltaTime);
-        move(0, distance);
-    }
-
-    private void updateVerticalVelocity() {
-        if (isTouchingGround() && player.getVerticalVelocity() <= 0 ) {
-            player.setVerticalVelocity(0);
-        } else {
-            final int distance = (int) (GRAVITY_FORCE * Gdx.graphics.getDeltaTime());
-            player.addVerticalVelocity(distance);
         }
     }
 
@@ -425,11 +389,53 @@ private void handleEnemyCollision(CollisionBox newPlayerCollisionBox, Enemy enem
         return currentTime - lastScoreUpdate >= 1000 && countDown >0 && gameState == GameState.GAME_ACTIVE;
     }
 
-    private void moveEnemies() {
+    private void movePlayer(float deltaTime) {
+        moveVertically(deltaTime);
+        moveHorizontally(deltaTime);
+    }
+
+    private void moveVertically(float deltaTime) {
+        updateVerticalVelocity();
+        final int playerVelocity = player.getVerticalVelocity();
+        final int distance = (int) (playerVelocity * deltaTime);
+        move(0, distance);
+    }
+
+    private void moveHorizontally(float deltaTime) {
+        final boolean isMoving = (isMovingLeft && !isMovingRight) || (!isMovingLeft && isMovingRight);
+        if (isMoving) {
+            final int movementSpeed = getMovementSpeed();
+            final int distance = (int) (movementSpeed * deltaTime);
+
+            if (isMovingRight) {
+                move(distance, 0);
+            }
+            else if (isMovingLeft) {
+                move(-distance, 0);
+            }
+        }
+    }
+
+    private void updateVerticalVelocity() {
+        if (isTouchingGround() && player.getVerticalVelocity() <= 0 ) {
+            player.setVerticalVelocity(0);
+        } else {
+            final int distance = (int) (GRAVITY_FORCE * Gdx.graphics.getDeltaTime());
+            player.addVerticalVelocity(distance);
+        }
+    }
+
+    private void moveEnemies(float deltaTime) {
         for (GameObject gameObject : objectList) {
             if (gameObject instanceof Enemy enemy) {
-                enemy.moveEnemy();
+                enemy.moveEnemy(deltaTime);
             }
+        }
+    }
+
+    private void checkForGameOver() {
+        if (!player.isAlive()){
+            gameState = GameState.GAME_OVER;
         }
     }
 
