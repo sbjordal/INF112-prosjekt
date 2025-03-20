@@ -42,6 +42,7 @@ public abstract class MobileObject extends GameObject {
         getTransform().alterPosition(newPosition);
         updateCollisionBox();
     }
+
     private void setMovementDirection(Vector2 oldPos, Vector2 newPos){
         float deltaX = newPos.x - oldPos.x;
         if (deltaX > 0){

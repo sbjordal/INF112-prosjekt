@@ -10,7 +10,7 @@ import inf112.skeleton.model.gameobject.mobileobject.actor.Actor;
  * Represents all enemy types.
  * An enemy type is any {@link GameObject} that inflicts damage on the player.
  */
-public class Enemy extends Actor implements Scorable {
+public abstract class Enemy extends Actor implements Scorable {
     final private int objectScore;
     final private int damage;
 
@@ -42,4 +42,9 @@ public class Enemy extends Actor implements Scorable {
     public int getObjectScore() {
         return objectScore;
     }
+
+    /**
+     * Moves the Enemy in a predefined movement pattern.
+     */
+    abstract public void moveEnemy();
 }

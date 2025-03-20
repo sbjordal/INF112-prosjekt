@@ -3,7 +3,10 @@ package inf112.skeleton.model.gameobject.mobileobject.actor.enemy;
 import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.model.gameobject.Transform;
 
-public class Snail extends Enemy {
+/**
+ * Represents the Snail enemy type.
+ */
+public final class Snail extends Enemy {
     /**
      * Creates a new Enemy with the specified movement speed, object score, damage and transform.
      *
@@ -16,11 +19,8 @@ public class Snail extends Enemy {
         super(movementSpeed, objectScore, damage, transform);
     }
 
-    /**
-     * Moves the Enemy in a predefined movement pattern.
-     */
     @Override
-    public void move(Vector2 newPosition) { // TODO: Trenger tester for enemy movement
-
+    public void moveEnemy() { // TODO: Trenger tester for enemy movement
+        System.out.println("Snail moving...");
     }
 }

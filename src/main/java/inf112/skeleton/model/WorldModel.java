@@ -376,7 +376,7 @@ private void handleEnemyCollision(CollisionBox newPlayerCollisionBox, Enemy enem
             gameState = GameState.GAME_OVER;
         }
 
-
+        moveEnemies();
 
         worldView.render(deltaTime);
     }
@@ -423,6 +423,14 @@ private void handleEnemyCollision(CollisionBox newPlayerCollisionBox, Enemy enem
         }
 
         return currentTime - lastScoreUpdate >= 1000 && countDown >0 && gameState == GameState.GAME_ACTIVE;
+    }
+
+    private void moveEnemies() {
+        for (GameObject gameObject : objectList) {
+            if (gameObject instanceof Enemy enemy) {
+                enemy.moveEnemy();
+            }
+        }
     }
 
     @Override
