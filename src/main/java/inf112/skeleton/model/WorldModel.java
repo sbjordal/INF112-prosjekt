@@ -378,6 +378,8 @@ private void handleEnemyCollision(CollisionBox newPlayerCollisionBox, Enemy enem
             gameState = GameState.GAME_OVER;
         }
 
+
+
         worldView.render(deltaTime);
     }
 

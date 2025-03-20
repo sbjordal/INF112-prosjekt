@@ -41,8 +41,8 @@ public class Enemy extends Actor implements Scorable {
      * Moves the Enemy in a predefined movement pattern.
      */
     @Override
-    public void move(Vector2 newPosition) {
-        // TODO: implement me :) OBS: Trenger også tester for move av enemy
+    public void move(Vector2 newPosition) { // TODO: Trenger også tester for move av enemy
+
     }
 
     @Override

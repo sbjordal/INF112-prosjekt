@@ -193,15 +193,18 @@ public class WorldView implements Screen {
         this.textures.put("coin", new Texture("assets/coin.png"));
         this.textures.put("powerup", new Texture("assets/banana.png"));
         this.textures.put("ground", new Texture("obstacles/castleCenter.png"));
+        this.textures.put("invalid", new Texture("assets/invalid.png"));
     }
 
     private Texture getTexture(ViewableObject obj){
         String className = obj.getClass().getSimpleName();
         return switch (className) {
-            case "Enemy" -> textures.get("leopard");
+            case "Leopard" -> textures.get("leopard");
+            case "Snail" -> textures.get("snail");
             case "Coin" -> textures.get("coin");
             case "Banana" -> textures.get("powerup");
             case "FixedObject" -> textures.get("ground");
+            case "Enemy" -> textures.get("invalid");
             default -> null;
         };
     }
