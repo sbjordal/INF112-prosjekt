@@ -74,6 +74,12 @@ public abstract class Enemy extends Actor implements Scorable {
         move(distance, 0);
     }
 
+    /**
+     * Checks if the enemy has recently collided.
+     * See {@code COLLISION_COOLDOWN} for duration constraint.
+     *
+     * @return  true if enemy is ready to collide, else false
+     */
     private boolean isReadyToCollide() {
         long currentTime = System.currentTimeMillis();
         if (currentTime - lastCollisionTime >= COLLISION_COOLDOWN) {
