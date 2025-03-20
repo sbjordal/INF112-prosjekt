@@ -26,7 +26,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     private static final int GRAVITY_FORCE = -1600;
     private static final int NORMAL_JUMP_FORCE = 30000;
     private static final int BIG_JUMP_FORCE = 45000;
-    private static final int LEVEL_WIDTH = 4500;
+    public static final int LEVEL_WIDTH = 4500;
     private int jumpForce;
     private GameState gameState;
     private Player player;
@@ -428,7 +428,7 @@ private void handleEnemyCollision(CollisionBox newPlayerCollisionBox, Enemy enem
     private void moveEnemies(float deltaTime) {
         for (GameObject gameObject : objectList) {
             if (gameObject instanceof Enemy enemy) {
-                enemy.moveEnemy(deltaTime);
+                enemy.moveEnemy(deltaTime, objectList);
             }
         }
     }

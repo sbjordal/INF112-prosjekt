@@ -29,11 +29,19 @@ public class CollisionBox { // TODO: legg til kommentarer
     }
 
     public boolean isCollidingFromLeft(CollisionBox other) {
-        return isCollidingWith(other) && this.botLeft.x < other.botLeft.x && this.topRight.x > other.botLeft.x;
+        return isCollidingWith(other) &&
+                this.topRight.x > other.botLeft.x &&
+                this.botLeft.x < other.botLeft.x &&
+                this.botLeft.y < other.topRight.y &&
+                this.topRight.y > other.botLeft.y;
     }
 
     public boolean isCollidingFromRight(CollisionBox other) {
-        return isCollidingWith(other) && this.botLeft.x < other.topRight.x && this.topRight.x > other.topRight.x;
+        return isCollidingWith(other) &&
+                this.botLeft.x < other.topRight.x && 
+                this.topRight.x > other.topRight.x &&
+                this.botLeft.y < other.topRight.y &&
+                this.topRight.y > other.botLeft.y;
     }
 
     public boolean isCollidingFromBottom(CollisionBox other) {

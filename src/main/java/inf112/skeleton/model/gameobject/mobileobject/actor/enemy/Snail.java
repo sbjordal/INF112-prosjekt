@@ -1,6 +1,5 @@
 package inf112.skeleton.model.gameobject.mobileobject.actor.enemy;
 
-import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.model.gameobject.Transform;
 
 /**
@@ -17,10 +16,7 @@ public final class Snail extends Enemy {
      */
     public Snail(int movementSpeed, int objectScore, int damage, Transform transform) {
         super(movementSpeed, objectScore, damage, transform);
-    }
 
-    @Override
-    public void moveEnemy(float deltaTime) { // TODO: Trenger tester for enemy movement
-        System.out.println("Snail moving...");
+        this.direction = Direction.RIGHT;
     }
 }
