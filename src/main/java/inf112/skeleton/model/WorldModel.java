@@ -201,51 +201,38 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         Vector2 position = transform.getPos();
         Vector2 size = transform.getSize();
 
-        int lowX = 0;
-        int lowY = 0;
-        int highX = Math.abs(deltaX);
-        int highY = Math.abs(deltaY);
+        float filteredX = binarySearch(position.x, position.y, deltaX, size, true);
+        float filteredY = binarySearch(filteredX, position.y, deltaY, size, false);
 
-        boolean isDeltaXNegative = (deltaX < 0);
-        boolean isDeltaYNegative = (deltaY < 0);
-
-        // Binary search on x-axis
-        while (lowX < highX) {
-            int midX = (lowX + highX + 1) / 2;
-            int testX = isDeltaXNegative ? -midX : midX;
-
-            Vector2 newPosition = new Vector2(position.x + testX, position.y);
-            Transform newTransform = new Transform(newPosition, size);
-            CollisionBox newCollisionBox = new CollisionBox(newTransform);
-
-            if (isLegalMove(newCollisionBox)) {
-                lowX = midX;
-            } else {
-                highX = midX - 1;
-            }
-        }
-
-        // Binary search on y-axis
-        while (lowY < highY) {
-            int midY = (lowY + highY + 1) / 2;
-            int testY = isDeltaYNegative ? -midY : midY;
-
-            Vector2 newPosition = new Vector2(position.x + (isDeltaXNegative ? -lowX : lowX), position.y + testY);
-            Transform newTransform = new Transform(newPosition, size);
-            CollisionBox newCollisionBox = new CollisionBox(newTransform);
-
-            if (isLegalMove(newCollisionBox)) {
-                lowY = midY;
-            } else {
-                highY = midY - 1;
-            }
-        }
-
-        int newDeltaX = isDeltaXNegative ? -lowX : lowX;
-        int newDeltaY = isDeltaYNegative ? -lowY : lowY;
-
-        return new Vector2(position.x + newDeltaX, position.y + newDeltaY);
+        return new Vector2(filteredX, filteredY);
     }
+
+    private float binarySearch(float startX, float startY, int delta, Vector2 size, boolean isX) {
+        int low = 0;
+        int high = Math.abs(delta);
+        boolean isNegative = delta < 0;
+
+        while (low < high) {
+            int mid = (low + high + 1) / 2;
+            int testDelta = isNegative ? -mid : mid;
+
+            Vector2 newPosition = isX ? new Vector2(startX + testDelta, startY) : new Vector2(startX, startY + testDelta);
+            Transform newTransform = new Transform(newPosition, size);
+            CollisionBox newCollisionBox = new CollisionBox(newTransform);
+
+            if (isLegalMove(newCollisionBox)) {
+                low = mid;
+            } else {
+                high = mid - 1;
+            }
+        }
+
+        float startCoordinate = isX ? startX : startY;
+        float endCoordinate = isNegative ? -low : low;
+
+        return startCoordinate + endCoordinate;
+    }
+
 
     /**
      * Checks if MobileObject can be moved where it wants to move or not.
@@ -282,8 +269,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
             if (collisionBox.isCollidingWith(gameObject.getCollisionBox())) {
                 if (gameObject instanceof Coin coin) {
                     handleCoinCollision(coin);
-                }
-                else if (gameObject instanceof Enemy enemy) {
+                } else if (gameObject instanceof Enemy enemy) {
                     handleEnemyCollision(collisionBox, enemy);
                 } else if (gameObject instanceof Banana banana) {
                     handleMushroomCollision(banana);
@@ -294,34 +280,33 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         return false;
     }
 
-private void handleEnemyCollision(CollisionBox newPlayerCollisionBox, Enemy enemy) {
-    if (newPlayerCollisionBox.isCollidingFromBottom(enemy.getCollisionBox())){
-        totalScore += enemy.getObjectScore();
-        objectList.remove(enemy); // TODO: enemy skal kun bli fjernet om health <= 0. Eventuelt fjern health variabelen fra enemies.
-    }
-    else{
-        long currentTime = System.currentTimeMillis();
-        if (currentTime - lastEnemyCollisionTime >= COLLISION_COOLDOWN) {
+    private void handleEnemyCollision(CollisionBox newPlayerCollisionBox, Enemy enemy) {
+        if (newPlayerCollisionBox.isCollidingFromBottom(enemy.getCollisionBox())){
+            totalScore += enemy.getObjectScore();
+            objectList.remove(enemy); // TODO: enemy skal kun bli fjernet om health <= 0. Eventuelt fjern health variabelen fra enemies.
+        } else {
+            long currentTime = System.currentTimeMillis();
+            if (currentTime - lastEnemyCollisionTime >= COLLISION_COOLDOWN) {
 
-            // If the player has a powerUp it loses this power up instead of receiving damage
-            if (player.getHasPowerUp()) {
-                player.setHasPowerUp(false);
-                player.setSize(standardPlayerSize);
-                jumpForce = NORMAL_JUMP_FORCE;
-            }
-            else {
-                // Enemy deals damage to the player
-                player.receiveDamage(enemy.getDamage());
-            }
+                // If the player has a powerUp it loses this power up instead of receiving damage
+                if (player.getHasPowerUp()) {
+                    player.setHasPowerUp(false);
+                    player.setSize(standardPlayerSize);
+                    jumpForce = NORMAL_JUMP_FORCE;
+                } else {
+                    // Enemy deals damage to the player
+                    player.receiveDamage(enemy.getDamage());
+                }
 
-            // Reduce total score
-            final int scorePenalty = 4;
-            if (totalScore >= scorePenalty) {
-                totalScore -= scorePenalty;
+                // Reduce total score
+                final int scorePenalty = 4;
+                if (totalScore >= scorePenalty) {
+                    totalScore -= scorePenalty;
+                }
+
+                lastEnemyCollisionTime = currentTime;
             }
-            lastEnemyCollisionTime = currentTime;
         }
-     }
     }
 
     private void handleCoinCollision(Coin coin) {
