@@ -11,19 +11,38 @@ import inf112.skeleton.model.gameobject.Transform;
 public class EnemyFactory {
 
     /**
-     * Creates a new Enemy of the given enemy type
+     * Creates a new Snail with the specific arguments defined by its enemy type.
      *
      * @param x             X-position of the enemy
      * @param y             Y-position of the enemy
-     * @return A new instance of Enemy
+     * @param enemyType     the specific enemy type
+     * @return A new instance of Snail
      */
-    public static Enemy createEnemy(float x, float y, EnemyType enemyType) {
+    public static Snail createSnail(float x, float y, EnemyType enemyType) {
 
         Vector2 pos = new Vector2(x, y);
         Vector2 size = new Vector2(enemyType.width, enemyType.height);
         Transform transform = new Transform(pos, size);
 
-        return new Enemy(enemyType.movementSpeed, enemyType.objectScore,
+        return new Snail(enemyType.movementSpeed, enemyType.objectScore,
+                enemyType.damage, transform);
+    }
+
+    /**
+     * Creates a new Leopard with the specific arguments defined by its enemy type.
+     *
+     * @param x             X-position of the enemy
+     * @param y             Y-position of the enemy
+     * @param enemyType     the specific enemy type
+     * @return A new instance of Leopard
+     */
+    public static Leopard createLeopard(float x, float y, EnemyType enemyType) {
+
+        Vector2 pos = new Vector2(x, y);
+        Vector2 size = new Vector2(enemyType.width, enemyType.height);
+        Transform transform = new Transform(pos, size);
+
+        return new Leopard(enemyType.movementSpeed, enemyType.objectScore,
                 enemyType.damage, transform);
     }
 }

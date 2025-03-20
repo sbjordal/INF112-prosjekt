@@ -96,9 +96,9 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         Transform playerTransform = new Transform(playerPosition, standardPlayerSize);
         player = new Player(1, 300, playerTransform); // TODO, legg til argument (foreløpig argumenter for å kunne kompilere prosjektet)
 
-        Snail snail = (Snail) EnemyFactory.createEnemy(150, 100, EnemyType.SNAIL); // TODO: create classes inside EnemyFactory intead of casing.
-        Leopard leopard = (Leopard) EnemyFactory.createEnemy(40, 100, EnemyType.LEOPARD); // TODO: create classes inside EnemyFactory intead of casing.
-        Leopard leopard2 = (Leopard) EnemyFactory.createEnemy(2200, 100, EnemyType.LEOPARD); // TODO: create classes inside EnemyFactory intead of casing.
+        Snail snail = EnemyFactory.createSnail(150, 100, EnemyType.SNAIL);
+        Leopard leopard = EnemyFactory.createLeopard(40, 100, EnemyType.LEOPARD);
+        Leopard leopard2 = EnemyFactory.createLeopard(2200, 100, EnemyType.LEOPARD);
 
         Coin coin1 = ItemFactory.createCoin(510, 250);
         Coin coin2 = ItemFactory.createCoin(1400, 105);
