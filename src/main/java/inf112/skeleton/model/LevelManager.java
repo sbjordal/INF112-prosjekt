@@ -1,9 +1,18 @@
 package inf112.skeleton.model;
 
+import com.badlogic.gdx.math.Vector2;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import inf112.skeleton.model.gameobject.GameObject;
+import inf112.skeleton.model.gameobject.Transform;
+import inf112.skeleton.model.gameobject.fixedobject.FixedObject;
+import inf112.skeleton.model.gameobject.fixedobject.item.ItemFactory;
+import inf112.skeleton.model.gameobject.mobileobject.actor.Player;
+import inf112.skeleton.model.gameobject.mobileobject.actor.enemy.EnemyFactory;
+import inf112.skeleton.model.gameobject.mobileobject.actor.enemy.EnemyType;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -36,9 +45,52 @@ public class LevelManager {
     public static ArrayList<GameObject> loadLevel(Level level) {
         String levelFile = getLevelFile(level);
         ArrayList<GameObject> objects = new ArrayList<>();
+        ObjectMapper objectMapper = new ObjectMapper();
 
-        // read JSON file
-        // ...
+        // TODO: kanskje flytt hele try-catch statement før heile greien.
+        try {
+            JsonNode root = objectMapper.readTree(new File(levelFile));
+            int mapHeight = root.get("height").asInt() * root.get("tileheight").asInt();
+
+            int playerCount = 0;
+            int starCount = 0;
+
+            for (JsonNode layer : root.get("layers")) {
+                if (!layer.get("type").asText().equals("objectgroup")) continue;
+
+                String layerName = layer.get("name").asText();
+
+                // Fill up the objects list
+                for (JsonNode obj : layer.get("objects")) {
+                    int x = obj.get("x").asInt();
+                    int y = mapHeight - obj.get("y").asInt() - obj.get("height").asInt();
+
+                    switch (layerName) {
+                        case "ground" -> objects.add(new FixedObject(new Transform(new Vector2(x, y), new Vector2(50, 50))));
+                        case "player" -> {
+                            objects.add(new Player(1, 300, new Transform(new Vector2(x, y), new Vector2(40, 80))));
+                            playerCount++;
+                        }
+                        case "coin" -> objects.add(ItemFactory.createCoin(x, y));
+                        case "banana" -> objects.add(ItemFactory.createMushroom(x, y));
+                        case "snail" -> objects.add(EnemyFactory.createSnail(x, y, EnemyType.SNAIL));
+                        case "leopard" -> objects.add(EnemyFactory.createLeopard(x, y, EnemyType.LEOPARD));
+//                        case "Star" -> starCount++; // TODO: implementer star tilfelle
+                        default -> System.out.println("Unknown layer: " + layerName + ". Case sensitivity maybe?");
+                    }
+                }
+            }
+
+            if (playerCount != 1) {
+                throw new IllegalStateException("Level must have exactly one Player, but found: " + playerCount);
+            }
+            if (starCount != 1) {
+                throw new IllegalStateException("Level must have exactly one Star, but found: " + starCount);
+            }
+
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to load level: " + level);
+        }
 
         return objects;
     }
@@ -48,7 +100,7 @@ public class LevelManager {
             case LEVEL_1 -> "level_one.json";
             case LEVEL_2 -> "level_two.json";
             case LEVEL_3 -> "level_three.json";
-            default -> throw new IllegalStateException("No level file found for " + level);
+            default -> throw new IllegalStateException("No level file found for: " + level);
         };
     }
 }
