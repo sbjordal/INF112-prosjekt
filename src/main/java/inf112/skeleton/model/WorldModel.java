@@ -89,14 +89,21 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
      *
      */
     private void initiateGameObjects() { //TODO, må endres etter ny måte for level-design
-//        objectList = new ArrayList<>();
         objectList = LevelManager.loadLevel(LevelManager.Level.LEVEL_1);
+
+        // Set player reference to the correct player object
+        for (GameObject object : objectList) {
+            if (object instanceof Player) {
+                player = (Player) object;
+            }
+        }
+
         createGround();
         createObstacles();
 
-        Vector2 playerPosition = new Vector2(380, 500);
-        Transform playerTransform = new Transform(playerPosition, STANDARD_PLAYER_SIZE);
-        player = new Player(1, 300, playerTransform); // TODO, legg til argument (foreløpig argumenter for å kunne kompilere prosjektet)
+//        Vector2 playerPosition = new Vector2(380, 500);
+//        Transform playerTransform = new Transform(playerPosition, STANDARD_PLAYER_SIZE);
+//        player = new Player(1, 300, playerTransform); // TODO, legg til argument (foreløpig argumenter for å kunne kompilere prosjektet)
 
         Snail snail = EnemyFactory.createSnail(150, 100, EnemyType.SNAIL);
         Leopard leopard = EnemyFactory.createLeopard(40, 100, EnemyType.LEOPARD);
@@ -268,6 +275,8 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         }
 
         for (GameObject gameObject : objectList) {
+            if (gameObject instanceof Player) continue;
+
             if (collisionBox.isCollidingWith(gameObject.getCollisionBox())) {
                 if (gameObject instanceof Coin coin) {
                     handleCoinCollision(coin);
@@ -336,6 +345,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
     private boolean isTouchingGround() {
         for (GameObject object : objectList) {
+            if (object instanceof Player) continue;
 
             // enemies and items are not the ground
             if (object instanceof Enemy || object instanceof Item) {

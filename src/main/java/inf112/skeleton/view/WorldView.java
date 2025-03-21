@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import inf112.skeleton.model.GameState;
 import inf112.skeleton.model.gameobject.Transform;
 import inf112.skeleton.model.gameobject.ViewableObject;
+import inf112.skeleton.model.gameobject.mobileobject.actor.Player;
 
 import java.util.HashMap;
 
@@ -209,6 +210,11 @@ public class WorldView implements Screen {
 
     private void drawObjects() {
         for (ViewableObject object : model.getObjectList()) {
+
+            // Skip drawing player.
+            // Player texture is handled differently due to animations.
+            if (object instanceof Player) continue;
+
             Texture objectTexture = getTexture(object);
             float objectX = object.getTransform().getPos().x;
             float objectY = object.getTransform().getPos().y;

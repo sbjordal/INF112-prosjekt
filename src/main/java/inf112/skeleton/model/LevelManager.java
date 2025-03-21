@@ -9,6 +9,7 @@ import inf112.skeleton.model.gameobject.GameObject;
 import inf112.skeleton.model.gameobject.Transform;
 import inf112.skeleton.model.gameobject.fixedobject.FixedObject;
 import inf112.skeleton.model.gameobject.fixedobject.item.ItemFactory;
+import inf112.skeleton.model.gameobject.mobileobject.actor.Player;
 import inf112.skeleton.model.gameobject.mobileobject.actor.enemy.EnemyFactory;
 import inf112.skeleton.model.gameobject.mobileobject.actor.enemy.EnemyType;
 
@@ -56,9 +57,7 @@ public class LevelManager {
         ObjectMapper objectMapper = new ObjectMapper();
         String levelContent;
         JsonNode jsonRoot;
-
-        // TODO: fiks file path til å fungere med getLevelFile().
-        // TODO: få player til å bli inkludert her istedenfor i WorldModel.
+        
         // TODO: legg til star.
         try {
             levelContent = levelFile.readString();
@@ -83,10 +82,10 @@ public class LevelManager {
 
                 switch (layerName) {
                     case "ground" -> objects.add(new FixedObject(new Transform(new Vector2(x, y), new Vector2(50, 50))));
-//                    case "player" -> {
-//                        objects.add(new Player(1, 300, new Transform(new Vector2(x, y), new Vector2(40, 80))));
-//                        playerCount++;
-//                    }
+                    case "player" -> {
+                        objects.add(new Player(1, 300, new Transform(new Vector2(x, y), new Vector2(40, 80))));
+                        playerCount++;
+                    }
                     case "coin" -> objects.add(ItemFactory.createCoin(x, y));
                     case "banana" -> objects.add(ItemFactory.createMushroom(x, y));
                     case "snail" -> objects.add(EnemyFactory.createSnail(x, y, EnemyType.SNAIL));
@@ -99,18 +98,12 @@ public class LevelManager {
         if (playerCount != 1) {
             throw new IllegalStateException("Level must have exactly one Player, but found: " + playerCount);
         }
-        if (starCount != 1) {
-            throw new IllegalStateException("Level must have exactly one Star, but found: " + starCount);
-        }
+//        if (starCount != 1) {
+//            throw new IllegalStateException("Level must have exactly one Star, but found: " + starCount);
+//        }
 
         return objects;
     }
-
-
-
-
-
-
 
     private static FileHandle getLevelFile(Level level) {
         String levelPath = "levels/";
