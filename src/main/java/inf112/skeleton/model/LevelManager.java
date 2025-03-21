@@ -57,7 +57,7 @@ public class LevelManager {
         ObjectMapper objectMapper = new ObjectMapper();
         String levelContent;
         JsonNode jsonRoot;
-        
+
         // TODO: legg til star.
         try {
             levelContent = levelFile.readString();
@@ -81,9 +81,19 @@ public class LevelManager {
                 int y = mapHeight - obj.get("y").asInt() - obj.get("height").asInt();
 
                 switch (layerName) {
-                    case "ground" -> objects.add(new FixedObject(new Transform(new Vector2(x, y), new Vector2(50, 50))));
+                    case "ground" -> {
+                        Vector2 size = new Vector2(50, 50);
+                        Vector2 position = new Vector2(x, y);
+                        Transform transform = new Transform(position, size);
+                        FixedObject ground = new FixedObject(transform);
+                        objects.add(ground);
+                    }
                     case "player" -> {
-                        objects.add(new Player(1, 300, new Transform(new Vector2(x, y), new Vector2(40, 80))));
+                        Vector2 size = new Vector2(40, 80);
+                        Vector2 position = new Vector2(x, y);
+                        Transform transform = new Transform(position, size);
+                        Player player = new Player(1, 300, transform);
+                        objects.add(player);
                         playerCount++;
                     }
                     case "coin" -> objects.add(ItemFactory.createCoin(x, y));
