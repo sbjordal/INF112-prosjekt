@@ -3,7 +3,6 @@ package inf112.skeleton.model;
 import inf112.skeleton.model.gameobject.GameObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * TODO: skriv javadoc for alle metoder
@@ -15,13 +14,14 @@ import java.util.List;
  * - Leopard 		    = 70 x 70
  * - Coin 			    = 30 x 30
  * - Banana 		    = 50 x 53
+ * - Player             = 40 x 80
  *
  * EXCEPTIONS
  * - Missing player object / too many: one-and-only-one player per level.
  * - Missing star object / too many: one-and-only-one star per level.
  *
  * REMARKS
- * - loadLevel() returns List<>. Be careful of mutability.
+ * - loadLevel() returns ArrayList<>. Be careful with mutability.
  *
  */
 public class LevelManager {
@@ -31,9 +31,9 @@ public class LevelManager {
         LEVEL_3
     }
 
-    public static List<GameObject> loadLevel(Level level) {
+    public static ArrayList<GameObject> loadLevel(Level level) {
         String levelFile = getLevelFile(level);
-        List<GameObject> objects = new ArrayList<>();
+        ArrayList<GameObject> objects = new ArrayList<>();
 
         // read JSON file
         // ...
