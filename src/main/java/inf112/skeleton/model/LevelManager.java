@@ -1,6 +1,7 @@
 package inf112.skeleton.model;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector2;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -44,7 +45,7 @@ public class LevelManager {
     }
 
     public static ArrayList<GameObject> loadLevel(Level level) {
-//        String levelFile = getLevelFile(level);
+        FileHandle levelFile = getLevelFile(level);
         ArrayList<GameObject> objects = new ArrayList<>();
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -54,7 +55,8 @@ public class LevelManager {
         // TODO: legg til star.
         // TODO: legg til template prosjekt (Tiled) for level-designer til å bruke.
         try {
-            JsonNode root = objectMapper.readTree(new File("C:/Users/eivin/Desktop/projects/INF112/sjette-etasje/src/main/resources/levels/level_one.json"));
+            String levelContent = levelFile.readString();
+            JsonNode root = objectMapper.readTree(levelContent);
             int mapHeight = root.get("height").asInt() * root.get("tileheight").asInt();
 
             int playerCount = 0;
@@ -100,16 +102,16 @@ public class LevelManager {
         return objects;
     }
 
-//    private static String getLevelFile(Level level) {
-//        String internalPath = "levels/";
-//
-//        switch (level) {
-//            case LEVEL_1: internalPath += "level_one.json"; break;
-//            case LEVEL_2: internalPath += "level_two.json"; break;
-//            case LEVEL_3: internalPath += "level_three.json"; break;
-//            default: throw new IllegalStateException("No level file found for: " + level);
-//        };
-//
-//        return Gdx.files.internal(internalPath);
-//    }
+    private static FileHandle getLevelFile(Level level) {
+        String levelPath = "levels/";
+
+        switch (level) {
+            case LEVEL_1: levelPath += "level_one.json"; break;
+            case LEVEL_2: levelPath += "level_two.json"; break;
+            case LEVEL_3: levelPath += "level_three.json"; break;
+            default: throw new IllegalStateException("No level file found for: " + level);
+        };
+
+        return Gdx.files.classpath(levelPath);
+    }
 }
