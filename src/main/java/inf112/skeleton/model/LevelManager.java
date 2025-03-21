@@ -49,6 +49,10 @@ public class LevelManager {
         ObjectMapper objectMapper = new ObjectMapper();
 
         // TODO: kanskje flytt hele try-catch statement før heile greien.
+        // TODO: fiks file path til å fungere med getLevelFile().
+        // TODO: få player til å bli inkludert her istedenfor i WorldModel.
+        // TODO: legg til star.
+        // TODO: legg til template prosjekt (Tiled) for level-designer til å bruke.
         try {
             JsonNode root = objectMapper.readTree(new File("C:/Users/eivin/Desktop/projects/INF112/sjette-etasje/src/main/resources/levels/level_one.json"));
             int mapHeight = root.get("height").asInt() * root.get("tileheight").asInt();
