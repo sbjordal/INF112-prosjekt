@@ -1,5 +1,7 @@
 package inf112.skeleton.model;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import inf112.skeleton.model.gameobject.GameObject;
 
 import java.util.ArrayList;
