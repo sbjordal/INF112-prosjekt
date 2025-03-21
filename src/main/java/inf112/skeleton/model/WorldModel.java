@@ -81,14 +81,13 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         logger.info("FPS {}", Gdx.graphics.getFramesPerSecond());
         logger.info("Height {}", Gdx.graphics.getHeight());
         logger.info("Width {}", Gdx.graphics.getWidth());
-        initiateGameObjects(); //TODO, må muligens endres etter vi bruker input-fil for level design
+        initiateGameObjects();
     }
 
     /**
-     * Initiates all instances of type GameObject (level-design)
-     *
+     * Initiates all instances of type GameObject
      */
-    private void initiateGameObjects() { //TODO, må endres etter ny måte for level-design
+    private void initiateGameObjects() {
         objectList = LevelManager.loadLevel(LevelManager.Level.LEVEL_1);
 
         // Set player reference to the correct player object
@@ -98,40 +97,9 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
             }
         }
 
-        createGround();
-        createObstacles();
-
-//        Vector2 playerPosition = new Vector2(380, 500);
-//        Transform playerTransform = new Transform(playerPosition, STANDARD_PLAYER_SIZE);
-//        player = new Player(1, 300, playerTransform); // TODO, legg til argument (foreløpig argumenter for å kunne kompilere prosjektet)
-
-        Snail snail = EnemyFactory.createSnail(150, 100, EnemyType.SNAIL);
-        Leopard leopard = EnemyFactory.createLeopard(40, 100, EnemyType.LEOPARD);
-        Leopard leopard2 = EnemyFactory.createLeopard(2200, 100, EnemyType.LEOPARD);
-
-        Coin coin1 = ItemFactory.createCoin(510, 250);
-        Coin coin2 = ItemFactory.createCoin(1400, 105);
-
-        Banana banana = ItemFactory.createMushroom(550, 100);
-        Banana banana2 = ItemFactory.createMushroom(850, 100);
-
-        // TODO: en stygg måte å lage hindring på for nå
-//        this.objectList = new ArrayList<>();
-        createGround();
-        createObstacles();
-
         Gdx.graphics.setForegroundFPS(60);
         worldView.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         worldView.show();
-
-        // Fill up the object list
-//        this.objectList.add(snail); // TODO: må endres når vi har flere enemies.
-//        this.objectList.add(leopard);
-//        this.objectList.add(leopard2);
-//        this.objectList.add(coin1); // TODO: må endres til å bruke coinfactory
-//        this.objectList.add(coin2); // TODO: må endres til å bruke coinfactory
-//        this.objectList.add(banana); // TODO: må endres til å bruke coinfactory
-//        this.objectList.add(banana2); // TODO: må endres til å bruke coinfactory
 
         this.controller = new Controller(this);
         Gdx.input.setInputProcessor(this.controller);
@@ -140,54 +108,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         this.logger.info("FPS {}", Gdx.graphics.getFramesPerSecond());
         this.logger.info("Height {}", Gdx.graphics.getHeight());
         this.logger.info("Width {}", Gdx.graphics.getWidth());
-    }
-
-    /**
-     * Helper function for level-design.
-     */
-    private void createGround() { //TODO, må endres etter ny måte for level-design
-        Vector2 size = new Vector2(50, 50);
-        int y = 0;
-
-        for (int i = 0; i < 2; i++) {
-            int widthFilled = 0;
-            int x = 0;
-            while (widthFilled < board.width()) {
-                FixedObject groundObject = new FixedObject(new Transform(new Vector2(x, y), size));
-//                objectList.add(groundObject);
-                widthFilled += 50;
-                x += 50;
-            }
-            y += 50;
-        }
-    }
-
-    /**
-     * Helper function for level-design.
-     */
-    private void createObstacles() { //TODO, må endres etter ny måte for level-design
-        int x = 1130;
-        int y = 100;
-        int width = 50;
-        int height = 50;
-        Vector2 platformSize = new Vector2(width, height);
-
-        FixedObject coinPlatform = new FixedObject(new Transform(new Vector2(500, y), platformSize));
-
-        FixedObject platform1 = new FixedObject(new Transform(new Vector2(x, y), platformSize));
-        FixedObject platform2 = new FixedObject(new Transform(new Vector2(x+width, y), platformSize));
-        FixedObject platform3 = new FixedObject(new Transform(new Vector2(x+width*2, y), platformSize));
-        FixedObject platform4 = new FixedObject(new Transform(new Vector2(x+width, y+height), platformSize));
-        FixedObject platform5 = new FixedObject(new Transform(new Vector2(x+width*2, y+height), platformSize));
-        FixedObject platform6 = new FixedObject(new Transform(new Vector2(x+width*2, y+2*height), platformSize));
-
-//        objectList.add(platform1);
-//        objectList.add(platform2);
-//        objectList.add(platform3);
-//        objectList.add(platform4);
-//        objectList.add(platform5);
-//        objectList.add(platform6);
-//        objectList.add(coinPlatform);
     }
 
     @Override

@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
+ * TODO: har mye finpussing igjen...
  * TODO: skriv javadoc for alle metoder
  *
  * MEASUREMENTS
@@ -34,7 +35,6 @@ import java.util.ArrayList;
  *
  * REMARKS
  * - loadLevel() returns ArrayList<>. Be careful with mutability.
- *
  */
 public class LevelManager {
     public enum Level{
