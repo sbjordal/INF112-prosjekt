@@ -1,5 +1,6 @@
 package inf112.skeleton.model;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -43,13 +44,13 @@ public class LevelManager {
     }
 
     public static ArrayList<GameObject> loadLevel(Level level) {
-        String levelFile = getLevelFile(level);
+//        String levelFile = getLevelFile(level);
         ArrayList<GameObject> objects = new ArrayList<>();
         ObjectMapper objectMapper = new ObjectMapper();
 
         // TODO: kanskje flytt hele try-catch statement før heile greien.
         try {
-            JsonNode root = objectMapper.readTree(new File(levelFile));
+            JsonNode root = objectMapper.readTree(new File("C:/Users/eivin/Desktop/projects/INF112/sjette-etasje/src/main/resources/levels/level_one.json"));
             int mapHeight = root.get("height").asInt() * root.get("tileheight").asInt();
 
             int playerCount = 0;
@@ -67,10 +68,10 @@ public class LevelManager {
 
                     switch (layerName) {
                         case "ground" -> objects.add(new FixedObject(new Transform(new Vector2(x, y), new Vector2(50, 50))));
-                        case "player" -> {
-                            objects.add(new Player(1, 300, new Transform(new Vector2(x, y), new Vector2(40, 80))));
-                            playerCount++;
-                        }
+//                        case "player" -> {
+//                            objects.add(new Player(1, 300, new Transform(new Vector2(x, y), new Vector2(40, 80))));
+//                            playerCount++;
+//                        }
                         case "coin" -> objects.add(ItemFactory.createCoin(x, y));
                         case "banana" -> objects.add(ItemFactory.createMushroom(x, y));
                         case "snail" -> objects.add(EnemyFactory.createSnail(x, y, EnemyType.SNAIL));
@@ -80,13 +81,13 @@ public class LevelManager {
                     }
                 }
             }
-
-            if (playerCount != 1) {
-                throw new IllegalStateException("Level must have exactly one Player, but found: " + playerCount);
-            }
-            if (starCount != 1) {
-                throw new IllegalStateException("Level must have exactly one Star, but found: " + starCount);
-            }
+//
+//            if (playerCount != 1) {
+//                throw new IllegalStateException("Level must have exactly one Player, but found: " + playerCount);
+//            }
+//            if (starCount != 1) {
+//                throw new IllegalStateException("Level must have exactly one Star, but found: " + starCount);
+//            }
 
         } catch (IOException e) {
             throw new RuntimeException("Failed to load level: " + level);
@@ -95,12 +96,16 @@ public class LevelManager {
         return objects;
     }
 
-    private static String getLevelFile(Level level) {
-        return switch (level) {
-            case LEVEL_1 -> "level_one.json";
-            case LEVEL_2 -> "level_two.json";
-            case LEVEL_3 -> "level_three.json";
-            default -> throw new IllegalStateException("No level file found for: " + level);
-        };
-    }
+//    private static String getLevelFile(Level level) {
+//        String internalPath = "levels/";
+//
+//        switch (level) {
+//            case LEVEL_1: internalPath += "level_one.json"; break;
+//            case LEVEL_2: internalPath += "level_two.json"; break;
+//            case LEVEL_3: internalPath += "level_three.json"; break;
+//            default: throw new IllegalStateException("No level file found for: " + level);
+//        };
+//
+//        return Gdx.files.internal(internalPath);
+//    }
 }

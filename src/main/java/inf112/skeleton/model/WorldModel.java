@@ -89,7 +89,8 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
      *
      */
     private void initiateGameObjects() { //TODO, må endres etter ny måte for level-design
-        objectList = new ArrayList<>();
+//        objectList = new ArrayList<>();
+        objectList = LevelManager.loadLevel(LevelManager.Level.LEVEL_1);
         createGround();
         createObstacles();
 
@@ -108,7 +109,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         Banana banana2 = ItemFactory.createMushroom(850, 100);
 
         // TODO: en stygg måte å lage hindring på for nå
-        this.objectList = new ArrayList<>();
+//        this.objectList = new ArrayList<>();
         createGround();
         createObstacles();
 
@@ -117,13 +118,13 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         worldView.show();
 
         // Fill up the object list
-        this.objectList.add(snail); // TODO: må endres når vi har flere enemies.
-        this.objectList.add(leopard);
-        this.objectList.add(leopard2);
-        this.objectList.add(coin1); // TODO: må endres til å bruke coinfactory
-        this.objectList.add(coin2); // TODO: må endres til å bruke coinfactory
-        this.objectList.add(banana); // TODO: må endres til å bruke coinfactory
-        this.objectList.add(banana2); // TODO: må endres til å bruke coinfactory
+//        this.objectList.add(snail); // TODO: må endres når vi har flere enemies.
+//        this.objectList.add(leopard);
+//        this.objectList.add(leopard2);
+//        this.objectList.add(coin1); // TODO: må endres til å bruke coinfactory
+//        this.objectList.add(coin2); // TODO: må endres til å bruke coinfactory
+//        this.objectList.add(banana); // TODO: må endres til å bruke coinfactory
+//        this.objectList.add(banana2); // TODO: må endres til å bruke coinfactory
 
         this.controller = new Controller(this);
         Gdx.input.setInputProcessor(this.controller);
@@ -146,7 +147,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
             int x = 0;
             while (widthFilled < board.width()) {
                 FixedObject groundObject = new FixedObject(new Transform(new Vector2(x, y), size));
-                objectList.add(groundObject);
+//                objectList.add(groundObject);
                 widthFilled += 50;
                 x += 50;
             }
@@ -173,13 +174,13 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         FixedObject platform5 = new FixedObject(new Transform(new Vector2(x+width*2, y+height), platformSize));
         FixedObject platform6 = new FixedObject(new Transform(new Vector2(x+width*2, y+2*height), platformSize));
 
-        objectList.add(platform1);
-        objectList.add(platform2);
-        objectList.add(platform3);
-        objectList.add(platform4);
-        objectList.add(platform5);
-        objectList.add(platform6);
-        objectList.add(coinPlatform);
+//        objectList.add(platform1);
+//        objectList.add(platform2);
+//        objectList.add(platform3);
+//        objectList.add(platform4);
+//        objectList.add(platform5);
+//        objectList.add(platform6);
+//        objectList.add(coinPlatform);
     }
 
     @Override
