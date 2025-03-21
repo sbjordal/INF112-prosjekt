@@ -54,9 +54,10 @@ public abstract class Enemy extends Actor implements Scorable {
 
             // switches direction when colliding
             CollisionBox otherCollisionBox = gameObject.getCollisionBox();
-            boolean isColliding = getCollisionBox().isCollidingWith(otherCollisionBox);
-            boolean isCollidingFromBottom = getCollisionBox().isCollidingFromBottom(otherCollisionBox);
-            boolean isOutsideLevel = getTransform().getPos().x < 0 || getTransform().getPos().x > WorldModel.LEVEL_WIDTH;
+            final float endOfLevel = WorldModel.LEVEL_WIDTH - getTransform().getSize().x;
+            final boolean isColliding = getCollisionBox().isCollidingWith(otherCollisionBox);
+            final boolean isCollidingFromBottom = getCollisionBox().isCollidingFromBottom(otherCollisionBox);
+            final boolean isOutsideLevel = getTransform().getPos().x < 0 || getTransform().getPos().x > endOfLevel;
 
             if ((isColliding && !isCollidingFromBottom) || isOutsideLevel) {
                 if (isReadyToCollide()) {
