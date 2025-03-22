@@ -119,6 +119,12 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     public void move(int deltaX, int deltaY) {
         Vector2 newPlayerPosition = filterPlayerPosition(deltaX, deltaY);
         player.move(newPlayerPosition);
+
+        // Player falls to his death
+        final int belowLevel = -200;
+        if (newPlayerPosition.y <= belowLevel) {
+            player.receiveDamage(player.getLives());
+        }
     }
 
     /**
@@ -181,10 +187,11 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     }
 
     private boolean positionIsOnBoard(CollisionBox collisionBox) {
+        final int belowLevel = -200;
         boolean isWithinWidthBound = collisionBox.botLeft.x >= 0 &&
                 collisionBox.botLeft.x > worldView.getViewportLeftX() &&
                 collisionBox.topRight.x < board.width();
-        boolean isWithinHeightBound = collisionBox.botLeft.y >= 0  && collisionBox.topRight.y < board.height();
+        boolean isWithinHeightBound = collisionBox.botLeft.y >= belowLevel  && collisionBox.topRight.y < board.height();
 
         return isWithinWidthBound && isWithinHeightBound;
     }
