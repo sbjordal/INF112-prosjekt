@@ -6,11 +6,9 @@ import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.controller.ControllableWorldModel;
 import inf112.skeleton.controller.Controller;
 import inf112.skeleton.model.gameobject.*;
-import inf112.skeleton.model.gameobject.fixedobject.FixedObject;
 import inf112.skeleton.model.gameobject.fixedobject.item.Banana;
 import inf112.skeleton.model.gameobject.fixedobject.item.Coin;
 import inf112.skeleton.model.gameobject.fixedobject.item.Item;
-import inf112.skeleton.model.gameobject.fixedobject.item.ItemFactory;
 import inf112.skeleton.model.gameobject.mobileobject.actor.enemy.*;
 import inf112.skeleton.model.gameobject.mobileobject.actor.Player;
 import inf112.skeleton.view.ViewableWorldModel;
@@ -58,56 +56,62 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     }
 
     public void setUpModel() {
-        this.coinCounter = 0;
-        this.countDown = 150;
-        this.totalScore = 0;
-        this.isMovingRight = false;
-        this.isMovingLeft = false;
-        this.jumpForce = NORMAL_JUMP_FORCE;
+        coinCounter = 0;
+        countDown = 150;
+        totalScore = 0;
+        isMovingRight = false;
+        isMovingLeft = false;
+        jumpForce = NORMAL_JUMP_FORCE;
+        board = new WorldBoard(LEVEL_WIDTH, height);
     }
 
     @Override
     public void create() {
-        board = new WorldBoard(LEVEL_WIDTH, height);
+        setupGameObjects();
+        setupGraphics();
+        setupInput();
+        setupLogger();
+    }
 
+    private void setupGameObjects() {
+        objectList = LevelManager.loadLevel(LevelManager.Level.LEVEL_1);
+        findPlayer();
+    }
+
+    private void setupGraphics() {
         Gdx.graphics.setForegroundFPS(60);
         worldView.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         worldView.show();
+        soundHandler = new SoundHandler();
+    }
 
+    private void setupInput() {
         controller = new Controller(this);
         Gdx.input.setInputProcessor(controller);
+    }
 
-        soundHandler = new SoundHandler();
+    private void setupLogger() {
         logger.info("FPS {}", Gdx.graphics.getFramesPerSecond());
         logger.info("Height {}", Gdx.graphics.getHeight());
         logger.info("Width {}", Gdx.graphics.getWidth());
-        initiateGameObjects();
     }
 
     /**
-     * Initiates all instances of type GameObject
+     * Sets the player reference to the player object.
+     *
+     * @throws IllegalStateException If anything other than exactly one player was found.
      */
-    private void initiateGameObjects() {
-        objectList = LevelManager.loadLevel(LevelManager.Level.LEVEL_1);
-
-        // Set player reference to the correct player object
+    private void findPlayer() {
+        int playerCount = 0;
         for (GameObject object : objectList) {
             if (object instanceof Player) {
                 player = (Player) object;
+                playerCount++;
             }
         }
-
-        Gdx.graphics.setForegroundFPS(60);
-        worldView.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        worldView.show();
-
-        this.controller = new Controller(this);
-        Gdx.input.setInputProcessor(this.controller);
-
-        this.soundHandler = new SoundHandler();
-        this.logger.info("FPS {}", Gdx.graphics.getFramesPerSecond());
-        this.logger.info("Height {}", Gdx.graphics.getHeight());
-        this.logger.info("Width {}", Gdx.graphics.getWidth());
+        if (playerCount != 1) {
+            throw new IllegalStateException("objectList must have exactly one Player, but found: " + playerCount);
+        }
     }
 
     @Override
@@ -169,13 +173,8 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
      * @return True if the position is legal, false otherwise
      */
     private boolean isLegalMove(CollisionBox collisionBox) {
-        if(!positionIsOnBoard(collisionBox)) {
-            return false;
-        }
-
-        if (isColliding(collisionBox)) {
-            return false;
-        }
+        if(!positionIsOnBoard(collisionBox)) return false;
+        if (isColliding(collisionBox)) return false;
 
         return true;
     }
@@ -219,7 +218,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
             long currentTime = System.currentTimeMillis();
             if (currentTime - lastEnemyCollisionTime >= COLLISION_COOLDOWN) {
 
-                // If the player has a powerUp it loses this power up instead of receiving damage
+                // If the player has a powerUp it loses this powerUp instead of receiving damage
                 if (player.getHasPowerUp()) {
                     player.setHasPowerUp(false);
                     player.setSize(STANDARD_PLAYER_SIZE);
@@ -265,19 +264,13 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
     private boolean isTouchingGround() {
         for (GameObject object : objectList) {
-            if (object instanceof Player) continue;
-
-            // enemies and items are not the ground
-            if (object instanceof Enemy || object instanceof Item) {
-                continue;
-            }
-
-            CollisionBox objectCollisionBox = object.getCollisionBox();
-            if (player.getCollisionBox().isCollidingFromBottom(objectCollisionBox)) {
-                return true;
+            if (!(object instanceof Enemy || object instanceof Item || object instanceof Player)) {
+                CollisionBox objectCollisionBox = object.getCollisionBox();
+                if (player.getCollisionBox().isCollidingFromBottom(objectCollisionBox)) {
+                    return true;
+                }
             }
         }
-
         return false;
     }
 
@@ -331,8 +324,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
             if (isMovingRight) {
                 move(distance, 0);
-            }
-            else if (isMovingLeft) {
+            } else if (isMovingLeft) {
                 move(-distance, 0);
             }
         }
@@ -452,12 +444,8 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     }
 
     @Override
-    public void dispose() {
-        // TODO, implement me :)
-    }
+    public void dispose() {}
 
     @Override
-    public void resize( int i, int i1){
-        // TODO, implement me :)
-    }
+    public void resize( int i, int i1) {}
 }
