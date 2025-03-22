@@ -5,7 +5,7 @@ import inf112.skeleton.model.gameobject.mobileobject.MobileObject;
 
 /**
  * Represents all living mobile objects.
- * A living mobile object is any {@link MobileObject} that has health.
+ * A living mobile object is any {@link MobileObject} that has lives.
  */
 public abstract class Actor extends MobileObject {
     protected int damage;
@@ -13,9 +13,9 @@ public abstract class Actor extends MobileObject {
     private int lives;
 
     /**
-     * Creates a new Actor with the specified health, movement speed, transform and texture.
+     * Creates a new Actor with the specified lives, movement speed, transform and texture.
      *
-     * @param lives        The initial health of the Actor.
+     * @param lives         The initial amount of lives of the Actor.
      * @param movementSpeed The rate of which the Actor moves horizontally.
      * @param transform     The initial position and size of the Actor.
      */
@@ -23,7 +23,7 @@ public abstract class Actor extends MobileObject {
         super(movementSpeed, transform);
 
         if (lives <= 0) {
-            throw new IllegalArgumentException("Health must be positive.");
+            throw new IllegalArgumentException("Lives must be positive.");
         }
 
         this.isAlive = true;
@@ -38,17 +38,17 @@ public abstract class Actor extends MobileObject {
     }
 
     /**
-     * Returns the current health of the Actor.
+     * Returns the current lives of the Actor.
      *
-     * @return The current health as an integer.
+     * @return The current lives as an integer.
      */
     public int getLives() {
         return lives;
     }
 
     /**
-     * Reduces the Actor's health by the specified damage amount.
-     * If the damage reduces health to zero or below, the Actor dies.
+     * Reduces the Actor's lives by the specified damage amount.
+     * If the damage reduces lives to zero or below, the Actor dies.
      *
      * @param damage The amount of damage to inflict. Must be non-negative.
      * @throws IllegalArgumentException if {@code damage} is negative.
@@ -89,7 +89,7 @@ public abstract class Actor extends MobileObject {
     }
 
     /**
-     * Sets the Actor's health to zero and marks it as dead.
+     * Sets the Actor's lives to zero and marks it as dead.
      * This method is private because death should only occur through receiving damage.
      *
      * @see #receiveDamage(int)

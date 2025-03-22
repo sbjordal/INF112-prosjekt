@@ -224,15 +224,11 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
             long currentTime = System.currentTimeMillis();
             if (currentTime - lastEnemyCollisionTime >= COLLISION_COOLDOWN) {
 
-                // If the player has a powerUp it loses this powerUp instead of receiving damage
-                if (player.getHasPowerUp()) {
-                    player.setHasPowerUp(false);
-                    player.setSize(STANDARD_PLAYER_SIZE);
-                    jumpForce = NORMAL_JUMP_FORCE;
-                } else {
-                    // Enemy deals damage to the player
-                    enemy.dealDamage(player, enemy.getDamage());
-                }
+                // TODO...
+                // Enemy dealing damage to the player is moved into Enemy.moveEnemy()
+                // - This is to make sure that the enemy doesn't deal damage twice.
+                // - The logic needs to be inside Enemy class. If not, the enemy won't deal damage
+                //   when it collides with the player.
 
                 // Reduce total score
                 final int scorePenalty = 4;
@@ -256,6 +252,8 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     private void handleBananaCollision(Banana banana) {
         player.setHasPowerUp(true);
         player.setSize(LARGE_PLAYER_SIZE);
+        int middleOfPlayer = (int) (player.getTransform().getSize().x / 2);
+        player.move(-middleOfPlayer, 0);
         jumpForce = BIG_JUMP_FORCE;
         objectList.remove(banana);
     }

@@ -12,10 +12,11 @@ final public class Player extends Actor {
     private boolean hasPowerUp;
 
     /**
-     * Creates a new Player with the specified lives and movement speed.
+     * Creates a new Player with the specified lives, movement speed and transform.
      *
-     * @param lives         The initial lives of the Player.
+     * @param lives         The initial amount of lives of the Player.
      * @param movementSpeed The rate of which the Player moves horizontally.
+     * @param transform     The initial transform of the Player.
      */
     public Player(int lives, int movementSpeed, Transform transform) {
         super(lives, movementSpeed, transform);

@@ -23,8 +23,9 @@ public abstract class Enemy extends Actor implements Scorable {
     protected Direction direction;
 
     /**
-     * Creates a new Enemy with the specified movement speed, object score, damage and transform.
+     * Creates a new Enemy with the specified lives, movement speed, object score, damage and transform.
      *
+     * @param lives         The initial amount of lives of the Enemy.
      * @param movementSpeed The rate of which the Enemy moves horizontally.
      * @param objectScore   The score points obtained by defeating the Enemy.
      * @param damage        The amount of damage the Enemy will inflict.
@@ -65,7 +66,22 @@ public abstract class Enemy extends Actor implements Scorable {
 
                     // Deals damage to the player
                     if (gameObject instanceof Player player && !isOutsideLevel) {
-                        dealDamage(player, damage);
+                        // TODO: This is copy-pasted straight from WorldModel. This should use Player.hitBy() once WorldModel code regarding player is refactored.
+                        // If the player has a powerUp it loses this powerUp instead of receiving damage
+                        if (player.getHasPowerUp()) {
+                            player.setHasPowerUp(false);
+                            player.setSize(new Vector2(40, 80)); // TODO: STANDARD_PLAYER_SIZE.
+                            int middleOfPlayer = (int) (player.getTransform().getSize().x / 2);
+                            player.move(middleOfPlayer, 0);
+
+                            // TODO: This is very cumbersome to fix considering it will only be temporary.
+                            //       Thus, Jump force will NOT behave correctly when enemies revert the player back to normal size.
+                            // jumpForce = NORMAL_JUMP_FORCE;
+
+                        } else {
+                            // Enemy deals damage to the player
+                            dealDamage(player, getDamage());
+                        }
                     }
 
                     break;
