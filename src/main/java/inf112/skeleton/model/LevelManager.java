@@ -92,7 +92,7 @@ public class LevelManager {
                         Vector2 size = new Vector2(40, 80);
                         Vector2 position = new Vector2(x, y);
                         Transform transform = new Transform(position, size);
-                        Player player = new Player(1, 300, transform);
+                        Player player = new Player(3, 300, transform);
                         objects.add(player);
                         playerCount++;
                     }

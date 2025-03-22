@@ -215,7 +215,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     private void handleEnemyCollision(CollisionBox newPlayerCollisionBox, Enemy enemy) {
         if (newPlayerCollisionBox.isCollidingFromBottom(enemy.getCollisionBox())){
             bounce();
-            enemy.receiveDamage(1);
+            player.dealDamage(enemy, player.getDamage());
             if (!enemy.isAlive()) {
                 totalScore += enemy.getObjectScore();
                 objectList.remove(enemy);

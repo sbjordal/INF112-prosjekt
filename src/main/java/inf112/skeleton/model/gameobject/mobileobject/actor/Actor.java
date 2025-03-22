@@ -8,6 +8,7 @@ import inf112.skeleton.model.gameobject.mobileobject.MobileObject;
  * A living mobile object is any {@link MobileObject} that has health.
  */
 public abstract class Actor extends MobileObject {
+    protected int damage;
     private boolean isAlive;
     private int lives;
 
@@ -79,6 +80,15 @@ public abstract class Actor extends MobileObject {
     }
 
     /**
+     * Returns the amount of damage the actor can inflict.
+     *
+     * @return The damage value as an integer.
+     */
+    public int getDamage() {
+        return damage;
+    }
+
+    /**
      * Sets the Actor's health to zero and marks it as dead.
      * This method is private because death should only occur through receiving damage.
      *
@@ -88,5 +98,4 @@ public abstract class Actor extends MobileObject {
         lives = 0;
         isAlive = false;
     }
-
 }

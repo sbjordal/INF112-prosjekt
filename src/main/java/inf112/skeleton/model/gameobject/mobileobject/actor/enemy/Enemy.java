@@ -19,7 +19,6 @@ import java.util.List;
 public abstract class Enemy extends Actor implements Scorable {
     final private static long COLLISION_COOLDOWN = 48;
     final private int objectScore;
-    final private int damage;
     private long lastCollisionTime;
     protected Direction direction;
 
@@ -114,15 +113,6 @@ public abstract class Enemy extends Actor implements Scorable {
             case LEFT: direction = Direction.RIGHT; break;
             case RIGHT: direction = Direction.LEFT; break;
         }
-    }
-
-    /**
-     * Returns the amount of damage the Enemy can inflict.
-     *
-     * @return The damage value as an integer.
-     */
-    public int getDamage() {
-        return damage;
     }
 
     @Override

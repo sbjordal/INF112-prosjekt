@@ -20,6 +20,7 @@ final public class Player extends Actor {
     public Player(int lives, int movementSpeed, Transform transform) {
         super(lives, movementSpeed, transform);
         this.hasPowerUp = false;
+        this.damage = 1;
     }
 
     public void jump(int jumpForce) {
