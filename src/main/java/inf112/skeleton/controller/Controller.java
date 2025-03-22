@@ -31,7 +31,7 @@ public class Controller implements InputProcessor {
         if (controllableModel.getGameState() == GameState.GAME_MENU) {
             switch (keyCode) {
                 case Input.Keys.ENTER:
-                    controllableModel.startLevel(LevelManager.Level.LEVEL_3);
+                    controllableModel.startLevel(LevelManager.Level.LEVEL_1);
                     break;
                 case Input.Keys.I:
                     controllableModel.setToInfoMode();
