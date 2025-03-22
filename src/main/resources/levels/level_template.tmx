@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="90" height="19" tilewidth="50" tileheight="50" infinite="0" nextlayerid="9" nextobjectid="57">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="90" height="19" tilewidth="50" tileheight="50" infinite="0" nextlayerid="9" nextobjectid="78">
  <editorsettings>
   <export target="level_one.json" format="json"/>
  </editorsettings>
  <objectgroup color="#ffd500" id="8" name="star">
-  <object id="56" x="701.462" y="899.426">
+  <object id="56" x="1001.71" y="749.676">
    <polygon points="0,0 23.4167,-48.6667 46.8333,0"/>
   </object>
  </objectgroup>
@@ -12,10 +12,10 @@
   <object id="30" x="304.652" y="668.955" width="40" height="80"/>
  </objectgroup>
  <objectgroup color="#e87511" id="4" name="leopard">
-  <object id="23" x="100.417" y="728.75" width="70" height="70"/>
+  <object id="23" x="100.417" y="730.125" width="70" height="70"/>
  </objectgroup>
  <objectgroup color="#9ae538" id="5" name="snail">
-  <object id="24" x="400.167" y="758.75" width="40" height="40"/>
+  <object id="24" x="400.08" y="759.924" width="40" height="40"/>
  </objectgroup>
  <objectgroup color="#ffff00" id="6" name="banana">
   <object id="28" x="549.974" y="646.705" width="50" height="53"/>
@@ -69,5 +69,24 @@
   <object id="52" x="450" y="900" width="50" height="50"/>
   <object id="53" x="500" y="900" width="50" height="50"/>
   <object id="54" x="550" y="900" width="50" height="50"/>
+  <object id="57" x="700" y="900" width="50" height="50"/>
+  <object id="58" x="750" y="900" width="50" height="50"/>
+  <object id="59" x="800" y="900" width="50" height="50"/>
+  <object id="60" x="850" y="900" width="50" height="50"/>
+  <object id="61" x="900" y="900" width="50" height="50"/>
+  <object id="62" x="850" y="850" width="50" height="50"/>
+  <object id="63" x="900" y="850" width="50" height="50"/>
+  <object id="64" x="950" y="900" width="50" height="50"/>
+  <object id="65" x="950" y="850" width="50" height="50"/>
+  <object id="66" x="950" y="800" width="50" height="50"/>
+  <object id="67" x="700" y="850" width="50" height="50"/>
+  <object id="68" x="750" y="850" width="50" height="50"/>
+  <object id="69" x="800" y="850" width="50" height="50"/>
+  <object id="70" x="1000" y="900" width="50" height="50"/>
+  <object id="71" x="1000" y="850" width="50" height="50"/>
+  <object id="72" x="1000" y="800" width="50" height="50"/>
+  <object id="73" x="1050" y="900" width="50" height="50"/>
+  <object id="74" x="1050" y="850" width="50" height="50"/>
+  <object id="75" x="1050" y="800" width="50" height="50"/>
  </objectgroup>
 </map>

@@ -251,6 +251,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
                 // - This is to make sure that the enemy doesn't deal damage twice.
                 // - The logic needs to be inside Enemy class. If not, the enemy won't deal damage
                 //   when it collides with the player.
+                // - As of right now, ATTACK_COOLDOWN only affects totalScore. It does NOT affect the frequency of attacks.
 
                 // Reduce total score
                 final int scorePenalty = 4;
