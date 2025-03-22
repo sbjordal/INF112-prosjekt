@@ -23,11 +23,11 @@ import java.util.List;
 
 public class WorldModel implements ViewableWorldModel, ControllableWorldModel, ApplicationListener {
 
-    private static final int GRAVITY_FORCE = -1600;
-    private static final int NORMAL_BOUNCE_FORCE = 29000;
-    private static final int SMALL_BOUNCE_FORCE = 17000;
-    private static final int NORMAL_JUMP_FORCE = 33000;
-    private static final int BIG_JUMP_FORCE = 41000;
+    private static final int GRAVITY_FORCE = -3200;
+    private static final int NORMAL_BOUNCE_FORCE = 35000;
+    private static final int SMALL_BOUNCE_FORCE = 27000;
+    private static final int NORMAL_JUMP_FORCE = 63000;
+    private static final int BIG_JUMP_FORCE = 73000;
     public static final int LEVEL_WIDTH = 4500;
     private static final Vector2 STANDARD_PLAYER_SIZE = new Vector2(40, 80);
     private static final Vector2 LARGE_PLAYER_SIZE = new Vector2(65, 135);
@@ -41,6 +41,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     private Controller controller;
     private ArrayList<GameObject> objectList;
     private SoundHandler soundHandler;
+    private LevelManager.Level currentLevel;
     private int totalScore;
     private int countDown;
     private int coinCounter;
@@ -49,6 +50,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     private long lastBounceTime;
     private boolean isMovingRight;
     private boolean isMovingLeft;
+    private boolean isJustRespawned;
     private final Logger logger;
     private final int height;
 
@@ -57,6 +59,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         this.worldView = new WorldView(this, width, height);
         this.gameState = GameState.GAME_MENU;
         this.logger = LoggerFactory.getLogger(WorldModel.class);
+        this.currentLevel = LevelManager.Level.LEVEL_1;
         setUpModel();
     }
 
@@ -68,6 +71,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         lastBounceTime = 0;
         isMovingRight = false;
         isMovingLeft = false;
+        isJustRespawned = false;
         jumpForce = NORMAL_JUMP_FORCE;
         board = new WorldBoard(LEVEL_WIDTH, height);
     }
@@ -81,7 +85,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     }
 
     private void setupGameObjects() {
-        objectList = LevelManager.loadLevel(LevelManager.Level.LEVEL_1);
+        objectList = LevelManager.loadLevel(currentLevel);
         findPlayer();
     }
 
@@ -113,6 +117,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         for (GameObject object : objectList) {
             if (object instanceof Player) {
                 player = (Player) object;
+                isJustRespawned = true;
                 playerCount++;
             }
         }
@@ -121,10 +126,24 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         }
     }
 
+    /**
+     * Start the specified level.
+     *
+     * @param level The level to start
+     */
+    public void startLevel(LevelManager.Level level) {
+        currentLevel = level;
+        setUpModel();
+        create();
+        resume();
+    }
+
     @Override
     public void move(int deltaX, int deltaY) {
         Vector2 newPlayerPosition = filterPlayerPosition(deltaX, deltaY);
-        player.move(newPlayerPosition);
+
+        if (!isJustRespawned) player.move(newPlayerPosition);
+        isJustRespawned = false;
 
         // Player falls to his death
         final int belowLevel = -200;
@@ -280,8 +299,13 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     }
 
     private void handleStarCollision(Star star) {
-        // TODO: proceed to the next level.
         objectList.remove(star);
+
+        switch (currentLevel) {
+            case LEVEL_1: startLevel(LevelManager.Level.LEVEL_2); break;
+            case LEVEL_2: startLevel(LevelManager.Level.LEVEL_3); break;
+            case LEVEL_3: startLevel(LevelManager.Level.LEVEL_1); break;
+        }
     }
 
     /**

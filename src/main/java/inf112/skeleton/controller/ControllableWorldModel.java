@@ -1,13 +1,9 @@
 package inf112.skeleton.controller;
 
 import inf112.skeleton.model.GameState;
+import inf112.skeleton.model.LevelManager;
 
 public interface ControllableWorldModel {
-
-    /**
-     *  // TODO skriv
-     */
-    public void setUpModel();
 
     /**
      * Tells us the state of the game
@@ -65,6 +61,11 @@ public interface ControllableWorldModel {
      */
     public int getMovementSpeed();
 
-    public void create();
+    /**
+     * Start the specified level.
+     *
+     * @param level The level to start
+     */
+    public void startLevel(LevelManager.Level level);
 }
 
