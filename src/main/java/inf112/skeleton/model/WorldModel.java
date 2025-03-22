@@ -23,6 +23,7 @@ import java.util.List;
 public class WorldModel implements ViewableWorldModel, ControllableWorldModel, ApplicationListener {
 
     private static final int GRAVITY_FORCE = -1600;
+    private static final int BOUNCE_FORCE = 29000;
     private static final int NORMAL_JUMP_FORCE = 33000;
     private static final int BIG_JUMP_FORCE = 41000;
     public static final int LEVEL_WIDTH = 4500;
@@ -212,8 +213,9 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
     private void handleEnemyCollision(CollisionBox newPlayerCollisionBox, Enemy enemy) {
         if (newPlayerCollisionBox.isCollidingFromBottom(enemy.getCollisionBox())){
+            bounce();
             totalScore += enemy.getObjectScore();
-            objectList.remove(enemy); // TODO: enemy skal kun bli fjernet om health <= 0. Eventuelt fjern health variabelen fra enemies.
+            objectList.remove(enemy);
         } else {
             long currentTime = System.currentTimeMillis();
             if (currentTime - lastEnemyCollisionTime >= COLLISION_COOLDOWN) {
@@ -252,6 +254,15 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         player.setSize(LARGE_PLAYER_SIZE);
         jumpForce = BIG_JUMP_FORCE;
         objectList.remove(banana);
+    }
+
+    /**
+     * Makes the player bounce.
+     * A bounce is a lower altitude jump.
+     */
+    private void bounce() {
+        final int distance = (int) (BOUNCE_FORCE * Gdx.graphics.getDeltaTime());
+        player.jump(distance);
     }
 
     @Override
