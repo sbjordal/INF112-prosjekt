@@ -23,12 +23,15 @@ import java.util.List;
 public class WorldModel implements ViewableWorldModel, ControllableWorldModel, ApplicationListener {
 
     private static final int GRAVITY_FORCE = -1600;
-    private static final int BOUNCE_FORCE = 29000;
+    private static final int NORMAL_BOUNCE_FORCE = 29000;
+    private static final int SMALL_BOUNCE_FORCE = 17000;
     private static final int NORMAL_JUMP_FORCE = 33000;
     private static final int BIG_JUMP_FORCE = 41000;
     public static final int LEVEL_WIDTH = 4500;
     private static final Vector2 STANDARD_PLAYER_SIZE = new Vector2(40, 80);
     private static final Vector2 LARGE_PLAYER_SIZE = new Vector2(65, 135);
+    private static final long ATTACK_COOLDOWN = 800;
+    private static final long BOUNCE_COOLDOWN = 64;
     private int jumpForce;
     private GameState gameState;
     private Player player;
@@ -41,8 +44,8 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     private int countDown;
     private int coinCounter;
     private long lastScoreUpdate = System.currentTimeMillis();
-    private long lastEnemyCollisionTime = 0;
-    private static final long COLLISION_COOLDOWN = 800;
+    private long lastAttackTime;
+    private long lastBounceTime;
     private boolean isMovingRight;
     private boolean isMovingLeft;
     private final Logger logger;
@@ -220,16 +223,22 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     }
 
     private void handleEnemyCollision(CollisionBox newPlayerCollisionBox, Enemy enemy) {
+        long currentTime = System.currentTimeMillis();
+
         if (newPlayerCollisionBox.isCollidingFromBottom(enemy.getCollisionBox())){
-            bounce();
-            player.dealDamage(enemy, player.getDamage());
-            if (!enemy.isAlive()) {
-                totalScore += enemy.getObjectScore();
-                objectList.remove(enemy);
+            if (currentTime - lastBounceTime >= BOUNCE_COOLDOWN) {
+                bounce();
+                player.dealDamage(enemy, player.getDamage());
+
+                if (!enemy.isAlive()) {
+                    totalScore += enemy.getObjectScore();
+                    objectList.remove(enemy);
+                }
             }
+
+            lastBounceTime = currentTime;
         } else {
-            long currentTime = System.currentTimeMillis();
-            if (currentTime - lastEnemyCollisionTime >= COLLISION_COOLDOWN) {
+            if (currentTime - lastAttackTime >= ATTACK_COOLDOWN) {
 
                 // TODO...
                 // Enemy dealing damage to the player is moved into Enemy.moveEnemy()
@@ -243,7 +252,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
                     totalScore -= scorePenalty;
                 }
 
-                lastEnemyCollisionTime = currentTime;
+                lastAttackTime = currentTime;
             }
         }
     }
@@ -270,7 +279,8 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
      * A bounce is a lower altitude jump.
      */
     private void bounce() {
-        final int distance = (int) (BOUNCE_FORCE * Gdx.graphics.getDeltaTime());
+        final int bounceForce = player.getHasPowerUp() ? SMALL_BOUNCE_FORCE : NORMAL_BOUNCE_FORCE;
+        final int distance = (int) (bounceForce * Gdx.graphics.getDeltaTime());
         player.jump(distance);
     }
 
