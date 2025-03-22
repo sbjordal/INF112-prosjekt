@@ -208,14 +208,18 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
                 return true;
             }
         }
+
         return false;
     }
 
     private void handleEnemyCollision(CollisionBox newPlayerCollisionBox, Enemy enemy) {
         if (newPlayerCollisionBox.isCollidingFromBottom(enemy.getCollisionBox())){
             bounce();
-            totalScore += enemy.getObjectScore();
-            objectList.remove(enemy);
+            enemy.receiveDamage(1);
+            if (!enemy.isAlive()) {
+                totalScore += enemy.getObjectScore();
+                objectList.remove(enemy);
+            }
         } else {
             long currentTime = System.currentTimeMillis();
             if (currentTime - lastEnemyCollisionTime >= COLLISION_COOLDOWN) {

@@ -8,6 +8,7 @@ import inf112.skeleton.model.gameobject.GameObject;
 import inf112.skeleton.model.gameobject.Transform;
 import inf112.skeleton.model.gameobject.fixedobject.item.Item;
 import inf112.skeleton.model.gameobject.mobileobject.actor.Actor;
+import inf112.skeleton.model.gameobject.mobileobject.actor.Player;
 
 import java.util.List;
 
@@ -30,8 +31,8 @@ public abstract class Enemy extends Actor implements Scorable {
      * @param damage        The amount of damage the Enemy will inflict.
      * @param transform     The initial transform of the Enemy.
      */
-    public Enemy(int movementSpeed, int objectScore, int damage, Transform transform) {
-        super(1, movementSpeed, transform);
+    public Enemy(int lives, int movementSpeed, int objectScore, int damage, Transform transform) {
+        super(lives, movementSpeed, transform);
 
         this.objectScore = objectScore;
         this.damage = damage;
@@ -62,6 +63,12 @@ public abstract class Enemy extends Actor implements Scorable {
             if ((isColliding && !isCollidingFromBottom) || isOutsideLevel) {
                 if (isReadyToCollide()) {
                     switchDirection();
+
+                    // Deals damage to the player
+                    if (gameObject instanceof Player player && !isOutsideLevel) {
+                        dealDamage(player, damage);
+                    }
+
                     break;
                 }
             }
