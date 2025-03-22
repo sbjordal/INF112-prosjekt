@@ -14,7 +14,7 @@ public class ItemFactory {
         return new Coin(transform);
     }
 
-    public static Banana createMushroom(float x, float y){
+    public static Banana createBanana(float x, float y){
 
         int width = 50;
         int height = 53;

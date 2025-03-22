@@ -97,7 +97,7 @@ public class LevelManager {
                         playerCount++;
                     }
                     case "coin" -> objects.add(ItemFactory.createCoin(x, y));
-                    case "banana" -> objects.add(ItemFactory.createMushroom(x, y));
+                    case "banana" -> objects.add(ItemFactory.createBanana(x, y));
                     case "snail" -> objects.add(EnemyFactory.createSnail(x, y, EnemyType.SNAIL));
                     case "leopard" -> objects.add(EnemyFactory.createLeopard(x, y, EnemyType.LEOPARD));
                     case "Star" -> starCount++; // TODO: implementer star tilfelle

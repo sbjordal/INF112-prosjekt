@@ -203,7 +203,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
                 } else if (gameObject instanceof Enemy enemy) {
                     handleEnemyCollision(collisionBox, enemy);
                 } else if (gameObject instanceof Banana banana) {
-                    handleMushroomCollision(banana);
+                    handleBananaCollision(banana);
                 }
                 return true;
             }
@@ -231,7 +231,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
                     jumpForce = NORMAL_JUMP_FORCE;
                 } else {
                     // Enemy deals damage to the player
-                    player.receiveDamage(enemy.getDamage());
+                    enemy.dealDamage(player, enemy.getDamage());
                 }
 
                 // Reduce total score
@@ -253,7 +253,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         objectList.remove(coin);
     }
 
-    private void handleMushroomCollision(Banana banana) {
+    private void handleBananaCollision(Banana banana) {
         player.setHasPowerUp(true);
         player.setSize(LARGE_PLAYER_SIZE);
         jumpForce = BIG_JUMP_FORCE;
