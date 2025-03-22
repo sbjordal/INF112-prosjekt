@@ -28,6 +28,7 @@ import java.util.ArrayList;
  * - Coin 			    = 30 x 30
  * - Banana 		    = 50 x 53
  * - Player             = 40 x 80
+ * - Star               = 47 x 45
  *
  * EXCEPTIONS
  * - Missing player object / too many: one-and-only-one player per level.
@@ -58,7 +59,6 @@ public class LevelManager {
         String levelContent;
         JsonNode jsonRoot;
 
-        // TODO: legg til star.
         try {
             levelContent = levelFile.readString();
             jsonRoot = objectMapper.readTree(levelContent);
@@ -96,11 +96,14 @@ public class LevelManager {
                         objects.add(player);
                         playerCount++;
                     }
+                    case "star" -> {
+                        objects.add(ItemFactory.createStar(x, y));
+                        starCount++;
+                    }
                     case "coin" -> objects.add(ItemFactory.createCoin(x, y));
                     case "banana" -> objects.add(ItemFactory.createBanana(x, y));
                     case "snail" -> objects.add(EnemyFactory.createSnail(x, y, EnemyType.SNAIL));
                     case "leopard" -> objects.add(EnemyFactory.createLeopard(x, y, EnemyType.LEOPARD));
-                    case "Star" -> starCount++; // TODO: implementer star tilfelle
                     default -> System.out.println("Unknown layer: " + layerName + ". Case sensitivity maybe?");
                 }
             }
@@ -108,9 +111,9 @@ public class LevelManager {
         if (playerCount != 1) {
             throw new IllegalStateException("Level must have exactly one Player, but found: " + playerCount);
         }
-//        if (starCount != 1) {
-//            throw new IllegalStateException("Level must have exactly one Star, but found: " + starCount);
-//        }
+        if (starCount != 1) {
+            throw new IllegalStateException("Level must have exactly one Star, but found: " + starCount);
+        }
 
         return objects;
     }

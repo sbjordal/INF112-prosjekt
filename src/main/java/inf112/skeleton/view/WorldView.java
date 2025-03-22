@@ -194,6 +194,7 @@ public class WorldView implements Screen {
         this.textures.put("coin", new Texture("assets/coin.png"));
         this.textures.put("powerup", new Texture("assets/banana.png"));
         this.textures.put("ground", new Texture("obstacles/castleCenter.png"));
+        this.textures.put("star", new Texture("assets/star.png"));
     }
 
     private Texture getTexture(ViewableObject obj){
@@ -204,6 +205,7 @@ public class WorldView implements Screen {
             case "Coin" -> textures.get("coin");
             case "Banana" -> textures.get("powerup");
             case "FixedObject" -> textures.get("ground");
+            case "Star" -> textures.get("star");
             default -> throw new IllegalArgumentException("Unsupported class name for texture: " + className);
         };
     }

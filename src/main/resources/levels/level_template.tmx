@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="90" height="19" tilewidth="50" tileheight="50" infinite="0" nextlayerid="8" nextobjectid="55">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="90" height="19" tilewidth="50" tileheight="50" infinite="0" nextlayerid="9" nextobjectid="57">
  <editorsettings>
-  <export target="projects/INF112/sjette-etasje/src/main/resources/levels/level_one.json" format="json"/>
+  <export target="level_one.json" format="json"/>
  </editorsettings>
+ <objectgroup color="#ffd500" id="8" name="star">
+  <object id="56" x="701.462" y="899.426">
+   <polygon points="0,0 23.4167,-48.6667 46.8333,0"/>
+  </object>
+ </objectgroup>
  <objectgroup color="#0084ff" id="7" name="player">
   <object id="30" x="304.652" y="668.955" width="40" height="80"/>
  </objectgroup>
@@ -13,7 +18,7 @@
   <object id="24" x="400.167" y="758.75" width="40" height="40"/>
  </objectgroup>
  <objectgroup color="#ffff00" id="6" name="banana">
-  <object id="28" x="549.917" y="650" width="50" height="53"/>
+  <object id="28" x="549.974" y="646.705" width="50" height="53"/>
  </objectgroup>
  <objectgroup color="#ffff00" id="3" name="coin">
   <object id="22" x="260.417" y="609.5" width="30" height="30">

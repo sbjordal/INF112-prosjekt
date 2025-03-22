@@ -3,6 +3,42 @@
  "infinite":false,
  "layers":[
         {
+         "color":"#ffd500",
+         "draworder":"topdown",
+         "id":8,
+         "name":"star",
+         "objects":[
+                {
+                 "height":0,
+                 "id":56,
+                 "name":"",
+                 "polygon":[
+                        {
+                         "x":0,
+                         "y":0
+                        }, 
+                        {
+                         "x":23.4166666666667,
+                         "y":-48.6666666666666
+                        }, 
+                        {
+                         "x":46.8333333333334,
+                         "y":0
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":701.462121212121,
+                 "y":899.426136363637
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
          "color":"#0084ff",
          "draworder":"topdown",
          "id":7,
@@ -16,8 +52,8 @@
                  "type":"",
                  "visible":true,
                  "width":40,
-                 "x":304.651515151515,
-                 "y":668.954545454545
+                 "x":304.652,
+                 "y":668.955
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -39,7 +75,7 @@
                  "type":"",
                  "visible":true,
                  "width":70,
-                 "x":100.416666666667,
+                 "x":100.417,
                  "y":728.75
                 }],
          "opacity":1,
@@ -62,7 +98,7 @@
                  "type":"",
                  "visible":true,
                  "width":40,
-                 "x":400.166666666667,
+                 "x":400.167,
                  "y":758.75
                 }],
          "opacity":1,
@@ -85,8 +121,8 @@
                  "type":"",
                  "visible":true,
                  "width":50,
-                 "x":549.916666666667,
-                 "y":650
+                 "x":549.973818181818,
+                 "y":646.704545454545
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -109,7 +145,7 @@
                  "type":"",
                  "visible":true,
                  "width":30,
-                 "x":260.416666666667,
+                 "x":260.417,
                  "y":609.5
                 }, 
                 {
@@ -121,8 +157,8 @@
                  "type":"",
                  "visible":true,
                  "width":30,
-                 "x":9.58333333333333,
-                 "y":709.666666666667
+                 "x":9.58333,
+                 "y":709.667
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -582,8 +618,8 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":8,
- "nextobjectid":55,
+ "nextlayerid":9,
+ "nextobjectid":57,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.11.2",

@@ -9,6 +9,7 @@ import inf112.skeleton.model.gameobject.*;
 import inf112.skeleton.model.gameobject.fixedobject.item.Banana;
 import inf112.skeleton.model.gameobject.fixedobject.item.Coin;
 import inf112.skeleton.model.gameobject.fixedobject.item.Item;
+import inf112.skeleton.model.gameobject.fixedobject.item.Star;
 import inf112.skeleton.model.gameobject.mobileobject.actor.enemy.*;
 import inf112.skeleton.model.gameobject.mobileobject.actor.Player;
 import inf112.skeleton.view.ViewableWorldModel;
@@ -63,6 +64,8 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         coinCounter = 0;
         countDown = 150;
         totalScore = 0;
+        lastAttackTime = 0;
+        lastBounceTime = 0;
         isMovingRight = false;
         isMovingLeft = false;
         jumpForce = NORMAL_JUMP_FORCE;
@@ -208,12 +211,14 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
             if (gameObject instanceof Player) continue;
 
             if (collisionBox.isCollidingWith(gameObject.getCollisionBox())) {
-                if (gameObject instanceof Coin coin) {
-                    handleCoinCollision(coin);
-                } else if (gameObject instanceof Enemy enemy) {
+                if (gameObject instanceof Enemy enemy) {
                     handleEnemyCollision(collisionBox, enemy);
+                } else if (gameObject instanceof Coin coin) {
+                    handleCoinCollision(coin);
                 } else if (gameObject instanceof Banana banana) {
                     handleBananaCollision(banana);
+                } else if (gameObject instanceof Star star) {
+                    handleStarCollision(star);
                 }
                 return true;
             }
@@ -227,6 +232,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
         if (newPlayerCollisionBox.isCollidingFromBottom(enemy.getCollisionBox())){
             if (currentTime - lastBounceTime >= BOUNCE_COOLDOWN) {
+
                 bounce();
                 player.dealDamage(enemy, player.getDamage());
 
@@ -234,9 +240,9 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
                     totalScore += enemy.getObjectScore();
                     objectList.remove(enemy);
                 }
-            }
 
-            lastBounceTime = currentTime;
+                lastBounceTime = currentTime;
+            }
         } else {
             if (currentTime - lastAttackTime >= ATTACK_COOLDOWN) {
 
@@ -248,9 +254,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
                 // Reduce total score
                 final int scorePenalty = 4;
-                if (totalScore >= scorePenalty) {
-                    totalScore -= scorePenalty;
-                }
+                totalScore = Math.max(0, totalScore - scorePenalty);
 
                 lastAttackTime = currentTime;
             }
@@ -272,6 +276,11 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         player.move(-middleOfPlayer, 0);
         jumpForce = BIG_JUMP_FORCE;
         objectList.remove(banana);
+    }
+
+    private void handleStarCollision(Star star) {
+        // TODO: proceed to the next level.
+        objectList.remove(star);
     }
 
     /**
