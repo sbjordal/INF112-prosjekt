@@ -37,9 +37,13 @@ remove PlayerAnimation
 remove SoundHandlerTest
 remove SoundHandlerTest
 remove ItemFactoryTest
+remove WorldModelTest
+remove BananaTest
+remove ViewTest
 
 'Remove potentially unnecessary objects
 remove Direction
+remove LevelManager
 
 'Remove package-info files
 remove node29
