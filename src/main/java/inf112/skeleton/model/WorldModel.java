@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.controller.ControllableWorldModel;
 import inf112.skeleton.controller.Controller;
 import inf112.skeleton.model.gameobject.*;
+import inf112.skeleton.model.gameobject.fixedobject.FixedObject;
 import inf112.skeleton.model.gameobject.fixedobject.item.Banana;
 import inf112.skeleton.model.gameobject.fixedobject.item.Coin;
 import inf112.skeleton.model.gameobject.fixedobject.item.Item;
@@ -205,7 +206,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
      * @return True if the position is legal, false otherwise
      */
     private boolean isLegalMove(CollisionBox collisionBox) {
-        if(!positionIsOnBoard(collisionBox)) return false;
+        if (!positionIsOnBoard(collisionBox)) return false;
         if (isColliding(collisionBox)) return false;
 
         return true;
@@ -229,6 +230,19 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         for (GameObject gameObject : objectList) {
             if (gameObject instanceof Player) continue;
 
+            // Collision from above
+            boolean isGround = gameObject instanceof FixedObject && !(gameObject instanceof Item);
+            boolean isCollidingFromTop = collisionBox.isCollidingFromTop(gameObject.getCollisionBox());
+            if (isCollidingFromTop && isGround) {
+                if (player.getVerticalVelocity() > 0) {
+                    final float bumpForceLoss = 0.1f;
+                    final int bumpSpeed = (int) (-player.getVerticalVelocity() * bumpForceLoss);
+                    player.setVerticalVelocity(bumpSpeed);
+                }
+                return true;
+            }
+
+            // Any type of collision
             if (collisionBox.isCollidingWith(gameObject.getCollisionBox())) {
                 if (gameObject instanceof Enemy enemy) {
                     handleEnemyCollision(collisionBox, enemy);
@@ -395,7 +409,9 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     }
 
     private void updateVerticalVelocity() {
-        if (isTouchingGround() && player.getVerticalVelocity() <= 0 ) {
+        final boolean isFeetPlantedToTheGround = isTouchingGround() && player.getVerticalVelocity() <= 0;
+
+        if (isFeetPlantedToTheGround) {
             player.setVerticalVelocity(0);
         } else {
             final int distance = (int) (GRAVITY_FORCE * Gdx.graphics.getDeltaTime());

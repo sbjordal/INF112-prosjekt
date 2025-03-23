@@ -59,11 +59,26 @@ public class CollisionBox {
         final int acceptanceRange = 5;
 
         return this.botLeft.y <= other.topRight.y &&
-                this.topRight.y >= other.botLeft.y &&
+                this.topRight.y > other.botLeft.y &&
                 this.botLeft.x < other.topRight.x - acceptanceRange &&
                 this.topRight.x > other.botLeft.x + acceptanceRange;
     }
-    
+
+    /**
+     * Checks if the collision box is on the bottom of an external collision box.
+     *
+     * @param other     The external collision box.
+     * @return          True if the collision box is on the bottom, else false.
+     */
+    public boolean isCollidingFromTop(CollisionBox other) {
+        final int acceptanceRange = (int) (other.height * 0.9f);
+
+        return isCollidingWith(other) &&
+                this.botLeft.y < other.topRight.y &&
+                this.topRight.y < other.topRight.y - acceptanceRange;
+    }
+
+
     // TODO: --------------- Disse trenger vi muligens ikke ---------------
     public boolean isCollidingFromLeft(CollisionBox other) {
         return isCollidingWith(other) &&
@@ -78,8 +93,5 @@ public class CollisionBox {
                 this.topRight.x > other.topRight.x &&
                 this.botLeft.y < other.topRight.y &&
                 this.topRight.y > other.botLeft.y;
-    }
-    public boolean isCollidingFromTop(CollisionBox other) {
-        return isCollidingWith(other) && this.botLeft.y < other.topRight.y && this.topRight.y > other.topRight.y;
     }
 }
