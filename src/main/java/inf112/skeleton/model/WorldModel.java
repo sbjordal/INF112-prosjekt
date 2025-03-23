@@ -233,9 +233,10 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
             if (gameObject instanceof Player) continue;
 
             // Collision from above
-            boolean isGround = gameObject instanceof FixedObject && !(gameObject instanceof Item);
             boolean isCollidingFromTop = collisionBox.isCollidingFromTop(gameObject.getCollisionBox());
-            if (isCollidingFromTop && isGround) {
+            boolean isCollidingOnCeilingOfLevel = collisionBox.topRight.y >= height - 1;
+            boolean isGround = gameObject instanceof FixedObject && !(gameObject instanceof Item);
+            if ((isCollidingFromTop && isGround) || isCollidingOnCeilingOfLevel) {
                 if (player.getVerticalVelocity() > 0) {
                     final float bumpForceLoss = 0.1f;
                     final int bumpSpeed = (int) (-player.getVerticalVelocity() * bumpForceLoss);
