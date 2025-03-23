@@ -60,7 +60,7 @@ public class Controller implements InputProcessor {
                     controllableModel.setMovingRight(true);
                     break;
                 case Input.Keys.UP, Input.Keys.W, Input.Keys.SPACE:
-                    controllableModel.jump();
+                    controllableModel.setJumping(true);
                     break;
             }
             return true;
@@ -93,6 +93,9 @@ public class Controller implements InputProcessor {
                     break;
                 case Input.Keys.RIGHT, Input.Keys.D:
                     controllableModel.setMovingRight(false);
+                    break;
+                case Input.Keys.UP, Input.Keys.W, Input.Keys.SPACE:
+                    controllableModel.setJumping(false);
                     break;
             }
             return true;

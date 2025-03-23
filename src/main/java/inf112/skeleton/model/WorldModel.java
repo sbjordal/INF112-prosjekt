@@ -51,6 +51,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     private long lastBounceTime;
     private boolean isMovingRight;
     private boolean isMovingLeft;
+    private boolean isJumping;
     private boolean isJustRespawned;
     private final Logger logger;
     private final int height;
@@ -72,6 +73,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         lastBounceTime = 0;
         isMovingRight = false;
         isMovingLeft = false;
+        isJumping = false;
         isJustRespawned = false;
         jumpForce = NORMAL_JUMP_FORCE;
         board = new WorldBoard(LEVEL_WIDTH, height);
@@ -383,6 +385,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     }
 
     private void movePlayer(float deltaTime) {
+        if (isJumping) jump();
         moveVertically(deltaTime);
         moveHorizontally(deltaTime);
     }
@@ -483,6 +486,12 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     public void setMovingLeft(boolean movingLeft) {
         isMovingLeft = movingLeft;
     }
+
+    @Override
+    public void setJumping(boolean isJumping) {
+        this.isJumping = isJumping;
+    }
+
     /**
      * Tells us the state of the game
      * @return the state of the game

@@ -55,6 +55,13 @@ public interface ControllableWorldModel {
     public void setMovingLeft(boolean movingLeft);
 
     /**
+     * Sets whether the player should be jumping or not.
+     *
+     * @param isJumping Boolean determine the jumping state.
+     */
+    public void setJumping(boolean isJumping);
+
+    /**
      * Gets the original speed of the object that was set when the object was initialized
      * // TODO : ?
      * @return the original speed of the object
