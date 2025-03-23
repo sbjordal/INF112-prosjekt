@@ -17,27 +17,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * TODO: har mye finpussing igjen...
- * TODO: skriv javadoc for alle metoder
- *
- * MEASUREMENTS
- * - level dimensions 	= 4500 x 920
- * - Ground block 		= 50 x 50
- * - Snail 		        = 40 x 40
- * - Leopard 		    = 70 x 70
- * - Coin 			    = 30 x 30
- * - Banana 		    = 50 x 53
- * - Player             = 40 x 80
- * - Star               = 47 x 45
- *
- * EXCEPTIONS
- * - Missing player object / too many: one-and-only-one player per level.
- * - Missing star object / too many: one-and-only-one star per level.
- *
- * REMARKS
- * - loadLevel() returns ArrayList<>. Be careful with mutability.
+ * Manages the loading of levels in the game.
+ * Each level is defined in a JSON file and parsed into a list of {@link GameObject} instances.
  */
 public class LevelManager {
+
+    /**
+     * Enum representing available game levels.
+     */
     public enum Level{
         LEVEL_1,
         LEVEL_2,
@@ -49,8 +36,8 @@ public class LevelManager {
      * The level is represented as a list of {@link GameObject} types.
      * The game objects are extracted from a JSON file by parsing it.
      *
-     * @param level     Level to load.
-     * @return          The extracted game objects as a list.
+     * @param level Level to load.
+     * @return The extracted game objects as a list.
      * @throws IllegalStateException If anything other than exactly one player or exactly one star was found.
      */
     public static ArrayList<GameObject> loadLevel(Level level) {
@@ -74,7 +61,6 @@ public class LevelManager {
         for (JsonNode layer : jsonRoot.get("layers")) {
             if (!layer.get("type").asText().equals("objectgroup")) continue;
 
-            // Fill up the objects list
             String layerName = layer.get("name").asText();
             for (JsonNode obj : layer.get("objects")) {
                 int x = obj.get("x").asInt();
@@ -118,6 +104,13 @@ public class LevelManager {
         return objects;
     }
 
+    /**
+     * Retrieves the corresponding JSON file for a given level.
+     *
+     * @param level The level to retrieve.
+     * @return A {@link FileHandle} pointing to the JSON file.
+     * @throws IllegalStateException If the level file is not found.
+     */
     private static FileHandle getLevelFile(Level level) {
         String levelPath = "levels/";
 
