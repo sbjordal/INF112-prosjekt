@@ -27,29 +27,36 @@ public class CollisionBoxTest {
 
     @Test
     public void testCollisionBoxCollisionFromRight() {
-        GameObject gameobject= new GameObject(new Transform(new Vector2(-10,0), new Vector2(10,10)));
+        GameObject gameObject= new GameObject(new Transform(new Vector2(-10,0), new Vector2(10,10)));
+        assertFalse(player.getCollisionBox().isCollidingFromRight(gameObject.getCollisionBox()));
         player.move(new Vector2(-1,0));
-        assertTrue(player.getCollisionBox().isCollidingFromRight(gameobject.getCollisionBox()));
-        assertFalse(player.getCollisionBox().isCollidingFromLeft(gameobject.getCollisionBox()));
-        assertFalse(player.getCollisionBox().isCollidingFromTop(gameobject.getCollisionBox()));
+        assertTrue(player.getCollisionBox().isCollidingFromRight(gameObject.getCollisionBox()));
+        assertFalse(player.getCollisionBox().isCollidingFromLeft(gameObject.getCollisionBox()));
+        assertFalse(player.getCollisionBox().isCollidingFromTop(gameObject.getCollisionBox()));
+        assertFalse(player.getCollisionBox().isCollidingFromBottom(gameObject.getCollisionBox()));
+
     }
 
     @Test
     public void testCollisionBoxCollisionFromLeft() {
         GameObject gameobject= new GameObject(new Transform(new Vector2(10,0), new Vector2(10,10)));
+        assertFalse(player.getCollisionBox().isCollidingFromLeft(gameobject.getCollisionBox()));
         player.move(new Vector2(1,0));
-        assertFalse(player.getCollisionBox().isCollidingFromRight(gameobject.getCollisionBox()));
         assertTrue(player.getCollisionBox().isCollidingFromLeft(gameobject.getCollisionBox()));
+        assertFalse(player.getCollisionBox().isCollidingFromRight(gameobject.getCollisionBox()));
         assertFalse(player.getCollisionBox().isCollidingFromTop(gameobject.getCollisionBox()));
+        assertFalse(player.getCollisionBox().isCollidingFromBottom(gameobject.getCollisionBox()));
     }
 
     @Test
-    public void testCollisionBoxCollisionFromTop() {
+    public void testCollisionBoxCollisionFromTop() { //Dobbelt sjekke logikk her. står at den kolliderer fra top og bottom samtidig
         GameObject gameobject= new GameObject(new Transform(new Vector2(0, -10), new Vector2(10,10)));
+        assertFalse(player.getCollisionBox().isCollidingFromTop(gameobject.getCollisionBox()));
         player.move(new Vector2(0,-1));
         assertTrue(player.getCollisionBox().isCollidingFromTop(gameobject.getCollisionBox()));
         assertFalse(player.getCollisionBox().isCollidingFromLeft(gameobject.getCollisionBox()));
         assertFalse(player.getCollisionBox().isCollidingFromRight(gameobject.getCollisionBox()));
+        assertFalse(player.getCollisionBox().isCollidingFromBottom(gameobject.getCollisionBox()));
 
     }
 
@@ -59,6 +66,9 @@ public class CollisionBoxTest {
         assertFalse(player.getCollisionBox().isCollidingFromBottom(gameobject.getCollisionBox()));
         player.move(new Vector2(0,1));
         assertTrue(player.getCollisionBox().isCollidingFromBottom(gameobject.getCollisionBox()));
+        assertFalse(player.getCollisionBox().isCollidingFromLeft(gameobject.getCollisionBox()));
+        assertFalse(player.getCollisionBox().isCollidingFromRight(gameobject.getCollisionBox()));
+        assertFalse(player.getCollisionBox().isCollidingFromTop(gameobject.getCollisionBox()));
     }
 
 
