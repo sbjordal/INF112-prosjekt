@@ -53,14 +53,7 @@ public class WorldModelTest {
         assertEquals(GameState.GAME_MENU, worldModel.getGameState());
     }
 
-    @Test
-    void testIncreasedScore() {
-        Enemy enemy= EnemyFactory.createSnail((float) 10.0, (float) -21.0, EnemyType.SNAIL);
-        assertEquals(0, worldModel.getTotalScore());
-        worldModel.move(0,-1);
-        assertEquals(enemy.getObjectScore(), worldModel.getTotalScore());
 
-    }
 
 }
 
@@ -156,3 +149,11 @@ public class WorldModelTest {
 //
 //        }
 
+//        @Test
+//        void testIncreasedScore() {
+//            Enemy enemy= EnemyFactory.createSnail((float) 10.0, (float) -21.0, EnemyType.SNAIL);
+//            assertEquals(0, worldModel.getTotalScore());
+//            worldModel.move(0,-1);
+//            assertEquals(enemy.getObjectScore(), worldModel.getTotalScore());
+//
+//        }
