@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import inf112.skeleton.model.GameState;
 import inf112.skeleton.model.gameobject.Transform;
 import inf112.skeleton.model.gameobject.ViewableObject;
+import inf112.skeleton.model.gameobject.mobileobject.actor.Player;
 
 import java.util.HashMap;
 
@@ -193,6 +194,7 @@ public class WorldView implements Screen {
         this.textures.put("coin", new Texture("assets/coin.png"));
         this.textures.put("powerup", new Texture("assets/banana.png"));
         this.textures.put("ground", new Texture("obstacles/castleCenter.png"));
+        this.textures.put("star", new Texture("assets/star.png"));
     }
 
     private Texture getTexture(ViewableObject obj){
@@ -203,12 +205,18 @@ public class WorldView implements Screen {
             case "Coin" -> textures.get("coin");
             case "Banana" -> textures.get("powerup");
             case "FixedObject" -> textures.get("ground");
-            default -> null;
+            case "Star" -> textures.get("star");
+            default -> throw new IllegalArgumentException("Unsupported class name for texture: " + className);
         };
     }
 
     private void drawObjects() {
         for (ViewableObject object : model.getObjectList()) {
+
+            // Skip drawing player.
+            // Player texture is handled differently due to animations.
+            if (object instanceof Player) continue;
+
             Texture objectTexture = getTexture(object);
             float objectX = object.getTransform().getPos().x;
             float objectY = object.getTransform().getPos().y;

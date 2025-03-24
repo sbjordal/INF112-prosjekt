@@ -1,13 +1,9 @@
 package inf112.skeleton.controller;
 
 import inf112.skeleton.model.GameState;
+import inf112.skeleton.model.LevelManager;
 
 public interface ControllableWorldModel {
-
-    /**
-     *  // TODO skriv
-     */
-    public void setUpModel();
 
     /**
      * Tells us the state of the game
@@ -59,12 +55,24 @@ public interface ControllableWorldModel {
     public void setMovingLeft(boolean movingLeft);
 
     /**
+     * Sets whether the player should be jumping or not.
+     *
+     * @param isJumping Boolean determine the jumping state.
+     */
+    public void setJumping(boolean isJumping);
+
+    /**
      * Gets the original speed of the object that was set when the object was initialized
      * // TODO : ?
      * @return the original speed of the object
      */
     public int getMovementSpeed();
 
-    public void create();
+    /**
+     * Start the specified level.
+     *
+     * @param level The level to start
+     */
+    public void startLevel(LevelManager.Level level);
 }
 

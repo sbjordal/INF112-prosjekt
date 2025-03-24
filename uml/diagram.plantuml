@@ -1,11 +1,19 @@
 @startuml
 
 class Actor {
-  # Actor(int, int, Transform, Texture): 
-  - isAlive: boolean
+  # Actor(int, int, Transform): 
   - lives: int
-   lives: int
+  - isAlive: boolean
+  # damage: int
    isAlive: boolean
+   lives: int
+   damage: int
+}
+class Banana {
+  + Banana(Transform): 
+}
+class BananaTest {
+  + BananaTest(): 
 }
 class Coin {
   + Coin(Transform): 
@@ -24,9 +32,10 @@ class CollisionBoxTest {
 }
 interface ControllableWorldModel << interface >> {
    gameState: GameState
-   movingLeft: boolean
-   movingRight: boolean
+   jumping: boolean
    movementSpeed: int
+   movingRight: boolean
+   movingLeft: boolean
 }
 class Controller {
   + Controller(ControllableWorldModel): 
@@ -35,11 +44,10 @@ class ControllerTest {
   + ControllerTest(): 
 }
 class Enemy {
-  + Enemy(int, int, int, Transform): 
+  + Enemy(int, int, int, int, Transform): 
   - objectScore: int
-  - damage: int
-   damage: int
    objectScore: int
+   readyToCollide: boolean
 }
 class EnemyFactory {
   + EnemyFactory(): 
@@ -53,22 +61,13 @@ class EnemyTest {
 enum EnemyType << enumeration >> {
   - EnemyType(int, int, int, int, float, float): 
 }
-class ExampleIT {
-  + ExampleIT(): 
-}
-class ExampleTest {
-  + ExampleTest(): 
-}
 class FixedObject {
-  + FixedObject(Transform, Texture): 
+  + FixedObject(Transform): 
 }
 class GameObject {
-  + GameObject(Transform, Texture): 
-  - texture: Texture
+  + GameObject(Transform): 
   - transform: Transform
   - collisionBox: CollisionBox
-   currentFrame: TextureRegion
-   texture: Texture
    collisionBox: CollisionBox
    size: Vector2
    transform: Transform
@@ -80,7 +79,7 @@ class GameStateTest {
   + GameStateTest(): 
 }
 class Item {
-  + Item(Transform, Texture): 
+  + Item(Transform): 
 }
 class ItemFactory {
   + ItemFactory(): 
@@ -88,14 +87,20 @@ class ItemFactory {
 class ItemFactoryTest {
   + ItemFactoryTest(): 
 }
+class Leopard {
+  + Leopard(int, int, int, int, Transform): 
+}
+class LevelManager {
+  + LevelManager(): 
+}
 class Main {
   + Main(): 
 }
 class MobileObject {
-  # MobileObject(int, Transform, Texture): 
+  # MobileObject(int, Transform): 
+  - movementSpeed: int
   - verticalVelocity: int
   - movementDirection: int
-  - movementSpeed: int
    movementDirection: int
    verticalVelocity: int
    movementSpeed: int
@@ -106,29 +111,22 @@ class MobileObjectTest {
 class ModelTest {
   + ModelTest(): 
 }
-class Mushroom {
-  + Mushroom(Transform): 
-}
 class MushroomTest {
   + MushroomTest(): 
 }
 class ParallaxBackground {
-  + ParallaxBackground(): 
+  + ParallaxBackground(int): 
 }
 class Player {
   + Player(int, int, Transform): 
   - hasPowerUp: boolean
-   currentFrame: TextureRegion
    hasPowerUp: boolean
 }
 class PlayerAnimation {
   + PlayerAnimation(): 
 }
-class PlayerControllerTest {
-  + PlayerControllerTest(): 
-}
 class PlayerTest {
-  + PlayerTest(): 
+  ~ PlayerTest(): 
 }
 class PositionTest {
   + PositionTest(): 
@@ -136,11 +134,17 @@ class PositionTest {
 interface Scorable << interface >> {
    objectScore: int
 }
+class Snail {
+  + Snail(int, int, int, int, Transform): 
+}
 class SoundHandler {
   + SoundHandler(): 
 }
 class SoundHandlerTest {
   + SoundHandlerTest(): 
+}
+class Star {
+  + Star(Transform): 
 }
 class Transform {
   + Transform(Vector2, Vector2): 
@@ -148,93 +152,92 @@ class Transform {
    pos: Vector2
    size: Vector2
 }
+class ViewTest {
+  + ViewTest(): 
+}
 interface ViewableObject << interface >> {
-   currentFrame: TextureRegion
-   texture: Texture
    collisionBox: CollisionBox
    transform: Transform
 }
 interface ViewableWorldModel << interface >> {
-   coinCounter: int
+   levelWidth: int
+   totalScore: int
    viewablePlayer: ViewableObject
    objectList: List<ViewableObject>
+   movementSpeed: int
+   movementDirection: int
    countDown: int
    gameState: GameState
-   totalScore: int
+   coinCounter: int
    playerLives: int
-   movementDirection: int
-   movementSpeed: int
+   boardWidth: int
 }
 entity WorldBoard << record >> {
   + WorldBoard(int, int): 
 }
 class WorldBoardTest {
-  + WorldBoardTest(): 
+  ~ WorldBoardTest(): 
 }
 class WorldModel {
-  + WorldModel(WorldBoard): 
-  - gameState: GameState
-  - countDown: int
-  - isMovingRight: boolean
+  + WorldModel(int, int): 
+  + LEVEL_WIDTH: int
+  - objectList: ArrayList<GameObject>
   - coinCounter: int
+  - gameState: GameState
   - totalScore: int
   - isMovingLeft: boolean
-  - objectList: ArrayList<GameObject>
+  - isJumping: boolean
+  - countDown: int
+  - isMovingRight: boolean
    touchingGround: boolean
-   isMovingRight: boolean
-   coinCounter: int
-   viewablePlayer: ViewableObject
-   objectList: List<ViewableObject>
-   countDown: int
-   isMovingLeft: boolean
-   gameState: GameState
+   isJumping: boolean
    totalScore: int
-   playerLives: int
-   movementDirection: int
    movementSpeed: int
+   movementDirection: int
+   LEVEL_WIDTH: int
+   boardWidth: int
+   isMovingRight: boolean
+   objectList: List<ViewableObject>
+   viewablePlayer: ViewableObject
+   countDown: int
+   gameState: GameState
+   coinCounter: int
+   playerLives: int
+   isMovingLeft: boolean
 }
 class WorldModelTest {
   + WorldModelTest(): 
 }
 class WorldView {
-  + WorldView(ViewableWorldModel, Viewport): 
+  + WorldView(ViewableWorldModel, int, int): 
+   viewportLeftX: float
 }
-interface node29 as "package-info" << interface >>
-interface node39 as "package-info" << interface >>
-interface node40 as "package-info" << interface >>
 
 Actor                   -[#000082,plain]-^  MobileObject           
+Banana                  -[#000082,plain]-^  Item                   
 Coin                    -[#000082,plain]-^  Item                   
 Coin                    -[#008200,dashed]-^  Scorable               
-CoinTest                -[#595959,dashed]->  Coin                   : "«create»"
-CoinTest                -[#595959,dashed]->  Transform              : "«create»"
 Controller             "1" *-[#595959,plain]-> "controllableModel\n1" ControllableWorldModel 
 ControllerTest         "1" *-[#595959,plain]-> "controllableModel\n1" ControllableWorldModel 
-ControllerTest          -[#595959,dashed]->  Controller             : "«create»"
 ControllerTest         "1" *-[#595959,plain]-> "controller\n1" Controller             
 Enemy                   -[#000082,plain]-^  Actor                  
 Enemy                   -[#008200,dashed]-^  Scorable               
-EnemyFactory            -[#595959,dashed]->  Enemy                  : "«create»"
-EnemyFactory            -[#595959,dashed]->  Transform              : "«create»"
 FixedObject             -[#000082,plain]-^  GameObject             
 GameObject             "1" *-[#595959,plain]-> "collisionBox\n1" CollisionBox           
 GameObject             "1" *-[#595959,plain]-> "transform\n1" Transform              
 GameObject              -[#008200,dashed]-^  ViewableObject         
 Item                    -[#000082,plain]-^  FixedObject            
-ItemFactory             -[#595959,dashed]->  Coin                   : "«create»"
-ItemFactory             -[#595959,dashed]->  Mushroom               : "«create»"
-ItemFactory             -[#595959,dashed]->  Transform              : "«create»"
+Leopard                 -[#000082,plain]-^  Enemy                  
+LevelManager            -[#595959,dashed]->  FixedObject            : "«create»"
+LevelManager            -[#595959,dashed]->  Player                 : "«create»"
+LevelManager            -[#595959,dashed]->  Transform              : "«create»"
 MobileObject            -[#000082,plain]-^  GameObject             
-ModelTest               -[#595959,dashed]->  WorldBoard             : "«create»"
 ModelTest              "1" *-[#595959,plain]-> "worldModel\n1" WorldModel             
-Mushroom                -[#000082,plain]-^  Item                   
 Player                  -[#000082,plain]-^  Actor                  
-PlayerControllerTest   "1" *-[#595959,plain]-> "controllableModel\n1" ControllableWorldModel 
-PlayerTest              -[#595959,dashed]->  Player                 : "«create»"
 PlayerTest             "1" *-[#595959,plain]-> "player\n1" Player                 
-PlayerTest              -[#595959,dashed]->  Transform              : "«create»"
 PlayerTest             "1" *-[#595959,plain]-> "transform\n1" Transform              
-WorldBoardTest          -[#595959,dashed]->  WorldBoard             : "«create»"
+Snail                   -[#000082,plain]-^  Enemy                  
+Star                    -[#000082,plain]-^  Item                   
 WorldModel              -[#008200,dashed]-^  ControllableWorldModel 
 WorldModel             "1" *-[#595959,plain]-> "controller\n1" Controller             
 WorldModel             "1" *-[#595959,plain]-> "objectList\n*" GameObject             
@@ -244,8 +247,11 @@ WorldModel             "1" *-[#595959,plain]-> "soundHandler\n1" SoundHandler
 WorldModel              -[#008200,dashed]-^  ViewableWorldModel     
 WorldModel             "1" *-[#595959,plain]-> "board\n1" WorldBoard             
 WorldModel             "1" *-[#595959,plain]-> "worldView\n1" WorldView              
-WorldModelTest          -[#595959,dashed]->  WorldModel             : "«create»"
+WorldModelTest         "1" *-[#595959,plain]-> "player\n1" Player                 
+WorldModelTest         "1" *-[#595959,plain]-> "transform\n1" Transform              
 WorldModelTest         "1" *-[#595959,plain]-> "worldModel\n1" WorldModel             
+WorldView              "1" *-[#595959,plain]-> "gameState\n1" GameState              
 WorldView              "1" *-[#595959,plain]-> "parallaxBackground\n1" ParallaxBackground     
+WorldView              "1" *-[#595959,plain]-> "playerAnimation\n1" PlayerAnimation        
 WorldView              "1" *-[#595959,plain]-> "model\n1" ViewableWorldModel     
 @enduml

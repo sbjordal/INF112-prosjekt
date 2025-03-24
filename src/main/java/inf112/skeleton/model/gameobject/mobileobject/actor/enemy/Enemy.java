@@ -8,6 +8,7 @@ import inf112.skeleton.model.gameobject.GameObject;
 import inf112.skeleton.model.gameobject.Transform;
 import inf112.skeleton.model.gameobject.fixedobject.item.Item;
 import inf112.skeleton.model.gameobject.mobileobject.actor.Actor;
+import inf112.skeleton.model.gameobject.mobileobject.actor.Player;
 
 import java.util.List;
 
@@ -18,20 +19,20 @@ import java.util.List;
 public abstract class Enemy extends Actor implements Scorable {
     final private static long COLLISION_COOLDOWN = 48;
     final private int objectScore;
-    final private int damage;
     private long lastCollisionTime;
     protected Direction direction;
 
     /**
-     * Creates a new Enemy with the specified movement speed, object score, damage and transform.
+     * Creates a new Enemy with the specified lives, movement speed, object score, damage and transform.
      *
+     * @param lives         The initial amount of lives of the Enemy.
      * @param movementSpeed The rate of which the Enemy moves horizontally.
      * @param objectScore   The score points obtained by defeating the Enemy.
      * @param damage        The amount of damage the Enemy will inflict.
      * @param transform     The initial transform of the Enemy.
      */
-    public Enemy(int movementSpeed, int objectScore, int damage, Transform transform) {
-        super(1, movementSpeed, transform);
+    public Enemy(int lives, int movementSpeed, int objectScore, int damage, Transform transform) {
+        super(lives, movementSpeed, transform);
 
         this.objectScore = objectScore;
         this.damage = damage;
@@ -61,7 +62,13 @@ public abstract class Enemy extends Actor implements Scorable {
 
             if ((isColliding && !isCollidingFromBottom) || isOutsideLevel) {
                 if (isReadyToCollide()) {
+
+                    // Attack the player if the colliding object is the player
+                    if (gameObject instanceof Player player && !isOutsideLevel) {
+                        attack(player);
+                    }
                     switchDirection();
+
                     break;
                 }
             }
@@ -73,6 +80,30 @@ public abstract class Enemy extends Actor implements Scorable {
         }
 
         move(distance, 0);
+    }
+
+    /**
+     * Attacks the player, prioritizing power-up removal over direct damage.
+     * If the player has a power-up, it is removed. Otherwise, the player takes damage.
+     *
+     * @param player The player to attack.
+     */
+    private void attack(Player player) {
+        // TODO: This is copy-pasted straight from WorldModel. This should use Player.hitBy() once WorldModel code regarding player is refactored.
+        // TODO: include ATTACK_COOLDOWN to affect attack frequency.
+        if (player.getHasPowerUp()) {
+            player.setHasPowerUp(false);
+            player.setSize(new Vector2(40, 80)); // TODO: STANDARD_PLAYER_SIZE.
+            int middleOfPlayer = (int) (player.getTransform().getSize().x / 2);
+            player.move(middleOfPlayer, 0);
+
+            // TODO: This is very cumbersome to fix considering it will only be temporary.
+            //       Thus, Jump force will NOT behave correctly when enemies revert the player back to normal size.
+            // jumpForce = NORMAL_JUMP_FORCE;
+
+        } else {
+            dealDamage(player, getDamage());
+        }
     }
 
     /**
@@ -107,15 +138,6 @@ public abstract class Enemy extends Actor implements Scorable {
             case LEFT: direction = Direction.RIGHT; break;
             case RIGHT: direction = Direction.LEFT; break;
         }
-    }
-
-    /**
-     * Returns the amount of damage the Enemy can inflict.
-     *
-     * @return The damage value as an integer.
-     */
-    public int getDamage() {
-        return damage;
     }
 
     @Override

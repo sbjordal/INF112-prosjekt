@@ -3,6 +3,7 @@ package inf112.skeleton.controller;
 import com.badlogic.gdx.Input;
 import inf112.skeleton.model.GameState;
 import com.badlogic.gdx.InputProcessor;
+import inf112.skeleton.model.LevelManager;
 
 /**
  * A class that handles key input and manipulates the model accordingly.
@@ -30,9 +31,7 @@ public class Controller implements InputProcessor {
         if (controllableModel.getGameState() == GameState.GAME_MENU) {
             switch (keyCode) {
                 case Input.Keys.ENTER:
-                    controllableModel.setUpModel();
-                    controllableModel.create();
-                    controllableModel.resume();
+                    controllableModel.startLevel(LevelManager.Level.LEVEL_1);
                     break;
                 case Input.Keys.I:
                     controllableModel.setToInfoMode();
@@ -61,7 +60,7 @@ public class Controller implements InputProcessor {
                     controllableModel.setMovingRight(true);
                     break;
                 case Input.Keys.UP, Input.Keys.W, Input.Keys.SPACE:
-                    controllableModel.jump();
+                    controllableModel.setJumping(true);
                     break;
             }
             return true;
@@ -94,6 +93,9 @@ public class Controller implements InputProcessor {
                     break;
                 case Input.Keys.RIGHT, Input.Keys.D:
                     controllableModel.setMovingRight(false);
+                    break;
+                case Input.Keys.UP, Input.Keys.W, Input.Keys.SPACE:
+                    controllableModel.setJumping(false);
                     break;
             }
             return true;

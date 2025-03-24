@@ -14,8 +14,8 @@ public final class Snail extends Enemy {
      * @param damage        The amount of damage the Enemy will inflict.
      * @param transform     The initial transform of the Enemy.
      */
-    public Snail(int movementSpeed, int objectScore, int damage, Transform transform) {
-        super(movementSpeed, objectScore, damage, transform);
+    public Snail(int lives, int movementSpeed, int objectScore, int damage, Transform transform) {
+        super(lives, movementSpeed, objectScore, damage, transform);
 
         this.direction = Direction.RIGHT;
     }
