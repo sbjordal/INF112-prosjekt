@@ -25,8 +25,6 @@ import java.util.List;
 public class WorldModel implements ViewableWorldModel, ControllableWorldModel, ApplicationListener {
 
     private static final int GRAVITY_FORCE = -3200;
-    private static final int NORMAL_BOUNCE_FORCE = 35000;
-    private static final int SMALL_BOUNCE_FORCE = 27000;
     private static final int NORMAL_JUMP_FORCE = 63000;
     private static final int BIG_JUMP_FORCE = 73000;
     public static final int LEVEL_WIDTH = 4500;
@@ -34,7 +32,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     private static final Vector2 LARGE_PLAYER_SIZE = new Vector2(65, 135);
     private static final long ATTACK_COOLDOWN = 800;
     private static final long BOUNCE_COOLDOWN = 64;
-    private int jumpForce;
     private GameState gameState;
     private Player player;
     private WorldBoard board;
@@ -52,7 +49,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     private boolean isMovingRight;
     private boolean isMovingLeft;
     private boolean isJumping;
-    private boolean isJustRespawned;
     private final Logger logger;
     private final int height;
 
@@ -74,7 +70,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         isMovingRight = false;
         isMovingLeft = false;
         isJumping = false;
-        isJustRespawned = false;
         jumpForce = NORMAL_JUMP_FORCE;
         board = new WorldBoard(LEVEL_WIDTH, height);
     }
@@ -120,7 +115,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         for (GameObject object : objectList) {
             if (object instanceof Player) {
                 player = (Player) object;
-                isJustRespawned = true;
+                player.setIsJustRespawned(true);
                 playerCount++;
             }
         }
@@ -139,40 +134,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         setUpModel();
         create();
         resume();
-    }
-
-    @Override
-    public void move(int deltaX, int deltaY) {
-        Vector2 newPlayerPosition = filterPlayerPosition(deltaX, deltaY);
-
-        if (!isJustRespawned) player.move(newPlayerPosition);
-        isJustRespawned = false;
-
-        // Player falls to his death
-        final int belowLevel = -200;
-        if (newPlayerPosition.y <= belowLevel) {
-            player.receiveDamage(player.getLives());
-        }
-    }
-
-    /**
-     * Filters player's position to be valid.
-     * A valid position is a position that does not overlap with any other {@link GameObject} types.
-     * The filter-algorithm will favor the desired distances.
-     *
-     * @param deltaX    the desired distance in the horizontal direction.
-     * @param deltaY    the desired distance in the vertical direction.
-     * @return          filtered player position.
-     */
-    private Vector2 filterPlayerPosition(int deltaX, int deltaY) {
-        Transform transform = player.getTransform();
-        Vector2 position = transform.getPos();
-        Vector2 size = transform.getSize();
-
-        float filteredX = binarySearch(position.x, position.y, deltaX, size, true);
-        float filteredY = binarySearch(filteredX, position.y, deltaY, size, false);
-
-        return new Vector2(filteredX, filteredY);
     }
 
     private float binarySearch(float startX, float startY, int delta, Vector2 size, boolean isX) {
@@ -201,13 +162,12 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         return startCoordinate + endCoordinate;
     }
 
-
     /**
      * Checks if MobileObject can be moved where it wants to move or not.
      *
      * @return True if the position is legal, false otherwise
      */
-    private boolean isLegalMove(CollisionBox collisionBox) {
+    public boolean isLegalMove(CollisionBox collisionBox) {
         if (!positionIsOnBoard(collisionBox)) return false;
         if (isColliding(collisionBox)) return false;
 
@@ -335,13 +295,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         player.jump(distance);
     }
 
-    @Override
-    public void jump() {
-        if (isTouchingGround()) {
-            final int distance = (int) (jumpForce * Gdx.graphics.getDeltaTime());
-            player.jump(distance);
-        }
-    }
+
 
     private boolean isTouchingGround() {
         for (GameObject object : objectList) {

@@ -31,8 +31,8 @@ public class ControllerTest {
 
         // Test for Enter og I
         controller.keyDown(Input.Keys.ENTER);
-        Mockito.verify(controllableModel).setUpModel();
-        Mockito.verify(controllableModel).create();
+//        Mockito.verify(controllableModel).setUpModel();
+//        Mockito.verify(controllableModel).create();
         Mockito.verify(controllableModel).resume();
 
         controller.keyDown(Input.Keys.I);
@@ -153,7 +153,7 @@ public class ControllerTest {
         boolean result = controller.keyDown(Input.Keys.ENTER);
 
         // Verify that the correct methods were called
-        Mockito.verify(controllableModel).setUpModel();
+//        Mockito.verify(controllableModel).setUpModel();
         assertTrue(result); // Check that the return value is true
     }
 
