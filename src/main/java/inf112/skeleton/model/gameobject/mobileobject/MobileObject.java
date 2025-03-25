@@ -1,8 +1,8 @@
 package inf112.skeleton.model.gameobject.mobileobject;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.model.gameobject.GameObject;
+import inf112.skeleton.model.gameobject.Movable;
 import inf112.skeleton.model.gameobject.Transform;
 
 /**
@@ -10,7 +10,7 @@ import inf112.skeleton.model.gameobject.Transform;
  * A mobile object is any {@link GameObject} that has a variable position.
  * A variable position can be altered once instantiated.
  */
-public abstract class MobileObject extends GameObject {
+public abstract class MobileObject extends GameObject implements Movable {
     private final int movementSpeed;
     private int verticalVelocity;
     private int movementDirection;
@@ -97,5 +97,29 @@ public abstract class MobileObject extends GameObject {
 
     public int getMovementDirection(){
         return this.movementDirection;
+    }
+
+    @Override
+    public void applyGravity(float gravity, float deltaTime, boolean isOnGround) {
+        if (isOnGround && verticalVelocity <= 0) {
+            verticalVelocity = 0;
+        } else {
+            verticalVelocity += (int)(gravity * deltaTime);
+        }
+    }
+
+    @Override
+    public void moveHorizontally(float deltaTime, boolean moveLeft, boolean moveRight) {
+        if (moveLeft == moveRight) return;
+
+        int direction = moveRight ? 1 : -1;
+        int delta = (int)(movementSpeed * deltaTime * direction);
+        move(delta, 0);
+    }
+
+    @Override
+    public void moveVertically(float deltaTime) {
+        int delta = (int)(verticalVelocity * deltaTime);
+        move(0, delta);
     }
 }

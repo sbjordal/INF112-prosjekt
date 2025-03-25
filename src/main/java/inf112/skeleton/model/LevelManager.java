@@ -41,11 +41,12 @@ public class LevelManager {
      * @return The extracted game objects as a list.
      * @throws IllegalStateException If anything other than exactly one player or exactly one star was found.
      */
-    public static List<GameObject> loadLevel(Level level) {
+    public static Pair<List<GameObject>, Player> loadLevel(Level level) {
         FileHandle levelFile = getLevelFile(level);
         ObjectMapper objectMapper = new ObjectMapper();
         String levelContent;
         JsonNode jsonRoot;
+        Player player;
 
         try {
             levelContent = levelFile.readString();
@@ -58,6 +59,7 @@ public class LevelManager {
         int mapHeight = jsonRoot.get("height").asInt() * jsonRoot.get("tileheight").asInt();
         int playerCount = 0;
         int starCount = 0;
+        int playeridx = 0;
 
         for (JsonNode layer : jsonRoot.get("layers")) {
             if (!layer.get("type").asText().equals("objectgroup")) continue;
@@ -79,7 +81,8 @@ public class LevelManager {
                         Vector2 size = new Vector2(40, 80);
                         Vector2 position = new Vector2(x, y);
                         Transform transform = new Transform(position, size);
-                        Player player = new Player(3, 350, transform);
+                        player = new Player(3, 350, transform);
+                        playeridx = objects.size();
                         objects.add(player);
                         playerCount++;
                     }
@@ -101,8 +104,11 @@ public class LevelManager {
         if (starCount != 1) {
             throw new IllegalStateException("Level must have exactly one Star, but found: " + starCount);
         }
-
-        return objects;
+        GameObject obj = objects.get(playeridx);
+        if (!(obj instanceof Player)){
+            throw new IllegalArgumentException("object not instance of PLayer");
+        }
+        return new Pair<>(objects, (Player) objects.get(playeridx));
     }
 
     /**

@@ -17,6 +17,8 @@ import inf112.skeleton.view.ViewableWorldModel;
 import inf112.skeleton.view.WorldView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -31,6 +33,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     private WorldView worldView;
     private Controller controller;
     private List<GameObject> objectList;
+    private final List<GameObject> toRemove;
     private SoundHandler soundHandler;
     private LevelManager.Level currentLevel;
     private int totalScore;
@@ -39,12 +42,12 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     private long lastScoreUpdate = System.currentTimeMillis();
     private boolean isMovingRight;
     private boolean isMovingLeft;
-    private static final long ATTACK_COOLDOWN = 800;
-    private static final long BOUNCE_COOLDOWN = 64;
-    private static final int GRAVITY_FORCE = -3200;
     private boolean isJumping;
     private final Logger logger;
     private final int height;
+    private static final long ATTACK_COOLDOWN = 800;
+    private static final long BOUNCE_COOLDOWN = 64;
+    private static final int GRAVITY_FORCE = -3200;
 
     public WorldModel(int width, int height) {
         this.height = height;
@@ -52,6 +55,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         this.gameState = GameState.GAME_MENU;
         this.logger = LoggerFactory.getLogger(WorldModel.class);
         this.currentLevel = LevelManager.Level.LEVEL_1;
+        this.toRemove = new ArrayList<>();
         setUpModel();
     }
 
@@ -74,8 +78,10 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     }
 
     private void setupGameObjects() {
-        objectList = LevelManager.loadLevel(currentLevel);
-        findPlayer();
+        Pair<List<GameObject>, Player> pair = LevelManager.loadLevel(currentLevel);
+        objectList = pair.first;
+        player = pair.second;
+        player.setRespawned(true);
     }
 
     private void setupGraphics() {
@@ -97,25 +103,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     }
 
     /**
-     * Sets the player reference to the player object.
-     *
-     * @throws IllegalStateException If anything other than exactly one player was found.
-     */
-    private void findPlayer() {
-        int playerCount = 0;
-        for (GameObject object : objectList) {
-            if (object instanceof Player) {
-                player = (Player) object;
-                player.setRespawned(true);
-                playerCount++;
-            }
-        }
-        if (playerCount != 1) {
-            throw new IllegalStateException("objectList must have exactly one Player, but found: " + playerCount);
-        }
-    }
-
-    /**
      * Start the specified level.
      *
      * @param level The level to start
@@ -125,20 +112,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         setUpModel();
         create();
         resume();
-    }
-
-    @Override
-    public void move(int deltaX, int deltaY) {
-        Vector2 newPlayerPosition = filterPlayerPosition(deltaX, deltaY);
-
-        if (!player.getRespawned()) player.move(newPlayerPosition);
-        player.setRespawned(false);
-
-        // Player falls to his death
-        final int belowLevel = -200;
-        if (newPlayerPosition.y <= belowLevel) {
-            player.receiveDamage(player.getLives());
-        }
     }
 
     /**
@@ -186,7 +159,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
         return startCoordinate + endCoordinate;
     }
-
 
     /**
      * Checks if MobileObject can be moved where it wants to move or not.
@@ -244,7 +216,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
                 return true;
             }
         }
-
         return false;
     }
 
@@ -259,7 +230,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
                 if (!enemy.isAlive()) {
                     totalScore += enemy.getObjectScore();
-                    objectList.remove(enemy);
+                    toRemove.add(enemy);
                 }
 
                 player.setLastBounceTime(currentTime);
@@ -288,30 +259,21 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         soundHandler.playCoinSound();
         coinCounter++;
         totalScore += objectScore;
-        objectList.remove(coin);
+        toRemove.add(coin);
     }
 
     private void handleBananaCollision(Banana banana) {
         player.bananaCollision();
-        objectList.remove(banana);
+        toRemove.add(banana);
     }
 
     private void handleStarCollision(Star star) {
-        objectList.remove(star);
+        toRemove.add(star);
 
         switch (currentLevel) {
             case LEVEL_1: startLevel(LevelManager.Level.LEVEL_2); break;
             case LEVEL_2: startLevel(LevelManager.Level.LEVEL_3); break;
             case LEVEL_3: startLevel(LevelManager.Level.LEVEL_1); break;
-        }
-    }
-
-
-    @Override
-    public void jump() {
-        if (isTouchingGround()) {
-            final int distance = (int) (player.getJumpForce() * Gdx.graphics.getDeltaTime());
-            player.jump(distance);
         }
     }
 
@@ -334,8 +296,10 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         if (gameState.equals(GameState.GAME_ACTIVE)) {
             updateScore();
             moveEnemies(deltaTime);
-            movePlayer(deltaTime);
             checkForGameOver();
+            updateMovables(deltaTime);
+            objectList.removeAll(toRemove);
+            toRemove.clear();
         }
 
         worldView.render(deltaTime);
@@ -357,43 +321,51 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         return currentTime - lastScoreUpdate >= 1000 && countDown >0 && gameState == GameState.GAME_ACTIVE;
     }
 
-    private void movePlayer(float deltaTime) {
-        if (isJumping) jump();
-        moveVertically(deltaTime);
-        moveHorizontally(deltaTime);
+    private void resolvePlayerMovement(int deltaX, int deltaY) {
+        Vector2 newPlayerPosition = filterPlayerPosition(deltaX, deltaY);
+
+        if (!player.getRespawned()) {
+            player.move(newPlayerPosition);
+        }
+        player.setRespawned(false);
+
+        final int belowLevel = -200;
+        if (newPlayerPosition.y <= belowLevel) {
+            player.receiveDamage(player.getLives());
+        }
     }
 
-    private void moveVertically(float deltaTime) {
-        updateVerticalVelocity();
-        final int playerVelocity = player.getVerticalVelocity();
-        final int distance = (int) (playerVelocity * deltaTime);
-        move(0, distance);
-    }
+    private void updateMovables(float deltaTime) {
+        for (GameObject obj : objectList) {
+            if (obj instanceof Movable movable) {
 
-    private void moveHorizontally(float deltaTime) {
-        final boolean isMoving = (isMovingLeft && !isMovingRight) || (!isMovingLeft && isMovingRight);
-        if (isMoving) {
-            final int movementSpeed = getMovementSpeed();
-            final int distance = (int) (movementSpeed * deltaTime);
+                if (obj == player) {
+                    boolean isGrounded = isTouchingGround();
 
-            if (isMovingRight) {
-                move(distance, 0);
-            } else if (isMovingLeft) {
-                move(-distance, 0);
+                    if (isJumping) {
+                        player.jump(isGrounded);
+                    }
+
+                    player.applyGravity(GRAVITY_FORCE, deltaTime, isGrounded);
+
+                    int deltaY = (int)(player.getVerticalVelocity() * deltaTime);
+                    resolvePlayerMovement(0, deltaY);
+
+                    int deltaX = 0;
+                    if (isMovingRight ^ isMovingLeft) {
+                        int direction = isMovingRight ? 1 : -1;
+                        deltaX = (int)(player.getMovementSpeed() * deltaTime) * direction;
+                        resolvePlayerMovement(deltaX, 0);
+                    }
+
+                } else {
+                    movable.applyGravity(GRAVITY_FORCE, deltaTime, true);
+                    movable.moveVertically(deltaTime);
+                }
             }
         }
     }
 
-    private void updateVerticalVelocity() {
-        final boolean isFeetPlantedToTheGround = isTouchingGround() && player.getVerticalVelocity() <= 0;
-
-        if (isFeetPlantedToTheGround) {
-            player.setVerticalVelocity(0);
-        } else {
-            final int distance = (int) (GRAVITY_FORCE * Gdx.graphics.getDeltaTime());
-            player.addVerticalVelocity(distance);
-        }
-    }
 
     private void moveEnemies(float deltaTime) {
         for (GameObject gameObject : objectList) {

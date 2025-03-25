@@ -67,7 +67,7 @@ class PlayerTest {
     @Test
     void testJumpSetsVerticalVelocity() {
         int jumpForce = 10;
-        player.jump(jumpForce);
+        player.jump(true);
 
         assertEquals(jumpForce, player.getVerticalVelocity(), "Vertical velocity should match the jump force");
     }

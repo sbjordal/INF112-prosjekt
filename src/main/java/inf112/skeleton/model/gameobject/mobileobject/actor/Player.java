@@ -15,7 +15,6 @@ final public class Player extends Actor {
     private static final int SMALL_BOUNCE_FORCE = 27000;
     private static final int NORMAL_JUMP_FORCE = 63000;
     private static final int BIG_JUMP_FORCE = 73000;
-    private static final Vector2 STANDARD_PLAYER_SIZE = new Vector2(40, 80);
     private static final Vector2 LARGE_PLAYER_SIZE = new Vector2(65, 135);
     private int jumpForce;
     private boolean isJustRespawned;
@@ -39,9 +38,18 @@ final public class Player extends Actor {
         this.isJustRespawned = false;
         this.jumpForce = NORMAL_JUMP_FORCE;
     }
-
-    public void jump(int jumpForce) {
-        setVerticalVelocity(jumpForce);
+    public void jump(boolean isGrounded) {
+        if (isGrounded) {
+            jump(jumpForce);
+        }
+    }
+    public void jump(int force){
+        int velocity = (int)(force * Gdx.graphics.getDeltaTime());
+        setVerticalVelocity(velocity);
+    }
+    public void bounce(){
+        int bounceForce = hasPowerUp ? SMALL_BOUNCE_FORCE : NORMAL_BOUNCE_FORCE;
+        jump(bounceForce);
     }
 
     public void setHasPowerUp(boolean hasPowerUp) {
@@ -66,15 +74,6 @@ final public class Player extends Actor {
         jumpForce = BIG_JUMP_FORCE;
     }
 
-    public void bounce(){
-        final int bounceForce = this.getHasPowerUp() ? SMALL_BOUNCE_FORCE : NORMAL_BOUNCE_FORCE;
-        final int distance = (int) (bounceForce * Gdx.graphics.getDeltaTime());
-        this.jump(distance);
-    }
-
-    public int getJumpForce() {
-        return jumpForce;
-    }
     public long getLastAttackTime() {
         return lastAttackTime;
     }
@@ -90,4 +89,5 @@ final public class Player extends Actor {
     public void setLastBounceTime(long lastBounceTime) {
         this.lastBounceTime = lastBounceTime;
     }
+
 }
