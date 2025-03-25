@@ -17,42 +17,32 @@ import inf112.skeleton.view.ViewableWorldModel;
 import inf112.skeleton.view.WorldView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class WorldModel implements ViewableWorldModel, ControllableWorldModel, ApplicationListener {
 
-    private static final int GRAVITY_FORCE = -3200;
-    private static final int NORMAL_BOUNCE_FORCE = 35000;
-    private static final int SMALL_BOUNCE_FORCE = 27000;
-    private static final int NORMAL_JUMP_FORCE = 63000;
-    private static final int BIG_JUMP_FORCE = 73000;
+
     public static final int LEVEL_WIDTH = 4500;
-    private static final Vector2 STANDARD_PLAYER_SIZE = new Vector2(40, 80);
-    private static final Vector2 LARGE_PLAYER_SIZE = new Vector2(65, 135);
-    private static final long ATTACK_COOLDOWN = 800;
-    private static final long BOUNCE_COOLDOWN = 64;
-    private int jumpForce;
+
     private GameState gameState;
     private Player player;
     private WorldBoard board;
     private WorldView worldView;
     private Controller controller;
-    private ArrayList<GameObject> objectList;
+    private List<GameObject> objectList;
     private SoundHandler soundHandler;
     private LevelManager.Level currentLevel;
     private int totalScore;
     private int countDown;
     private int coinCounter;
     private long lastScoreUpdate = System.currentTimeMillis();
-    private long lastAttackTime;
-    private long lastBounceTime;
     private boolean isMovingRight;
     private boolean isMovingLeft;
+    private static final long ATTACK_COOLDOWN = 800;
+    private static final long BOUNCE_COOLDOWN = 64;
+    private static final int GRAVITY_FORCE = -3200;
     private boolean isJumping;
-    private boolean isJustRespawned;
     private final Logger logger;
     private final int height;
 
@@ -69,13 +59,9 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         coinCounter = 0;
         countDown = 150;
         totalScore = 0;
-        lastAttackTime = 0;
-        lastBounceTime = 0;
         isMovingRight = false;
         isMovingLeft = false;
         isJumping = false;
-        isJustRespawned = false;
-        jumpForce = NORMAL_JUMP_FORCE;
         board = new WorldBoard(LEVEL_WIDTH, height);
     }
 
@@ -120,7 +106,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         for (GameObject object : objectList) {
             if (object instanceof Player) {
                 player = (Player) object;
-                isJustRespawned = true;
+                player.setRespawned(true);
                 playerCount++;
             }
         }
@@ -145,8 +131,8 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     public void move(int deltaX, int deltaY) {
         Vector2 newPlayerPosition = filterPlayerPosition(deltaX, deltaY);
 
-        if (!isJustRespawned) player.move(newPlayerPosition);
-        isJustRespawned = false;
+        if (!player.getRespawned()) player.move(newPlayerPosition);
+        player.setRespawned(false);
 
         // Player falls to his death
         final int belowLevel = -200;
@@ -228,7 +214,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         if (gameState != GameState.GAME_ACTIVE) {
             return false;
         }
-
         for (GameObject gameObject : objectList) {
             if (gameObject instanceof Player) continue;
 
@@ -267,9 +252,9 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         long currentTime = System.currentTimeMillis();
 
         if (newPlayerCollisionBox.isCollidingFromBottom(enemy.getCollisionBox())){
-            if (currentTime - lastBounceTime >= BOUNCE_COOLDOWN) {
+            if (currentTime - player.getLastBounceTime() >= BOUNCE_COOLDOWN) {
 
-                bounce();
+                player.bounce();
                 player.dealDamage(enemy, player.getDamage());
 
                 if (!enemy.isAlive()) {
@@ -277,10 +262,10 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
                     objectList.remove(enemy);
                 }
 
-                lastBounceTime = currentTime;
+                player.setLastBounceTime(currentTime);
             }
         } else {
-            if (currentTime - lastAttackTime >= ATTACK_COOLDOWN) {
+            if (currentTime - player.getLastAttackTime() >= ATTACK_COOLDOWN) {
 
                 // TODO...
                 // Enemy dealing damage to the player is moved into Enemy.moveEnemy()
@@ -293,7 +278,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
                 final int scorePenalty = 4;
                 totalScore = Math.max(0, totalScore - scorePenalty);
 
-                lastAttackTime = currentTime;
+                player.setLastAttackTime(currentTime);
             }
         }
     }
@@ -307,11 +292,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     }
 
     private void handleBananaCollision(Banana banana) {
-        player.setHasPowerUp(true);
-        player.setSize(LARGE_PLAYER_SIZE);
-        int middleOfPlayer = (int) (player.getTransform().getSize().x / 2);
-        player.move(-middleOfPlayer, 0);
-        jumpForce = BIG_JUMP_FORCE;
+        player.bananaCollision();
         objectList.remove(banana);
     }
 
@@ -325,20 +306,11 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         }
     }
 
-    /**
-     * Makes the player bounce.
-     * A bounce is a lower altitude jump.
-     */
-    private void bounce() {
-        final int bounceForce = player.getHasPowerUp() ? SMALL_BOUNCE_FORCE : NORMAL_BOUNCE_FORCE;
-        final int distance = (int) (bounceForce * Gdx.graphics.getDeltaTime());
-        player.jump(distance);
-    }
 
     @Override
     public void jump() {
         if (isTouchingGround()) {
-            final int distance = (int) (jumpForce * Gdx.graphics.getDeltaTime());
+            final int distance = (int) (player.getJumpForce() * Gdx.graphics.getDeltaTime());
             player.jump(distance);
         }
     }

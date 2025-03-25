@@ -15,6 +15,7 @@ import inf112.skeleton.model.gameobject.mobileobject.actor.enemy.EnemyType;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Manages the loading of levels in the game.
@@ -40,7 +41,7 @@ public class LevelManager {
      * @return The extracted game objects as a list.
      * @throws IllegalStateException If anything other than exactly one player or exactly one star was found.
      */
-    public static ArrayList<GameObject> loadLevel(Level level) {
+    public static List<GameObject> loadLevel(Level level) {
         FileHandle levelFile = getLevelFile(level);
         ObjectMapper objectMapper = new ObjectMapper();
         String levelContent;
@@ -53,7 +54,7 @@ public class LevelManager {
             throw new RuntimeException("Failed to load level: " + level);
         }
 
-        ArrayList<GameObject> objects = new ArrayList<>();
+        List<GameObject> objects = new ArrayList<>();
         int mapHeight = jsonRoot.get("height").asInt() * jsonRoot.get("tileheight").asInt();
         int playerCount = 0;
         int starCount = 0;
