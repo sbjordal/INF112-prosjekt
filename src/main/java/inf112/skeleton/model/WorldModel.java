@@ -338,7 +338,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     private void updateMovables(float deltaTime) {
         for (GameObject obj : objectList) {
             if (obj instanceof Movable movable) {
-
                 if (obj == player) {
                     boolean isGrounded = isTouchingGround();
 
@@ -365,7 +364,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
             }
         }
     }
-
 
     private void moveEnemies(float deltaTime) {
         for (GameObject gameObject : objectList) {
