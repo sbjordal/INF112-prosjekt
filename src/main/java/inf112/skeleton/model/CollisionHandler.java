@@ -38,15 +38,7 @@ public class CollisionHandler {
                 }
             }
             if (playerBox.isCollidingWith(otherBox)) {
-                if (object instanceof Enemy enemy) {
-                    return enemy;
-                } else if (object instanceof Coin coin) {
-                    return coin;
-                } else if (object instanceof Banana banana) {
-                    return banana;
-                } else if (object instanceof Star star) {
-                    return star;
-                }
+                return object;
             }
         }
         return null;
@@ -55,7 +47,11 @@ public class CollisionHandler {
     public void handleEnemyCollsion(){
 
     }
-    public void handleCoinCollision(){
+    public void handleCoinCollision(Coin coin, SoundHandler handler,  int coinCounter, Integer totalScore){
+        final int objectScore = coin.getObjectScore();
+        handler.playCoinSound();
+        coinCounter++;
+        totalScore += objectScore;
 
     }
     public void handleBananaCollision(){

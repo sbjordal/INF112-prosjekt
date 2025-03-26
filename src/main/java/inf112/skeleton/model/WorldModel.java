@@ -181,7 +181,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     private boolean isColliding2(){
         GameObject collided = collisionHandler.checkCollision(player, objectList);
         if (collided != null) {
-            if (collided instanceof Coin coin) collisionHandler.handleCoinCollision();
+            if (collided instanceof Coin coin) collisionHandler.handleCoinCollision(coin, soundHandler, coinCounter, totalScore);
             else if (collided instanceof Enemy enemy) collisionHandler.handleEnemyCollsion();
             else if (collided instanceof Banana banana) collisionHandler.handleBananaCollision();
             else if (collided instanceof Star star) collisionHandler.handleStarCollision();
@@ -306,7 +306,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
             objectList.removeAll(toRemove);
             toRemove.clear();
         }
-
         worldView.render(deltaTime);
     }
 
