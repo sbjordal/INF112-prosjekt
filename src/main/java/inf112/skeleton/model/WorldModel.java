@@ -17,7 +17,6 @@ import inf112.skeleton.view.ViewableWorldModel;
 import inf112.skeleton.view.WorldView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -166,10 +165,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
      * @return True if the position is legal, false otherwise
      */
     private boolean isLegalMove(CollisionBox collisionBox) {
-        if (!positionIsOnBoard(collisionBox)) return false;
-        if (isColliding(collisionBox)) return false;
-
-        return true;
+        return positionIsOnBoard(collisionBox) && !isColliding(collisionBox);
     }
 
     private boolean positionIsOnBoard(CollisionBox collisionBox) {
@@ -183,9 +179,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     }
 
     private boolean isColliding(CollisionBox collisionBox) {
-        if (gameState != GameState.GAME_ACTIVE) {
-            return false;
-        }
         for (GameObject gameObject : objectList) {
             if (gameObject instanceof Player) continue;
 
@@ -295,9 +288,9 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
         if (gameState.equals(GameState.GAME_ACTIVE)) {
             updateScore();
+            updatePlayerMovement(deltaTime);
             moveEnemies(deltaTime);
             checkForGameOver();
-            updateMovables(deltaTime);
             objectList.removeAll(toRemove);
             toRemove.clear();
         }
@@ -335,33 +328,19 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         }
     }
 
-    private void updateMovables(float deltaTime) {
-        for (GameObject obj : objectList) {
-            if (obj instanceof Movable movable) {
-                if (obj == player) {
-                    boolean isGrounded = isTouchingGround();
+    private void updatePlayerMovement(float deltaTime) {
+        boolean isGrounded = isTouchingGround();
 
-                    if (isJumping) {
-                        player.jump(isGrounded);
-                    }
-
-                    player.applyGravity(GRAVITY_FORCE, deltaTime, isGrounded);
-
-                    int deltaY = (int)(player.getVerticalVelocity() * deltaTime);
-                    resolvePlayerMovement(0, deltaY);
-
-                    int deltaX = 0;
-                    if (isMovingRight ^ isMovingLeft) {
-                        int direction = isMovingRight ? 1 : -1;
-                        deltaX = (int)(player.getMovementSpeed() * deltaTime) * direction;
-                        resolvePlayerMovement(deltaX, 0);
-                    }
-
-                } else {
-                    movable.applyGravity(GRAVITY_FORCE, deltaTime, true);
-                    movable.moveVertically(deltaTime);
-                }
-            }
+        if (isJumping) {
+            player.jump(isGrounded);
+        }
+        player.applyGravity(GRAVITY_FORCE, deltaTime, isGrounded);
+        int deltaY = (int)(player.getVerticalVelocity() * deltaTime);
+        resolvePlayerMovement(0, deltaY);
+        if (isMovingRight ^ isMovingLeft) {
+            int direction = isMovingRight ? 1 : -1;
+            int deltaX = (int)(player.getMovementSpeed() * deltaTime) * direction;
+            resolvePlayerMovement(deltaX, 0);
         }
     }
 
