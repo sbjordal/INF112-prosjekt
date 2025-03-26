@@ -1,5 +1,7 @@
 package inf112.skeleton.model.gameobject.mobileobject.actor;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.model.gameobject.GameObject;
 import inf112.skeleton.model.gameobject.Transform;
 
@@ -9,7 +11,16 @@ import inf112.skeleton.model.gameobject.Transform;
  * that responds to user-input.
  */
 final public class Player extends Actor {
+    private static final int NORMAL_BOUNCE_FORCE = 35000;
+    private static final int SMALL_BOUNCE_FORCE = 27000;
+    private static final int NORMAL_JUMP_FORCE = 63000;
+    private static final int BIG_JUMP_FORCE = 73000;
+    private static final Vector2 LARGE_PLAYER_SIZE = new Vector2(65, 135);
+    private int jumpForce;
+    private boolean isJustRespawned;
     private boolean hasPowerUp;
+    private long lastAttackTime;
+    private long lastBounceTime;
 
     /**
      * Creates a new Player with the specified lives, movement speed and transform.
@@ -22,10 +33,23 @@ final public class Player extends Actor {
         super(lives, movementSpeed, transform);
         this.hasPowerUp = false;
         this.damage = 1;
+        this.lastAttackTime = 0;
+        this.lastBounceTime = 0;
+        this.isJustRespawned = false;
+        this.jumpForce = NORMAL_JUMP_FORCE;
     }
-
-    public void jump(int jumpForce) {
-        setVerticalVelocity(jumpForce);
+    public void jump(boolean isGrounded) {
+        if (isGrounded) {
+            jump(jumpForce);
+        }
+    }
+    public void jump(int force){
+        int velocity = (int)(force * Gdx.graphics.getDeltaTime());
+        setVerticalVelocity(velocity);
+    }
+    public void bounce(){
+        int bounceForce = hasPowerUp ? SMALL_BOUNCE_FORCE : NORMAL_BOUNCE_FORCE;
+        jump(bounceForce);
     }
 
     public void setHasPowerUp(boolean hasPowerUp) {
@@ -35,4 +59,35 @@ final public class Player extends Actor {
     public boolean getHasPowerUp() {
         return hasPowerUp;
     }
+
+    public void setRespawned(boolean bool){
+        isJustRespawned = bool;
+    }
+    public boolean getRespawned(){
+        return isJustRespawned;
+    }
+    public void initiatePowerUp(){
+        hasPowerUp = true;
+        this.setSize(LARGE_PLAYER_SIZE);
+        int middleOfPlayer = (int) (this.getTransform().getSize().x / 2);
+        this.move(-middleOfPlayer, 0);
+        jumpForce = BIG_JUMP_FORCE;
+    }
+
+    public long getLastAttackTime() {
+        return lastAttackTime;
+    }
+
+    public void setLastAttackTime(long lastAttackTime) {
+        this.lastAttackTime = lastAttackTime;
+    }
+
+    public long getLastBounceTime() {
+        return lastBounceTime;
+    }
+
+    public void setLastBounceTime(long lastBounceTime) {
+        this.lastBounceTime = lastBounceTime;
+    }
+
 }
