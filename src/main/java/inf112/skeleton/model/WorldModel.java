@@ -6,7 +6,6 @@ import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.controller.ControllableWorldModel;
 import inf112.skeleton.controller.Controller;
 import inf112.skeleton.model.gameobject.*;
-import inf112.skeleton.model.gameobject.fixedobject.FixedObject;
 import inf112.skeleton.model.gameobject.fixedobject.item.Banana;
 import inf112.skeleton.model.gameobject.fixedobject.item.Coin;
 import inf112.skeleton.model.gameobject.fixedobject.item.Item;
@@ -42,9 +41,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     private final Logger logger;
     private final int height;
     private final CollisionHandler collisionHandler;
-    private static final int GRAVITY_FORCE = -3200;
-    private final int ATTACK_COOLDOWN = 800;
-    private final int BOUNCE_COOLDOWN = 64;
 
     public WorldModel(int width, int height) {
         this.height = height;
@@ -54,7 +50,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         this.currentLevel = LevelManager.Level.LEVEL_1;
         this.toRemove = new ArrayList<>();
         this.collisionHandler = new CollisionHandler(height);
-
         setUpModel();
     }
 
@@ -165,7 +160,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
      * @return True if the position is legal, false otherwise
      */
     private boolean isLegalMove(CollisionBox collisionBox) {
-        return positionIsOnBoard(collisionBox) && !isColliding2(collisionBox);
+        return positionIsOnBoard(collisionBox) && !isColliding(collisionBox);
     }
 
     private boolean positionIsOnBoard(CollisionBox collisionBox) {
@@ -178,7 +173,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         return isWithinWidthBound && isWithinHeightBound;
     }
 
-    private boolean isColliding2(CollisionBox collisionBox){
+    private boolean isColliding(CollisionBox collisionBox){
         Pair<Boolean, GameObject> collided = collisionHandler.checkCollision(player, objectList, collisionBox);
         if (collided.first && !toRemove.contains(collided.second)) {
             if (collided.second instanceof Coin coin) {
@@ -202,98 +197,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         return collided.first;
     }
 
-    private boolean isColliding(CollisionBox collisionBox) {
-        for (GameObject gameObject : objectList) {
-            if (gameObject instanceof Player) continue;
-
-            // Collision from above
-            boolean isCollidingFromTop = collisionBox.isCollidingFromTop(gameObject.getCollisionBox());
-            boolean isCollidingOnCeilingOfLevel = collisionBox.topRight.y >= height - 1;
-            boolean isGround = gameObject instanceof FixedObject && !(gameObject instanceof Item);
-            if ((isCollidingFromTop && isGround) || isCollidingOnCeilingOfLevel) {
-                if (player.getVerticalVelocity() > 0) {
-                    final float bumpForceLoss = 0.1f;
-                    final int bumpSpeed = (int) (-player.getVerticalVelocity() * bumpForceLoss);
-                    player.setVerticalVelocity(bumpSpeed);
-                }
-                return true;
-            }
-
-            // Any type of collision
-            if (collisionBox.isCollidingWith(gameObject.getCollisionBox())) {
-                if (gameObject instanceof Enemy enemy) {
-                    handleEnemyCollision(collisionBox, enemy);
-                } else if (gameObject instanceof Coin coin) {
-                    handleCoinCollision(coin);
-                } else if (gameObject instanceof Banana banana) {
-                    handleBananaCollision(banana);
-                } else if (gameObject instanceof Star star) {
-                    handleStarCollision(star);
-                }
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private void handleEnemyCollision(CollisionBox newPlayerCollisionBox, Enemy enemy) {
-        long currentTime = System.currentTimeMillis();
-
-        if (newPlayerCollisionBox.isCollidingFromBottom(enemy.getCollisionBox())){
-            if (currentTime - player.getLastBounceTime() >= BOUNCE_COOLDOWN) {
-
-                player.bounce();
-                player.dealDamage(enemy, player.getDamage());
-
-                if (!enemy.isAlive()) {
-                    totalScore += enemy.getObjectScore();
-                    toRemove.add(enemy);
-                }
-
-                player.setLastBounceTime(currentTime);
-            }
-        } else {
-            if (currentTime - player.getLastAttackTime() >= ATTACK_COOLDOWN) {
-
-                // TODO...
-                // Enemy dealing damage to the player is moved into Enemy.moveEnemy()
-                // - This is to make sure that the enemy doesn't deal damage twice.
-                // - The logic needs to be inside Enemy class. If not, the enemy won't deal damage
-                //   when it collides with the player.
-                // - As of right now, ATTACK_COOLDOWN only affects totalScore. It does NOT affect the frequency of attacks.
-
-                // Reduce total score
-                final int scorePenalty = 4;
-                totalScore = Math.max(0, totalScore - scorePenalty);
-
-                player.setLastAttackTime(currentTime);
-            }
-        }
-    }
-
-    private void handleCoinCollision(Coin coin) {
-        final int objectScore = coin.getObjectScore();
-        soundHandler.playCoinSound();
-        coinCounter++;
-        totalScore += objectScore;
-        toRemove.add(coin);
-    }
-
-    private void handleBananaCollision(Banana banana) {
-        player.initiatePowerUp();
-        toRemove.add(banana);
-    }
-
-    private void handleStarCollision(Star star) {
-        toRemove.add(star);
-
-        switch (currentLevel) {
-            case LEVEL_1: startLevel(LevelManager.Level.LEVEL_2); break;
-            case LEVEL_2: startLevel(LevelManager.Level.LEVEL_3); break;
-            case LEVEL_3: startLevel(LevelManager.Level.LEVEL_1); break;
-        }
-    }
-
     private boolean isTouchingGround() {
         for (GameObject object : objectList) {
             if (!(object instanceof Enemy || object instanceof Item || object instanceof Player)) {
@@ -309,7 +212,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     @Override
     public void render() {
         final float deltaTime = Gdx.graphics.getDeltaTime();
-
         if (gameState.equals(GameState.GAME_ACTIVE)) {
             updateScore();
             updatePlayerMovement(deltaTime);
@@ -333,18 +235,15 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         if (countDown == 0) {
             gameState = GameState.GAME_OVER;
         }
-
         return currentTime - lastScoreUpdate >= 1000 && countDown >0 && gameState == GameState.GAME_ACTIVE;
     }
 
     private void resolvePlayerMovement(int deltaX, int deltaY) {
         Vector2 newPlayerPosition = filterPlayerPosition(deltaX, deltaY);
-
         if (!player.getRespawned()) {
             player.move(newPlayerPosition);
         }
         player.setRespawned(false);
-
         final int belowLevel = -200;
         if (newPlayerPosition.y <= belowLevel) {
             player.receiveDamage(player.getLives());
@@ -353,11 +252,10 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
     private void updatePlayerMovement(float deltaTime) {
         boolean isGrounded = isTouchingGround();
-
         if (isJumping) {
             player.jump(isGrounded);
         }
-        player.applyGravity(GRAVITY_FORCE, deltaTime, isGrounded);
+        player.applyGravity(deltaTime, isGrounded);
         int deltaY = (int)(player.getVerticalVelocity() * deltaTime);
         resolvePlayerMovement(0, deltaY);
         if (isMovingRight ^ isMovingLeft) {
@@ -469,7 +367,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     @Override
     public int getMovementDirection() {
         return player.getMovementDirection();
-
     }
 
     @Override

@@ -32,9 +32,9 @@ public class CollisionHandler {
 
             if ((isTopCollision && isGround) || isCeiling) {
                 if (player.getVerticalVelocity() > 0) {
-                    float loss = 0.1f;
-                    int bump = (int) (-player.getVerticalVelocity() * loss);
-                    player.setVerticalVelocity(bump);
+                    float bumpForceLoss = 0.1f;
+                    int bumpSpeed = (int) (-player.getVerticalVelocity() * bumpForceLoss);
+                    player.setVerticalVelocity(bumpSpeed);
                 }
                 return new Pair<>(true, null);
             }

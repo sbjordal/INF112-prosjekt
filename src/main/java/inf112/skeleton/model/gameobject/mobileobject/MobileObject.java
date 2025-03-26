@@ -14,6 +14,7 @@ public abstract class MobileObject extends GameObject implements Movable {
     private final int movementSpeed;
     private int verticalVelocity;
     private int movementDirection;
+    private int gravityForce;
 
     /**
      * Creates a new MobileObject with the specified movement speed.
@@ -28,6 +29,7 @@ public abstract class MobileObject extends GameObject implements Movable {
         this.movementSpeed = movementSpeed;
         this.verticalVelocity = 0;
         this.movementDirection = 0;
+        this.gravityForce = -3200;
     }
 
     /**
@@ -100,11 +102,11 @@ public abstract class MobileObject extends GameObject implements Movable {
     }
 
     @Override
-    public void applyGravity(float gravity, float deltaTime, boolean isOnGround) {
+    public void applyGravity(float deltaTime, boolean isOnGround) {
         if (isOnGround && verticalVelocity <= 0) {
             verticalVelocity = 0;
         } else {
-            verticalVelocity += (int)(gravity * deltaTime);
+            verticalVelocity += (int)(gravityForce * deltaTime);
         }
     }
 
