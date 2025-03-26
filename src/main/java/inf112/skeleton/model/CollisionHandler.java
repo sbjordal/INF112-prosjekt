@@ -3,14 +3,14 @@ package inf112.skeleton.model;
 import inf112.skeleton.model.gameobject.CollisionBox;
 import inf112.skeleton.model.gameobject.GameObject;
 import inf112.skeleton.model.gameobject.fixedobject.FixedObject;
-import inf112.skeleton.model.gameobject.fixedobject.item.Banana;
 import inf112.skeleton.model.gameobject.fixedobject.item.Coin;
 import inf112.skeleton.model.gameobject.fixedobject.item.Item;
-import inf112.skeleton.model.gameobject.fixedobject.item.Star;
 import inf112.skeleton.model.gameobject.mobileobject.actor.Player;
 import inf112.skeleton.model.gameobject.mobileobject.actor.enemy.Enemy;
 
 import java.util.List;
+
+import static inf112.skeleton.model.LevelManager.Level.*;
 
 public class CollisionHandler {
     private final int ceilingHeight;
@@ -21,7 +21,7 @@ public class CollisionHandler {
         this.ceilingHeight = ceilingHeight;
     }
 
-    public GameObject checkCollision(Player player, List<GameObject> gameObjects) {
+    public Pair<Boolean, GameObject> checkCollision(Player player, List<GameObject> gameObjects, CollisionBox collisionBox) {
         CollisionBox playerBox = player.getCollisionBox();
         for (GameObject object : gameObjects) {
             if (object == player) continue;
@@ -36,29 +36,66 @@ public class CollisionHandler {
                     int bump = (int) (-player.getVerticalVelocity() * loss);
                     player.setVerticalVelocity(bump);
                 }
+                return new Pair<>(true, null);
             }
-            if (playerBox.isCollidingWith(otherBox)) {
-                return object;
+            if (collisionBox.isCollidingWith(otherBox)) {
+                return new Pair<>(true, object);
             }
         }
-        return null;
+        return new Pair<>(false, null);
     }
-    public void handleEnemyCollision(){
+    public Integer handleEnemyCollision(Player player, Enemy enemy, Integer totalScore, CollisionBox newPlayerCollisionBox){
+        long currentTime = System.currentTimeMillis();
 
+        if (newPlayerCollisionBox.isCollidingFromBottom(enemy.getCollisionBox())){
+            if (currentTime - player.getLastBounceTime() >= BOUNCE_COOLDOWN) {
+
+                player.bounce();
+                player.dealDamage(enemy, player.getDamage());
+
+                if (!enemy.isAlive()) {
+                    totalScore += enemy.getObjectScore();
+                }
+
+                player.setLastBounceTime(currentTime);
+            }
+        } else {
+            if (currentTime - player.getLastAttackTime() >= ATTACK_COOLDOWN) {
+
+                // TODO...
+                // Enemy dealing damage to the player is moved into Enemy.moveEnemy()
+                // - This is to make sure that the enemy doesn't deal damage twice.
+                // - The logic needs to be inside Enemy class. If not, the enemy won't deal damage
+                //   when it collides with the player.
+                // - As of right now, ATTACK_COOLDOWN only affects totalScore. It does NOT affect the frequency of attacks.
+
+                // Reduce total score
+                final int scorePenalty = 4;
+                totalScore = Math.max(0, totalScore - scorePenalty);
+
+                player.setLastAttackTime(currentTime);
+            }
+        }
+        return totalScore;
     }
-    public void handleCoinCollision(Coin coin, SoundHandler handler, Integer coinCounter, Integer totalScore){
+    public Pair<Integer, Integer> handleCoinCollision(Coin coin, SoundHandler handler, Integer coinCounter, Integer totalScore){
         final int objectScore = coin.getObjectScore();
         handler.playCoinSound();
-        coinCounter++;
-        totalScore += objectScore;
-
+        return new Pair<>(coinCounter++, totalScore += objectScore);
     }
-    public void handleBananaCollision(){
-
+    public void handleBananaCollision(Player player){
+        player.initiatePowerUp();
     }
-    public void handleStarCollision(){
-
+    public LevelManager.Level handleStarCollision(LevelManager.Level currentLevel) {
+        switch (currentLevel) {
+            case LEVEL_1:
+                return (LEVEL_2);
+            case LEVEL_2:
+                return (LEVEL_3);
+            case LEVEL_3:
+                return (LEVEL_1);
+            default: throw new IllegalArgumentException("No such level exists");
+        }
     }
-
 }
 

@@ -66,7 +66,7 @@ final public class Player extends Actor {
     public boolean getRespawned(){
         return isJustRespawned;
     }
-    public void bananaCollision(){
+    public void initiatePowerUp(){
         hasPowerUp = true;
         this.setSize(LARGE_PLAYER_SIZE);
         int middleOfPlayer = (int) (this.getTransform().getSize().x / 2);

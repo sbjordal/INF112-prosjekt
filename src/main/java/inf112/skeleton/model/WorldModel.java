@@ -32,9 +32,9 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     private final List<GameObject> toRemove;
     private SoundHandler soundHandler;
     private LevelManager.Level currentLevel;
-    private int totalScore;
+    private Integer totalScore;
     private int countDown;
-    private int coinCounter;
+    private Integer coinCounter;
     private long lastScoreUpdate = System.currentTimeMillis();
     private boolean isMovingRight;
     private boolean isMovingLeft;
@@ -165,7 +165,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
      * @return True if the position is legal, false otherwise
      */
     private boolean isLegalMove(CollisionBox collisionBox) {
-        return positionIsOnBoard(collisionBox) && !isColliding(collisionBox);
+        return positionIsOnBoard(collisionBox) && !isColliding2(collisionBox);
     }
 
     private boolean positionIsOnBoard(CollisionBox collisionBox) {
@@ -178,16 +178,29 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         return isWithinWidthBound && isWithinHeightBound;
     }
 
-    private boolean isColliding2(){
-        GameObject collided = collisionHandler.checkCollision(player, objectList);
-        if (collided != null) {
-            if (collided instanceof Coin coin) collisionHandler.handleCoinCollision(coin, soundHandler, coinCounter, totalScore);
-            else if (collided instanceof Enemy enemy) collisionHandler.handleEnemyCollision();
-            else if (collided instanceof Banana banana) collisionHandler.handleBananaCollision();
-            else if (collided instanceof Star star) collisionHandler.handleStarCollision();
-            return true;
+    private boolean isColliding2(CollisionBox collisionBox){
+        Pair<Boolean, GameObject> collided = collisionHandler.checkCollision(player, objectList, collisionBox);
+        if (collided.second != null ) {
+            if (collided.second instanceof Coin coin) {
+                Pair<Integer, Integer> res = collisionHandler.handleCoinCollision(coin, soundHandler, coinCounter, totalScore);
+                coinCounter = res.first;
+                totalScore = res.second;
+                toRemove.add(coin);
+            }
+            else if (collided.second instanceof Banana banana){
+                collisionHandler.handleBananaCollision(player);
+                toRemove.add(banana);
+            }
+            else if (collided.second instanceof Star star) {
+                toRemove.add(star);
+                LevelManager.Level nextLevel = collisionHandler.handleStarCollision(currentLevel);
+                startLevel(nextLevel);
+            }
+            else if (collided.second instanceof Enemy enemy){
+                totalScore = collisionHandler.handleEnemyCollision(player, enemy, totalScore, collisionBox);
+            }
         }
-        return false;
+        return collided.first;
     }
 
     private boolean isColliding(CollisionBox collisionBox) {
@@ -268,7 +281,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     }
 
     private void handleBananaCollision(Banana banana) {
-        player.bananaCollision();
+        player.initiatePowerUp();
         toRemove.add(banana);
     }
 
