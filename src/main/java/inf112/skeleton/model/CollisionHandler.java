@@ -43,11 +43,10 @@ public class CollisionHandler {
         }
         return null;
     }
-
-    public void handleEnemyCollsion(){
+    public void handleEnemyCollision(){
 
     }
-    public void handleCoinCollision(Coin coin, SoundHandler handler,  int coinCounter, Integer totalScore){
+    public void handleCoinCollision(Coin coin, SoundHandler handler, Integer coinCounter, Integer totalScore){
         final int objectScore = coin.getObjectScore();
         handler.playCoinSound();
         coinCounter++;
