@@ -22,10 +22,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class WorldModel implements ViewableWorldModel, ControllableWorldModel, ApplicationListener {
-
-
     public static final int LEVEL_WIDTH = 4500;
-
     private GameState gameState;
     private Player player;
     private WorldBoard board;
@@ -44,9 +41,10 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     private boolean isJumping;
     private final Logger logger;
     private final int height;
-    private static final long ATTACK_COOLDOWN = 800;
-    private static final long BOUNCE_COOLDOWN = 64;
+    private final CollisionHandler collisionHandler;
     private static final int GRAVITY_FORCE = -3200;
+    private final int ATTACK_COOLDOWN = 800;
+    private final int BOUNCE_COOLDOWN = 64;
 
     public WorldModel(int width, int height) {
         this.height = height;
@@ -55,6 +53,8 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         this.logger = LoggerFactory.getLogger(WorldModel.class);
         this.currentLevel = LevelManager.Level.LEVEL_1;
         this.toRemove = new ArrayList<>();
+        this.collisionHandler = new CollisionHandler(height);
+
         setUpModel();
     }
 
@@ -176,6 +176,18 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         boolean isWithinHeightBound = collisionBox.botLeft.y >= belowLevel  && collisionBox.topRight.y < board.height();
 
         return isWithinWidthBound && isWithinHeightBound;
+    }
+
+    private boolean isColliding2(){
+        GameObject collided = collisionHandler.checkCollision(player, objectList);
+        if (collided != null) {
+            if (collided instanceof Coin coin) collisionHandler.handleCoinCollision();
+            else if (collided instanceof Enemy enemy) collisionHandler.handleEnemyCollsion();
+            else if (collided instanceof Banana banana) collisionHandler.handleBananaCollision();
+            else if (collided instanceof Star star) collisionHandler.handleStarCollision();
+            return true;
+        }
+        return false;
     }
 
     private boolean isColliding(CollisionBox collisionBox) {
