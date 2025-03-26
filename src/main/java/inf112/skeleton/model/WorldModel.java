@@ -191,7 +191,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
             } else if (collided.second instanceof Enemy enemy) {
                 totalScore = collisionHandler.handleEnemyCollision(player, enemy, totalScore, collisionBox);
-                toRemove.add(enemy);
+                if (!enemy.isAlive())  toRemove.add(enemy);
             }
         }
         return collided.first;
