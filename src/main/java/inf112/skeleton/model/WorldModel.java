@@ -180,24 +180,23 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
     private boolean isColliding2(CollisionBox collisionBox){
         Pair<Boolean, GameObject> collided = collisionHandler.checkCollision(player, objectList, collisionBox);
-        if (collided.second != null ) {
+        if (collided.first && !toRemove.contains(collided.second)) {
             if (collided.second instanceof Coin coin) {
-                Pair<Integer, Integer> res = collisionHandler.handleCoinCollision(coin, soundHandler, coinCounter, totalScore);
-                coinCounter = res.first;
-                totalScore = res.second;
+                int newScore = collisionHandler.handleCoinCollision(coin, soundHandler, totalScore);
+                coinCounter++;
+                totalScore = newScore;
                 toRemove.add(coin);
-            }
-            else if (collided.second instanceof Banana banana){
+            } else if (collided.second instanceof Banana banana) {
                 collisionHandler.handleBananaCollision(player);
                 toRemove.add(banana);
-            }
-            else if (collided.second instanceof Star star) {
-                toRemove.add(star);
+            } else if (collided.second instanceof Star star) {
                 LevelManager.Level nextLevel = collisionHandler.handleStarCollision(currentLevel);
                 startLevel(nextLevel);
-            }
-            else if (collided.second instanceof Enemy enemy){
+                toRemove.add(star);
+
+            } else if (collided.second instanceof Enemy enemy) {
                 totalScore = collisionHandler.handleEnemyCollision(player, enemy, totalScore, collisionBox);
+                toRemove.add(enemy);
             }
         }
         return collided.first;

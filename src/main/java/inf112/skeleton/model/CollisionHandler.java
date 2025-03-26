@@ -78,10 +78,11 @@ public class CollisionHandler {
         }
         return totalScore;
     }
-    public Pair<Integer, Integer> handleCoinCollision(Coin coin, SoundHandler handler, Integer coinCounter, Integer totalScore){
-        final int objectScore = coin.getObjectScore();
+    public int handleCoinCollision(Coin coin, SoundHandler handler, Integer totalScore){
+        int objectScore = coin.getObjectScore();
         handler.playCoinSound();
-        return new Pair<>(coinCounter++, totalScore += objectScore);
+        int newScore = totalScore + objectScore;
+        return newScore;
     }
     public void handleBananaCollision(Player player){
         player.initiatePowerUp();
