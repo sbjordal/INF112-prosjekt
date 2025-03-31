@@ -50,13 +50,15 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         this.currentLevel = LevelManager.Level.LEVEL_1;
         this.toRemove = new ArrayList<>();
         this.collisionHandler = new CollisionHandler(height);
+        this.coinCounter = 0;
+        this.totalScore = 0;
         setUpModel();
     }
 
     public void setUpModel() {
-        coinCounter = 0;
+//        coinCounter = 0;
         countDown = 150;
-        totalScore = 0;
+//        totalScore = 0;
         isMovingRight = false;
         isMovingLeft = false;
         isJumping = false;
@@ -276,6 +278,8 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     private void checkForGameOver() {
         if (!player.isAlive()){
             gameState = GameState.GAME_OVER;
+            coinCounter = 0;
+            totalScore = 0;
         }
     }
 
