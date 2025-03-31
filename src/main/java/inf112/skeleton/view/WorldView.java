@@ -78,20 +78,26 @@ public class WorldView implements Screen {
 
     private void drawGameMenu() {
         ScreenUtils.clear(Color.CLEAR);
+        drawCommonMenuItems();
+        drawCenteredText("Press I for game info",2, 100);
+    }
+
+    private void drawGameInfo() {
+        ScreenUtils.clear(Color.CLEAR);
+        drawCommonMenuItems();
+        font.getData().setScale(2);
+        drawCenteredText("To jump press 'w', 'space' or up-arrow\n" +
+                "To move right press 'd' og right arrow\n" +
+                "To move left press 'a' or left arrow", 2,100);
+    }
+
+    private void drawCommonMenuItems() {
         float leftX = getViewportLeftX();
         float bottomY = viewport.getCamera().position.y - viewport.getWorldHeight() / 2;
         batch.begin();
         batch.draw(menuBackgroundTexture, leftX, bottomY, viewport.getWorldWidth(), viewport.getWorldHeight());
         batch.end();
-
-        drawCenteredText("Press ENTER to start the game", 0);
-    }
-
-    private void drawGameInfo() {
-        font.getData().setScale(2);
-        batch.begin();
-        font.draw(batch, "Her kommer masse spillinfo", 50, 100);
-        batch.end();
+        drawCenteredText("Press ENTER to start the game", 3,0);
     }
 
     private void drawGameActive() {
@@ -100,18 +106,20 @@ public class WorldView implements Screen {
 
     private void drawGamePaused() {
         drawLevel();
-        drawCenteredText("PAUSED", 0);
-        drawCenteredText("Press 'r' to return to the game menu", 330);
+        drawCenteredText("PAUSED", 3, 0);
+        drawCenteredText("Press 'r' to return to the game menu", 3, 330);
 
     }
 
     private void drawGameOver() {
         ScreenUtils.clear(Color.CLEAR);
-        drawCenteredText("GAME OVER", 0);
+        drawCenteredText("GAME OVER", 3, 0);
+        font.getData().setScale(1);
+        drawCenteredText("Press ENTER to return to the game manu", 2, 100);
     }
 
-    private void drawCenteredText(String text, float lowerBy) {
-        font.getData().setScale(3);
+    private void drawCenteredText(String text, int textScale, float lowerTextBy) {
+        font.getData().setScale(textScale);
         layout.setText(font, text);
 
         float centerX = viewport.getCamera().position.x;
@@ -120,7 +128,7 @@ public class WorldView implements Screen {
         float height = layout.height;
 
         batch.begin();
-        font.draw(batch, text, centerX- width/2, centerY - height/2 - lowerBy);
+        font.draw(batch, text, centerX- width/2, centerY - height/2 - lowerTextBy);
         batch.end();
     }
 
