@@ -56,9 +56,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     }
 
     public void setUpModel() {
-//        coinCounter = 0;
         countDown = 150;
-//        totalScore = 0;
         isMovingRight = false;
         isMovingLeft = false;
         isJumping = false;
