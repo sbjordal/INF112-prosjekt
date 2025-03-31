@@ -196,6 +196,7 @@ public class WorldView implements Screen {
 
         viewport.getCamera().position.set(camX, camY, 0);
         viewport.apply();
+        model.updateViewportLeftX(getViewportLeftX());
     }
 
     private void loadTextures(){
@@ -236,7 +237,7 @@ public class WorldView implements Screen {
         }
     }
 
-    public float getViewportLeftX() {
+    private float getViewportLeftX() {
         return viewport.getCamera().position.x - viewport.getWorldWidth() / 2;
     }
 

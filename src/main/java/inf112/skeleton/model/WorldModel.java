@@ -26,6 +26,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     private Player player;
     private WorldBoard board;
     private WorldView worldView;
+    private float viewportLeftX;
     private Controller controller;
     private List<GameObject> objectList;
     private final List<GameObject> toRemove;
@@ -56,6 +57,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     }
 
     public void setUpModel() {
+        viewportLeftX = 0;
         countDown = 150;
         isMovingRight = false;
         isMovingLeft = false;
@@ -166,7 +168,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     private boolean positionIsOnBoard(CollisionBox collisionBox) {
         final int belowLevel = -200;
         boolean isWithinWidthBound = collisionBox.botLeft.x >= 0 &&
-                collisionBox.botLeft.x > worldView.getViewportLeftX() &&
+                collisionBox.botLeft.x > viewportLeftX &&
                 collisionBox.topRight.x < board.width();
         boolean isWithinHeightBound = collisionBox.botLeft.y >= belowLevel  && collisionBox.topRight.y < board.height();
 
@@ -374,6 +376,11 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     @Override
     public int getLevelWidth() {
         return LEVEL_WIDTH;
+    }
+
+    @Override
+    public void updateViewportLeftX(float leftX) {
+        viewportLeftX = leftX;
     }
 
     @Override
