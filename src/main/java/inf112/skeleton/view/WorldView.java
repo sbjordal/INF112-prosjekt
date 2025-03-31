@@ -84,7 +84,7 @@ public class WorldView implements Screen {
         batch.draw(menuBackgroundTexture, leftX, bottomY, viewport.getWorldWidth(), viewport.getWorldHeight());
         batch.end();
 
-        drawCenteredText("Press ENTER to start the game");
+        drawCenteredText("Press ENTER to start the game", 0);
     }
 
     private void drawGameInfo() {
@@ -100,15 +100,17 @@ public class WorldView implements Screen {
 
     private void drawGamePaused() {
         drawLevel();
-        drawCenteredText("PAUSED");
+        drawCenteredText("PAUSED", 0);
+        drawCenteredText("Press 'r' to return to the game menu", 330);
+
     }
 
     private void drawGameOver() {
         ScreenUtils.clear(Color.CLEAR);
-        drawCenteredText("GAME OVER");
+        drawCenteredText("GAME OVER", 0);
     }
 
-    private void drawCenteredText(String text) {
+    private void drawCenteredText(String text, float lowerBy) {
         font.getData().setScale(3);
         layout.setText(font, text);
 
@@ -118,7 +120,7 @@ public class WorldView implements Screen {
         float height = layout.height;
 
         batch.begin();
-        font.draw(batch, text, centerX- width/2, centerY - height/2);
+        font.draw(batch, text, centerX- width/2, centerY - height/2 - lowerBy);
         batch.end();
     }
 

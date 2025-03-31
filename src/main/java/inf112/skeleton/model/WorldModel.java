@@ -286,6 +286,8 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
     @Override
     public void backToGameMenu() {
+        coinCounter = 0;
+        totalScore = 0;
         gameState = GameState.GAME_MENU;
     }
 
@@ -298,12 +300,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     @Override
     public void resume() {
         gameState = GameState.GAME_ACTIVE;
-    }
-
-    @Override
-    public void resetScores() {
-        coinCounter = 0;
-        totalScore = 0;
     }
 
     @Override

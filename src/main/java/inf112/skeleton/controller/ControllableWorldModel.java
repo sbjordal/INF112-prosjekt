@@ -32,11 +32,6 @@ public interface ControllableWorldModel {
      */
     void resume();
 
-    /**
-     * Reset scores for complete game restart
-     */
-    void resetScores();
-
     /***
      * //TODO
      * @param movingRight
