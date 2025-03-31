@@ -79,13 +79,14 @@ public class WorldView implements Screen {
     private void drawGameMenu() {
         ScreenUtils.clear(Color.CLEAR);
         drawCommonMenuItems();
+        drawCenteredText("Press ENTER to start the game", 3,0);
         drawCenteredText("Press I for game info",2, 100);
     }
 
     private void drawGameInfo() {
         ScreenUtils.clear(Color.CLEAR);
         drawCommonMenuItems();
-        font.getData().setScale(2);
+        drawCenteredText("Press I to return to the game menu", 3,0);
         drawCenteredText("To jump press 'w', 'space' or up-arrow\n" +
                 "To move right press 'd' og right arrow\n" +
                 "To move left press 'a' or left arrow", 2,100);
@@ -97,7 +98,6 @@ public class WorldView implements Screen {
         batch.begin();
         batch.draw(menuBackgroundTexture, leftX, bottomY, viewport.getWorldWidth(), viewport.getWorldHeight());
         batch.end();
-        drawCenteredText("Press ENTER to start the game", 3,0);
     }
 
     private void drawGameActive() {

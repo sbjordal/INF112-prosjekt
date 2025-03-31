@@ -41,9 +41,9 @@ public class Controller implements InputProcessor {
         }
         else if (controllableModel.getGameState() == GameState.GAME_INFO) {
             switch (keyCode) {
-                case Input.Keys.ENTER:
-                    controllableModel.resume();
-                    break;
+//                case Input.Keys.ENTER: // TODO: Fikk problemer med å starte spillet fra infomode
+//                    controllableModel.resume();
+//                    break;
                 case Input.Keys.I:
                     controllableModel.backToGameMenu();
                     break;
