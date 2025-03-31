@@ -276,8 +276,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     private void checkForGameOver() {
         if (!player.isAlive()){
             gameState = GameState.GAME_OVER;
-            coinCounter = 0;
-            totalScore = 0;
         }
     }
 
@@ -300,6 +298,12 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     @Override
     public void resume() {
         gameState = GameState.GAME_ACTIVE;
+    }
+
+    @Override
+    public void resetScores() {
+        coinCounter = 0;
+        totalScore = 0;
     }
 
     @Override

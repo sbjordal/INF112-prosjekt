@@ -68,6 +68,7 @@ public class Controller implements InputProcessor {
         else if (controllableModel.getGameState() == GameState.GAME_OVER) {
             switch (keyCode) {
                 case Input.Keys.ENTER:
+                    controllableModel.resetScores();
                     controllableModel.backToGameMenu();
                     break;
             }
@@ -121,6 +122,10 @@ public class Controller implements InputProcessor {
         else if (controllableModel.getGameState() == GameState.GAME_PAUSED) {
             if (c == 'p')  {
                 controllableModel.resume();
+            }
+            else if (c == 'r')  {
+                controllableModel.resetScores();
+                controllableModel.backToGameMenu();
             }
         }
         return true;
