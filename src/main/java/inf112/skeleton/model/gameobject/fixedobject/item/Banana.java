@@ -1,7 +1,10 @@
 package inf112.skeleton.model.gameobject.fixedobject.item;
+import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.model.gameobject.Transform;
 
 public class Banana extends Item {
+    private final int BIG_JUMP_FORCE = 73000; //////
+    private final Vector2 LARGE_PLAYER_SIZE = new Vector2(65, 135);
     /**
      * Creates a new Item with the specified transform.
      *
@@ -9,5 +12,12 @@ public class Banana extends Item {
      */
     public Banana(Transform transform) {
         super(transform);
+    }
+
+    public int getBigJumpForce() {
+        return BIG_JUMP_FORCE;
+    }
+    public Vector2 getLargePlayerSize() {
+        return LARGE_PLAYER_SIZE;
     }
 }

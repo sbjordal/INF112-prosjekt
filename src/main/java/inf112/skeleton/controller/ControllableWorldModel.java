@@ -13,9 +13,16 @@ public interface ControllableWorldModel {
     GameState getGameState();
 
     /**
-     * Modifies gamestate to GAME_INFO
+     * TODO skriv!
+     * @return
      */
-    void setToInfoMode();
+    boolean getInfoMode();
+
+
+    /**
+     * Modifies infoMode
+     */
+    void setInfoMode(boolean infoMode);
 
     /**
      * Modifies gamestate to GAME_MENU

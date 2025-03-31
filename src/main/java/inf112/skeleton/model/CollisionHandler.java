@@ -3,6 +3,7 @@ package inf112.skeleton.model;
 import inf112.skeleton.model.gameobject.CollisionBox;
 import inf112.skeleton.model.gameobject.GameObject;
 import inf112.skeleton.model.gameobject.fixedobject.FixedObject;
+import inf112.skeleton.model.gameobject.fixedobject.item.Banana;
 import inf112.skeleton.model.gameobject.fixedobject.item.Coin;
 import inf112.skeleton.model.gameobject.fixedobject.item.Item;
 import inf112.skeleton.model.gameobject.mobileobject.actor.Player;
@@ -84,9 +85,10 @@ public class CollisionHandler {
         int newScore = totalScore + objectScore;
         return newScore;
     }
-    public void handleBananaCollision(Player player){
-        player.initiatePowerUp();
+    public void handleBananaCollision(Player player, Banana banana){
+        player.initiatePowerUp(banana.getLargePlayerSize(), banana.getBigJumpForce());
     }
+
     public LevelManager.Level handleStarCollision(LevelManager.Level currentLevel) {
         switch (currentLevel) {
             case LEVEL_1:

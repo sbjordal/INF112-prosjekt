@@ -68,37 +68,37 @@ public class WorldView implements Screen {
         gameState = model.getGameState();
         switch (model.getGameState()) {
             case GAME_MENU -> drawGameMenu();
-            case GAME_INFO -> drawGameInfo();
             case GAME_ACTIVE -> drawGameActive();
             case GAME_PAUSED -> drawGamePaused();
             case GAME_OVER -> drawGameOver();
+        }
+        if (!model.getInfoMode() && (gameState == GameState.GAME_MENU || gameState == GameState.GAME_PAUSED)) {
+            drawCenteredText("Press 'i' for game info",2, 100);
+        }
+
+        else if (model.getInfoMode() && (gameState == GameState.GAME_MENU || gameState == GameState.GAME_PAUSED)) {
+            drawGameInfo();
         }
     }
 
 
     private void drawGameMenu() {
         ScreenUtils.clear(Color.CLEAR);
-        drawCommonMenuItems();
-        drawCenteredText("Press ENTER to start the game", 3,0);
-        drawCenteredText("Press I for game info",2, 100);
-    }
-
-    private void drawGameInfo() {
-        ScreenUtils.clear(Color.CLEAR);
-        drawCommonMenuItems();
-        drawCenteredText("Press I to return to the game menu", 3,0);
-        drawCenteredText("To jump press 'w', 'space' or up-arrow\n" +
-                "To move right press 'd' og right arrow\n" +
-                "To move left press 'a' or left arrow", 2,100);
-    }
-
-    private void drawCommonMenuItems() {
         float leftX = getViewportLeftX();
         float bottomY = viewport.getCamera().position.y - viewport.getWorldHeight() / 2;
         batch.begin();
         batch.draw(menuBackgroundTexture, leftX, bottomY, viewport.getWorldWidth(), viewport.getWorldHeight());
         batch.end();
+        drawCenteredText("Press ENTER to start the game", 3,0);
     }
+
+    private void drawGameInfo() {
+        drawCenteredText("Press 'i' to remove game info", 3,-400);
+        drawCenteredText("To jump press 'w', 'space' or up-arrow\n" +
+                "To move right press 'd' og right arrow\n" +
+                "To move left press 'a' or left arrow", 2,-300);
+    }
+
 
     private void drawGameActive() {
         drawLevel();

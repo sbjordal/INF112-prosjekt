@@ -8,8 +8,6 @@ import com.badlogic.gdx.Input;
 import inf112.skeleton.controller.ControllableWorldModel;
 import inf112.skeleton.controller.Controller;
 import inf112.skeleton.model.GameState;
-import inf112.skeleton.model.WorldBoard;
-import inf112.skeleton.model.WorldModel;
 import org.junit.jupiter.api.*;
 import org.mockito.Mockito;
 
@@ -37,7 +35,7 @@ public class ControllerTest {
 //        Mockito.verify(controllableModel).resume();
 
         controller.keyDown(Input.Keys.I);
-        Mockito.verify(controllableModel).setToInfoMode();
+        Mockito.verify(controllableModel).setInfoMode(true);
     }
 
     @Test

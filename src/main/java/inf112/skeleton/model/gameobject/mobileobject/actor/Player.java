@@ -14,8 +14,6 @@ final public class Player extends Actor {
     private static final int NORMAL_BOUNCE_FORCE = 35000;
     private static final int SMALL_BOUNCE_FORCE = 27000;
     private static final int NORMAL_JUMP_FORCE = 63000;
-    private static final int BIG_JUMP_FORCE = 73000;
-    private static final Vector2 LARGE_PLAYER_SIZE = new Vector2(65, 135);
     private int jumpForce;
     private boolean isJustRespawned;
     private boolean hasPowerUp;
@@ -66,12 +64,12 @@ final public class Player extends Actor {
     public boolean getRespawned(){
         return isJustRespawned;
     }
-    public void initiatePowerUp(){
+    public void initiatePowerUp(Vector2 newPlayerSize, int newJumpForce){
         hasPowerUp = true;
-        setSize(LARGE_PLAYER_SIZE);
+        setSize(newPlayerSize);
         int middleOfPlayer = (int) (getTransform().getSize().x / 2);
         move(-middleOfPlayer, 0);
-        jumpForce = BIG_JUMP_FORCE;
+        jumpForce = newJumpForce;
     }
 
     public long getLastAttackTime() {

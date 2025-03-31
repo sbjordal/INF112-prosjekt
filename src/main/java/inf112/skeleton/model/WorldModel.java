@@ -36,6 +36,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     private int countDown;
     private Integer coinCounter;
     private long lastScoreUpdate = System.currentTimeMillis();
+    private boolean infoMode;
     private boolean isMovingRight;
     private boolean isMovingLeft;
     private boolean isJumping;
@@ -184,7 +185,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
                 totalScore = newScore;
                 toRemove.add(coin);
             } else if (collided.second instanceof Banana banana) {
-                collisionHandler.handleBananaCollision(player);
+                collisionHandler.handleBananaCollision(player, banana);
                 toRemove.add(banana);
             } else if (collided.second instanceof Star star) {
                 LevelManager.Level nextLevel = collisionHandler.handleStarCollision(currentLevel);
@@ -282,14 +283,15 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     }
 
     @Override
-    public void setToInfoMode() {
-        gameState = GameState.GAME_INFO;
+    public void setInfoMode(boolean infoMode) {
+        this.infoMode = infoMode;
     }
 
     @Override
     public void backToGameMenu() {
         coinCounter = 0;
         totalScore = 0;
+        infoMode = false;
         gameState = GameState.GAME_MENU;
     }
 
@@ -301,6 +303,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
     @Override
     public void resume() {
+        infoMode = false;
         gameState = GameState.GAME_ACTIVE;
     }
 
@@ -376,6 +379,11 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     @Override
     public int getLevelWidth() {
         return LEVEL_WIDTH;
+    }
+
+    @Override
+    public boolean getInfoMode() {
+        return infoMode;
     }
 
     @Override

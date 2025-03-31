@@ -34,23 +34,23 @@ public class Controller implements InputProcessor {
                     controllableModel.startLevel(LevelManager.Level.LEVEL_1);
                     break;
                 case Input.Keys.I:
-                    controllableModel.setToInfoMode();
+                    controllableModel.setInfoMode(!controllableModel.getInfoMode());
                     break;
             }
             return true;
         }
-        else if (controllableModel.getGameState() == GameState.GAME_INFO) {
-            switch (keyCode) {
-//                case Input.Keys.ENTER: // TODO: Fikk problemer med å starte spillet fra infomode
-//                    controllableModel.resume();
+//        else if (controllableModel.getGameState() == GameState.GAME_INFO) {
+//            switch (keyCode) {
+////                case Input.Keys.ENTER: // TODO: Fikk problemer med å starte spillet fra infomode
+////                    controllableModel.resume();
+////                    break;
+//                case Input.Keys.I:
+//                    controllableModel.backToGameMenu();
 //                    break;
-                case Input.Keys.I:
-                    controllableModel.backToGameMenu();
-                    break;
-            }
-            return true;
+//            }
+//            return true;
 
-        }
+//        }
         else if (controllableModel.getGameState() == GameState.GAME_ACTIVE) { // TODO, denne linjen blir brukt mange ganger her, mulig å gjøre mer generisk?
             switch (keyCode) {
                 case Input.Keys.LEFT, Input.Keys.A:
@@ -124,6 +124,9 @@ public class Controller implements InputProcessor {
             }
             else if (c == 'r')  {
                 controllableModel.backToGameMenu();
+            }
+            else if (c == 'i') {
+                controllableModel.setInfoMode(!controllableModel.getInfoMode());
             }
         }
         return true;
