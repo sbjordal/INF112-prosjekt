@@ -97,6 +97,7 @@ public class WorldView implements Screen {
         drawCenteredText("To jump press 'w', 'space' or up-arrow\n" +
                 "To move right press 'd' og right arrow\n" +
                 "To move left press 'a' or left arrow\n" +
+                "To pause the game when playing press 'p'\n" +
                 "To exit the game at any time press ESC", 2,-300);
     }
 
