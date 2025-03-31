@@ -5,6 +5,8 @@ import inf112.skeleton.model.GameState;
 import com.badlogic.gdx.InputProcessor;
 import inf112.skeleton.model.LevelManager;
 
+import static java.lang.System.exit;
+
 /**
  * A class that handles key input and manipulates the model accordingly.
  *
@@ -28,29 +30,15 @@ public class Controller implements InputProcessor {
      */
     @Override
     public boolean keyDown(int keyCode) {
+        if (keyCode == Input.Keys.ESCAPE) {
+            exit(0);
+        }
         if (controllableModel.getGameState() == GameState.GAME_MENU) {
-            switch (keyCode) {
-                case Input.Keys.ENTER:
-                    controllableModel.startLevel(LevelManager.Level.LEVEL_1);
-                    break;
-                case Input.Keys.I:
-                    controllableModel.setInfoMode(!controllableModel.getInfoMode());
-                    break;
+            if (keyCode == Input.Keys.ENTER) {
+                controllableModel.startLevel(LevelManager.Level.LEVEL_1);
             }
             return true;
         }
-//        else if (controllableModel.getGameState() == GameState.GAME_INFO) {
-//            switch (keyCode) {
-////                case Input.Keys.ENTER: // TODO: Fikk problemer med å starte spillet fra infomode
-////                    controllableModel.resume();
-////                    break;
-//                case Input.Keys.I:
-//                    controllableModel.backToGameMenu();
-//                    break;
-//            }
-//            return true;
-
-//        }
         else if (controllableModel.getGameState() == GameState.GAME_ACTIVE) { // TODO, denne linjen blir brukt mange ganger her, mulig å gjøre mer generisk?
             switch (keyCode) {
                 case Input.Keys.LEFT, Input.Keys.A:
@@ -73,7 +61,6 @@ public class Controller implements InputProcessor {
             }
             return true;
         }
-
         return false;
     }
 
@@ -111,6 +98,12 @@ public class Controller implements InputProcessor {
      */
     @Override
     public boolean keyTyped(char c) {
+        if (controllableModel.getGameState() == GameState.GAME_MENU) {
+             if (c == 'i') {
+                 controllableModel.setInfoMode(!controllableModel.getInfoMode());
+            }
+            return true;
+        }
         if (controllableModel.getGameState() == GameState.GAME_ACTIVE) {
             if (c == 'p') {
                 controllableModel.setMovingLeft(false);

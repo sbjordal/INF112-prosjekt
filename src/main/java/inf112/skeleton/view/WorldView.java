@@ -96,7 +96,8 @@ public class WorldView implements Screen {
         drawCenteredText("Press 'i' to remove game info", 3,-400);
         drawCenteredText("To jump press 'w', 'space' or up-arrow\n" +
                 "To move right press 'd' og right arrow\n" +
-                "To move left press 'a' or left arrow", 2,-300);
+                "To move left press 'a' or left arrow\n" +
+                "To exit the game at any time press ESC", 2,-300);
     }
 
 
