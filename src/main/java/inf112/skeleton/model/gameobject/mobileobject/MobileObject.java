@@ -39,7 +39,7 @@ public abstract class MobileObject extends GameObject implements Movable {
      * @param newPosition   A {@link Vector2} containing the absolute values of the new position.
      */
     public void move(Vector2 newPosition) {
-        Vector2 oldPos = this.getTransform().getPos();
+        Vector2 oldPos = getTransform().getPos();
         setMovementDirection(oldPos, newPosition);
         getTransform().alterPosition(newPosition);
         updateCollisionBox();
@@ -48,13 +48,13 @@ public abstract class MobileObject extends GameObject implements Movable {
     private void setMovementDirection(Vector2 oldPos, Vector2 newPos){
         float deltaX = newPos.x - oldPos.x;
         if (deltaX > 0){
-            this.movementDirection = 1;
+            movementDirection = 1;
         }
         else if (deltaX < 0){
-            this.movementDirection = -1;
+            movementDirection = -1;
         }
         else {
-            this.movementDirection = 0;
+            movementDirection = 0;
         }
     }
 
@@ -98,7 +98,7 @@ public abstract class MobileObject extends GameObject implements Movable {
     }
 
     public int getMovementDirection(){
-        return this.movementDirection;
+        return movementDirection;
     }
 
     @Override

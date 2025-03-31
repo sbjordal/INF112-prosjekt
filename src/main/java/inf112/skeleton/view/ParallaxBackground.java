@@ -24,8 +24,8 @@ public class ParallaxBackground {
            String file = "background/plx-" + (i + 1) + ".png";
            layers[i] = new Texture(Gdx.files.internal(file));
        }
-        this.screenWidth = Gdx.graphics.getWidth();
-        this.screenHeight = Gdx.graphics.getHeight();
+        screenWidth = Gdx.graphics.getWidth();
+        screenHeight = Gdx.graphics.getHeight();
     }
 
     public void update(int movementDirection, float deltaTime, boolean isPaused) {

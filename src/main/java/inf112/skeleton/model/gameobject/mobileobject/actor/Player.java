@@ -68,9 +68,9 @@ final public class Player extends Actor {
     }
     public void initiatePowerUp(){
         hasPowerUp = true;
-        this.setSize(LARGE_PLAYER_SIZE);
-        int middleOfPlayer = (int) (this.getTransform().getSize().x / 2);
-        this.move(-middleOfPlayer, 0);
+        setSize(LARGE_PLAYER_SIZE);
+        int middleOfPlayer = (int) (getTransform().getSize().x / 2);
+        move(-middleOfPlayer, 0);
         jumpForce = BIG_JUMP_FORCE;
     }
 

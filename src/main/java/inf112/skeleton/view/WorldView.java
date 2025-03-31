@@ -54,18 +54,18 @@ public class WorldView implements Screen {
 
     @Override
     public void show() {
-        this.parallaxBackground = new ParallaxBackground(model.getLevelWidth());
-        this.playerAnimation = new PlayerAnimation();
+        parallaxBackground = new ParallaxBackground(model.getLevelWidth());
+        playerAnimation = new PlayerAnimation();
         loadTextures();
-        this.font = new BitmapFont(); //new BitmapFont(Gdx.files.internal("skeleton.fnt")); Lag fil med font
+        font = new BitmapFont(); //new BitmapFont(Gdx.files.internal("skeleton.fnt")); Lag fil med font
         font.setColor(Color.WHITE);
         batch = new SpriteBatch();
-        this.menuBackgroundTexture = new Texture("background/plx-1.png");
+        menuBackgroundTexture = new Texture("background/plx-1.png");
     }
 
     @Override
     public void render(float v) {
-        this.gameState = model.getGameState();
+        gameState = model.getGameState();
         switch (model.getGameState()) {
             case GAME_MENU -> drawGameMenu();
             case GAME_INFO -> drawGameInfo();
@@ -200,12 +200,12 @@ public class WorldView implements Screen {
     }
 
     private void loadTextures(){
-        this.textures.put("leopard", new Texture("assets/leopard.png"));
-        this.textures.put("snail", new Texture("assets/snail.png"));
-        this.textures.put("coin", new Texture("assets/coin.png"));
-        this.textures.put("powerup", new Texture("assets/banana.png"));
-        this.textures.put("ground", new Texture("obstacles/castleCenter.png"));
-        this.textures.put("star", new Texture("assets/star.png"));
+        textures.put("leopard", new Texture("assets/leopard.png"));
+        textures.put("snail", new Texture("assets/snail.png"));
+        textures.put("coin", new Texture("assets/coin.png"));
+        textures.put("powerup", new Texture("assets/banana.png"));
+        textures.put("ground", new Texture("obstacles/castleCenter.png"));
+        textures.put("star", new Texture("assets/star.png"));
     }
 
     private Texture getTexture(ViewableObject obj){
