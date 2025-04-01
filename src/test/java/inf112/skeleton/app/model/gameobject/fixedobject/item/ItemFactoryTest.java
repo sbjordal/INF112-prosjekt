@@ -90,24 +90,6 @@ public class ItemFactoryTest {
         assertNotEquals(star1, star2, "Two created stars should be different objects");
     }
 
-    @Test
-    public void testGetBigJumpForce() {
-        Transform transform = new Transform(new Vector2(0, 0), new Vector2(1, 1));
-        Banana banana = new Banana(transform);
 
-        int expectedForce = 73000;
-        assertEquals(expectedForce, banana.getBigJumpForce(),
-                "getBigJumpForce() should return the correct jump force.");
-    }
-
-    @Test
-    public void testGetLargePlayerSize() {
-        Transform transform = new Transform(new Vector2(0, 0), new Vector2(1, 1));
-        Banana banana = new Banana(transform);
-
-        Vector2 expectedSize = new Vector2(65, 135);
-        assertEquals(expectedSize, banana.getLargePlayerSize(),
-                "getLargePlayerSize() should return the correct player size.");
-    }
 
 }

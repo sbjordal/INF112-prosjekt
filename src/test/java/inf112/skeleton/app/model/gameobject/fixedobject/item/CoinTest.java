@@ -47,5 +47,15 @@ public class CoinTest {
         assertTrue(coin instanceof Scorable, "Coin should implement Scorable");
     }
 
+    @Test
+    public void testGetObjectScore() {
+        Transform transform = new Transform(new Vector2(0, 0), new Vector2(1, 1));
+        Coin coin = new Coin(transform);
+
+        int expectedScore = 5;
+        assertEquals(expectedScore, coin.getObjectScore(),
+                "getObjectScore() should return the correct coin value.");
+    }
+
 
 }
