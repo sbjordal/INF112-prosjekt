@@ -10,7 +10,7 @@ import inf112.skeleton.model.gameobject.mobileobject.actor.Player;
 public class Item extends FixedObject {// TODO: fjerne denne klassen siden den ikke har noe unik funksjon?
 
     /**
-     * Creates a new Item with the specified transform and texture.
+     * Creates a new Item with the specified transform.
      *
      * @param transform The fixed position and size of the Item.
      */

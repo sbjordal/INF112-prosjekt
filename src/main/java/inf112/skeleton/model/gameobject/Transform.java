@@ -33,7 +33,7 @@ public class Transform{
      * @param deltaY    The vertical offset value.
      */
     public void alterPosition(int deltaX, int deltaY) {
-        this.position = new Vector2(position.x + deltaX, position.y + deltaY);
+        position = new Vector2(position.x + deltaX, position.y + deltaY);
     }
 
     /**
@@ -43,7 +43,7 @@ public class Transform{
      * @param newPosition   A {@link Vector2} containing the absolute values of the new position.
      */
     public void alterPosition(Vector2 newPosition) {
-        this.position = newPosition;
+        position = newPosition;
     }
 
     /**
@@ -54,6 +54,6 @@ public class Transform{
      * @param height    The absolute value of the size's vertical length.
      */
     public void alterSize(int width, int height) {
-        this.size = new Vector2(width, height);
+        size = new Vector2(width, height);
     }
 }

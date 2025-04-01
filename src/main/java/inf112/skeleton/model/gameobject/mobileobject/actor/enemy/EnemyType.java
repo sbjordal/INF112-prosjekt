@@ -1,9 +1,8 @@
-package inf112.skeleton.model.gameobject.mobileobject.actor;
+package inf112.skeleton.model.gameobject.mobileobject.actor.enemy;
 
 public enum EnemyType {
-    SNAIL(50, 50, 10, 1, 60, 60),
-    LEOPARD(50, 50, 10, 1, 80, 80 );
-
+    SNAIL(1, 70, 10, 1, 40, 40),
+    LEOPARD(2, 140, 30, 1, 70, 70 );
 
     public final int health;
     public final int movementSpeed;

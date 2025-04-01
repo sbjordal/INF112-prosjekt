@@ -1,13 +1,9 @@
 package inf112.skeleton.controller;
 
 import inf112.skeleton.model.GameState;
+import inf112.skeleton.model.LevelManager;
 
 public interface ControllableWorldModel {
-
-    /**
-     *  // TODO skriv
-     */
-    public void setUpModel();
 
     /**
      * Tells us the state of the game
@@ -17,54 +13,63 @@ public interface ControllableWorldModel {
     GameState getGameState();
 
     /**
-     * Moves player left if the move is legal (also calls isLegalMove) TODO: finskriv
+     * TODO skriv!
+     * @return
      */
-    public void move(int deltaX, int deltaY);
+    boolean getInfoMode();
+
 
     /**
-     * Makes player jump. TODO: finskriv
+     * Modifies infoMode
      */
-    public void jump();
-
-    /**
-     * Modifies gamestate to GAME_INFO
-     */
-    public void setToInfoMode();
+    void setInfoMode(boolean infoMode);
 
     /**
      * Modifies gamestate to GAME_MENU
      */
-    public void backToGameMenu();
+    void backToGameMenu();
 
     /**
      * Pauses the game and modifies GameState
      */
-    public void pause();
+    void pause();
 
     /**
      * Resumes the game and modifies GameState
      */
-    public void resume();
+    void resume();
 
     /***
      * //TODO
      * @param movingRight
      */
-    public void setMovingRight(boolean movingRight);
+    void setMovingRight(boolean movingRight);
 
     /**
      * // TODO
      * @param movingLeft
      */
-    public void setMovingLeft(boolean movingLeft);
+    void setMovingLeft(boolean movingLeft);
+
+    /**
+     * Sets whether the player should be jumping or not.
+     *
+     * @param isJumping Boolean determine the jumping state.
+     */
+    void setJumping(boolean isJumping);
 
     /**
      * Gets the original speed of the object that was set when the object was initialized
      * // TODO : ?
      * @return the original speed of the object
      */
-    public int getMovementSpeed();
+    int getMovementSpeed();
 
-    public void create();
+    /**
+     * Start the specified level.
+     *
+     * @param level The level to start
+     */
+    void startLevel(LevelManager.Level level);
 }
 

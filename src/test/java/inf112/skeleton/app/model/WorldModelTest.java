@@ -16,6 +16,9 @@ import inf112.skeleton.model.gameobject.Transform;
 import inf112.skeleton.model.gameobject.fixedobject.FixedObject;
 import inf112.skeleton.model.gameobject.fixedobject.item.Coin;
 import inf112.skeleton.model.gameobject.mobileobject.actor.Player;
+import inf112.skeleton.model.gameobject.mobileobject.actor.enemy.Enemy;
+import inf112.skeleton.model.gameobject.mobileobject.actor.enemy.EnemyFactory;
+import inf112.skeleton.model.gameobject.mobileobject.actor.enemy.EnemyType;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -60,6 +63,7 @@ public class WorldModelTest {
     }
 
 }
+
 
 //    @BeforeAll
 //    static void setUpBeforeALl() {
@@ -142,5 +146,21 @@ public class WorldModelTest {
 //        worldModel.getObjectList().add(obstacle);
 //
 //        assertFalse(worldModel.isLegalMove(collisionMove));
-//    }
 
+//        @Test
+//        void testIncreasedScore() {
+//            Enemy enemy= EnemyFactory.createSnail((float) 10.0, (float) -21.0, EnemyType.SNAIL);
+//            assertEquals(0, worldModel.getTotalScore());
+//            worldModel.move(0,-1);
+//            assertEquals(enemy.getObjectScore(), worldModel.getTotalScore());
+//
+//        }
+
+//        @Test
+//        void testIncreasedScore() {
+//            Enemy enemy= EnemyFactory.createSnail((float) 10.0, (float) -21.0, EnemyType.SNAIL);
+//            assertEquals(0, worldModel.getTotalScore());
+//            worldModel.move(0,-1);
+//            assertEquals(enemy.getObjectScore(), worldModel.getTotalScore());
+//
+//        }
