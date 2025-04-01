@@ -16,10 +16,15 @@ public class ItemFactoryTest {
     }
 
     @Test
-    void testCreateMushroomNotNull() {
-        Banana banana = ItemFactory.createMushroom(15, 25);
+    void testCreateBananaNotNull() {
+        Banana banana = ItemFactory.createBanana(15, 25);
         assertNotNull(banana, "Banana should not be null");
     }
+
+//    void testCreateStarNotNull() {
+//        Star star = ItemFactory.createStar(15, 25);
+//        assertNotNull(star, "Star should not be null");
+//    }
 
     @Test
     void testCreateCoinHasCorrectPositionAndSize() {
@@ -34,9 +39,9 @@ public class ItemFactoryTest {
     }
 
     @Test
-    void testCreateMushroomHasCorrectPositionAndSize() {
+    void testCreateBananaHasCorrectPositionAndSize() {
         float x = 15f, y = 25f;
-        Banana banana = ItemFactory.createMushroom(x, y);
+        Banana banana = ItemFactory.createBanana(x, y);
 
         assertEquals(x, banana.getTransform().getPos().x, 0.001, "X position should match");
         assertEquals(y, banana.getTransform().getPos().y, 0.001, "Y position should match");
@@ -54,11 +59,11 @@ public class ItemFactoryTest {
     }
 
     @Test
-    void testCreatedMushroomsAreNotSameObject() {
-        Banana banana1 = ItemFactory.createMushroom(10, 10);
-        Banana banana2 = ItemFactory.createMushroom(10, 10);
+    void testCreatedBananasAreNotSameObject() {
+        Banana banana1 = ItemFactory.createBanana(10, 10);
+        Banana banana2 = ItemFactory.createBanana(10, 10);
 
-        assertNotEquals(banana1, banana2, "Two created mushrooms should be different objects");
+        assertNotEquals(banana1, banana2, "Two created bananas should be different objects");
     }
 
 }

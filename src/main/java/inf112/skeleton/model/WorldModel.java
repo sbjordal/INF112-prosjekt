@@ -103,7 +103,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         Coin coin1 = ItemFactory.createCoin(510, 250);
         Coin coin2 = ItemFactory.createCoin(1400, 105);
 
-        Banana banana = ItemFactory.createMushroom(700, 100);
+        Banana banana = ItemFactory.createBanana(700, 100);
 
         // TODO: en stygg måte å lage hindring på for nå
         this.objectList = new ArrayList<>();
