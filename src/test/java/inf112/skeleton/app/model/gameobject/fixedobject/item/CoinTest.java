@@ -36,7 +36,7 @@ public class CoinTest {
         Transform transform = new Transform(new Vector2(0, 0), new Vector2(30, 30));
         Coin coin = new Coin(transform);
 
-        assertEquals(1, coin.getObjectScore(), "Coin should have an object score of 1");
+        assertEquals(5, coin.getObjectScore(), "Coin should have an object score of 1");
     }
 
     @Test

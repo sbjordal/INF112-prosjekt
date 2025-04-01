@@ -88,4 +88,5 @@ final public class Player extends Actor {
         this.lastBounceTime = lastBounceTime;
     }
 
+    public int getJumpForce() { return jumpForce; }
 }
