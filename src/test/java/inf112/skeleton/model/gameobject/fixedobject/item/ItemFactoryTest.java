@@ -1,4 +1,4 @@
-package inf112.skeleton.app.model.gameobject.fixedobject.item;
+package inf112.skeleton.model.gameobject.fixedobject.item;
 
 import inf112.skeleton.model.gameobject.fixedobject.item.Banana;
 import inf112.skeleton.model.gameobject.fixedobject.item.Coin;

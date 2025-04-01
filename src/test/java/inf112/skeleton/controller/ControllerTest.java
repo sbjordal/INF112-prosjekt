@@ -1,4 +1,4 @@
-package inf112.skeleton.app.controller;
+package inf112.skeleton.controller;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
@@ -41,7 +41,7 @@ public class ControllerTest {
     @Test
     void testKeyDownInGameInfo() {
         // Simuler at gameState er GAME_INFO
-        when(controllableModel.getGameState()).thenReturn(GameState.GAME_INFO);
+        //when(controllableModel.getGameState()).thenReturn(GameState.GAME_INFO);
 
         // Test for Enter og I
         controller.keyDown(Input.Keys.ENTER);
