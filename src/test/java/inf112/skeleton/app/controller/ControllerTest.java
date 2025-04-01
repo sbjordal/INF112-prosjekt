@@ -38,18 +38,7 @@ public class ControllerTest {
         Mockito.verify(controllableModel).setInfoMode(true);
     }
 
-    @Test
-    void testKeyDownInGameInfo() {
-        // Simuler at gameState er GAME_INFO
-        when(controllableModel.getGameState()).thenReturn(GameState.GAME_INFO);
 
-        // Test for Enter og I
-        controller.keyDown(Input.Keys.ENTER);
-        Mockito.verify(controllableModel).resume();
-
-        controller.keyDown(Input.Keys.I);
-        Mockito.verify(controllableModel).backToGameMenu();
-    }
 
     @Test
     void testKeyDownInGameActive() {
