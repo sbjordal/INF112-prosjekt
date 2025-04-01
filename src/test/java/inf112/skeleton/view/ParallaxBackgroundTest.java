@@ -49,7 +49,7 @@ public class ParallaxBackgroundTest {
             when(Gdx.files.internal("background/plx-" + (i + 1) + ".png")).thenReturn(mockFileHandle);
         }
         textureConstruction = mockConstruction(Texture.class, (mock, context) -> {
-            when(mock.getWidth()).thenReturn(100); // Optional: used in render
+            when(mock.getWidth()).thenReturn(100);
         });
 
         background = new ParallaxBackground(1000);

@@ -130,9 +130,9 @@ public class WorldViewTest {
         textures.put("leopard", mockTexture);
         textures.put("snail", mockTexture);
         textures.put("coin", mockTexture);
-        textures.put("powerup", mockTexture); // make sure key matches "Banana"
+        textures.put("powerup", mockTexture);
         textures.put("ground", mockTexture);
-        textures.put("star", mockTexture);    // was "start" before, corrected to "star"
+        textures.put("star", mockTexture);
         worldView.setTextures(textures);
 
         Transform transform = new Transform(new Vector2(), new Vector2());
