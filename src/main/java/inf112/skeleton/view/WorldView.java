@@ -50,6 +50,7 @@ public class WorldView implements Screen {
     void setPlayerAnimation(PlayerAnimation animation) { this.playerAnimation = animation; }
     void setTextures(HashMap<String, Texture> textures) { this.textures = textures; }
     void setLayout(GlyphLayout layout) {this.layout = layout;}
+    HashMap<String, Texture> getTextures(){return textures;}
 
     @Override
     public void dispose() {
@@ -211,7 +212,7 @@ public class WorldView implements Screen {
         model.updateViewportLeftX(getViewportLeftX());
     }
 
-    private void loadTextures(){
+    void loadTextures(){
         textures.put("leopard", new Texture("assets/leopard.png"));
         textures.put("snail", new Texture("assets/snail.png"));
         textures.put("coin", new Texture("assets/coin.png"));
