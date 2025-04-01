@@ -41,6 +41,16 @@ public class WorldView implements Screen {
         this.gameState = model.getGameState();
     }
 
+    /**
+     * The following 6 setters are only for testing purposes
+     */
+    void setFont(BitmapFont font) { this.font = font; }
+    void setBatch(SpriteBatch batch) { this.batch = batch; }
+    void setParallaxBackground(ParallaxBackground bg) { this.parallaxBackground = bg; }
+    void setPlayerAnimation(PlayerAnimation animation) { this.playerAnimation = animation; }
+    void setTextures(HashMap<String, Texture> textures) { this.textures = textures; }
+    void setLayout(GlyphLayout layout) {this.layout = layout;}
+
     @Override
     public void dispose() {
         batch.dispose();
@@ -120,7 +130,7 @@ public class WorldView implements Screen {
         drawCenteredText("Press ENTER to return to the game manu", 2, 100);
     }
 
-    private void drawCenteredText(String text, int textScale, float lowerTextBy) {
+    void drawCenteredText(String text, int textScale, float lowerTextBy) {
         font.getData().setScale(textScale);
         layout.setText(font, text);
 
@@ -134,7 +144,7 @@ public class WorldView implements Screen {
         batch.end();
     }
 
-    private void drawLevel() {
+    void drawLevel() {
 
         // Map-data
         float deltaTime = Gdx.graphics.getDeltaTime();
@@ -182,7 +192,7 @@ public class WorldView implements Screen {
 
     }
 
-    private void updateViewportCamera() {
+    void updateViewportCamera() {
         Transform playerTransform = model.getViewablePlayer().getTransform();
         float playerX = playerTransform.getPos().x;
         float playerWidth = playerTransform.getSize().x;
@@ -210,7 +220,7 @@ public class WorldView implements Screen {
         textures.put("star", new Texture("assets/star.png"));
     }
 
-    private Texture getTexture(ViewableObject obj){
+    Texture getTexture(ViewableObject obj){
         String className = obj.getClass().getSimpleName();
         return switch (className) {
             case "Leopard" -> textures.get("leopard");
@@ -223,7 +233,7 @@ public class WorldView implements Screen {
         };
     }
 
-    private void drawObjects() {
+    void drawObjects() {
         for (ViewableObject object : model.getObjectList()) {
 
             // Skip drawing player.
