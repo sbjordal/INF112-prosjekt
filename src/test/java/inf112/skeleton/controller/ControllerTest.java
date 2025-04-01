@@ -1,4 +1,4 @@
-package inf112.skeleton.app.controller;
+package inf112.skeleton.controller;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;

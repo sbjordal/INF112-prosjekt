@@ -1,4 +1,4 @@
-package inf112.skeleton.app.model;
+package inf112.skeleton.model;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.ApplicationListener;
