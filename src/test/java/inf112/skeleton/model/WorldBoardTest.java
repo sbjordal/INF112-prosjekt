@@ -1,4 +1,4 @@
-package inf112.skeleton.app.model;
+package inf112.skeleton.model;
 
 import inf112.skeleton.model.WorldBoard;
 import org.junit.jupiter.api.Test;

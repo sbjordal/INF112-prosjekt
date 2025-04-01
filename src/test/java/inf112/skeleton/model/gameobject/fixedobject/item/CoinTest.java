@@ -1,4 +1,4 @@
-package inf112.skeleton.app.model.gameobject.fixedobject.item;
+package inf112.skeleton.model.gameobject.fixedobject.item;
 
 import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.model.gameobject.Scorable;
