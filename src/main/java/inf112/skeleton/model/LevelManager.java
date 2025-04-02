@@ -118,7 +118,12 @@ public class LevelManager {
      * @return A {@link FileHandle} pointing to the JSON file.
      * @throws IllegalStateException If the level file is not found.
      */
-    private static FileHandle getLevelFile(Level level) {
+    static FileHandle getLevelFile(Level level) {
+
+        if (level == null) {
+            throw new IllegalStateException("No level file found for: null");
+        }
+
         String levelPath = "levels/";
 
         switch (level) {
