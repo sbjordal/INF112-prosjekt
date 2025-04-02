@@ -29,7 +29,16 @@ Implementere en logger, alt av printing skal i loggen heller en terminalen.
 4. Som nevnt i punkt 1 er testing den store prioriteten vår på nåværende tidspunkt. Vi har hatt problemer med å teste modellen, og som resultat har vi refakturert mye kode. Tidligere har testing 
 vært en flaskehals i prosjektet, men vi har funnet løsninger som gjør at vi nå er i full gang med denne viktige delen av prosjektet.
 
-5. 
+5. Vi har ikke endret på mvp krav siden sist innlevering.
+
+6. Se punkt 1
+
+7. Bugs:
+- Player dør ikke / skades ikke hvis player står helt stille mens en enemy går inni player. Dette skjer fordi handelEnemyCollision() sjekkes kun om spilleren beveger på seg.
+- En snegl på siste level beveger seg innimellom bak/gjennom vegger
+- Hvis du holder inne hoppe knappen mens du pauser, så vil player hoppe konstant selv om du har slippet knappen.
+- Player kan drepe enemies ved “invincibility frames”. Ser også ut som “invincibility
+
 
 
 
