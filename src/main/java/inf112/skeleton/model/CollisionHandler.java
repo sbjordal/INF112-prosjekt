@@ -1,5 +1,6 @@
 package inf112.skeleton.model;
 
+import com.badlogic.gdx.Gdx;
 import inf112.skeleton.model.gameobject.CollisionBox;
 import inf112.skeleton.model.gameobject.GameObject;
 import inf112.skeleton.model.gameobject.fixedobject.FixedObject;
@@ -28,12 +29,11 @@ public class CollisionHandler {
     }
 
     Pair<Boolean, GameObject> checkCollision(Player player, List<GameObject> gameObjects, CollisionBox collisionBox) {
-        CollisionBox playerBox = player.getCollisionBox();
         for (GameObject object : gameObjects) {
             if (object == player) continue;
             CollisionBox otherBox = object.getCollisionBox();
-            boolean isTopCollision = playerBox.isCollidingFromTop(otherBox);
-            boolean isCeiling = playerBox.topRight.y >= ceilingHeight - 1;
+            boolean isTopCollision = collisionBox.isCollidingFromTop(otherBox);
+            boolean isCeiling = collisionBox.topRight.y >= ceilingHeight - 1;
             boolean isGround = object instanceof FixedObject && !(object instanceof Item);
 
             if ((isTopCollision && isGround) || isCeiling) {
@@ -86,8 +86,12 @@ public class CollisionHandler {
     }
     int handleCoinCollision(Coin coin, Integer totalScore){
         int objectScore = coin.getObjectScore();
-        soundHandler.playCoinSound();
         int newScore = totalScore + objectScore;
+        if (soundHandler == null) {
+            Gdx.app.error("CollisionHandler", "SoundHandler is null");
+            return newScore;
+        }
+        soundHandler.playCoinSound();
         return newScore;
     }
     void handleBananaCollision(Player player, Banana banana){
