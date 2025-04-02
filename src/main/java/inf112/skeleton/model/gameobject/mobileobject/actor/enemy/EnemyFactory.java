@@ -24,7 +24,7 @@ public class EnemyFactory {
         Vector2 size = new Vector2(enemyType.width, enemyType.height);
         Transform transform = new Transform(pos, size);
 
-        return new Snail(enemyType.movementSpeed, enemyType.objectScore,
+        return new Snail(enemyType.health, enemyType.movementSpeed, enemyType.objectScore,
                 enemyType.damage, transform);
     }
 
@@ -42,7 +42,7 @@ public class EnemyFactory {
         Vector2 size = new Vector2(enemyType.width, enemyType.height);
         Transform transform = new Transform(pos, size);
 
-        return new Leopard(enemyType.movementSpeed, enemyType.objectScore,
+        return new Leopard(enemyType.health, enemyType.movementSpeed, enemyType.objectScore,
                 enemyType.damage, transform);
     }
 }

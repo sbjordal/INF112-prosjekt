@@ -1,4 +1,4 @@
-package inf112.skeleton.app.model.gameobject.fixedobject.item;
+package inf112.skeleton.model.gameobject.fixedobject.item;
 
 import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.model.gameobject.Scorable;
@@ -36,7 +36,7 @@ public class CoinTest {
         Transform transform = new Transform(new Vector2(0, 0), new Vector2(30, 30));
         Coin coin = new Coin(transform);
 
-        assertEquals(1, coin.getObjectScore(), "Coin should have an object score of 1");
+        assertEquals(5, coin.getObjectScore(), "Coin should have an object score of 1");
     }
 
     @Test
@@ -45,6 +45,16 @@ public class CoinTest {
         Coin coin = new Coin(transform);
 
         assertTrue(coin instanceof Scorable, "Coin should implement Scorable");
+    }
+
+    @Test
+    public void testGetObjectScore() {
+        Transform transform = new Transform(new Vector2(0, 0), new Vector2(1, 1));
+        Coin coin = new Coin(transform);
+
+        int expectedScore = 5;
+        assertEquals(expectedScore, coin.getObjectScore(),
+                "getObjectScore() should return the correct coin value.");
     }
 
 

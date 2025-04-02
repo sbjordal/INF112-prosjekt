@@ -3,6 +3,9 @@ package inf112.skeleton.controller;
 import com.badlogic.gdx.Input;
 import inf112.skeleton.model.GameState;
 import com.badlogic.gdx.InputProcessor;
+import inf112.skeleton.model.LevelManager;
+
+import static java.lang.System.exit;
 
 /**
  * A class that handles key input and manipulates the model accordingly.
@@ -27,30 +30,14 @@ public class Controller implements InputProcessor {
      */
     @Override
     public boolean keyDown(int keyCode) {
-        if (controllableModel.getGameState() == GameState.GAME_MENU) {
-            switch (keyCode) {
-                case Input.Keys.ENTER:
-                    controllableModel.setUpModel();
-                    controllableModel.create();
-                    controllableModel.resume();
-                    break;
-                case Input.Keys.I:
-                    controllableModel.setToInfoMode();
-                    break;
-            }
-            return true;
+        if (keyCode == Input.Keys.ESCAPE) {
+            exit(0);
         }
-        else if (controllableModel.getGameState() == GameState.GAME_INFO) {
-            switch (keyCode) {
-                case Input.Keys.ENTER:
-                    controllableModel.resume();
-                    break;
-                case Input.Keys.I:
-                    controllableModel.backToGameMenu();
-                    break;
+        if (controllableModel.getGameState() == GameState.GAME_MENU) {
+            if (keyCode == Input.Keys.ENTER) {
+                controllableModel.startLevel(LevelManager.Level.LEVEL_1);
             }
             return true;
-
         }
         else if (controllableModel.getGameState() == GameState.GAME_ACTIVE) { // TODO, denne linjen blir brukt mange ganger her, mulig å gjøre mer generisk?
             switch (keyCode) {
@@ -61,7 +48,7 @@ public class Controller implements InputProcessor {
                     controllableModel.setMovingRight(true);
                     break;
                 case Input.Keys.UP, Input.Keys.W, Input.Keys.SPACE:
-                    controllableModel.jump();
+                    controllableModel.setJumping(true);
                     break;
             }
             return true;
@@ -74,7 +61,6 @@ public class Controller implements InputProcessor {
             }
             return true;
         }
-
         return false;
     }
 
@@ -95,6 +81,9 @@ public class Controller implements InputProcessor {
                 case Input.Keys.RIGHT, Input.Keys.D:
                     controllableModel.setMovingRight(false);
                     break;
+                case Input.Keys.UP, Input.Keys.W, Input.Keys.SPACE:
+                    controllableModel.setJumping(false);
+                    break;
             }
             return true;
         }
@@ -109,6 +98,12 @@ public class Controller implements InputProcessor {
      */
     @Override
     public boolean keyTyped(char c) {
+        if (controllableModel.getGameState() == GameState.GAME_MENU) {
+             if (c == 'i') {
+                 controllableModel.setInfoMode(!controllableModel.getInfoMode());
+            }
+            return true;
+        }
         if (controllableModel.getGameState() == GameState.GAME_ACTIVE) {
             if (c == 'p') {
                 controllableModel.setMovingLeft(false);
@@ -119,6 +114,12 @@ public class Controller implements InputProcessor {
         else if (controllableModel.getGameState() == GameState.GAME_PAUSED) {
             if (c == 'p')  {
                 controllableModel.resume();
+            }
+            else if (c == 'r')  {
+                controllableModel.backToGameMenu();
+            }
+            else if (c == 'i') {
+                controllableModel.setInfoMode(!controllableModel.getInfoMode());
             }
         }
         return true;

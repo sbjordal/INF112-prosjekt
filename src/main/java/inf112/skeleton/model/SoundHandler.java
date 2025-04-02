@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 public class SoundHandler {
 
     // TODO, lage liste/map med lyder?
+    // TODO: Justere implementasjon for å unngå å måtte ta inn soundhandler ved testing av coin?
     private Sound coinSound;
     
     public SoundHandler() {
