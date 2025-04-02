@@ -1,0 +1,507 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > WorldModel</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">inf112.skeleton.model</a>
+</div>
+
+<h1>Coverage Summary for Class: WorldModel (inf112.skeleton.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">WorldModel</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    11,6%
+  </span>
+  <span class="absValue">
+    (5/43)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/80)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    13,8%
+  </span>
+  <span class="absValue">
+    (21/152)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package inf112.skeleton.model;
+&nbsp;
+&nbsp;import com.badlogic.gdx.ApplicationListener;
+&nbsp;import com.badlogic.gdx.Gdx;
+&nbsp;import com.badlogic.gdx.math.Vector2;
+&nbsp;import inf112.skeleton.controller.ControllableWorldModel;
+&nbsp;import inf112.skeleton.controller.Controller;
+&nbsp;import inf112.skeleton.model.gameobject.*;
+&nbsp;import inf112.skeleton.model.gameobject.fixedobject.FixedObject;
+&nbsp;import inf112.skeleton.model.gameobject.fixedobject.item.Banana;
+&nbsp;import inf112.skeleton.model.gameobject.fixedobject.item.Coin;
+&nbsp;import inf112.skeleton.model.gameobject.fixedobject.item.Item;
+&nbsp;import inf112.skeleton.model.gameobject.fixedobject.item.Star;
+&nbsp;import inf112.skeleton.model.gameobject.mobileobject.actor.enemy.*;
+&nbsp;import inf112.skeleton.model.gameobject.mobileobject.actor.Player;
+&nbsp;import inf112.skeleton.view.ViewableWorldModel;
+&nbsp;import inf112.skeleton.view.WorldView;
+&nbsp;import org.slf4j.Logger;
+&nbsp;import org.slf4j.LoggerFactory;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Collections;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;public class WorldModel implements ViewableWorldModel, ControllableWorldModel, ApplicationListener {
+&nbsp;    public static final int LEVEL_WIDTH = 4500;
+&nbsp;    private GameState gameState;
+&nbsp;    private Player player;
+&nbsp;    private WorldBoard board;
+&nbsp;    private WorldView worldView;
+&nbsp;    private float viewportLeftX;
+&nbsp;    private Controller controller;
+&nbsp;    private List&lt;GameObject&gt; objectList;
+&nbsp;    private final List&lt;GameObject&gt; toRemove;
+&nbsp;
+&nbsp;    private LevelManager.Level currentLevel;
+&nbsp;    private Integer totalScore;
+&nbsp;    private int countDown;
+&nbsp;    private Integer coinCounter;
+<b class="fc">&nbsp;    private long lastScoreUpdate = System.currentTimeMillis();</b>
+&nbsp;    private boolean infoMode;
+&nbsp;    private boolean isMovingRight;
+&nbsp;    private boolean isMovingLeft;
+&nbsp;    private boolean isJumping;
+&nbsp;    private final Logger logger;
+&nbsp;    private final int height;
+&nbsp;    private final CollisionHandler collisionHandler;
+&nbsp;
+<b class="fc">&nbsp;    public WorldModel(int width, int height) {</b>
+<b class="fc">&nbsp;        this.height = height;</b>
+<b class="fc">&nbsp;        this.worldView = new WorldView(this, width, height);</b>
+<b class="fc">&nbsp;        this.gameState = GameState.GAME_MENU;</b>
+<b class="fc">&nbsp;        this.logger = LoggerFactory.getLogger(WorldModel.class);</b>
+<b class="fc">&nbsp;        this.currentLevel = LevelManager.Level.LEVEL_1;</b>
+<b class="fc">&nbsp;        this.toRemove = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        this.collisionHandler = new CollisionHandler(height);</b>
+<b class="fc">&nbsp;        this.coinCounter = 0;</b>
+<b class="fc">&nbsp;        this.totalScore = 0;</b>
+<b class="fc">&nbsp;        setUpModel();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setUpModel() {
+<b class="fc">&nbsp;        viewportLeftX = 0;</b>
+<b class="fc">&nbsp;        countDown = 150;</b>
+<b class="fc">&nbsp;        isMovingRight = false;</b>
+<b class="fc">&nbsp;        isMovingLeft = false;</b>
+<b class="fc">&nbsp;        isJumping = false;</b>
+<b class="fc">&nbsp;        board = new WorldBoard(LEVEL_WIDTH, height);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void create() {
+<b class="nc">&nbsp;        setupGameObjects();</b>
+<b class="nc">&nbsp;        setupGraphics();</b>
+<b class="nc">&nbsp;        setupInput();</b>
+<b class="nc">&nbsp;        setupLogger();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void setupGameObjects() {
+<b class="nc">&nbsp;        Pair&lt;List&lt;GameObject&gt;, Player&gt; pair = LevelManager.loadLevel(currentLevel);</b>
+<b class="nc">&nbsp;        objectList = pair.first;</b>
+<b class="nc">&nbsp;        player = pair.second;</b>
+<b class="nc">&nbsp;        player.setRespawned(true);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void setupGraphics() {
+<b class="nc">&nbsp;        Gdx.graphics.setForegroundFPS(60);</b>
+<b class="nc">&nbsp;        worldView.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());</b>
+<b class="nc">&nbsp;        worldView.show();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void setupInput() {
+<b class="nc">&nbsp;        controller = new Controller(this);</b>
+<b class="nc">&nbsp;        Gdx.input.setInputProcessor(controller);</b>
+<b class="nc">&nbsp;        collisionHandler.init();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void setupLogger() {
+&nbsp;//        logger.info(&quot;FPS {}&quot;, Gdx.graphics.getFramesPerSecond());
+&nbsp;//        logger.info(&quot;Height {}&quot;, Gdx.graphics.getHeight());
+&nbsp;//        logger.info(&quot;Width {}&quot;, Gdx.graphics.getWidth());
+<b class="nc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Start the specified level.
+&nbsp;     *
+&nbsp;     * @param level The level to start
+&nbsp;     */
+&nbsp;    public void startLevel(LevelManager.Level level) {
+<b class="nc">&nbsp;        currentLevel = level;</b>
+<b class="nc">&nbsp;        setUpModel();</b>
+<b class="nc">&nbsp;        create();</b>
+<b class="nc">&nbsp;        resume();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Filters player&#39;s position to be valid.
+&nbsp;     * A valid position is a position that does not overlap with any other {@link GameObject} types.
+&nbsp;     * The filter-algorithm will favor the desired distances.
+&nbsp;     *
+&nbsp;     * @param deltaX    the desired distance in the horizontal direction.
+&nbsp;     * @param deltaY    the desired distance in the vertical direction.
+&nbsp;     * @return          filtered player position.
+&nbsp;     */
+&nbsp;    private Vector2 filterPlayerPosition(int deltaX, int deltaY) {
+<b class="nc">&nbsp;        Transform transform = player.getTransform();</b>
+<b class="nc">&nbsp;        Vector2 position = transform.getPos();</b>
+<b class="nc">&nbsp;        Vector2 size = transform.getSize();</b>
+&nbsp;
+<b class="nc">&nbsp;        float filteredX = binarySearch(position.x, position.y, deltaX, size, true);</b>
+<b class="nc">&nbsp;        float filteredY = binarySearch(filteredX, position.y, deltaY, size, false);</b>
+&nbsp;
+<b class="nc">&nbsp;        return new Vector2(filteredX, filteredY);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private float binarySearch(float startX, float startY, int delta, Vector2 size, boolean isX) {
+<b class="nc">&nbsp;        int low = 0;</b>
+<b class="nc">&nbsp;        int high = Math.abs(delta);</b>
+<b class="nc">&nbsp;        boolean isNegative = delta &lt; 0;</b>
+&nbsp;
+<b class="nc">&nbsp;        while (low &lt; high) {</b>
+<b class="nc">&nbsp;            int mid = (low + high + 1) / 2;</b>
+<b class="nc">&nbsp;            int testDelta = isNegative ? -mid : mid;</b>
+&nbsp;
+<b class="nc">&nbsp;            Vector2 newPosition = isX ? new Vector2(startX + testDelta, startY) : new Vector2(startX, startY + testDelta);</b>
+<b class="nc">&nbsp;            Transform newTransform = new Transform(newPosition, size);</b>
+<b class="nc">&nbsp;            CollisionBox newCollisionBox = new CollisionBox(newTransform);</b>
+&nbsp;
+<b class="nc">&nbsp;            if (isLegalMove(newCollisionBox)) {</b>
+<b class="nc">&nbsp;                low = mid;</b>
+&nbsp;            } else {
+<b class="nc">&nbsp;                high = mid - 1;</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        final float startCoordinate = isX ? startX : startY;</b>
+<b class="nc">&nbsp;        final float endCoordinate = isNegative ? -low : low;</b>
+&nbsp;
+<b class="nc">&nbsp;        return startCoordinate + endCoordinate;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private boolean isLegalMove(CollisionBox collisionBox) {
+<b class="nc">&nbsp;        return positionIsOnBoard(collisionBox) &amp;&amp; !isColliding(collisionBox);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private boolean positionIsOnBoard(CollisionBox collisionBox) {
+<b class="nc">&nbsp;        final int belowLevel = -200;</b>
+<b class="nc">&nbsp;        boolean isWithinWidthBound = collisionBox.botLeft.x &gt;= 0 &amp;&amp;</b>
+&nbsp;                collisionBox.botLeft.x &gt; viewportLeftX &amp;&amp;
+<b class="nc">&nbsp;                collisionBox.topRight.x &lt; board.width();</b>
+<b class="nc">&nbsp;        boolean isWithinHeightBound = collisionBox.botLeft.y &gt;= belowLevel  &amp;&amp; collisionBox.topRight.y &lt; board.height();</b>
+&nbsp;
+<b class="nc">&nbsp;        return isWithinWidthBound &amp;&amp; isWithinHeightBound;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private boolean isColliding(CollisionBox collisionBox){
+<b class="nc">&nbsp;        Pair&lt;Boolean, GameObject&gt; collided = collisionHandler.checkCollision(player, objectList, collisionBox);</b>
+<b class="nc">&nbsp;        if (collided.first &amp;&amp; !toRemove.contains(collided.second)) {</b>
+<b class="nc">&nbsp;            if (collided.second instanceof Coin coin) {</b>
+<b class="nc">&nbsp;                int newScore = collisionHandler.handleCoinCollision(coin, totalScore);</b>
+<b class="nc">&nbsp;                coinCounter++;</b>
+<b class="nc">&nbsp;                totalScore = newScore;</b>
+<b class="nc">&nbsp;                toRemove.add(coin);</b>
+<b class="nc">&nbsp;            } else if (collided.second instanceof Banana banana) {</b>
+<b class="nc">&nbsp;                collisionHandler.handleBananaCollision(player, banana);</b>
+<b class="nc">&nbsp;                toRemove.add(banana);</b>
+<b class="nc">&nbsp;            } else if (collided.second instanceof Star star) {</b>
+<b class="nc">&nbsp;                LevelManager.Level nextLevel = collisionHandler.handleStarCollision(currentLevel);</b>
+<b class="nc">&nbsp;                startLevel(nextLevel);</b>
+<b class="nc">&nbsp;                toRemove.add(star);</b>
+&nbsp;
+<b class="nc">&nbsp;            } else if (collided.second instanceof Enemy enemy) {</b>
+<b class="nc">&nbsp;                totalScore = collisionHandler.handleEnemyCollision(player, enemy, totalScore, collisionBox);</b>
+<b class="nc">&nbsp;                if (!enemy.isAlive())  toRemove.add(enemy);</b>
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        return collided.first;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private boolean isTouchingGround() {
+<b class="nc">&nbsp;        for (GameObject object : objectList) {</b>
+<b class="nc">&nbsp;            if (!(object instanceof Enemy || object instanceof Item || object instanceof Player)) {</b>
+<b class="nc">&nbsp;                CollisionBox objectCollisionBox = object.getCollisionBox();</b>
+<b class="nc">&nbsp;                if (player.getCollisionBox().isCollidingFromBottom(objectCollisionBox)) {</b>
+<b class="nc">&nbsp;                    return true;</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void render() {
+<b class="nc">&nbsp;        final float deltaTime = Gdx.graphics.getDeltaTime();</b>
+<b class="nc">&nbsp;        if (gameState.equals(GameState.GAME_ACTIVE)) {</b>
+<b class="nc">&nbsp;            updateScore();</b>
+<b class="nc">&nbsp;            updatePlayerMovement(deltaTime);</b>
+<b class="nc">&nbsp;            moveEnemies(deltaTime);</b>
+<b class="nc">&nbsp;            checkForGameOver();</b>
+<b class="nc">&nbsp;            objectList.removeAll(toRemove);</b>
+<b class="nc">&nbsp;            toRemove.clear();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        worldView.render(deltaTime);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void updateScore() {
+<b class="nc">&nbsp;        if (shouldUpdateCountDown()) {</b>
+<b class="nc">&nbsp;            countDown--;</b>
+<b class="nc">&nbsp;            lastScoreUpdate = System.currentTimeMillis();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    private boolean shouldUpdateCountDown() {
+<b class="nc">&nbsp;        long currentTime = System.currentTimeMillis();</b>
+<b class="nc">&nbsp;        if (countDown == 0) {</b>
+<b class="nc">&nbsp;            gameState = GameState.GAME_OVER;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return currentTime - lastScoreUpdate &gt;= 1000 &amp;&amp; countDown &gt;0 &amp;&amp; gameState == GameState.GAME_ACTIVE;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void resolvePlayerMovement(int deltaX, int deltaY) {
+<b class="nc">&nbsp;        Vector2 newPlayerPosition = filterPlayerPosition(deltaX, deltaY);</b>
+<b class="nc">&nbsp;        if (!player.getRespawned()) {</b>
+<b class="nc">&nbsp;            player.move(newPlayerPosition);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        player.setRespawned(false);</b>
+<b class="nc">&nbsp;        final int belowLevel = -200;</b>
+<b class="nc">&nbsp;        if (newPlayerPosition.y &lt;= belowLevel) {</b>
+<b class="nc">&nbsp;            player.receiveDamage(player.getLives());</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    private void updatePlayerMovement(float deltaTime) {
+<b class="nc">&nbsp;        boolean isGrounded = isTouchingGround();</b>
+<b class="nc">&nbsp;        if (isJumping) {</b>
+<b class="nc">&nbsp;            player.jump(isGrounded);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        player.applyGravity(deltaTime, isGrounded);</b>
+<b class="nc">&nbsp;        int deltaY = (int)(player.getVerticalVelocity() * deltaTime);</b>
+<b class="nc">&nbsp;        resolvePlayerMovement(0, deltaY);</b>
+<b class="nc">&nbsp;        if (isMovingRight ^ isMovingLeft) {</b>
+<b class="nc">&nbsp;            int direction = isMovingRight ? 1 : -1;</b>
+<b class="nc">&nbsp;            int deltaX = (int)(player.getMovementSpeed() * deltaTime) * direction;</b>
+<b class="nc">&nbsp;            resolvePlayerMovement(deltaX, 0);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    private void moveEnemies(float deltaTime) {
+<b class="nc">&nbsp;        for (GameObject gameObject : objectList) {</b>
+<b class="nc">&nbsp;            if (gameObject instanceof Enemy enemy) {</b>
+<b class="nc">&nbsp;                enemy.moveEnemy(deltaTime, objectList);</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    private void checkForGameOver() {
+<b class="nc">&nbsp;        if (!player.isAlive()){</b>
+<b class="nc">&nbsp;            gameState = GameState.GAME_OVER;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void setInfoMode(boolean infoMode) {
+<b class="nc">&nbsp;        this.infoMode = infoMode;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void backToGameMenu() {
+<b class="nc">&nbsp;        coinCounter = 0;</b>
+<b class="nc">&nbsp;        totalScore = 0;</b>
+<b class="nc">&nbsp;        infoMode = false;</b>
+<b class="nc">&nbsp;        gameState = GameState.GAME_MENU;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void pause() {
+<b class="nc">&nbsp;        gameState = GameState.GAME_PAUSED;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void resume() {
+<b class="nc">&nbsp;        infoMode = false;</b>
+<b class="nc">&nbsp;        gameState = GameState.GAME_ACTIVE;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public int getBoardWidth() {
+<b class="nc">&nbsp;        return board.width();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public ViewableObject getViewablePlayer() {
+<b class="nc">&nbsp;        return player;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public List&lt;ViewableObject&gt; getObjectList() {
+<b class="nc">&nbsp;        return Collections.unmodifiableList(objectList);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public int getMovementSpeed() {
+<b class="nc">&nbsp;        return player.getMovementSpeed();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void setMovingRight(boolean movingRight) {
+<b class="nc">&nbsp;        isMovingRight = movingRight;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void setMovingLeft(boolean movingLeft) {
+<b class="nc">&nbsp;        isMovingLeft = movingLeft;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void setJumping(boolean isJumping) {
+<b class="nc">&nbsp;        this.isJumping = isJumping;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public GameState getGameState() {
+<b class="fc">&nbsp;        return gameState;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public int getTotalScore() {
+<b class="fc">&nbsp;        return totalScore;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public int getCoinCounter() {
+<b class="fc">&nbsp;        return coinCounter;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public int getPlayerLives() {
+<b class="nc">&nbsp;        return player.getLives();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public int getCountDown() {
+<b class="nc">&nbsp;        return countDown;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public int getMovementDirection() {
+<b class="nc">&nbsp;        return player.getMovementDirection();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public int getLevelWidth() {
+<b class="nc">&nbsp;        return LEVEL_WIDTH;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean getInfoMode() {
+<b class="nc">&nbsp;        return infoMode;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void updateViewportLeftX(float leftX) {
+<b class="nc">&nbsp;        viewportLeftX = leftX;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+<b class="nc">&nbsp;    public void dispose() {}</b>
+&nbsp;
+&nbsp;    @Override
+<b class="nc">&nbsp;    public void resize( int i, int i1) {}</b>
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-04-02 15:43</div>
+</div>
+</body>
+</html>
