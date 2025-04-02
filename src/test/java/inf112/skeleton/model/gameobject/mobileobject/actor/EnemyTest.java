@@ -1,4 +1,4 @@
-package inf112.skeleton.app.model.gameobject.mobileobject.actor;
+package inf112.skeleton.model.gameobject.mobileobject.actor;
 
 import inf112.skeleton.model.gameobject.mobileobject.actor.enemy.Enemy;
 import inf112.skeleton.model.gameobject.mobileobject.actor.enemy.EnemyFactory;

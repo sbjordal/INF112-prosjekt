@@ -1,4 +1,4 @@
-package inf112.skeleton.app.model.gameobject.mobileobject;
+package inf112.skeleton.model.gameobject.mobileobject;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
