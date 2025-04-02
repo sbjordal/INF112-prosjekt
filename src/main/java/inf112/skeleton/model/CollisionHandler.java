@@ -14,6 +14,7 @@ import java.util.List;
 import static inf112.skeleton.model.LevelManager.Level.*;
 
 public class CollisionHandler {
+    private SoundHandler soundHandler;
     private final int ceilingHeight;
     private final int ATTACK_COOLDOWN = 800;
     private final int BOUNCE_COOLDOWN = 64;
@@ -22,7 +23,11 @@ public class CollisionHandler {
         this.ceilingHeight = ceilingHeight;
     }
 
-    public Pair<Boolean, GameObject> checkCollision(Player player, List<GameObject> gameObjects, CollisionBox collisionBox) {
+    void init() {
+        this.soundHandler = new SoundHandler();
+    }
+
+    Pair<Boolean, GameObject> checkCollision(Player player, List<GameObject> gameObjects, CollisionBox collisionBox) {
         CollisionBox playerBox = player.getCollisionBox();
         for (GameObject object : gameObjects) {
             if (object == player) continue;
@@ -45,7 +50,7 @@ public class CollisionHandler {
         }
         return new Pair<>(false, null);
     }
-    public Integer handleEnemyCollision(Player player, Enemy enemy, Integer totalScore, CollisionBox newPlayerCollisionBox){
+    Integer handleEnemyCollision(Player player, Enemy enemy, Integer totalScore, CollisionBox newPlayerCollisionBox){
         long currentTime = System.currentTimeMillis();
 
         if (newPlayerCollisionBox.isCollidingFromBottom(enemy.getCollisionBox())){
@@ -79,17 +84,17 @@ public class CollisionHandler {
         }
         return totalScore;
     }
-    public int handleCoinCollision(Coin coin, SoundHandler handler, Integer totalScore){
+    int handleCoinCollision(Coin coin, Integer totalScore){
         int objectScore = coin.getObjectScore();
-        handler.playCoinSound();
+        soundHandler.playCoinSound();
         int newScore = totalScore + objectScore;
         return newScore;
     }
-    public void handleBananaCollision(Player player, Banana banana){
+    void handleBananaCollision(Player player, Banana banana){
         player.initiatePowerUp(banana.getLargePlayerSize(), banana.getBigJumpForce());
     }
 
-    public LevelManager.Level handleStarCollision(LevelManager.Level currentLevel) {
+    LevelManager.Level handleStarCollision(LevelManager.Level currentLevel) {
         switch (currentLevel) {
             case LEVEL_1:
                 return (LEVEL_2);

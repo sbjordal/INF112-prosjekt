@@ -32,7 +32,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     private Controller controller;
     private List<GameObject> objectList;
     private final List<GameObject> toRemove;
-    private SoundHandler soundHandler;
+
     private LevelManager.Level currentLevel;
     private Integer totalScore;
     private int countDown;
@@ -87,18 +87,18 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         Gdx.graphics.setForegroundFPS(60);
         worldView.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         worldView.show();
-        soundHandler = new SoundHandler();
     }
 
     private void setupInput() {
         controller = new Controller(this);
         Gdx.input.setInputProcessor(controller);
+        collisionHandler.init();
     }
 
     private void setupLogger() {
-        logger.info("FPS {}", Gdx.graphics.getFramesPerSecond());
-        logger.info("Height {}", Gdx.graphics.getHeight());
-        logger.info("Width {}", Gdx.graphics.getWidth());
+//        logger.info("FPS {}", Gdx.graphics.getFramesPerSecond());
+//        logger.info("Height {}", Gdx.graphics.getHeight());
+//        logger.info("Width {}", Gdx.graphics.getWidth());
     }
 
     /**
@@ -159,11 +159,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         return startCoordinate + endCoordinate;
     }
 
-    /**
-     * Checks if MobileObject can be moved where it wants to move or not.
-     *
-     * @return True if the position is legal, false otherwise
-     */
     private boolean isLegalMove(CollisionBox collisionBox) {
         return positionIsOnBoard(collisionBox) && !isColliding(collisionBox);
     }
@@ -182,7 +177,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         Pair<Boolean, GameObject> collided = collisionHandler.checkCollision(player, objectList, collisionBox);
         if (collided.first && !toRemove.contains(collided.second)) {
             if (collided.second instanceof Coin coin) {
-                int newScore = collisionHandler.handleCoinCollision(coin, soundHandler, totalScore);
+                int newScore = collisionHandler.handleCoinCollision(coin, totalScore);
                 coinCounter++;
                 totalScore = newScore;
                 toRemove.add(coin);
@@ -211,7 +206,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
                 }
             }
         }
-
         return false;
     }
 
@@ -301,7 +295,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     @Override
     public void pause() {
         gameState = GameState.GAME_PAUSED;
-
     }
 
     @Override
@@ -345,10 +338,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         this.isJumping = isJumping;
     }
 
-    /**
-     * Tells us the state of the game
-     * @return the state of the game
-     */
     @Override
     public GameState getGameState() {
         return gameState;
