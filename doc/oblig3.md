@@ -124,37 +124,41 @@
 ## Krav og spesifikasjon
 1. Oppdater hvilke krav dere har prioritert, hvor langt dere har kommet og hva dere har gjort siden forrige gang. Er dere
    kommet forbi MVP? Forklar hvordan dere prioriterer ny funksjonalitet.
+
 - Siden vi ikke fikk oppfylt alle MVP kravene ved forrige innlevering prioriterte vi å få gjort de resterende MVP kravene: Spilleren kan bevege seg,
 Når spiller dør kommer en slutt-skjerm der spiller kan velge å starte banen på nytt, og når spillet åpnes møtes spiller med en start skjerm(Game_menu).
 Mens vi jobbet med dette diskuterte vi hvilken krav vi ville fokusere på når vi var ferdig med mvp. De nye kravene er en blanding av funksjonalitet som gjør
 spillet gøyere og oppgave krav. Det eneste kravet vi ikke har fullført er 75% coverage, så dette hovedprioriteringen vår nå.
 
-oppsummert hva som er gjort siden sist:
-Siste MVP krav:
-Spilleren kan bevege seg, Når spiller dør kommer en slutt-skjerm der spiller kan velge å starte banen på nytt, Når spillet åpnes møtes spiller med en start skjerm (Game_Menu).
+Oppsummert hva som er gjort siden sist:
+- Siste MVP krav:
+  Spilleren kan bevege seg, Når spiller dør kommer en slutt-skjerm der spiller kan velge å starte banen på nytt, Når spillet åpnes møtes spiller med en start skjerm (Game_Menu).
 
-Nye krav/funksjonalitet:
-Kunne drepe fiende ved å hoppe på dem, Få fiender til å bevege seg + flere fiender, Levels/baner lages dynamisk fra en tekstfil eller lignende, Legge inn slutt på banen som gjør 
-det mulig å gå videre til neste level, Når tiden er ute(countdown = 0) skal gamestaten endres til GAME_OVER, Lage og hente ut av en enemy-fabrikk (OPPGAVE KRAV), Legge til funksjonalitet 
-for power-up  (OPPGAVE KRAV), Legge på lyd (OPPGAVE KRAV), Det bør være mulig å legge til nye power-ups uten å endre koden til spilleren (eller andre som blir påvirket (OPPGAVE KRAV),
-Implementere en logger, alt av printing skal i loggen heller en terminalen.
+- Nye krav/funksjonalitet:
+  Kunne drepe fiende ved å hoppe på dem, Få fiender til å bevege seg + flere fiender, Levels/baner lages dynamisk fra en tekstfil eller lignende, Legge inn slutt på banen som gjør 
+  det mulig å gå videre til neste level, Når tiden er ute(countdown = 0) skal gamestaten endres til GAME_OVER, Lage og hente ut av en enemy-fabrikk (OPPGAVE KRAV), Legge til funksjonalitet 
+  for power-up  (OPPGAVE KRAV), Legge på lyd (OPPGAVE KRAV), Det bør være mulig å legge til nye power-ups uten å endre koden til spilleren (eller andre som blir påvirket (OPPGAVE KRAV),
+  Implementere en logger, alt av printing skal i loggen heller en terminalen.
 
 4. Forklar kort hvordan dere har prioritert oppgavene fremover
-Som nevnt i punkt 1 er testing den store prioriteten vår på nåværende tidspunkt. Vi har hatt problemer med å teste modellen, og som resultat har vi refakturert mye kode. Tidligere har testing 
-vært en flaskehals i prosjektet, men vi har funnet løsninger som gjør at vi nå er i full gang med denne viktige delen av prosjektet.
+
+  Som nevnt i punkt 1 er testing den store prioriteten vår på nåværende tidspunkt. Vi har hatt problemer med å teste modellen, og som resultat har vi refakturert mye kode. Tidligere har testing 
+  vært en flaskehals i prosjektet, men vi har funnet løsninger som gjør at vi nå er i full gang med denne viktige delen av prosjektet.
 
 5. Har dere gjort justeringer på kravene som er med i MVP? Forklar i så fall hvorfor. Hvis det er gjort endringer i rekkefølge utfra hva som er gitt fra kunde, hvorfor er dette gjort?
-Vi har ikke endret på mvp krav siden sist innlevering.
+
+  Vi har ikke endret på mvp krav siden sist innlevering.
 
 6.Oppdater hvilke krav dere har prioritert, hvor langt dere har kommet og hva dere har gjort siden forrige gang.
-Se punkt 1
+  Se punkt 1
 
 7. Husk å skrive hvilke bugs som finnes i de kravene dere har utført (dersom det finnes bugs).
-Bugs:
-- Player dør ikke / skades ikke hvis player står helt stille mens en enemy går inni player. Dette skjer fordi handelEnemyCollision() sjekkes kun om spilleren beveger på seg.
-- En snegl på siste level beveger seg innimellom bak/gjennom vegger
-- Hvis du holder inne hoppe knappen mens du pauser, så vil player hoppe konstant selv om du har slippet knappen.
-- Player kan drepe enemies ved “invincibility frames”. Ser også ut som “invincibility
+
+  Bugs:
+  - Player dør ikke / skades ikke hvis player står helt stille mens en enemy går inni player. Dette skjer fordi handelEnemyCollision() sjekkes kun om spilleren beveger på seg.
+  - En snegl på siste level beveger seg innimellom bak/gjennom vegger
+  - Hvis du holder inne hoppe knappen mens du pauser, så vil player hoppe konstant selv om du har slippet knappen.
+  - Player kan drepe enemies ved “invincibility frames”. Ser også ut som “invincibility
 
 
 
