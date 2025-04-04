@@ -33,9 +33,9 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     private final List<GameObject> toRemove;
     private LevelManager.Level currentLevel;
     private Integer totalScore;
-    private int countDown;
+    int countDown;
     private Integer coinCounter;
-    private long lastScoreUpdate = System.currentTimeMillis();
+    long lastScoreUpdate = System.currentTimeMillis();
     private boolean infoMode;
     boolean isMovingRight;
     boolean isMovingLeft;
@@ -211,7 +211,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     public void render() {
         final float deltaTime = Gdx.graphics.getDeltaTime();
         if (gameState.equals(GameState.GAME_ACTIVE)) {
-            updateScore();
+            updateScore(shouldUpdateCountDown());
             updatePlayerMovement(deltaTime);
             moveEnemies(deltaTime);
             checkForGameOver();
@@ -221,14 +221,14 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         worldView.render(deltaTime);
     }
 
-    private void updateScore() {
-        if (shouldUpdateCountDown()) {
+    void updateScore(boolean countingDown) {
+        if (countingDown) {
             countDown--;
             lastScoreUpdate = System.currentTimeMillis();
         }
     }
 
-    private boolean shouldUpdateCountDown() {
+    boolean shouldUpdateCountDown() {
         long currentTime = System.currentTimeMillis();
         if (countDown == 0) {
             gameState = GameState.GAME_OVER;

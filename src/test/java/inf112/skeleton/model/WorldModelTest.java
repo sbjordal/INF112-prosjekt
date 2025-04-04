@@ -15,7 +15,6 @@ import inf112.skeleton.model.gameobject.mobileobject.actor.Player;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -140,5 +139,22 @@ public class WorldModelTest {
         worldModel.player.receiveDamage(3);
         worldModel.checkForGameOver();
         assertTrue(worldModel.gameState == (GameState.GAME_OVER));
+    }
+
+    @Test
+    void testShouldUpdateCountDownReturnsTrueWhenValid() {
+        worldModel.countDown = 10;
+        worldModel.lastScoreUpdate = System.currentTimeMillis() - 1500;
+        worldModel.resume();
+        assertTrue(worldModel.shouldUpdateCountDown());
+    }
+
+    @Test
+    void testScoreUpdate(){
+        worldModel.countDown = 10;
+        worldModel.updateScore(true);
+        assertTrue(worldModel.countDown == 9);
+        worldModel.updateScore(false);
+        assertTrue(worldModel.countDown == 9);
     }
 }
