@@ -62,8 +62,8 @@ public class ItemFactoryTest {
         assertEquals(x, star.getTransform().getPos().x, 0.001, "X position should match");
         assertEquals(y, star.getTransform().getPos().y, 0.001, "Y position should match");
 
-        assertEquals(47, star.getTransform().getSize().x, "Banana width should be 50");
-        assertEquals(45, star.getTransform().getSize().y, 0.001, "Banana height should be 53");
+        assertEquals(72, star.getTransform().getSize().x, "Star width should be 72");
+        assertEquals(69, star.getTransform().getSize().y, 0.001, "Star height should be 69");
     }
 
     @Test
