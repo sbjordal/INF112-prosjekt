@@ -12,6 +12,9 @@ import inf112.skeleton.model.gameobject.GameObject;
 import inf112.skeleton.model.gameobject.Transform;
 import inf112.skeleton.model.gameobject.fixedobject.FixedObject;
 import inf112.skeleton.model.gameobject.mobileobject.actor.Player;
+import inf112.skeleton.model.gameobject.mobileobject.actor.enemy.Enemy;
+import inf112.skeleton.model.gameobject.mobileobject.actor.enemy.EnemyFactory;
+import inf112.skeleton.model.gameobject.mobileobject.actor.enemy.EnemyType;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,9 +32,7 @@ import static org.mockito.Mockito.when;
 public class WorldModelTest {
 
     private WorldModel worldModel;
-    private Player player;
     private Transform transform;
-    private List<GameObject> objectList;
 
     @BeforeAll
     static void setUpBeforeALl() {
@@ -47,7 +48,7 @@ public class WorldModelTest {
 
         Graphics mockGraphics = mock(Graphics.class);
         Gdx.graphics = mockGraphics;
-        when(Gdx.graphics.getDeltaTime()).thenReturn(1 / 60f); // 60 FPS som eksempel
+        when(Gdx.graphics.getDeltaTime()).thenReturn(1 / 60f);
 
         transform = new Transform(new Vector2(0, 0), new Vector2(50, 100));
         worldModel.player = new Player(3, 5, transform);
@@ -156,5 +157,16 @@ public class WorldModelTest {
         assertTrue(worldModel.countDown == 9);
         worldModel.updateScore(false);
         assertTrue(worldModel.countDown == 9);
+    }
+
+    @Test
+    void testEnemiesMovable(){
+        Enemy en1 = EnemyFactory.createSnail(10, 10, EnemyType.SNAIL);
+        Enemy en2 = EnemyFactory.createLeopard(15, 10, EnemyType.LEOPARD);
+        worldModel.objectList.add(en1);
+        worldModel.objectList.add(en2);
+        worldModel.moveEnemies(1 / 60f);
+        assertTrue(worldModel.objectList.get(0).getTransform().getPos().x == 11);
+        assertTrue(worldModel.objectList.get(1).getTransform().getPos().x == 13);
     }
 }

@@ -263,7 +263,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         }
     }
 
-    private void moveEnemies(float deltaTime) {
+    void moveEnemies(float deltaTime) {
         for (GameObject gameObject : objectList) {
             if (gameObject instanceof Enemy enemy) {
                 enemy.moveEnemy(deltaTime, objectList);
