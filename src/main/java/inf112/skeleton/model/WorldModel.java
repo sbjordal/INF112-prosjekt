@@ -23,15 +23,14 @@ import java.util.List;
 
 public class WorldModel implements ViewableWorldModel, ControllableWorldModel, ApplicationListener {
     public static final int LEVEL_WIDTH = 4500;
-    private GameState gameState;
-    private Player player;
+    GameState gameState;
+    Player player;
     private WorldBoard board;
     private WorldView worldView;
     private float viewportLeftX;
     private Controller controller;
     List<GameObject> objectList;
     private final List<GameObject> toRemove;
-
     private LevelManager.Level currentLevel;
     private Integer totalScore;
     private int countDown;
@@ -272,7 +271,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         }
     }
 
-    private void checkForGameOver() {
+    void checkForGameOver() {
         if (!player.isAlive()){
             gameState = GameState.GAME_OVER;
         }
