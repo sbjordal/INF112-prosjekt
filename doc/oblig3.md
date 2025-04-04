@@ -121,3 +121,16 @@
     mål for når prosjektet skal være ferdig.
   - Vi setter tydeligere mål for hva som skal gjøres fra ett møte til neste, og holder oversikt over hva som gjenstår.
 
+## Krav og spesifikasjon
+2. For hvert krav dere jobber med, må dere lage 1) ordentlige brukerhistorier, 2) akseptansekriterier og 3) arbeidsoppgaver. 
+Husk at akseptansekriterier ofte skrives mer eller mindre som tester
+   1.  **Vise et spillebrett på skjermen** GAMMELT
+   * Arbeidsoppgaver: Opprette et brett med en bredde og en høyde. Dette brettet skal gis til modellen. View skal tegne brettet basert på endringen modellen gjør der.
+
+   2.  **Vise en spiller på spillebrettet** GAMMELT
+   * Akseptansekriterier: En spiller opprettes. Spilleren representerer spilleren kunden skal styre. Attributter passende for
+     en spiller skal være tilgjengelig.
+
+3. Dersom dere har oppgaver som dere skal til å starte med, hvor dere har oversikt over både brukerhistorie, 
+akseptansekriterier og arbeidsoppgaver, kan dere ta med disse i innleveringen også.
+- Vi har oppnådd alle kravene våres for både MVP og post-MVP. Vi har derfor ingen planer om å legge til mer funksjonalitet som krever brukerhistorier.
