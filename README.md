@@ -40,7 +40,7 @@ piltasten ikke holdes inne.
   * [Jessie M.] (https://jesse-m.itch.io/jungle-pack)
 - Mynt 
   * [Pritishor] (https://opengameart.org/content/simple-coin)
-- Snegle og sopp
+- Snegle, leopard, banan og stjerne
   * [Noto emoji by Google] (https://emoji.aranja.com/)
   - Under Apache License 2.0
 
@@ -49,4 +49,4 @@ piltasten ikke holdes inne.
 - coin/scoreUp
   - https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=230517
   - https://pixabay.com/sound-effects/coin-recieved-230517/
-  - 
+

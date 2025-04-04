@@ -6,8 +6,6 @@ import inf112.skeleton.model.WorldModel;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
-import java.time.LocalDateTime;
-
 public class Main {
     private final static int WINDOW_WIDTH = 1500;
     private final static int WINDOW_HEIGHT = 920;
