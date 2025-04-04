@@ -6,7 +6,6 @@ import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.controller.ControllableWorldModel;
 import inf112.skeleton.controller.Controller;
 import inf112.skeleton.model.gameobject.*;
-import inf112.skeleton.model.gameobject.fixedobject.FixedObject;
 import inf112.skeleton.model.gameobject.fixedobject.item.Banana;
 import inf112.skeleton.model.gameobject.fixedobject.item.Coin;
 import inf112.skeleton.model.gameobject.fixedobject.item.Item;
@@ -30,7 +29,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     private WorldView worldView;
     private float viewportLeftX;
     private Controller controller;
-    private List<GameObject> objectList;
+    List<GameObject> objectList;
     private final List<GameObject> toRemove;
 
     private LevelManager.Level currentLevel;
@@ -39,9 +38,9 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     private Integer coinCounter;
     private long lastScoreUpdate = System.currentTimeMillis();
     private boolean infoMode;
-    private boolean isMovingRight;
-    private boolean isMovingLeft;
-    private boolean isJumping;
+    boolean isMovingRight;
+    boolean isMovingLeft;
+    boolean isJumping;
     private final Logger logger;
     private final int height;
     private final CollisionHandler collisionHandler;
@@ -159,7 +158,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         return startCoordinate + endCoordinate;
     }
 
-    private boolean isLegalMove(CollisionBox collisionBox) {
+    boolean isLegalMove(CollisionBox collisionBox) {
         return positionIsOnBoard(collisionBox) && !isColliding(collisionBox);
     }
 

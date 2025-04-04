@@ -24,6 +24,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
 
+import java.util.ArrayList;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -44,6 +46,7 @@ public class WorldModelTest {
         worldModel = new WorldModel(1000, 500);
         transform = new Transform(new Vector2(10, 20), new Vector2(30, 30));
         player = new Player(3, 5, transform);
+
     }
 
     @Test
@@ -54,113 +57,72 @@ public class WorldModelTest {
         assertEquals(GameState.GAME_MENU, worldModel.getGameState());
     }
 
-//    // TODO: Denne fungerer ikke pga manglende soundhandler.. Justere implementasjon av sound?
-//    @Test
-//    public void testScoreIncreasesWhenCoinCollected() {
-//        int initialScore = worldModel.getTotalScore();
-//        worldModel.handleCoinCollision(new Coin(transform));
-//        assertTrue(worldModel.getTotalScore() > initialScore);
-//    }
 
+    @BeforeAll
+    static void setUpBeforeALl() {
+        HeadlessApplicationConfiguration config = new HeadlessApplicationConfiguration();
+        ApplicationListener listener = new ApplicationAdapter() {
+        };
+        new HeadlessApplication(listener, config);
+    }
+
+    /**
+     * Setup method called before each of the test methods
+     */
+    @BeforeEach
+    void setUpBeforeEach() {
+        MockitoAnnotations.openMocks(this);
+        worldModel = new WorldModel(800, 600);
+        // Mock Gdx.graphics
+        Gdx.graphics = mock(com.badlogic.gdx.Graphics.class);
+        when(Gdx.graphics.getDeltaTime()).thenReturn(1.0f);
+    }
+
+    @Test
+    public void testSetMovement_rightDirection() {
+        assertFalse(worldModel.isMovingRight);
+        worldModel.setMovingRight(true);
+        assertTrue(worldModel.isMovingRight);
+
+        worldModel.setMovingRight(false);
+        assertFalse(worldModel.isMovingRight);
+    }
+
+    @Test
+    public void testSetMovement_leftDirection() {
+        assertFalse(worldModel.isMovingLeft);
+        worldModel.setMovingLeft(true);
+        assertTrue(worldModel.isMovingLeft);
+
+        worldModel.setMovingLeft(false);
+        assertFalse(worldModel.isMovingLeft);
+    }
+
+    @Test
+    public void testLegalMove_validMove() {
+        CollisionBox validMove = new CollisionBox(new Transform(new Vector2(10, 10), new Vector2(50, 50)));
+        worldModel.objectList = new ArrayList<>();
+        assertTrue(worldModel.isLegalMove(validMove));
+    }
+
+    @Test
+    public void testLegalMove_invalidMove_outOfBounds() {
+        CollisionBox invalidMove = new CollisionBox(new Transform(new Vector2(-10, -10), new Vector2(50, 50)));
+        worldModel.objectList = new ArrayList<>();
+        assertFalse(worldModel.isLegalMove(invalidMove));
+    }
+
+    @Test
+    public void testLegalMove_invalidMove_collision() {
+        CollisionBox collisionMove = new CollisionBox(new Transform(new Vector2(40, 40), new Vector2(50, 50)));
+        worldModel.objectList = new ArrayList<>();
+        GameObject obstacle = new FixedObject(new Transform(new Vector2(40, 40), new Vector2(50, 50)));
+        worldModel.objectList.add(obstacle);
+
+        assertFalse(worldModel.isLegalMove(collisionMove));
+    }
+
+    @Test
+    void testIncreasedScore () {
+    }
 }
-
-
-//    @BeforeAll
-//    static void setUpBeforeALl() {
-//        HeadlessApplicationConfiguration config = new HeadlessApplicationConfiguration();
-//        ApplicationListener listener = new ApplicationAdapter() {
-//        };
-//        new HeadlessApplication(listener, config);
-//
-//    }
-//
-//    /**
-//     * Setup method called before each of the test methods
-//     */
-//    @BeforeEach
-//    void setUpBeforeEach() {
-//        MockitoAnnotations.openMocks(this);
-//        worldModel = new WorldModel(800, 600);
-//
-//        // Mock Gdx.graphics
-//        Gdx.graphics = mock(com.badlogic.gdx.Graphics.class);
-//        when(Gdx.graphics.getDeltaTime()).thenReturn(1.0f);
-//    }
-//}
-
-
-//    @Test
-//    public void testSetMovement_rightDirection() {
-//        // Før vi setter bevegelse til høyre, skal isMovingRight være false
-//        assertFalse(worldModel.isMovingRight());
-//
-//        // Sett bevegelsen til høyre
-//        worldModel.setMovement(Direction.RIGHT);
-//
-//        // Etter at vi setter bevegelsen til høyre, skal isMovingRight være true
-//        assertTrue(worldModel.isMovingRight());
-//
-//        // Sett bevegelsen til høyre igjen, og den skal reversere seg tilbake til false
-//        worldModel.setMovement(Direction.RIGHT);
-//        assertFalse(worldModel.isMovingRight());
-//    }
-//
-//    @Test
-//    public void testSetMovement_leftDirection() {
-//        // Før vi setter bevegelse til venstre, skal isMovingLeft være false
-//        assertFalse(worldModel.isMovingLeft());
-//
-//        // Sett bevegelsen til venstre
-//        worldModel.setMovement(Direction.LEFT);
-//
-//        // Etter at vi setter bevegelsen til venstre, skal isMovingLeft være true
-//        assertTrue(worldModel.isMovingLeft());
-//
-//        // Sett bevegelsen til venstre igjen, og den skal reversere seg tilbake til false
-//        worldModel.setMovement(Direction.LEFT);
-//        assertFalse(worldModel.isMovingLeft());
-//    }
-
-//    @Test
-//    public void testLegalMove_validMove() {
-//        // Test for en gyldig bevegelse (innenfor brettet, uten kollisjoner)
-//        CollisionBox validMove = new CollisionBox(new Transform(new Vector2(10, 10), new Vector2(50, 50)));
-//        // Anta at det ikke er objekter i verden som blokkerer på dette punktet
-//        assertTrue(worldModel.isLegalMove(validMove));
-//    }
-//
-//
-//    @Test
-//    public void testLegalMove_invalidMove_outOfBounds() {
-//        // Test for en ugyldig bevegelse (utenfor brettet)
-//        CollisionBox invalidMove = new CollisionBox(new Transform(new Vector2(-10, -10), new Vector2(50, 50)));
-//        assertFalse(worldModel.isLegalMove(invalidMove));
-//    }
-//
-//    @Test
-//    public void testLegalMove_invalidMove_collision() {
-//        // Test for en ugyldig bevegelse (med kollisjon med et objekt)
-//        CollisionBox collisionMove = new CollisionBox(new Transform(new Vector2(40, 40), new Vector2(50, 50)));
-//        // Legg til et objekt som blokkerer bevegelsen
-//        GameObject obstacle = new FixedObject(new Transform(new Vector2(40, 40), new Vector2(50, 50)), new Texture("obstacle.png"));
-//        worldModel.getObjectList().add(obstacle);
-//
-//        assertFalse(worldModel.isLegalMove(collisionMove));
-
-//        @Test
-//        void testIncreasedScore() {
-//            Enemy enemy= EnemyFactory.createSnail((float) 10.0, (float) -21.0, EnemyType.SNAIL);
-//            assertEquals(0, worldModel.getTotalScore());
-//            worldModel.move(0,-1);
-//            assertEquals(enemy.getObjectScore(), worldModel.getTotalScore());
-//
-//        }
-
-//        @Test
-//        void testIncreasedScore() {
-//            Enemy enemy= EnemyFactory.createSnail((float) 10.0, (float) -21.0, EnemyType.SNAIL);
-//            assertEquals(0, worldModel.getTotalScore());
-//            worldModel.move(0,-1);
-//            assertEquals(enemy.getObjectScore(), worldModel.getTotalScore());
-//
-//        }
