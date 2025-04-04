@@ -10,26 +10,27 @@
 
 ## Prosjektrapport: 
 
-1. Hvordan fungerer rollene i teamet? Trenger dere å oppdatere hvem som er teamlead eller kundekontakt?
-- Da vi satte opp rollene: teamlead, arkitekt, kundekontakt, testansvarlig, dokumentasjonsansvarlig og design ansvarlig
-  var det tenkt at dette skulle man ha et ekstra ansvar for, men at alle skulle påta seg den siste rollen som utvikler.
-- Vi føler fremdeles at dette fungerer bra. Avgjørelsen om å avlaste arkitekten har vært god og nødvendig, og vi beholder
-  fordelingen slik at arkitekt avlastes rollen som utvikler.
-- Vi føler rollen til de fleste har vært først og fremst å være utvikler og tester, og dette har fungert bra.
+1. **Hvordan fungerer rollene i teamet?** Trenger dere å oppdatere hvem som er teamlead eller kundekontakt?
+- Da vi satt opp rollene var det tenkt at rollen var noe man skulle ha et ekstra ansvar for, men at alle skulle ta 
+  den siste rollen som utvikler. Vi føler fremdeles at dette fungerer fint. 
+- Vi bestemte sist at arkitektrollen er såpass stor og utfordrende, at han må avlastes som utvikler - med mindre han selv
+  har tid og lyst til å ta utvikler-oppgaver. Denne avgjørelsen har vært god og nødvendig, og vi beholder fordelingen slik.
+- Vi føler rollen til de fleste har vært først og fremst å være utvikler og tester, og dette har fungert fint for oss.
 
-2. Trenger dere andre roller? Skriv ned noen linjer om hva de ulike rollene faktisk innebærer for dere.
-- Vi ser fremdeles ikke behov for noen andre roller enn de vi allerede har. Vi ser at alle rollene har kommet mer frem 
-  i denne delen av prosjektet.
-- Hva rollene innebærer for oss:
+2. **Trenger dere andre roller?** Skriv ned noen linjer om hva de ulike rollene faktisk innebærer for dere.
+- Vi ser fremdeles ikke behov for flere roller enn de vi har. Vi ser at alle rollene har kommet mer frem i denne delen 
+  av prosjektet.
+- **Hva rollene innebærer for oss:**
   - Teamlead: (Endre)
-    - Rollen som teamlead skal lede teamet på best mulig måte. Vedkommende sørger for å distribuere viktig informasjon
-      angående prosjektet, samt sørge for at vi overholder tidsfrister og møter de kravene som er gitt i oppgaven.
+    - Teamlead skal lede teamet på best mulig måte. Vedkommende sørger for å distribuere viktig informasjon ang prosjektet, 
+      samt sørge for at vi overholder tidsfrister og møter de kravene som er gitt i oppgaven.
       Personen oppretter og fordeler arbeidsoppgaver i Jira, eller delegerer i henhold til det som er naturlig.
   - Arkitekt (Eivind)
     - Arkitekten er ansvarlig for å sørge for at spillet henger sammen. Med dette menes det at vedkommende setter opp et
       forslag til arkitektur for spillet. Ens jobb er å identifisere hvilke klasser det er behov for, og hvilken
-      funksjonalitet de behøver. Første utkast av arkitektur er kun et forslag og et grunnlag vi kan bygge på. Etterhvert
-      som man ser flere behov eller utfordringer vil utvikler sparre med arkitekten for hvordan man skal løse det.
+      funksjonalitet de behøver. Arkitekten laget et førsteutkast av arkitektur, som et forslag og et grunnlag vi bytter 
+      videre på. Etterhvert som vi har sett flere behov eller utfordringer har utvikler sparret med arkitekten om hvordan 
+      man skal løse utfordringene.
   - Kundekontakt (Aurora)
     - Kundekontakten skal være ansvarlig for at spillet vårt er brukervennlig. Av dette inngår det blant annet å sørge
       for at brukeren forstår hensikten med spillet, spillets regler, samt hvordan det spilles. Ting som valg av farger
@@ -46,7 +47,7 @@
       trenger for det grafiske. Dette innebærer å lage/hente sprites for ulike objekter og bakgrunn. Det skal også sørges
       for at alt av ressurser som hentes skal det oppgis kilder til, og at lover og regler om opphavsrettigheter følges.
 
-3. Er det noen erfaringer enten team-messig eller mtp prosjektmetodikk som er verdt å nevne? Synes teamet at de valgene
+3. **Er det noen erfaringer enten team-messig eller mtp prosjektmetodikk som er verdt å nevne?** Synes teamet at de valgene
    dere har tatt er gode? Hvis ikke, hva kan dere gjøre annerledes for å forbedre måten teamet fungerer på?
 - Vi har ikke hatt så tydelige krav til hva man forventer av jobb fra det enkelte teammedlem fra gang til gang, som nok 
   har bidratt til skjevfordeling av commits. Det har likevel fungert for oss, fordi vi er et team med medlemmer som har 
