@@ -124,17 +124,17 @@
 ## Krav og spesifikasjon
 2. For hvert krav dere jobber med, må dere lage 1) ordentlige brukerhistorier, 2) akseptansekriterier og 3) arbeidsoppgaver. 
 Husk at akseptansekriterier ofte skrives mer eller mindre som tester
-   1.  **Bekjempe fiender ved å hoppe på dem**
+   1.  **Bekjemp fiender ved å hoppe på dem**
    * Brukerhistorie: Som spiller trenger jeg å kunne bekjempe fiender for å gjøre det lettere å nå mål, samt kunne samle større poengsummer ved å utfordre risiko. 
    * Akseptansekriterier: Spilleren kan hoppe. Fiender blir bekjempet av å bli hoppet på av spilleren. Fiender gir spilleren poeng ved bekjempelse. Mengden poeng er knyttet til typen av fienden.
    * Arbeidsoppgaver: Få spilleren til å kunne hoppe. Få fiender til å bli bekjempet av å bli hoppet på av spilleren. Få bekjempet fiender til å øke poengsummen til spilleren. Mengden økt poengsum skal bestemmes av fiende typen.
 
-   2.  **Fiender beveger seg og det er flere fiender**
+   2.  **Fiender beveger seg, og det er flere fiender**
    * Brukerhistorie: Som spiller trenger jeg ekstra utfordring angående manøvrering rundt fiender, samt flere fiender for å gjøre mål oppnåelse mer tilfredstillende. 
    * Akseptansekriterier: Fiender beveger på seg i et bestemt bevegelses mønster. Flere fiender er plassert på spillbrettet.
-   * Arbeidsoppgaver: Få fiender til å gå i en retning. Skift retning dersom fienden oppdager en kollisjon. Plasser flere fiender på spillbrettet.
+   * Arbeidsoppgaver: Få fiender til å gå i en bestemt retning. Skift retning dersom fienden oppdager en kollisjon. Plasser flere fiender på spillbrettet.
    
-   3.  **Nivåer lages dynamisk fra en tekstfil**
+   3.  **Nivåer lages dynamisk fra tekstfiler**
    * Brukerhistorie: Som spiller trenger jeg ulike ordninger av spillobjekter for å gi en mer varierende spillopplevelse.
    * Akseptansekriterier: En tekstfil opprettes dynamisk som inneholder ordninger av spillobjekter. Tekstfilen blir lest ved innlasting av nytt nivå.
    * Arbeidsoppgaver: Opprett tekstfiler ved hjelp av eksternt vertkøy som støtter plassering av objekter via et grafisk brukergrensesnitt. Opprett en klasse som håndterer lesing av tekstfiler ved nivå skift. 
@@ -172,7 +172,7 @@ Husk at akseptansekriterier ofte skrives mer eller mindre som tester
    10.  **Implementer en logger**
    * Brukerhistorie: Som utvikler ønsker jeg muligheten for å samle all relevant informasjon fra spillet i en logg slik at debugging blir mer oversiktligig.
    * Akseptansekriterier: Mulighet for å bruke logger om det er ønsket.
-   * Arbeidsoppgaver: Implementer en logger som viser relevant utskrift til utviklere.
+   * Arbeidsoppgaver: Implementer en logger som viser relevant utskrift for utviklere.
    
 3. Dersom dere har oppgaver som dere skal til å starte med, hvor dere har oversikt over både brukerhistorie, 
 akseptansekriterier og arbeidsoppgaver, kan dere ta med disse i innleveringen også.
