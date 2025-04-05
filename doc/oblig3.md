@@ -126,15 +126,13 @@
 Husk at akseptansekriterier ofte skrives mer eller mindre som tester
    1.  **Kunne drepe fiender ved å hoppe på dem**
    * Brukerhistorie: Som spiller trenger jeg å kunne bekjempe fiender for å gjøre det lettere å nå mål, samt kunne samle større poengsummer ved å utfordre risiko. 
-   * Akseptansekriterier: 
-   * Akseptansekriterier: Et brett opprettes, endringer på brettet skjer i modellen. View tegner brettet.
-   * Arbeidsoppgaver: Opprette et brett med en bredde og en høyde. Dette brettet skal gis til modellen. View skal tegne
-     brettet basert på endringen modellen gjør der.
+   * Akseptansekriterier: Spilleren kan hoppe. Fiender blir bekjempet av å bli hoppet på av spilleren. Fiender gir spilleren poeng ved bekjempelse. Mengden poeng er knyttet til typen av fienden.
+   * Arbeidsoppgaver: Få spilleren til å kunne hoppe. Få fiender til å bli bekjempet av å bli hoppet på av spilleren. Få bekjempet fiender til å øke poengsummen til spilleren. Mengden økt poengsum skal bestemmes av fiende typen.
 
-   2.  **Vise en spiller på spillebrettet**
-   * Brukerhistorie: Som spiller trenger jeg å kunne se spilleren for å spille.
-   * Akseptansekriterier: En spiller opprettes. Spilleren representerer spilleren kunden skal styre. Attributter passende for
-     en spiller skal være tilgjengelig.
+   2.  **Fiender skal bevege seg + flere fiender**
+   * Brukerhistorie: Som spiller trenger jeg ekstra utfordring angående manøvrering rundt fiender, samt flere fiender for å gjøre mål oppnåelse mer tilfredstillende. 
+   * Akseptansekriterier: Fiender beveger på seg i et bestemt bevegelses mønster. Flere fiender er plassert på spillbrettet.
+   * Arbeidsoppgaver: Få fiender til å gå i en retning. Retningen snur dersom fienden oppdager en kollisjon. Plasser flere fiender på spillbrettet.
 
 3. Dersom dere har oppgaver som dere skal til å starte med, hvor dere har oversikt over både brukerhistorie, 
 akseptansekriterier og arbeidsoppgaver, kan dere ta med disse i innleveringen også.
