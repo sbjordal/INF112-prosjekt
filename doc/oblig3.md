@@ -124,13 +124,18 @@
 ## Krav og spesifikasjon
 2. For hvert krav dere jobber med, må dere lage 1) ordentlige brukerhistorier, 2) akseptansekriterier og 3) arbeidsoppgaver. 
 Husk at akseptansekriterier ofte skrives mer eller mindre som tester
-   1.  **Vise et spillebrett på skjermen** GAMMELT
-   * Arbeidsoppgaver: Opprette et brett med en bredde og en høyde. Dette brettet skal gis til modellen. View skal tegne brettet basert på endringen modellen gjør der.
+   1.  **Kunne drepe fiender ved å hoppe på dem**
+   * Brukerhistorie: Som spiller trenger jeg å kunne bekjempe fiender for å gjøre det lettere å nå mål, samt kunne samle større poengsummer ved å utfordre risiko. 
+   * Akseptansekriterier: 
+   * Akseptansekriterier: Et brett opprettes, endringer på brettet skjer i modellen. View tegner brettet.
+   * Arbeidsoppgaver: Opprette et brett med en bredde og en høyde. Dette brettet skal gis til modellen. View skal tegne
+     brettet basert på endringen modellen gjør der.
 
-   2.  **Vise en spiller på spillebrettet** GAMMELT
+   2.  **Vise en spiller på spillebrettet**
+   * Brukerhistorie: Som spiller trenger jeg å kunne se spilleren for å spille.
    * Akseptansekriterier: En spiller opprettes. Spilleren representerer spilleren kunden skal styre. Attributter passende for
      en spiller skal være tilgjengelig.
 
 3. Dersom dere har oppgaver som dere skal til å starte med, hvor dere har oversikt over både brukerhistorie, 
 akseptansekriterier og arbeidsoppgaver, kan dere ta med disse i innleveringen også.
-- Vi har oppnådd alle kravene våres for både MVP og post-MVP. Vi har derfor ingen planer om å legge til mer funksjonalitet som krever brukerhistorier.
+    * Vi har oppnådd alle kravene våres for både MVP og post-MVP. Vi har derfor ingen planer om å legge til mer funksjonalitet som krever brukerhistorier.
