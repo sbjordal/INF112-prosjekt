@@ -6,7 +6,6 @@ import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.controller.ControllableWorldModel;
 import inf112.skeleton.controller.Controller;
 import inf112.skeleton.model.gameobject.*;
-import inf112.skeleton.model.gameobject.fixedobject.FixedObject;
 import inf112.skeleton.model.gameobject.fixedobject.item.Banana;
 import inf112.skeleton.model.gameobject.fixedobject.item.Coin;
 import inf112.skeleton.model.gameobject.fixedobject.item.Item;
@@ -24,24 +23,23 @@ import java.util.List;
 
 public class WorldModel implements ViewableWorldModel, ControllableWorldModel, ApplicationListener {
     public static final int LEVEL_WIDTH = 4500;
-    private GameState gameState;
-    private Player player;
+    GameState gameState;
+    Player player;
     private WorldBoard board;
     private WorldView worldView;
     private float viewportLeftX;
     private Controller controller;
-    private List<GameObject> objectList;
+    List<GameObject> objectList;
     private final List<GameObject> toRemove;
-
     private LevelManager.Level currentLevel;
     private Integer totalScore;
-    private int countDown;
+    int countDown;
     private Integer coinCounter;
-    private long lastScoreUpdate = System.currentTimeMillis();
+    long lastScoreUpdate = System.currentTimeMillis();
     private boolean infoMode;
-    private boolean isMovingRight;
-    private boolean isMovingLeft;
-    private boolean isJumping;
+    boolean isMovingRight;
+    boolean isMovingLeft;
+    boolean isJumping;
     private final Logger logger;
     private final int height;
     private final CollisionHandler collisionHandler;
@@ -159,7 +157,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         return startCoordinate + endCoordinate;
     }
 
-    private boolean isLegalMove(CollisionBox collisionBox) {
+    boolean isLegalMove(CollisionBox collisionBox) {
         return positionIsOnBoard(collisionBox) && !isColliding(collisionBox);
     }
 
@@ -173,6 +171,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         return isWithinWidthBound && isWithinHeightBound;
     }
 
+    //TODO: Må skrives om, ikke lov med instanceof-sjekk av objekter. Flyttes til actor eller player?
     private boolean isColliding(CollisionBox collisionBox){
         Pair<Boolean, GameObject> collided = collisionHandler.checkCollision(player, objectList, collisionBox);
         if (collided.first && !toRemove.contains(collided.second)) {
@@ -197,6 +196,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         return collided.first;
     }
 
+    // TODO: Må skrives om og kanskje flyttes til movable? Evt actor eller player?
     private boolean isTouchingGround() {
         for (GameObject object : objectList) {
             if (!(object instanceof Enemy || object instanceof Item || object instanceof Player)) {
@@ -213,7 +213,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     public void render() {
         final float deltaTime = Gdx.graphics.getDeltaTime();
         if (gameState.equals(GameState.GAME_ACTIVE)) {
-            updateScore();
+            updateScore(shouldUpdateCountDown());
             updatePlayerMovement(deltaTime);
             moveEnemies(deltaTime);
             checkForGameOver();
@@ -223,14 +223,14 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         worldView.render(deltaTime);
     }
 
-    private void updateScore() {
-        if (shouldUpdateCountDown()) {
+    void updateScore(boolean countingDown) {
+        if (countingDown) {
             countDown--;
             lastScoreUpdate = System.currentTimeMillis();
         }
     }
 
-    private boolean shouldUpdateCountDown() {
+    boolean shouldUpdateCountDown() {
         long currentTime = System.currentTimeMillis();
         if (countDown == 0) {
             gameState = GameState.GAME_OVER;
@@ -265,7 +265,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         }
     }
 
-    private void moveEnemies(float deltaTime) {
+    void moveEnemies(float deltaTime) {
         for (GameObject gameObject : objectList) {
             if (gameObject instanceof Enemy enemy) {
                 enemy.moveEnemy(deltaTime, objectList);
@@ -273,7 +273,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         }
     }
 
-    private void checkForGameOver() {
+    void checkForGameOver() {
         if (!player.isAlive()){
             gameState = GameState.GAME_OVER;
         }

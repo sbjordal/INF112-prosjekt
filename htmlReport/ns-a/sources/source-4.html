@@ -1,0 +1,172 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ViewableWorldModel</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">inf112.skeleton.view</a>
+</div>
+
+<h1>Coverage Summary for Class: ViewableWorldModel (inf112.skeleton.view)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+</tr>
+  <tr>
+    <td class="name">ViewableWorldModel$MockitoMock$w7IwkNEV</td>
+  </tr>
+  <tr>
+    <td class="name">ViewableWorldModel$MockitoMock$w7IwkNEV$auxiliary$7eg8Mmeq</td>
+  </tr>
+  <tr>
+    <td class="name">ViewableWorldModel$MockitoMock$w7IwkNEV$auxiliary$OPYlHTbg</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package inf112.skeleton.view;
+&nbsp;import inf112.skeleton.model.GameState;
+&nbsp;import inf112.skeleton.model.gameobject.ViewableObject;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;public interface ViewableWorldModel {
+&nbsp;
+&nbsp;    /**
+&nbsp;     * returs the width of the board
+&nbsp;     *
+&nbsp;     * @return board width
+&nbsp;     */
+&nbsp;    public int getBoardWidth();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns the player as a ViewableObject
+&nbsp;     *
+&nbsp;     * @return ViewableObject of the player
+&nbsp;     */
+&nbsp;    public ViewableObject getViewablePlayer();
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns all GameObjects except player as
+&nbsp;     * ViewableObjects in a list
+&nbsp;     *
+&nbsp;     * @return list of ViewableObjects
+&nbsp;     */
+&nbsp;    public List&lt;ViewableObject&gt; getObjectList();
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns the current speed of the player
+&nbsp;     *
+&nbsp;     * @return speed of player as int
+&nbsp;     */
+&nbsp;    public int getMovementSpeed();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Tells us the state of the game
+&nbsp;     *
+&nbsp;     * @return the state of the game
+&nbsp;     */
+&nbsp;    GameState getGameState();
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Tells us the points the player has aquired so far
+&nbsp;     *
+&nbsp;     * @return the points scored
+&nbsp;     */
+&nbsp;    int getTotalScore();
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Tells us how many coins the player has aquired so far
+&nbsp;     *
+&nbsp;     * @return the coins scored
+&nbsp;     */
+&nbsp;    int getCoinCounter();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Tells us the health of the player
+&nbsp;     *
+&nbsp;     * return an int representing the health
+&nbsp;     */
+&nbsp;    int getPlayerLives();
+&nbsp;
+&nbsp;    int getCountDown();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Get the direction the player is moving in.
+&nbsp;     * -1 = left, 1 = right and 0 = idle
+&nbsp;     * @return
+&nbsp;     */
+&nbsp;    int getMovementDirection();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Get world width
+&nbsp;     */
+&nbsp;    int getLevelWidth();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * TODO skriv!
+&nbsp;     * @return
+&nbsp;     */
+&nbsp;    boolean getInfoMode();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Updates where the left x of the viewport is
+&nbsp;     */
+&nbsp;    void updateViewportLeftX(float leftX);
+&nbsp;}
+&nbsp;
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-04-02 15:43</div>
+</div>
+</body>
+</html>
