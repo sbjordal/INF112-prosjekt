@@ -70,18 +70,21 @@ public class CollisionHandlerTest {
         assertTrue(result2.first);
         assertInstanceOf(GameObject.class, result2.second);
 
-        //checks for gameobject= ceiling
+        //checks ceiling
         CollisionHandler handler =new CollisionHandler(19);
         List<GameObject> objects3= new ArrayList<>();
-        FixedObject ceiling = new FixedObject(new Transform(new Vector2(0,1), new Vector2(20,20)));
-        objects3.add(ceiling);
-        Pair<Boolean, GameObject> result3= handler.checkCollision(player, objects3, player.getCollisionBox());
+        FixedObject object = new FixedObject(new Transform(new Vector2(0,1), new Vector2(20,20)));
+        objects3.add(object);
+        CollisionBox box= new CollisionBox(new Transform(
+                new Vector2(0,0), new Vector2(20,20)
+        ));
+        Pair<Boolean, GameObject> result3= handler.checkCollision(player, objects3, box);
         assertTrue(result3.first);
         assertNull(result3.second);
 
         //checks for gameobject=ground #TODO gjør ferdig denne
         List<GameObject> objects4= new ArrayList<>();
-        FixedObject ground = new FixedObject(new Transform(new Vector2(0,-18), new Vector2(20,20)));
+        FixedObject ground = new FixedObject(new Transform(new Vector2(-1,-19), new Vector2(20,20)));
         objects4.add(ground);
         Pair<Boolean, GameObject> result4= handler.checkCollision(player, objects4, player.getCollisionBox());
         assertTrue(result4.first);
