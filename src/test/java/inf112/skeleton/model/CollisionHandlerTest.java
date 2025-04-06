@@ -4,12 +4,18 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector2;
+import inf112.skeleton.model.gameobject.CollisionBox;
 import inf112.skeleton.model.gameobject.GameObject;
 import inf112.skeleton.model.gameobject.Transform;
+import inf112.skeleton.model.gameobject.fixedobject.FixedObject;
 import inf112.skeleton.model.gameobject.fixedobject.item.Banana;
 import inf112.skeleton.model.gameobject.fixedobject.item.Coin;
+import inf112.skeleton.model.gameobject.fixedobject.item.Item;
 import inf112.skeleton.model.gameobject.fixedobject.item.ItemFactory;
 import inf112.skeleton.model.gameobject.mobileobject.actor.Player;
+import inf112.skeleton.model.gameobject.mobileobject.actor.enemy.Enemy;
+import inf112.skeleton.model.gameobject.mobileobject.actor.enemy.EnemyFactory;
+import inf112.skeleton.model.gameobject.mobileobject.actor.enemy.EnemyType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -46,14 +52,51 @@ public class CollisionHandlerTest {
 
     @Test
     public void testCheckCollision() {
-        Player player= new Player(3,10, new Transform(new Vector2(0,0), new Vector2(10,10)));
-        List<GameObject> objects= new ArrayList<>();
-        objects.add(player);
-        Pair<Boolean, GameObject> result1= handler.checkCollision(player, objects, player.getCollisionBox());
+        //checks for player collision
+        Player player= new Player(3,10, new Transform(new Vector2(0,0), new Vector2(2,2)));
+        List<GameObject> objects1= new ArrayList<>();
+        objects1.add(player);
+        Pair<Boolean, GameObject> result1= handler.checkCollision(player, objects1, player.getCollisionBox());
+
         assertFalse(result1.first);
         assertNull(result1.second);
 
+        //Checks for game objects = Item but not ground or ceiling
+        List<GameObject> objects2= new ArrayList<>();
+        Item item= ItemFactory.createCoin(0,0);
+        objects2.add(item);
+        Pair<Boolean, GameObject> result2= handler.checkCollision(player, objects2, player.getCollisionBox());
 
+        assertTrue(result2.first);
+        assertInstanceOf(GameObject.class, result2.second);
+
+        //checks for gameobject= ceiling
+        List<GameObject> objects3= new ArrayList<>();
+        FixedObject ceiling = new FixedObject(new Transform(new Vector2(0,1), new Vector2(20,20)));
+        objects3.add(ceiling);
+        Pair<Boolean, GameObject> result3= handler.checkCollision(player, objects3, player.getCollisionBox());
+        assertTrue(result3.first);
+        assertNull(result3.second);
+
+        //checks for gameobject=ground #TODO gjør ferdig denne
+        List<GameObject> objects4= new ArrayList<>();
+        FixedObject ground = new FixedObject(new Transform(new Vector2(0,-18), new Vector2(20,20)));
+        objects4.add(ground);
+        Pair<Boolean, GameObject> result4= handler.checkCollision(player, objects4, player.getCollisionBox());
+        assertTrue(result4.first);
+        //assertNull(result4.second);
+
+
+    }
+
+    @Test
+    public void testHandleEnemyCollsion(){
+        Enemy enemy= EnemyFactory.createLeopard(1,0, EnemyType.SNAIL);
+        Player player= new Player(3,10, new Transform(new Vector2(0,0), new Vector2(2,2)));
+        int result1= handler.handleEnemyCollision(player, enemy, 13, new CollisionBox(new Transform(new Vector2(1,0), new Vector2(2,2))));
+        assertEquals(9, result1);
+        int result2= handler.handleEnemyCollision(player, enemy, 13, new CollisionBox(new Transform(new Vector2(40,0), new Vector2(2,2))));
+        //System.out.println(result2);
 
     }
 
