@@ -71,6 +71,7 @@ public class CollisionHandlerTest {
         assertInstanceOf(GameObject.class, result2.second);
 
         //checks for gameobject= ceiling
+        CollisionHandler handler =new CollisionHandler(19);
         List<GameObject> objects3= new ArrayList<>();
         FixedObject ceiling = new FixedObject(new Transform(new Vector2(0,1), new Vector2(20,20)));
         objects3.add(ceiling);
@@ -128,6 +129,7 @@ public class CollisionHandlerTest {
         int totalScore=10;
         int newScore= handler.handleCoinCollision(coin, totalScore);
         assertEquals(15, newScore);
+
 
 
     }
