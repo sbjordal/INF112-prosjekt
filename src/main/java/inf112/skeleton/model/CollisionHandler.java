@@ -109,5 +109,17 @@ public class CollisionHandler {
             default: throw new IllegalArgumentException("No such level exists");
         }
     }
+
+    int getCeilingHeight(){
+        return ceilingHeight;
+    }
+
+    int getATTACK_COOLDOWN(){
+        return ATTACK_COOLDOWN;
+    }
+
+    int getBOUNCE_COOLDOWN(){
+        return BOUNCE_COOLDOWN;
+    }
 }
 

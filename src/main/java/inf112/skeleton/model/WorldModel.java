@@ -171,6 +171,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         return isWithinWidthBound && isWithinHeightBound;
     }
 
+    //TODO: Må skrives om, ikke lov med instanceof-sjekk av objekter. Flyttes til actor eller player?
     private boolean isColliding(CollisionBox collisionBox){
         Pair<Boolean, GameObject> collided = collisionHandler.checkCollision(player, objectList, collisionBox);
         if (collided.first && !toRemove.contains(collided.second)) {
@@ -195,6 +196,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         return collided.first;
     }
 
+    // TODO: Må skrives om og kanskje flyttes til movable? Evt actor eller player?
     private boolean isTouchingGround() {
         for (GameObject object : objectList) {
             if (!(object instanceof Enemy || object instanceof Item || object instanceof Player)) {
