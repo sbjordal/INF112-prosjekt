@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class EnemyTest {
 
-    //TODO: Sjekk pip for hva som mangler. Det meste av enemytester, utenom move
+    //TODO: Sjekk pit for hva som mangler (hvilke linjer som ikke er testet). Noen enemytester
     // er implementert under enemyfactory
     @Test
     void testEnemyDeathSnail() {
@@ -25,7 +25,7 @@ public class EnemyTest {
     }
 
     @Test
-    void testEnemyDeathLepoard() {
+    void testEnemyDeathLeopard() {
         Enemy enemy = EnemyFactory.createLeopard(0, 0, EnemyType.LEOPARD);
         assertTrue(enemy.isAlive());
         enemy.receiveDamage(1);
