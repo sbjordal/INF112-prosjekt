@@ -65,10 +65,12 @@ public class CollisionHandlerTest {
         List<GameObject> objects2= new ArrayList<>();
         Item item= ItemFactory.createCoin(0,0);
         objects2.add(item);
+        player.setVerticalVelocity(10);
         Pair<Boolean, GameObject> result2= handler.checkCollision(player, objects2, player.getCollisionBox());
 
         assertTrue(result2.first);
         assertInstanceOf(GameObject.class, result2.second);
+        assertEquals(10, player.getVerticalVelocity(), 0.01); //checks that velocity does not change when the object is not ceiling or ground and colliding with player
 
         //checks ceiling
         int ceilingHeight= 19;
@@ -81,6 +83,7 @@ public class CollisionHandlerTest {
         assertTrue(playerTest1.getCollisionBox().topRight.y >= ceilingHeight - 1);
         assertTrue(result3.first);
         assertNull(result3.second);
+
 
         //checks if VerticalVelocity is larger than 0 when collision with ceiling
         CollisionHandler handler2 =new CollisionHandler(19);
@@ -95,7 +98,7 @@ public class CollisionHandlerTest {
         Pair<Boolean, GameObject> result5= handler2.checkCollision(playerTest, objects4, playerTest.getCollisionBox());
 
         assertNotEquals(verticalVelocityBeforeCheckCollision, playerTest.getVerticalVelocity());
-        assertEquals(-verticalVelocityBeforeCheckCollision* 0.1f, playerTest.getVerticalVelocity());
+        assertEquals(-1.0f, playerTest.getVerticalVelocity(), 0.01);
 
 
         //checks for gameobject=ground og istopcollision= True
