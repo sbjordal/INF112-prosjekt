@@ -71,12 +71,14 @@ public class CollisionHandlerTest {
         assertInstanceOf(GameObject.class, result2.second);
 
         //checks ceiling
-        CollisionHandler handler =new CollisionHandler(19);
+        int ceilingHeight= 19;
+        CollisionHandler handler =new CollisionHandler(ceilingHeight);
         List<GameObject> objects3= new ArrayList<>();
         Item star= ItemFactory.createStar(20,20);
         objects3.add(star);
         Player playerTest1= new Player(3,10, new Transform(new Vector2(0,0), new Vector2(20,20)));
         Pair<Boolean, GameObject> result3= handler.checkCollision(playerTest1, objects3, playerTest1.getCollisionBox());
+        assertTrue(playerTest1.getCollisionBox().topRight.y >= ceilingHeight - 1);
         assertTrue(result3.first);
         assertNull(result3.second);
 
@@ -88,6 +90,8 @@ public class CollisionHandlerTest {
         Player playerTest= new Player(3,10, new Transform(new Vector2(0,0), new Vector2(20,20)));
         int verticalVelocityBeforeCheckCollision= 10;
         playerTest.setVerticalVelocity(verticalVelocityBeforeCheckCollision);
+
+        assertTrue(playerTest.getVerticalVelocity()>0);
         Pair<Boolean, GameObject> result5= handler2.checkCollision(playerTest, objects4, playerTest.getCollisionBox());
 
         assertNotEquals(verticalVelocityBeforeCheckCollision, playerTest.getVerticalVelocity());
