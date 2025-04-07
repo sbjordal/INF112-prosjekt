@@ -228,7 +228,7 @@ public class WorldView implements Screen {
             case "Snail" -> textures.get("snail");
             case "Coin" -> textures.get("coin");
             case "Banana" -> textures.get("powerup");
-            case "FixedObject" -> textures.get("ground");
+            case "Ground" -> textures.get("ground");
             case "Star" -> textures.get("star");
             default -> throw new IllegalArgumentException("Unsupported class name for texture: " + className);
         };

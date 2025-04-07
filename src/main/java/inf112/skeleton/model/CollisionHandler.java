@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import inf112.skeleton.model.gameobject.CollisionBox;
 import inf112.skeleton.model.gameobject.GameObject;
 import inf112.skeleton.model.gameobject.fixedobject.FixedObject;
+import inf112.skeleton.model.gameobject.fixedobject.Ground;
 import inf112.skeleton.model.gameobject.fixedobject.item.Banana;
 import inf112.skeleton.model.gameobject.fixedobject.item.Coin;
 import inf112.skeleton.model.gameobject.fixedobject.item.Item;
@@ -34,7 +35,7 @@ public class CollisionHandler {
             CollisionBox otherBox = object.getCollisionBox();
             boolean isTopCollision = collisionBox.isCollidingFromTop(otherBox);
             boolean isCeiling = collisionBox.topRight.y >= ceilingHeight - 1;
-            boolean isGround = object instanceof FixedObject && !(object instanceof Item);
+            boolean isGround = object instanceof Ground;
 
             if ((isTopCollision && isGround) || isCeiling) {
                 if (player.getVerticalVelocity() > 0) {

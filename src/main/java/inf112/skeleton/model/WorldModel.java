@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.controller.ControllableWorldModel;
 import inf112.skeleton.controller.Controller;
 import inf112.skeleton.model.gameobject.*;
+import inf112.skeleton.model.gameobject.fixedobject.Ground;
 import inf112.skeleton.model.gameobject.fixedobject.item.Banana;
 import inf112.skeleton.model.gameobject.fixedobject.item.Coin;
 import inf112.skeleton.model.gameobject.fixedobject.item.Item;
@@ -200,7 +201,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     // TODO: Må skrives om og kanskje flyttes til movable? Evt actor eller player?
     private boolean isTouchingGround() {
         for (GameObject object : objectList) {
-            if (!(object instanceof Enemy || object instanceof Item || object instanceof Player)) {
+            if (object instanceof Ground) {
                 CollisionBox objectCollisionBox = object.getCollisionBox();
                 if (player.getCollisionBox().isCollidingFromBottom(objectCollisionBox)) {
                     return true;

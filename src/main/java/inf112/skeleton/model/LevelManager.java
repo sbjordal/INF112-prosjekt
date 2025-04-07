@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import inf112.skeleton.model.gameobject.GameObject;
 import inf112.skeleton.model.gameobject.Transform;
 import inf112.skeleton.model.gameobject.fixedobject.FixedObject;
+import inf112.skeleton.model.gameobject.fixedobject.Ground;
 import inf112.skeleton.model.gameobject.fixedobject.item.ItemFactory;
 import inf112.skeleton.model.gameobject.mobileobject.actor.Player;
 import inf112.skeleton.model.gameobject.mobileobject.actor.enemy.EnemyFactory;
@@ -74,7 +75,7 @@ public class LevelManager {
                         Vector2 size = new Vector2(50, 50);
                         Vector2 position = new Vector2(x, y);
                         Transform transform = new Transform(position, size);
-                        FixedObject ground = new FixedObject(transform);
+                        Ground ground = new Ground(transform);
                         objects.add(ground);
                     }
                     case "player" -> {
