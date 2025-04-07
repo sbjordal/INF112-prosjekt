@@ -1,8 +1,6 @@
 package inf112.skeleton.model;
 
-import com.badlogic.gdx.Application;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Graphics;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.model.gameobject.CollisionBox;
 import inf112.skeleton.model.gameobject.GameObject;
@@ -34,13 +32,19 @@ public class CollisionHandlerTest {
     @BeforeEach
     public void setUp() {
         handler= new CollisionHandler(500);
-        mockSoundHandler = mock(SoundHandler.class);
+        Gdx.files = mock(Files.class);
         Gdx.app = mock(Application.class);
         Gdx.graphics = mock(Graphics.class);
+        Gdx.audio = mock(Audio.class);
         try (var graphicsMock = mockStatic(Gdx.graphics.getClass())) {
             graphicsMock.when(Gdx.graphics::getDeltaTime).thenReturn(0.016f);
         }
 
+    }
+    @Test
+    public void testInit(){
+        handler.init();
+        assertNotNull(handler.getSoundHandler());
     }
 
     @Test
