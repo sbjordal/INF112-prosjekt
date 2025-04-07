@@ -190,20 +190,19 @@ Husk at akseptansekriterier ofte skrives mer eller mindre som tester
 
 4. **Forklar kort hvordan dere har prioritert oppgavene fremover**
 
-  - Som nevnt i punkt 1 er testing den store prioriteten vår på nåværende tidspunkt. Vi har hatt problemer med å teste modellen, og som resultat har vi refakturert mye kode. Tidligere har testing 
-  vært en flaskehals i prosjektet, men vi har funnet løsninger som gjør at vi nå er i full gang med denne viktige delen av prosjektet.
+   - Som nevnt i punkt 1 er testing den store prioriteten vår på nåværende tidspunkt. Vi har hatt problemer med å teste modellen, og som resultat har vi refakturert mye kode. Tidligere har testing 
+   vært en flaskehals i prosjektet, men vi har funnet løsninger som gjør at vi nå er i full gang med denne viktige delen av prosjektet.
 
 5. **Har dere gjort justeringer på kravene som er med i MVP?** Forklar i så fall hvorfor. Hvis det er gjort endringer i rekkefølge utfra hva som er gitt fra kunde, hvorfor er dette gjort?
 
-  - Vi har ikke endret på mvp krav siden sist innlevering.
+   - Vi har ikke endret på mvp krav siden sist innlevering.
 
 6. **Oppdater hvilke krav dere har prioritert, hvor langt dere har kommet og hva dere har gjort siden forrige gang.**
-  - Se punkt 1
+   - Se punkt 1
 
 7. **Husk å skrive hvilke bugs som finnes i de kravene dere har utført (dersom det finnes bugs).**
-
-- Bugs:
-  - Player dør ikke / skades ikke hvis player står helt stille mens en enemy går inni player. Dette skjer fordi handelEnemyCollision() sjekkes kun om spilleren beveger på seg.
-  - En snegl på siste level beveger seg innimellom bak/gjennom vegger
-  - Hvis du holder inne hoppe knappen mens du pauser, så vil player hoppe konstant selv om du har slippet knappen.
-  - Player kan drepe enemies ved “invincibility frames”. Ser også ut som “invincibility
+   - Bugs:
+     - Player dør ikke / skades ikke hvis player står helt stille mens en enemy går inni player. Dette skjer fordi handelEnemyCollision() sjekkes kun om spilleren beveger på seg.
+     - En snegl på siste level beveger seg innimellom bak/gjennom vegger
+     - Hvis du holder inne hoppe knappen mens du pauser, så vil player hoppe konstant selv om du har slippet knappen.
+     - Player kan drepe enemies ved “invincibility frames”. Ser også ut som “invincibility
