@@ -124,5 +124,8 @@ public class CollisionHandler {
     protected SoundHandler getSoundHandler() {
         return soundHandler;
     }
+    protected void setSoundHandler(SoundHandler soundHandler) {
+        this.soundHandler = soundHandler;
+    }
 }
 

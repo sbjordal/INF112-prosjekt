@@ -185,11 +185,24 @@ public class CollisionHandlerTest {
 
     @Test
     public void testHandleCoinCollision() {
+        //Test when soundhandler is not null
+        mockSoundHandler= mock(SoundHandler.class);
         Coin coin  = ItemFactory.createCoin(0,0);
         int totalScore=10;
-        int newScore= handler.handleCoinCollision(coin, totalScore);
+        handler.setSoundHandler(mockSoundHandler);
+        int score= handler.handleCoinCollision(coin, totalScore);
+        verify(mockSoundHandler, times(1)).playCoinSound();
         assertNotNull(coin);
+        assertEquals(totalScore+ coin.getObjectScore(), score);
+
+        //Test when soundhandler is null
+        handler.setSoundHandler(null);
+        int newScore= handler.handleCoinCollision(coin, totalScore);
+        verify(Gdx.app, times(1)).error(eq("CollisionHandler"), eq("SoundHandler is null"));
         assertEquals(totalScore+ coin.getObjectScore(), newScore);
+
+
+
 
 
 
