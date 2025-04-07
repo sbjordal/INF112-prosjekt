@@ -1,8 +1,8 @@
 package inf112.skeleton.model.gameobject.mobileobject;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.model.gameobject.GameObject;
+import inf112.skeleton.model.gameobject.Movable;
 import inf112.skeleton.model.gameobject.Transform;
 
 /**
@@ -10,10 +10,11 @@ import inf112.skeleton.model.gameobject.Transform;
  * A mobile object is any {@link GameObject} that has a variable position.
  * A variable position can be altered once instantiated.
  */
-public abstract class MobileObject extends GameObject {
+public abstract class MobileObject extends GameObject implements Movable {
     private final int movementSpeed;
     private int verticalVelocity;
     private int movementDirection;
+    private int gravityForce;
 
     /**
      * Creates a new MobileObject with the specified movement speed.
@@ -28,6 +29,7 @@ public abstract class MobileObject extends GameObject {
         this.movementSpeed = movementSpeed;
         this.verticalVelocity = 0;
         this.movementDirection = 0;
+        this.gravityForce = -3200;
     }
 
     /**
@@ -37,7 +39,7 @@ public abstract class MobileObject extends GameObject {
      * @param newPosition   A {@link Vector2} containing the absolute values of the new position.
      */
     public void move(Vector2 newPosition) {
-        Vector2 oldPos = this.getTransform().getPos();
+        Vector2 oldPos = getTransform().getPos();
         setMovementDirection(oldPos, newPosition);
         getTransform().alterPosition(newPosition);
         updateCollisionBox();
@@ -46,13 +48,13 @@ public abstract class MobileObject extends GameObject {
     private void setMovementDirection(Vector2 oldPos, Vector2 newPos){
         float deltaX = newPos.x - oldPos.x;
         if (deltaX > 0){
-            this.movementDirection = 1;
+            movementDirection = 1;
         }
         else if (deltaX < 0){
-            this.movementDirection = -1;
+            movementDirection = -1;
         }
         else {
-            this.movementDirection = 0;
+            movementDirection = 0;
         }
     }
 
@@ -96,6 +98,30 @@ public abstract class MobileObject extends GameObject {
     }
 
     public int getMovementDirection(){
-        return this.movementDirection;
+        return movementDirection;
+    }
+
+    @Override
+    public void applyGravity(float deltaTime, boolean isOnGround) {
+        if (isOnGround && verticalVelocity <= 0) {
+            verticalVelocity = 0;
+        } else {
+            verticalVelocity += (int)(gravityForce * deltaTime);
+        }
+    }
+
+    @Override
+    public void moveHorizontally(float deltaTime, boolean moveLeft, boolean moveRight) {
+        if (moveLeft == moveRight) return;
+
+        int direction = moveRight ? 1 : -1;
+        int delta = (int)(movementSpeed * deltaTime * direction);
+        move(delta, 0);
+    }
+
+    @Override
+    public void moveVertically(float deltaTime) {
+        int delta = (int)(verticalVelocity * deltaTime);
+        move(0, delta);
     }
 }

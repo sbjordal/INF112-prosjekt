@@ -32,8 +32,8 @@ public class CollisionBox {
      * @param worldPosition A {@link Vector2} containing the absolute values of the new position.
      */
     public void setPosition(Vector2 worldPosition) {
-        this.botLeft = worldPosition;
-        this.topRight = new Vector2(this.botLeft.x + width, this.botLeft.y + height);
+        botLeft = worldPosition;
+        topRight = new Vector2(botLeft.x + width, botLeft.y + height);
     }
 
     /**
@@ -43,10 +43,10 @@ public class CollisionBox {
      * @return          True if the collision box is colliding, else false.
      */
     public boolean isCollidingWith(CollisionBox other) {
-        return this.botLeft.x < other.topRight.x &&
-                this.topRight.x > other.botLeft.x &&
-                this.botLeft.y < other.topRight.y &&
-                this.topRight.y > other.botLeft.y;
+        return botLeft.x < other.topRight.x &&
+                topRight.x > other.botLeft.x &&
+                botLeft.y < other.topRight.y &&
+                topRight.y > other.botLeft.y;
     }
 
     /**
@@ -58,10 +58,10 @@ public class CollisionBox {
     public boolean isCollidingFromBottom(CollisionBox other) {
         final int acceptanceRange = 5;
 
-        return this.botLeft.y <= other.topRight.y &&
-                this.topRight.y > other.botLeft.y &&
-                this.botLeft.x < other.topRight.x - acceptanceRange &&
-                this.topRight.x > other.botLeft.x + acceptanceRange;
+        return botLeft.y <= other.topRight.y &&
+                topRight.y > other.botLeft.y &&
+                botLeft.x < other.topRight.x - acceptanceRange &&
+                topRight.x > other.botLeft.x + acceptanceRange;
     }
 
     /**
@@ -74,24 +74,24 @@ public class CollisionBox {
         final int acceptanceRange = (int) (other.height * 0.9f);
 
         return isCollidingWith(other) &&
-                this.botLeft.y < other.topRight.y &&
-                this.topRight.y < other.topRight.y - acceptanceRange;
+                botLeft.y < other.topRight.y &&
+                topRight.y < other.topRight.y - acceptanceRange;
     }
 
 
     // TODO: --------------- Disse trenger vi muligens ikke ---------------
     public boolean isCollidingFromLeft(CollisionBox other) {
         return isCollidingWith(other) &&
-                this.topRight.x > other.botLeft.x &&
-                this.botLeft.x < other.botLeft.x &&
-                this.botLeft.y < other.topRight.y &&
-                this.topRight.y > other.botLeft.y;
+                topRight.x > other.botLeft.x &&
+                botLeft.x < other.botLeft.x &&
+                botLeft.y < other.topRight.y &&
+                topRight.y > other.botLeft.y;
     }
     public boolean isCollidingFromRight(CollisionBox other) {
         return isCollidingWith(other) &&
-                this.botLeft.x < other.topRight.x &&
-                this.topRight.x > other.topRight.x &&
-                this.botLeft.y < other.topRight.y &&
-                this.topRight.y > other.botLeft.y;
+                botLeft.x < other.topRight.x &&
+                topRight.x > other.topRight.x &&
+                botLeft.y < other.topRight.y &&
+                topRight.y > other.botLeft.y;
     }
 }

@@ -27,34 +27,34 @@ public class PlayerAnimation {
             runFramesLeft[i].flip(true, false);
         }
 
-        this.animations.put("runRight", new Animation<>(0.1f, runFramesRight));
-        this.animations.put("runLeft", new Animation<>(0.1f, runFramesLeft));
+        animations.put("runRight", new Animation<>(0.1f, runFramesRight));
+        animations.put("runLeft", new Animation<>(0.1f, runFramesLeft));
 
-        this.animations.get("runRight").setPlayMode(Animation.PlayMode.LOOP);
-        this.animations.get("runLeft").setPlayMode(Animation.PlayMode.LOOP);
+        animations.get("runRight").setPlayMode(Animation.PlayMode.LOOP);
+        animations.get("runLeft").setPlayMode(Animation.PlayMode.LOOP);
 
         TextureRegion[] idleFrames = new TextureRegion[12];
         for (int i = 0; i < 12; i++) {
             idleFrames[i] = new TextureRegion(new Texture(Gdx.files.internal("player/idle/i" + (i + 1) + ".png")));
         }
 
-        this.animations.put("idle", new Animation<>(0.1f, idleFrames));
-        this.animations.get("idle").setPlayMode(Animation.PlayMode.LOOP);
+        animations.put("idle", new Animation<>(0.1f, idleFrames));
+        animations.get("idle").setPlayMode(Animation.PlayMode.LOOP);
     }
 
     public void update(float deltaTime, boolean isPaused) {
         if (!isPaused) {
-            this.stateTime += deltaTime;
+            stateTime += deltaTime;
         }
     }
 
     public TextureRegion getFrame(int direction) {
         if (direction == 0) {
-            return this.animations.get("idle").getKeyFrame(stateTime, true);
+            return animations.get("idle").getKeyFrame(stateTime, true);
         } else if (direction == 1) {
-            return this.animations.get("runRight").getKeyFrame(stateTime, true);
+            return animations.get("runRight").getKeyFrame(stateTime, true);
         } else {
-            return this.animations.get("runLeft").getKeyFrame(stateTime, true);
+            return animations.get("runLeft").getKeyFrame(stateTime, true);
         }
     }
     public void dispose() {

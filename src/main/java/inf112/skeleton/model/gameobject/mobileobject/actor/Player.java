@@ -2,11 +2,8 @@ package inf112.skeleton.model.gameobject.mobileobject.actor;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
-import inf112.skeleton.model.gameobject.CollisionBox;
 import inf112.skeleton.model.gameobject.GameObject;
 import inf112.skeleton.model.gameobject.Transform;
-import inf112.skeleton.model.utility.Utility;
-
 
 /**
  * Represents the user-controlled actor in the game.
@@ -16,10 +13,12 @@ import inf112.skeleton.model.utility.Utility;
 final public class Player extends Actor {
     private static final int NORMAL_BOUNCE_FORCE = 35000;
     private static final int SMALL_BOUNCE_FORCE = 27000;
-    private boolean hasPowerUp;
-    private boolean isJustRespawned;
+    private static final int NORMAL_JUMP_FORCE = 63000;
     private int jumpForce;
-
+    private boolean isJustRespawned;
+    private boolean hasPowerUp;
+    private long lastAttackTime;
+    private long lastBounceTime;
 
     /**
      * Creates a new Player with the specified lives, movement speed and transform.
@@ -32,68 +31,23 @@ final public class Player extends Actor {
         super(lives, movementSpeed, transform);
         this.hasPowerUp = false;
         this.damage = 1;
+        this.lastAttackTime = 0;
+        this.lastBounceTime = 0;
         this.isJustRespawned = false;
+        this.jumpForce = NORMAL_JUMP_FORCE;
     }
-
-    @Override
-    public void move(int deltaX, int deltaY) {
-        Vector2 newPlayerPosition = filterPlayerPosition(deltaX, deltaY);
-
-        if (!isJustRespawned) move(newPlayerPosition);
-        isJustRespawned = false;
-
-        // Player falls to his death
-        final int belowLevel = -200;
-        if (newPlayerPosition.y <= belowLevel) {
-            receiveDamage(getLives());
+    public void jump(boolean isGrounded) {
+        if (isGrounded) {
+            jump(jumpForce);
         }
     }
-
-    /**
-     * Filters player's position to be valid.
-     * A valid position is a position that does not overlap with any other {@link GameObject} types.
-     * The filter-algorithm will favor the desired distances.
-     *
-     * @param deltaX    the desired distance in the horizontal direction.
-     * @param deltaY    the desired distance in the vertical direction.
-     * @return          filtered player position.
-     */
-    private Vector2 filterPlayerPosition(int deltaX, int deltaY) {
-        Transform transform = getTransform();
-        Vector2 position = transform.getPos();
-        Vector2 size = transform.getSize();
-
-        float filteredX = Utility.binarySearch(position.x, position.y, deltaX, size, true);
-        float filteredY = binarySearch(filteredX, position.y, deltaY, size, false);
-
-        return new Vector2(filteredX, filteredY);
+    public void jump(int force){
+        int velocity = (int)(force * Gdx.graphics.getDeltaTime());
+        setVerticalVelocity(velocity);
     }
-
-
-    public void jump() {
-        if (isTouchingGround()) {
-            final int distance = (int) (jumpForce * Gdx.graphics.getDeltaTime());
-            setVerticalVelocity(distance);
-        }
-    }
-
-    /**
-     * Makes the player bounce.
-     * A bounce is a lower altitude jump.
-     */
-    private void bounce(float deltaTime) {
-        final int bounceForce = getHasPowerUp() ? SMALL_BOUNCE_FORCE : NORMAL_BOUNCE_FORCE;
-        final int distance = (int) (bounceForce * deltaTime);
-        jump(distance);
-    }
-
-    private void jump(int distance) {
-
-    }
-
-
-    public void setIsJustRespawned(boolean isJustRespawned) {
-        this.isJustRespawned = isJustRespawned;
+    public void bounce(){
+        int bounceForce = hasPowerUp ? SMALL_BOUNCE_FORCE : NORMAL_BOUNCE_FORCE;
+        jump(bounceForce);
     }
 
     public void setHasPowerUp(boolean hasPowerUp) {
@@ -103,4 +57,36 @@ final public class Player extends Actor {
     public boolean getHasPowerUp() {
         return hasPowerUp;
     }
+
+    public void setRespawned(boolean bool){
+        isJustRespawned = bool;
+    }
+    public boolean getRespawned(){
+        return isJustRespawned;
+    }
+    public void initiatePowerUp(Vector2 newPlayerSize, int newJumpForce){
+        hasPowerUp = true;
+        setSize(newPlayerSize);
+        int middleOfPlayer = (int) (getTransform().getSize().x / 2);
+        move(-middleOfPlayer, 0);
+        jumpForce = newJumpForce;
+    }
+
+    public long getLastAttackTime() {
+        return lastAttackTime;
+    }
+
+    public void setLastAttackTime(long lastAttackTime) {
+        this.lastAttackTime = lastAttackTime;
+    }
+
+    public long getLastBounceTime() {
+        return lastBounceTime;
+    }
+
+    public void setLastBounceTime(long lastBounceTime) {
+        this.lastBounceTime = lastBounceTime;
+    }
+
+    public int getJumpForce() { return jumpForce; }
 }

@@ -27,8 +27,8 @@ public class ItemFactory {
 
     public static Star createStar(float x, float y){
 
-        int width = 47;
-        int height = 45;
+        int width = 72;
+        int height = 69;
         Vector2 pos = new Vector2(x, y);
         Vector2 size = new Vector2(width, height);
         Transform transform = new Transform(pos, size);

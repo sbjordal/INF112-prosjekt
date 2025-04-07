@@ -41,6 +41,17 @@ public class WorldView implements Screen {
         this.gameState = model.getGameState();
     }
 
+    /**
+     * The following 6 setters are only for testing purposes
+     */
+    void setFont(BitmapFont font) { this.font = font; }
+    void setBatch(SpriteBatch batch) { this.batch = batch; }
+    void setParallaxBackground(ParallaxBackground bg) { this.parallaxBackground = bg; }
+    void setPlayerAnimation(PlayerAnimation animation) { this.playerAnimation = animation; }
+    void setTextures(HashMap<String, Texture> textures) { this.textures = textures; }
+    void setLayout(GlyphLayout layout) {this.layout = layout;}
+    HashMap<String, Texture> getTextures(){return textures;}
+
     @Override
     public void dispose() {
         batch.dispose();
@@ -54,24 +65,30 @@ public class WorldView implements Screen {
 
     @Override
     public void show() {
-        this.parallaxBackground = new ParallaxBackground(model.getLevelWidth());
-        this.playerAnimation = new PlayerAnimation();
+        parallaxBackground = new ParallaxBackground(model.getLevelWidth());
+        playerAnimation = new PlayerAnimation();
         loadTextures();
-        this.font = new BitmapFont(); //new BitmapFont(Gdx.files.internal("skeleton.fnt")); Lag fil med font
+        font = new BitmapFont(); //new BitmapFont(Gdx.files.internal("skeleton.fnt")); Lag fil med font
         font.setColor(Color.WHITE);
         batch = new SpriteBatch();
-        this.menuBackgroundTexture = new Texture("background/plx-1.png");
+        menuBackgroundTexture = new Texture("background/plx-1.png");
     }
 
     @Override
     public void render(float v) {
-        this.gameState = model.getGameState();
+        gameState = model.getGameState();
         switch (model.getGameState()) {
             case GAME_MENU -> drawGameMenu();
-            case GAME_INFO -> drawGameInfo();
             case GAME_ACTIVE -> drawGameActive();
             case GAME_PAUSED -> drawGamePaused();
             case GAME_OVER -> drawGameOver();
+        }
+        if (!model.getInfoMode() && (gameState == GameState.GAME_MENU || gameState == GameState.GAME_PAUSED)) {
+            drawCenteredText("Press 'i' for game info",2, 100);
+        }
+
+        else if (model.getInfoMode() && (gameState == GameState.GAME_MENU || gameState == GameState.GAME_PAUSED)) {
+            drawGameInfo();
         }
     }
 
@@ -83,16 +100,18 @@ public class WorldView implements Screen {
         batch.begin();
         batch.draw(menuBackgroundTexture, leftX, bottomY, viewport.getWorldWidth(), viewport.getWorldHeight());
         batch.end();
-
-        drawCenteredText("Press ENTER to start the game");
+        drawCenteredText("Press ENTER to start the game", 3,0);
     }
 
     private void drawGameInfo() {
-        font.getData().setScale(2);
-        batch.begin();
-        font.draw(batch, "Her kommer masse spillinfo", 50, 100);
-        batch.end();
+        drawCenteredText("Press 'i' to remove game info", 3,-400);
+        drawCenteredText("To jump press 'w', 'space' or up-arrow\n" +
+                "To move right press 'd' og right arrow\n" +
+                "To move left press 'a' or left arrow\n" +
+                "To pause the game when playing press 'p'\n" +
+                "To exit the game at any time press ESC", 2,-300);
     }
+
 
     private void drawGameActive() {
         drawLevel();
@@ -100,16 +119,20 @@ public class WorldView implements Screen {
 
     private void drawGamePaused() {
         drawLevel();
-        drawCenteredText("PAUSED");
+        drawCenteredText("PAUSED", 3, 0);
+        drawCenteredText("Press 'r' to return to the game menu", 3, 330);
+
     }
 
     private void drawGameOver() {
         ScreenUtils.clear(Color.CLEAR);
-        drawCenteredText("GAME OVER");
+        drawCenteredText("GAME OVER", 3, 0);
+        font.getData().setScale(1);
+        drawCenteredText("Press ENTER to return to the game manu", 2, 100);
     }
 
-    private void drawCenteredText(String text) {
-        font.getData().setScale(3);
+    void drawCenteredText(String text, int textScale, float lowerTextBy) {
+        font.getData().setScale(textScale);
         layout.setText(font, text);
 
         float centerX = viewport.getCamera().position.x;
@@ -118,11 +141,11 @@ public class WorldView implements Screen {
         float height = layout.height;
 
         batch.begin();
-        font.draw(batch, text, centerX- width/2, centerY - height/2);
+        font.draw(batch, text, centerX- width/2, centerY - height/2 - lowerTextBy);
         batch.end();
     }
 
-    private void drawLevel() {
+    void drawLevel() {
 
         // Map-data
         float deltaTime = Gdx.graphics.getDeltaTime();
@@ -170,7 +193,7 @@ public class WorldView implements Screen {
 
     }
 
-    private void updateViewportCamera() {
+    void updateViewportCamera() {
         Transform playerTransform = model.getViewablePlayer().getTransform();
         float playerX = playerTransform.getPos().x;
         float playerWidth = playerTransform.getSize().x;
@@ -186,18 +209,19 @@ public class WorldView implements Screen {
 
         viewport.getCamera().position.set(camX, camY, 0);
         viewport.apply();
+        model.updateViewportLeftX(getViewportLeftX());
     }
 
-    private void loadTextures(){
-        this.textures.put("leopard", new Texture("assets/leopard.png"));
-        this.textures.put("snail", new Texture("assets/snail.png"));
-        this.textures.put("coin", new Texture("assets/coin.png"));
-        this.textures.put("powerup", new Texture("assets/banana.png"));
-        this.textures.put("ground", new Texture("obstacles/castleCenter.png"));
-        this.textures.put("star", new Texture("assets/star.png"));
+    void loadTextures(){
+        textures.put("leopard", new Texture("assets/leopard.png"));
+        textures.put("snail", new Texture("assets/snail.png"));
+        textures.put("coin", new Texture("assets/coin.png"));
+        textures.put("powerup", new Texture("assets/banana.png"));
+        textures.put("ground", new Texture("obstacles/castleCenter.png"));
+        textures.put("star", new Texture("assets/star.png"));
     }
 
-    private Texture getTexture(ViewableObject obj){
+    Texture getTexture(ViewableObject obj){
         String className = obj.getClass().getSimpleName();
         return switch (className) {
             case "Leopard" -> textures.get("leopard");
@@ -210,7 +234,7 @@ public class WorldView implements Screen {
         };
     }
 
-    private void drawObjects() {
+    void drawObjects() {
         for (ViewableObject object : model.getObjectList()) {
 
             // Skip drawing player.
@@ -226,7 +250,7 @@ public class WorldView implements Screen {
         }
     }
 
-    public float getViewportLeftX() {
+    private float getViewportLeftX() {
         return viewport.getCamera().position.x - viewport.getWorldWidth() / 2;
     }
 

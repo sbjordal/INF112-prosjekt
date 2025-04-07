@@ -6,7 +6,6 @@ import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.controller.ControllableWorldModel;
 import inf112.skeleton.controller.Controller;
 import inf112.skeleton.model.gameobject.*;
-import inf112.skeleton.model.gameobject.fixedobject.FixedObject;
 import inf112.skeleton.model.gameobject.fixedobject.item.Banana;
 import inf112.skeleton.model.gameobject.fixedobject.item.Coin;
 import inf112.skeleton.model.gameobject.fixedobject.item.Item;
@@ -23,34 +22,27 @@ import java.util.Collections;
 import java.util.List;
 
 public class WorldModel implements ViewableWorldModel, ControllableWorldModel, ApplicationListener {
-
-    private static final int GRAVITY_FORCE = -3200;
-    private static final int NORMAL_JUMP_FORCE = 63000;
-    private static final int BIG_JUMP_FORCE = 73000;
     public static final int LEVEL_WIDTH = 4500;
-    private static final Vector2 STANDARD_PLAYER_SIZE = new Vector2(40, 80);
-    private static final Vector2 LARGE_PLAYER_SIZE = new Vector2(65, 135);
-    private static final long ATTACK_COOLDOWN = 800;
-    private static final long BOUNCE_COOLDOWN = 64;
-    private GameState gameState;
-    private Player player;
+    GameState gameState;
+    Player player;
     private WorldBoard board;
     private WorldView worldView;
+    private float viewportLeftX;
     private Controller controller;
-    private ArrayList<GameObject> objectList;
-    private SoundHandler soundHandler;
+    List<GameObject> objectList;
+    private final List<GameObject> toRemove;
     private LevelManager.Level currentLevel;
-    private int totalScore;
-    private int countDown;
-    private int coinCounter;
-    private long lastScoreUpdate = System.currentTimeMillis();
-    private long lastAttackTime;
-    private long lastBounceTime;
-    private boolean isMovingRight;
-    private boolean isMovingLeft;
-    private boolean isJumping;
+    private Integer totalScore;
+    int countDown;
+    private Integer coinCounter;
+    long lastScoreUpdate = System.currentTimeMillis();
+    private boolean infoMode;
+    boolean isMovingRight;
+    boolean isMovingLeft;
+    boolean isJumping;
     private final Logger logger;
     private final int height;
+    private final CollisionHandler collisionHandler;
 
     public WorldModel(int width, int height) {
         this.height = height;
@@ -58,19 +50,19 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         this.gameState = GameState.GAME_MENU;
         this.logger = LoggerFactory.getLogger(WorldModel.class);
         this.currentLevel = LevelManager.Level.LEVEL_1;
+        this.toRemove = new ArrayList<>();
+        this.collisionHandler = new CollisionHandler(height);
+        this.coinCounter = 0;
+        this.totalScore = 0;
         setUpModel();
     }
 
     public void setUpModel() {
-        coinCounter = 0;
+        viewportLeftX = 0;
         countDown = 150;
-        totalScore = 0;
-        lastAttackTime = 0;
-        lastBounceTime = 0;
         isMovingRight = false;
         isMovingLeft = false;
         isJumping = false;
-        jumpForce = NORMAL_JUMP_FORCE;
         board = new WorldBoard(LEVEL_WIDTH, height);
     }
 
@@ -83,45 +75,29 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     }
 
     private void setupGameObjects() {
-        objectList = LevelManager.loadLevel(currentLevel);
-        findPlayer();
+        Pair<List<GameObject>, Player> pair = LevelManager.loadLevel(currentLevel);
+        objectList = pair.first;
+        player = pair.second;
+        player.setRespawned(true);
     }
 
     private void setupGraphics() {
         Gdx.graphics.setForegroundFPS(60);
         worldView.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         worldView.show();
-        soundHandler = new SoundHandler();
     }
 
     private void setupInput() {
         controller = new Controller(this);
         Gdx.input.setInputProcessor(controller);
+        collisionHandler.init();
     }
 
+    //TODO: Skal denne fjernes?
     private void setupLogger() {
-        logger.info("FPS {}", Gdx.graphics.getFramesPerSecond());
-        logger.info("Height {}", Gdx.graphics.getHeight());
-        logger.info("Width {}", Gdx.graphics.getWidth());
-    }
-
-    /**
-     * Sets the player reference to the player object.
-     *
-     * @throws IllegalStateException If anything other than exactly one player was found.
-     */
-    private void findPlayer() {
-        int playerCount = 0;
-        for (GameObject object : objectList) {
-            if (object instanceof Player) {
-                player = (Player) object;
-                player.setIsJustRespawned(true);
-                playerCount++;
-            }
-        }
-        if (playerCount != 1) {
-            throw new IllegalStateException("objectList must have exactly one Player, but found: " + playerCount);
-        }
+//        logger.info("FPS {}", Gdx.graphics.getFramesPerSecond());
+//        logger.info("Height {}", Gdx.graphics.getHeight());
+//        logger.info("Width {}", Gdx.graphics.getWidth());
     }
 
     /**
@@ -134,6 +110,26 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         setUpModel();
         create();
         resume();
+    }
+
+    /**
+     * Filters player's position to be valid.
+     * A valid position is a position that does not overlap with any other {@link GameObject} types.
+     * The filter-algorithm will favor the desired distances.
+     *
+     * @param deltaX    the desired distance in the horizontal direction.
+     * @param deltaY    the desired distance in the vertical direction.
+     * @return          filtered player position.
+     */
+    private Vector2 filterPlayerPosition(int deltaX, int deltaY) {
+        Transform transform = player.getTransform();
+        Vector2 position = transform.getPos();
+        Vector2 size = transform.getSize();
+
+        float filteredX = binarySearch(position.x, position.y, deltaX, size, true);
+        float filteredY = binarySearch(filteredX, position.y, deltaY, size, false);
+
+        return new Vector2(filteredX, filteredY);
     }
 
     private float binarySearch(float startX, float startY, int delta, Vector2 size, boolean isX) {
@@ -162,141 +158,46 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         return startCoordinate + endCoordinate;
     }
 
-    /**
-     * Checks if MobileObject can be moved where it wants to move or not.
-     *
-     * @return True if the position is legal, false otherwise
-     */
-    public boolean isLegalMove(CollisionBox collisionBox) {
-        if (!positionIsOnBoard(collisionBox)) return false;
-        if (isColliding(collisionBox)) return false;
-
-        return true;
+    boolean isLegalMove(CollisionBox collisionBox) {
+        return positionIsOnBoard(collisionBox) && !isColliding(collisionBox);
     }
 
     private boolean positionIsOnBoard(CollisionBox collisionBox) {
         final int belowLevel = -200;
         boolean isWithinWidthBound = collisionBox.botLeft.x >= 0 &&
-                collisionBox.botLeft.x > worldView.getViewportLeftX() &&
+                collisionBox.botLeft.x > viewportLeftX &&
                 collisionBox.topRight.x < board.width();
         boolean isWithinHeightBound = collisionBox.botLeft.y >= belowLevel  && collisionBox.topRight.y < board.height();
 
         return isWithinWidthBound && isWithinHeightBound;
     }
 
-    private boolean isColliding(CollisionBox collisionBox) {
-        if (gameState != GameState.GAME_ACTIVE) {
-            return false;
-        }
+    //TODO: Må skrives om, ikke lov med instanceof-sjekk av objekter. Flyttes til actor eller player?
+    private boolean isColliding(CollisionBox collisionBox){
+        Pair<Boolean, GameObject> collided = collisionHandler.checkCollision(player, objectList, collisionBox);
+        if (collided.first && !toRemove.contains(collided.second)) {
+            if (collided.second instanceof Coin coin) {
+                int newScore = collisionHandler.handleCoinCollision(coin, totalScore);
+                coinCounter++;
+                totalScore = newScore;
+                toRemove.add(coin);
+            } else if (collided.second instanceof Banana banana) {
+                collisionHandler.handleBananaCollision(player, banana);
+                toRemove.add(banana);
+            } else if (collided.second instanceof Star star) {
+                LevelManager.Level nextLevel = collisionHandler.handleStarCollision(currentLevel);
+                startLevel(nextLevel);
+                toRemove.add(star);
 
-        for (GameObject gameObject : objectList) {
-            if (gameObject instanceof Player) continue;
-
-            // Collision from above
-            boolean isCollidingFromTop = collisionBox.isCollidingFromTop(gameObject.getCollisionBox());
-            boolean isCollidingOnCeilingOfLevel = collisionBox.topRight.y >= height - 1;
-            boolean isGround = gameObject instanceof FixedObject && !(gameObject instanceof Item);
-            if ((isCollidingFromTop && isGround) || isCollidingOnCeilingOfLevel) {
-                if (player.getVerticalVelocity() > 0) {
-                    final float bumpForceLoss = 0.1f;
-                    final int bumpSpeed = (int) (-player.getVerticalVelocity() * bumpForceLoss);
-                    player.setVerticalVelocity(bumpSpeed);
-                }
-                return true;
-            }
-
-            // Any type of collision
-            if (collisionBox.isCollidingWith(gameObject.getCollisionBox())) {
-                if (gameObject instanceof Enemy enemy) {
-                    handleEnemyCollision(collisionBox, enemy);
-                } else if (gameObject instanceof Coin coin) {
-                    handleCoinCollision(coin);
-                } else if (gameObject instanceof Banana banana) {
-                    handleBananaCollision(banana);
-                } else if (gameObject instanceof Star star) {
-                    handleStarCollision(star);
-                }
-                return true;
+            } else if (collided.second instanceof Enemy enemy) {
+                totalScore = collisionHandler.handleEnemyCollision(player, enemy, totalScore, collisionBox);
+                if (!enemy.isAlive())  toRemove.add(enemy);
             }
         }
-
-        return false;
+        return collided.first;
     }
 
-    private void handleEnemyCollision(CollisionBox newPlayerCollisionBox, Enemy enemy) {
-        long currentTime = System.currentTimeMillis();
-
-        if (newPlayerCollisionBox.isCollidingFromBottom(enemy.getCollisionBox())){
-            if (currentTime - lastBounceTime >= BOUNCE_COOLDOWN) {
-
-                bounce();
-                player.dealDamage(enemy, player.getDamage());
-
-                if (!enemy.isAlive()) {
-                    totalScore += enemy.getObjectScore();
-                    objectList.remove(enemy);
-                }
-
-                lastBounceTime = currentTime;
-            }
-        } else {
-            if (currentTime - lastAttackTime >= ATTACK_COOLDOWN) {
-
-                // TODO...
-                // Enemy dealing damage to the player is moved into Enemy.moveEnemy()
-                // - This is to make sure that the enemy doesn't deal damage twice.
-                // - The logic needs to be inside Enemy class. If not, the enemy won't deal damage
-                //   when it collides with the player.
-                // - As of right now, ATTACK_COOLDOWN only affects totalScore. It does NOT affect the frequency of attacks.
-
-                // Reduce total score
-                final int scorePenalty = 4;
-                totalScore = Math.max(0, totalScore - scorePenalty);
-
-                lastAttackTime = currentTime;
-            }
-        }
-    }
-
-    private void handleCoinCollision(Coin coin) {
-        final int objectScore = coin.getObjectScore();
-        soundHandler.playCoinSound();
-        coinCounter++;
-        totalScore += objectScore;
-        objectList.remove(coin);
-    }
-
-    private void handleBananaCollision(Banana banana) {
-        player.setHasPowerUp(true);
-        player.setSize(LARGE_PLAYER_SIZE);
-        int middleOfPlayer = (int) (player.getTransform().getSize().x / 2);
-        player.move(-middleOfPlayer, 0);
-        jumpForce = BIG_JUMP_FORCE;
-        objectList.remove(banana);
-    }
-
-    private void handleStarCollision(Star star) {
-        objectList.remove(star);
-
-        switch (currentLevel) {
-            case LEVEL_1: startLevel(LevelManager.Level.LEVEL_2); break;
-            case LEVEL_2: startLevel(LevelManager.Level.LEVEL_3); break;
-            case LEVEL_3: startLevel(LevelManager.Level.LEVEL_1); break;
-        }
-    }
-
-    /**
-     * Makes the player bounce.
-     * A bounce is a lower altitude jump.
-     */
-    private void bounce() {
-        final int bounceForce = player.getHasPowerUp() ? SMALL_BOUNCE_FORCE : NORMAL_BOUNCE_FORCE;
-        final int distance = (int) (bounceForce * Gdx.graphics.getDeltaTime());
-        player.jump(distance);
-    }
-
-
-
+    // TODO: Må skrives om og kanskje flyttes til movable? Evt actor eller player?
     private boolean isTouchingGround() {
         for (GameObject object : objectList) {
             if (!(object instanceof Enemy || object instanceof Item || object instanceof Player)) {
@@ -312,72 +213,60 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     @Override
     public void render() {
         final float deltaTime = Gdx.graphics.getDeltaTime();
-
         if (gameState.equals(GameState.GAME_ACTIVE)) {
-            updateScore();
+            updateScore(shouldUpdateCountDown());
+            updatePlayerMovement(deltaTime);
             moveEnemies(deltaTime);
-            movePlayer(deltaTime);
             checkForGameOver();
+            objectList.removeAll(toRemove);
+            toRemove.clear();
         }
-
         worldView.render(deltaTime);
     }
 
-    private void updateScore() {
-        if (shouldUpdateCountDown()) {
+    void updateScore(boolean countingDown) {
+        if (countingDown) {
             countDown--;
             lastScoreUpdate = System.currentTimeMillis();
         }
     }
 
-    private boolean shouldUpdateCountDown() {
+    boolean shouldUpdateCountDown() {
         long currentTime = System.currentTimeMillis();
         if (countDown == 0) {
             gameState = GameState.GAME_OVER;
         }
-
         return currentTime - lastScoreUpdate >= 1000 && countDown >0 && gameState == GameState.GAME_ACTIVE;
     }
 
-    private void movePlayer(float deltaTime) {
-        if (isJumping) jump();
-        moveVertically(deltaTime);
-        moveHorizontally(deltaTime);
-    }
-
-    private void moveVertically(float deltaTime) {
-        updateVerticalVelocity();
-        final int playerVelocity = player.getVerticalVelocity();
-        final int distance = (int) (playerVelocity * deltaTime);
-        move(0, distance);
-    }
-
-    private void moveHorizontally(float deltaTime) {
-        final boolean isMoving = (isMovingLeft && !isMovingRight) || (!isMovingLeft && isMovingRight);
-        if (isMoving) {
-            final int movementSpeed = getMovementSpeed();
-            final int distance = (int) (movementSpeed * deltaTime);
-
-            if (isMovingRight) {
-                move(distance, 0);
-            } else if (isMovingLeft) {
-                move(-distance, 0);
-            }
+    private void resolvePlayerMovement(int deltaX, int deltaY) {
+        Vector2 newPlayerPosition = filterPlayerPosition(deltaX, deltaY);
+        if (!player.getRespawned()) {
+            player.move(newPlayerPosition);
+        }
+        player.setRespawned(false);
+        final int belowLevel = -200;
+        if (newPlayerPosition.y <= belowLevel) {
+            player.receiveDamage(player.getLives());
         }
     }
 
-    private void updateVerticalVelocity() {
-        final boolean isFeetPlantedToTheGround = isTouchingGround() && player.getVerticalVelocity() <= 0;
-
-        if (isFeetPlantedToTheGround) {
-            player.setVerticalVelocity(0);
-        } else {
-            final int distance = (int) (GRAVITY_FORCE * Gdx.graphics.getDeltaTime());
-            player.addVerticalVelocity(distance);
+    private void updatePlayerMovement(float deltaTime) {
+        boolean isGrounded = isTouchingGround();
+        if (isJumping) {
+            player.jump(isGrounded);
+        }
+        player.applyGravity(deltaTime, isGrounded);
+        int deltaY = (int)(player.getVerticalVelocity() * deltaTime);
+        resolvePlayerMovement(0, deltaY);
+        if (isMovingRight ^ isMovingLeft) {
+            int direction = isMovingRight ? 1 : -1;
+            int deltaX = (int)(player.getMovementSpeed() * deltaTime) * direction;
+            resolvePlayerMovement(deltaX, 0);
         }
     }
 
-    private void moveEnemies(float deltaTime) {
+    void moveEnemies(float deltaTime) {
         for (GameObject gameObject : objectList) {
             if (gameObject instanceof Enemy enemy) {
                 enemy.moveEnemy(deltaTime, objectList);
@@ -385,30 +274,33 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         }
     }
 
-    private void checkForGameOver() {
+    void checkForGameOver() {
         if (!player.isAlive()){
             gameState = GameState.GAME_OVER;
         }
     }
 
     @Override
-    public void setToInfoMode() {
-        gameState = GameState.GAME_INFO;
+    public void setInfoMode(boolean infoMode) {
+        this.infoMode = infoMode;
     }
 
     @Override
     public void backToGameMenu() {
+        coinCounter = 0;
+        totalScore = 0;
+        infoMode = false;
         gameState = GameState.GAME_MENU;
     }
 
     @Override
     public void pause() {
         gameState = GameState.GAME_PAUSED;
-
     }
 
     @Override
     public void resume() {
+        infoMode = false;
         gameState = GameState.GAME_ACTIVE;
     }
 
@@ -447,10 +339,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         this.isJumping = isJumping;
     }
 
-    /**
-     * Tells us the state of the game
-     * @return the state of the game
-     */
     @Override
     public GameState getGameState() {
         return gameState;
@@ -479,12 +367,21 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     @Override
     public int getMovementDirection() {
         return player.getMovementDirection();
-
     }
 
     @Override
     public int getLevelWidth() {
         return LEVEL_WIDTH;
+    }
+
+    @Override
+    public boolean getInfoMode() {
+        return infoMode;
+    }
+
+    @Override
+    public void updateViewportLeftX(float leftX) {
+        viewportLeftX = leftX;
     }
 
     @Override

@@ -35,20 +35,36 @@ remove ModelTest
 remove MushroomTest
 remove PlayerAnimation
 remove SoundHandlerTest
-remove SoundHandlerTest
 remove ItemFactoryTest
 remove WorldModelTest
 remove BananaTest
 remove ViewTest
+remove EnemyType
+remove ItemFactory
+Remove MainTest
+remove Pair
+remove PlayerAnimationTest
+remove WorldViewTest
+remove ParallaxBackgroundTest
+remove TransformTest
+remove LevelManagerTest
+remove CollisionHandlerTest
+
 
 'Remove potentially unnecessary objects
 remove Direction
 remove LevelManager
+remove SoundHandler
+remove ParallaxBackground
+remove WorldBoard
+remove Scorable
+remove CollisionHandler
+remove GameState
 
 'Remove package-info files
-remove node29
-remove node39
-remove node40
+remove node26
+remove node33
+remove node43
 
 'Force rearrange objects
 'WorldModel -[hidden]-- WorldView

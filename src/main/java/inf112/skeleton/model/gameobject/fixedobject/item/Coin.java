@@ -9,7 +9,7 @@ import inf112.skeleton.model.gameobject.mobileobject.actor.Player;
  */
 public class Coin extends Item implements Scorable {
 
-    private final static int COIN_VALUE = 1;
+    private final static int COIN_VALUE = 5;
     private final int objectScore;
 
     /**

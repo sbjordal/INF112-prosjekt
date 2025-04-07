@@ -13,61 +13,63 @@ public interface ControllableWorldModel {
     GameState getGameState();
 
     /**
-     * Makes player jump. TODO: finskriv
+     * TODO skriv!
+     * @return
      */
-    public void jump();
+    boolean getInfoMode();
+
 
     /**
-     * Modifies gamestate to GAME_INFO
+     * Modifies infoMode
      */
-    public void setToInfoMode();
+    void setInfoMode(boolean infoMode);
 
     /**
      * Modifies gamestate to GAME_MENU
      */
-    public void backToGameMenu();
+    void backToGameMenu();
 
     /**
      * Pauses the game and modifies GameState
      */
-    public void pause();
+    void pause();
 
     /**
      * Resumes the game and modifies GameState
      */
-    public void resume();
+    void resume();
 
     /***
      * //TODO
      * @param movingRight
      */
-    public void setMovingRight(boolean movingRight);
+    void setMovingRight(boolean movingRight);
 
     /**
      * // TODO
      * @param movingLeft
      */
-    public void setMovingLeft(boolean movingLeft);
+    void setMovingLeft(boolean movingLeft);
 
     /**
      * Sets whether the player should be jumping or not.
      *
      * @param isJumping Boolean determine the jumping state.
      */
-    public void setJumping(boolean isJumping);
+    void setJumping(boolean isJumping);
 
     /**
      * Gets the original speed of the object that was set when the object was initialized
      * // TODO : ?
      * @return the original speed of the object
      */
-    public int getMovementSpeed();
+    int getMovementSpeed();
 
     /**
      * Start the specified level.
      *
      * @param level The level to start
      */
-    public void startLevel(LevelManager.Level level);
+    void startLevel(LevelManager.Level level);
 }
 

@@ -80,5 +80,16 @@ public interface ViewableWorldModel {
      * Get world width
      */
     int getLevelWidth();
+
+    /**
+     * TODO skriv!
+     * @return
+     */
+    boolean getInfoMode();
+
+    /**
+     * Updates where the left x of the viewport is
+     */
+    void updateViewportLeftX(float leftX);
 }
 
