@@ -136,41 +136,6 @@ Oppsummert hva som er gjort siden sist:
   for power-up  (OPPGAVE KRAV), Legge på lyd (OPPGAVE KRAV), Det bør være mulig å legge til nye power-ups uten å endre koden til spilleren (eller andre som blir påvirket (OPPGAVE KRAV),
   Implementere en logger, alt av printing skal i loggen heller en terminalen.
 
-
-4. Forklar kort hvordan dere har prioritert oppgavene fremover
-
-  - Som nevnt i punkt 1 er testing den store prioriteten vår på nåværende tidspunkt. Vi har hatt problemer med å teste modellen, og som resultat har vi refakturert mye kode. Tidligere har testing 
-  vært en flaskehals i prosjektet, men vi har funnet løsninger som gjør at vi nå er i full gang med denne viktige delen av prosjektet.
-
-5. Har dere gjort justeringer på kravene som er med i MVP? Forklar i så fall hvorfor. Hvis det er gjort endringer i rekkefølge utfra hva som er gitt fra kunde, hvorfor er dette gjort?
-
-  - Vi har ikke endret på mvp krav siden sist innlevering.
-
-6. Oppdater hvilke krav dere har prioritert, hvor langt dere har kommet og hva dere har gjort siden forrige gang.
-  - Se punkt 1
-
-7. Husk å skrive hvilke bugs som finnes i de kravene dere har utført (dersom det finnes bugs).
-
-- Bugs:
-  - Player dør ikke / skades ikke hvis player står helt stille mens en enemy går inni player. Dette skjer fordi handelEnemyCollision() sjekkes kun om spilleren beveger på seg.
-  - En snegl på siste level beveger seg innimellom bak/gjennom vegger
-  - Hvis du holder inne hoppe knappen mens du pauser, så vil player hoppe konstant selv om du har slippet knappen.
-  - Player kan drepe enemies ved “invincibility frames”. Ser også ut som “invincibility
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Krav og spesifikasjon
 2. For hvert krav dere jobber med, må dere lage 1) ordentlige brukerhistorier, 2) akseptansekriterier og 3) arbeidsoppgaver. 
 Husk at akseptansekriterier ofte skrives mer eller mindre som tester
    1.  **Bekjemp fiender ved å hoppe på dem**
@@ -226,3 +191,23 @@ Husk at akseptansekriterier ofte skrives mer eller mindre som tester
 3. Dersom dere har oppgaver som dere skal til å starte med, hvor dere har oversikt over både brukerhistorie, 
 akseptansekriterier og arbeidsoppgaver, kan dere ta med disse i innleveringen også.
     * Vi har oppnådd alle kravene våres for både MVP og post-MVP. Vi har derfor ingen planer om å legge til mer funksjonalitet som krever brukerhistorier.
+
+4. Forklar kort hvordan dere har prioritert oppgavene fremover
+
+  - Som nevnt i punkt 1 er testing den store prioriteten vår på nåværende tidspunkt. Vi har hatt problemer med å teste modellen, og som resultat har vi refakturert mye kode. Tidligere har testing 
+  vært en flaskehals i prosjektet, men vi har funnet løsninger som gjør at vi nå er i full gang med denne viktige delen av prosjektet.
+
+5. Har dere gjort justeringer på kravene som er med i MVP? Forklar i så fall hvorfor. Hvis det er gjort endringer i rekkefølge utfra hva som er gitt fra kunde, hvorfor er dette gjort?
+
+  - Vi har ikke endret på mvp krav siden sist innlevering.
+
+6. Oppdater hvilke krav dere har prioritert, hvor langt dere har kommet og hva dere har gjort siden forrige gang.
+  - Se punkt 1
+
+7. Husk å skrive hvilke bugs som finnes i de kravene dere har utført (dersom det finnes bugs).
+
+- Bugs:
+  - Player dør ikke / skades ikke hvis player står helt stille mens en enemy går inni player. Dette skjer fordi handelEnemyCollision() sjekkes kun om spilleren beveger på seg.
+  - En snegl på siste level beveger seg innimellom bak/gjennom vegger
+  - Hvis du holder inne hoppe knappen mens du pauser, så vil player hoppe konstant selv om du har slippet knappen.
+  - Player kan drepe enemies ved “invincibility frames”. Ser også ut som “invincibility
