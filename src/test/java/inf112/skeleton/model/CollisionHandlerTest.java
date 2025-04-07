@@ -127,7 +127,7 @@ public class CollisionHandlerTest {
         Player player= new Player(3,10, new Transform(new Vector2(0,39), new Vector2(30,30)));
         Enemy enemy = EnemyFactory.createSnail(0,0, EnemyType.SNAIL);
 
-        //Checks what happens when currentTime-lastBounceTime is less or equal to BOUNCE_COOLDOWN and currentTime - player.getLastAttackTime() >= ATTACK_COOLDOWN
+        //Checks what happens when none of the conditions are met. values should remain unchanged
         long recentTime = currentTime - 10;
         player.setLastBounceTime(recentTime);
         player.setLastAttackTime(recentTime);
@@ -139,31 +139,27 @@ public class CollisionHandlerTest {
         assertEquals(3, totalScore);
         assertTrue(enemy.isAlive());
 
-        //Test damage to enemy-->currentTime-lastBounceTime is larger or equal to BOUNCE_COOLDOWN
-        player.setLastBounceTime(70);
+        //Test damage to enemy when condition currentTime-lastBounceTime is larger or equal to BOUNCE_COOLDOWN is true
+        long bounce = 70;
+        player.setLastBounceTime(bounce-100);
         int newTotalScore= handler.handleEnemyCollision(player, enemy, totalScore, player.getCollisionBox());
 
-        assertNotEquals(recentTime, player.getLastBounceTime());
+        assertNotEquals(bounce-100, player.getLastBounceTime());
         assertFalse(enemy.isAlive());
         assertEquals(totalScore+enemy.getObjectScore(), newTotalScore);
-        System.out.println(newTotalScore);
 
-        //Test currentTime - player.getLastAttackTime() >= ATTACK_COOLDOWN
+        //Test when condition currentTime - player.getLastAttackTime() >= ATTACK_COOLDOWN is true
         long theCurrentTime = System.currentTimeMillis();
+        Enemy newEnemy = EnemyFactory.createSnail(0,0, EnemyType.SNAIL);
         player.setLastBounceTime(theCurrentTime-10);
         player.setLastAttackTime(theCurrentTime-1000);
-        System.out.println(theCurrentTime-1000);
 
-        int newTotalScore1= handler.handleEnemyCollision(player, enemy, newTotalScore, new CollisionBox(new Transform(new Vector2(0,0), new Vector2(2,2))));
+        int newTotalScore1= handler.handleEnemyCollision(player, newEnemy, newTotalScore, new CollisionBox(new Transform(new Vector2(0,0), new Vector2(2,2))));
         assertEquals(newTotalScore-4, newTotalScore1);
         assertNotEquals(currentTime-1000,player.getLastAttackTime());
-
-
+        assertTrue(newEnemy.isAlive());
 
     }
-
-
-
 
 
     @Test
