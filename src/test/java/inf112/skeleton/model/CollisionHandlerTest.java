@@ -149,13 +149,14 @@ public class CollisionHandlerTest {
         System.out.println(newTotalScore);
 
         //Test currentTime - player.getLastAttackTime() >= ATTACK_COOLDOWN
-        player.setLastBounceTime(currentTime-10);
-        player.setLastAttackTime(currentTime-1000);
-        System.out.println(currentTime-1000);
+        long theCurrentTime = System.currentTimeMillis();
+        player.setLastBounceTime(theCurrentTime-10);
+        player.setLastAttackTime(theCurrentTime-1000);
+        System.out.println(theCurrentTime-1000);
 
         int newTotalScore1= handler.handleEnemyCollision(player, enemy, newTotalScore, new CollisionBox(new Transform(new Vector2(0,0), new Vector2(2,2))));
         assertEquals(newTotalScore-4, newTotalScore1);
-        assertNotEquals(currentTime-10,player.getLastAttackTime());
+        assertNotEquals(currentTime-1000,player.getLastAttackTime());
 
 
 
