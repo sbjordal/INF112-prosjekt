@@ -8,7 +8,3 @@ Files
 - diagram.plantuml 	= regularly generated source code and updated manually via IntelliJ.
 - layout.plantuml 	= manually defined custom layout options.
 - uml_img.png 		= manually exported result as an image.
-
-
-Known problems
-- The resolution of "uml_img.png" is not optimal.

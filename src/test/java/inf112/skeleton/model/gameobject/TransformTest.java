@@ -19,6 +19,7 @@ public class TransformTest {
 
     @Test
     public void testAlterSize() {
+
         // Check that the size is altered in either absolute- or relative terms
         GameObject relativeObject = new GameObject(transform);
         relativeObject.getTransform().alterSize(1, 1);
