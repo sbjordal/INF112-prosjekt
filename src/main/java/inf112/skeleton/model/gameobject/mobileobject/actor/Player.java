@@ -2,6 +2,7 @@ package inf112.skeleton.model.gameobject.mobileobject.actor;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
+import inf112.skeleton.model.gameobject.Collidable;
 import inf112.skeleton.model.gameobject.GameObject;
 import inf112.skeleton.model.gameobject.Transform;
 
@@ -10,7 +11,7 @@ import inf112.skeleton.model.gameobject.Transform;
  * The user-controlled actor is unique and is defined as the only {@link GameObject}
  * that responds to user-input.
  */
-final public class Player extends Actor {
+final public class Player extends Actor implements Collidable {
     private static final int NORMAL_BOUNCE_FORCE = 35000;
     private static final int SMALL_BOUNCE_FORCE = 27000;
     private static final int NORMAL_JUMP_FORCE = 63000;
@@ -89,4 +90,9 @@ final public class Player extends Actor {
     }
 
     public int getJumpForce() { return jumpForce; }
+
+    @Override
+    public void onCollide(Collidable gameObject) {
+
+    }
 }

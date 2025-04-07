@@ -2,10 +2,7 @@ package inf112.skeleton.model.gameobject.mobileobject.actor.enemy;
 
 import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.model.WorldModel;
-import inf112.skeleton.model.gameobject.CollisionBox;
-import inf112.skeleton.model.gameobject.Scorable;
-import inf112.skeleton.model.gameobject.GameObject;
-import inf112.skeleton.model.gameobject.Transform;
+import inf112.skeleton.model.gameobject.*;
 import inf112.skeleton.model.gameobject.fixedobject.item.Item;
 import inf112.skeleton.model.gameobject.mobileobject.actor.Actor;
 import inf112.skeleton.model.gameobject.mobileobject.actor.Player;
@@ -16,7 +13,7 @@ import java.util.List;
  * Represents all enemy types.
  * An enemy type is any {@link GameObject} that inflicts damage on the player.
  */
-public abstract class Enemy extends Actor implements Scorable {
+public abstract class Enemy extends Actor implements Scorable, Collidable {
     final private static long COLLISION_COOLDOWN = 48;
     final private int objectScore;
     private long lastCollisionTime;
@@ -145,6 +142,10 @@ public abstract class Enemy extends Actor implements Scorable {
         return objectScore;
     }
 
+    @Override
+    public void onCollide(Collidable gameObject) {
+
+    }
 
     // TODO: prøvde å få enemy til å kun skifte retning når den kolliderer fra retning fremover.
     //  Fungerer ikke helt som den skal på grunn av kollisjons håndteringen fra vesntre/høyre.

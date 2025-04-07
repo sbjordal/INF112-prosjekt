@@ -51,6 +51,7 @@ public class CollisionHandler {
         }
         return new Pair<>(false, null);
     }
+
     Integer handleEnemyCollision(Player player, Enemy enemy, Integer totalScore, CollisionBox newPlayerCollisionBox){
         long currentTime = System.currentTimeMillis();
 
@@ -85,6 +86,7 @@ public class CollisionHandler {
         }
         return totalScore;
     }
+
     int handleCoinCollision(Coin coin, Integer totalScore){
         int objectScore = coin.getObjectScore();
         int newScore = totalScore + objectScore;
@@ -95,6 +97,7 @@ public class CollisionHandler {
         soundHandler.playCoinSound();
         return newScore;
     }
+
     void handleBananaCollision(Player player, Banana banana){
         player.initiatePowerUp(banana.getLargePlayerSize(), banana.getBigJumpForce());
     }
