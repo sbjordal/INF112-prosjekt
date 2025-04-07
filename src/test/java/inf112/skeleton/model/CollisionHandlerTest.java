@@ -2,7 +2,7 @@ package inf112.skeleton.model;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.model.gameobject.CollisionBox;
 import inf112.skeleton.model.gameobject.GameObject;
@@ -36,6 +36,10 @@ public class CollisionHandlerTest {
         handler= new CollisionHandler(500);
         mockSoundHandler = mock(SoundHandler.class);
         Gdx.app = mock(Application.class);
+        Gdx.graphics = mock(Graphics.class);
+        try (var graphicsMock = mockStatic(Gdx.graphics.getClass())) {
+            graphicsMock.when(Gdx.graphics::getDeltaTime).thenReturn(0.016f);
+        }
 
     }
 
@@ -113,15 +117,47 @@ public class CollisionHandlerTest {
     }
 
     @Test
-    public void testHandleEnemyCollsion(){
-        Enemy enemy= EnemyFactory.createLeopard(1,0, EnemyType.SNAIL);
-        Player player= new Player(3,10, new Transform(new Vector2(0,0), new Vector2(2,2)));
-        int result1= handler.handleEnemyCollision(player, enemy, 13, new CollisionBox(new Transform(new Vector2(1,0), new Vector2(2,2))));
-        assertEquals(9, result1);
-        int result2= handler.handleEnemyCollision(player, enemy, 13, new CollisionBox(new Transform(new Vector2(40,0), new Vector2(2,2))));
-        //System.out.println(result2);
+    public void testHandleEnemyCollision(){
+        long currentTime = System.currentTimeMillis();
+        int totalScore = 3;
+        Player player= new Player(3,10, new Transform(new Vector2(0,39), new Vector2(30,30)));
+        Enemy enemy = EnemyFactory.createSnail(0,0, EnemyType.SNAIL);
+
+        //Checks what happens when currentTime-lastBounceTime is less or equal to BOUNCE_COOLDOWN and currentTime - player.getLastAttackTime() >= ATTACK_COOLDOWN
+        long recentTime = currentTime - 10;
+        player.setLastBounceTime(recentTime);
+        player.setLastAttackTime(recentTime);
+        handler.handleEnemyCollision(player, enemy, totalScore, player.getCollisionBox());
+
+
+        assertEquals(recentTime, player.getLastAttackTime());
+        assertEquals(recentTime, player.getLastBounceTime());
+        assertEquals(3, totalScore);
+        assertTrue(enemy.isAlive());
+
+        //Test damage to enemy-->currentTime-lastBounceTime is larger or equal to BOUNCE_COOLDOWN
+        player.setLastBounceTime(70);
+        int newTotalScore= handler.handleEnemyCollision(player, enemy, totalScore, player.getCollisionBox());
+
+        assertNotEquals(recentTime, player.getLastBounceTime());
+        assertFalse(enemy.isAlive());
+        assertEquals(totalScore+enemy.getObjectScore(), newTotalScore);
+        System.out.println(newTotalScore);
+
+        //Test currentTime - player.getLastAttackTime() >= ATTACK_COOLDOWN
+        player.setLastBounceTime(currentTime-10);
+        player.setLastAttackTime(currentTime-1000);
+        System.out.println(currentTime-1000);
+
+        int newTotalScore1= handler.handleEnemyCollision(player, enemy, newTotalScore, new CollisionBox(new Transform(new Vector2(0,0), new Vector2(2,2))));
+        assertEquals(newTotalScore-4, newTotalScore1);
+        assertNotEquals(currentTime-10,player.getLastAttackTime());
+
+
 
     }
+
+
 
 
 
