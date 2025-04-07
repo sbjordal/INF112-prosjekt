@@ -156,7 +156,8 @@ public class CollisionHandlerTest {
 
         int newTotalScore1= handler.handleEnemyCollision(player, newEnemy, newTotalScore, new CollisionBox(new Transform(new Vector2(0,0), new Vector2(2,2))));
         assertEquals(newTotalScore-4, newTotalScore1);
-        assertNotEquals(currentTime-1000,player.getLastAttackTime());
+        assertNotEquals(theCurrentTime-1000,player.getLastAttackTime());
+        assertTrue(player.getLastAttackTime() > (theCurrentTime - 1000));
         assertTrue(newEnemy.isAlive());
 
     }
@@ -187,7 +188,8 @@ public class CollisionHandlerTest {
         Coin coin  = ItemFactory.createCoin(0,0);
         int totalScore=10;
         int newScore= handler.handleCoinCollision(coin, totalScore);
-        assertEquals(15, newScore);
+        assertNotNull(coin);
+        assertEquals(totalScore+ coin.getObjectScore(), newScore);
 
 
 
