@@ -116,8 +116,6 @@ public class CollisionHandlerTest {
         Pair<Boolean, GameObject> result4= handler.checkCollision(player, objects5, player.getCollisionBox());
         assertTrue(result4.first);
         assertNull(result4.second);
-
-
     }
 
     @Test

@@ -152,10 +152,10 @@ Oppsummert hva som er gjort siden sist:
 7. Husk å skrive hvilke bugs som finnes i de kravene dere har utført (dersom det finnes bugs).
 
 - Bugs:
-  - Player dør ikke / skades ikke hvis player står helt stille mens en enemy går inni player. Dette skjer fordi handelEnemyCollision() sjekkes kun om spilleren beveger på seg.
+  - mister ikke liv hvis player collider i item hvis de går i samme retning
   - En snegl på siste level beveger seg innimellom bak/gjennom vegger
   - Hvis du holder inne hoppe knappen mens du pauser, så vil player hoppe konstant selv om du har slippet knappen.
-  - Player kan drepe enemies ved “invincibility frames”. Ser også ut som “invincibility
+ 
 
 
 
