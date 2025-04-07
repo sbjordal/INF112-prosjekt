@@ -206,3 +206,14 @@ Husk at akseptansekriterier ofte skrives mer eller mindre som tester
      - En snegl på siste level beveger seg innimellom bak/gjennom vegger
      - Hvis du holder inne hoppe knappen mens du pauser, så vil player hoppe konstant selv om du har slippet knappen.
      - Player kan drepe enemies ved “invincibility frames”. Ser også ut som “invincibility
+
+
+## Produkt og kode
+#### "Dette har vi gjort siden sist:"
+* Fra tilbakemeldinger:
+  - Fullført alle MVP kravene våre
+  - Ryddet opp i modellen, flyttet mye logikk til mer egnede plasser
+  - Jobbet med å lage tester for å oppnå coverage på 75%
+* Bugs:
+  - Spillers bevegelse stanses nå av å pause spillet, og fortsetter ikke når det gjenopptas.
+  -  Bakgrunn beveger seg kun dersom spilleren beveger seg.
