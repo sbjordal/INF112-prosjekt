@@ -93,6 +93,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         collisionHandler.init();
     }
 
+    //TODO: Skal denne fjernes?
     private void setupLogger() {
 //        logger.info("FPS {}", Gdx.graphics.getFramesPerSecond());
 //        logger.info("Height {}", Gdx.graphics.getHeight());
