@@ -1,5 +1,6 @@
 package inf112.skeleton.model.gameobject.fixedobject.item;
 
+import inf112.skeleton.model.gameobject.Collidable;
 import inf112.skeleton.model.gameobject.Scorable;
 import inf112.skeleton.model.gameobject.Transform;
 import inf112.skeleton.model.gameobject.mobileobject.actor.Player;
@@ -7,7 +8,7 @@ import inf112.skeleton.model.gameobject.mobileobject.actor.Player;
 /**
  * Represents an object that increases the total score when picked up by {@link Player}.
  */
-public class Coin extends Item implements Scorable {
+public class Coin extends Item implements Scorable, Collidable {
 
     private final static int COIN_VALUE = 5;
     private final int objectScore;
@@ -25,5 +26,10 @@ public class Coin extends Item implements Scorable {
     @Override
     public int getObjectScore() {
         return objectScore;
+    }
+
+    @Override
+    public void onCollide(Collidable gameObject) {
+
     }
 }

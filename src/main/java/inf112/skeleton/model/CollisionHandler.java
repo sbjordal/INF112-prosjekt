@@ -29,6 +29,9 @@ public class CollisionHandler {
         this.soundHandler = new SoundHandler();
     }
 
+    // TODO, trenger bare sjekk for Actor og Ground,
+
+
     Pair<Boolean, GameObject> checkCollision(Player player, List<GameObject> gameObjects, CollisionBox collisionBox) {
         for (GameObject object : gameObjects) {
             if (object == player) continue;
