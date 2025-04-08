@@ -1,29 +1,43 @@
 package inf112.skeleton.model;
 
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.ApplicationListener;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.*;
+
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.backends.headless.HeadlessApplication;
-import com.badlogic.gdx.backends.headless.HeadlessApplicationConfiguration;
-import inf112.skeleton.model.SoundHandler;
-import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.BeforeAll;
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.Audio;
+import com.badlogic.gdx.Files;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.lang.reflect.Field;
 
 public class SoundHandlerTest {
 
+    private Sound mockSound;
+    private SoundHandler handler;
 
-//    // TODO, benytte HeadlessApplicationConfiguration
-//    @BeforeAll
-//    public static void setUpBeforeAll() throws Exception {
-//        HeadlessApplicationConfiguration config = new HeadlessApplicationConfiguration();
-//        ApplicationListener listener = new ApplicationAdapter() {};
-//
-//    }
-//
-//    @Test
-//    public void testSoundFileGetter() {
-//        assertNotNull(Gdx.files.internal("sfx/coinrecieved.mp3"));
-//    }
+    @BeforeEach
+    public void setup() {
+       mockSound = mock(Sound.class);
+       handler = new SoundHandler(mockSound);
+    }
 
+
+    @Test
+    public void testPlayCoinSound_PlaysSoundAtCorrectVolume () {
+        handler.playCoinSound();
+        verify(mockSound).play(0.25f);
+    }
+
+    @Test
+    public void testCoinSoundIsStoredAndAccessible() {
+
+        assertNotNull(handler.getCoinSound());
+        assertEquals(mockSound, handler.getCoinSound());
+    }
 }
+
+
