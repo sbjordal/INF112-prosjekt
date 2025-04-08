@@ -4,10 +4,15 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.*;
 
+import com.badlogic.gdx.Audio;
+import com.badlogic.gdx.Files;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 
+import com.badlogic.gdx.files.FileHandle;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.MockedStatic;
 
 
 public class SoundHandlerTest {
@@ -34,6 +39,28 @@ public class SoundHandlerTest {
         assertNotNull(handler.getCoinSound());
         assertEquals(mockSound, handler.getCoinSound());
     }
+
+//    @Test
+//    public void testDefaultConstructor_LoadsSoundFromGdx() {
+//        // Mocks
+//        Sound mockSound = mock(Sound.class);
+//        Audio mockAudio = mock(Audio.class);
+//        Files mockFiles = mock(Files.class);
+//        FileHandle mockFileHandle = mock(FileHandle.class);
+//
+//        try (MockedStatic<Gdx> gdxMock = mockStatic(Gdx.class)) {
+//            // Sett mockede statiske felter
+////            gdxMock.when(() -> Gdx.audio).thenReturn(mockAudio);
+////            gdxMock.when(() -> Gdx.files).thenReturn(mockFiles);
+//            when(mockFiles.internal("sfx/coinrecieved.mp3")).thenReturn(mockFileHandle);
+//            when(mockAudio.newSound(mockFileHandle)).thenReturn(mockSound);
+//
+//            // Når vi nå kaller standardkonstruktøren, skal den bruke mockene
+//            SoundHandler handler = new SoundHandler();
+//
+//            assertEquals(mockSound, handler.getCoinSound());
+//        }
+//    }
 }
 
 
