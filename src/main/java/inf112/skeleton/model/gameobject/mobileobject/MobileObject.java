@@ -110,6 +110,8 @@ public abstract class MobileObject extends GameObject implements Movable {
         }
     }
 
+    // TODO: Burde vi heller bruke en av move-metodene? Evt bruke moveHorizontally og moveVertically?
+    // Nå har vi 4 move-metoder
     @Override
     public void moveHorizontally(float deltaTime, boolean moveLeft, boolean moveRight) {
         if (moveLeft == moveRight) return;

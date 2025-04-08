@@ -3,6 +3,7 @@ package inf112.skeleton.model.gameobject.mobileobject;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.math.Vector2;
+import inf112.skeleton.model.gameobject.CollisionBox;
 import inf112.skeleton.model.gameobject.Transform;
 import inf112.skeleton.model.gameobject.mobileobject.actor.Player;
 import org.junit.jupiter.api.Test;
@@ -59,6 +60,18 @@ public class MobileObjectTest {
         float noMoveX = player.getTransform().getPos().x;
         player.moveHorizontally(1 / 60f, false, false);
         assertEquals(noMoveX, player.getTransform().getPos().x, "Player should not move if both directions are false.");
+    }
+
+    @Test
+    public void testMoveHorizontallyWithExpectedDelta() {
+        float deltaTime = 1 / 60f;
+        int expectedDelta = (int)(player.getMovementSpeed() * deltaTime); // 350 * 1/60 = ~5.83 => 5
+
+        float startX = player.getTransform().getPos().x;
+        player.moveHorizontally(deltaTime, false, true);
+        float newX = player.getTransform().getPos().x;
+
+        assertEquals(startX + expectedDelta, newX);
     }
 
     @Test
@@ -140,9 +153,17 @@ public class MobileObjectTest {
     }
 
     @Test
+    public void testApplyGravityAffectsVelocity() {
+        player.setVerticalVelocity(0);
+        player.applyGravity(1 / 60f, false);
+        assertEquals(-53, player.getVerticalVelocity()); // 3200 / 60 = ~53
+    }
+
+    @Test
     public void testGetMovementSpeed() {
         assertEquals(350, player.getMovementSpeed());
     }
+
 
 
 
