@@ -1,11 +1,9 @@
 package inf112.skeleton.model;
 
-import inf112.skeleton.model.WorldBoard;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class WorldBoardTest {
-    // worldboard statisk
 
     @Test
     void constructorShouldSetHeightAndWidthCorrectly() {
