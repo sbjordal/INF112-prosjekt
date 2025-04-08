@@ -104,5 +104,46 @@ public class MobileObjectTest {
         assertEquals(50, player.getVerticalVelocity(), "Vertical velocity should decrease.");
     }
 
+    @Test
+    public void testSetMovementDirectionUpdatesCorrectly() {
+        Vector2 start = player.getTransform().getPos().cpy();
+
+        // Move right
+        Vector2 right = new Vector2(start.x + 10, start.y);
+        player.move(right);
+        assertEquals(1, player.getMovementDirection());
+
+        // Move left
+        Vector2 left = new Vector2(right.x - 20, right.y);
+        player.move(left);
+        assertEquals(-1, player.getMovementDirection());
+
+        // No movement
+        player.move(left); // move to same pos
+        assertEquals(0, player.getMovementDirection());
+    }
+
+    @Test
+    public void testMoveWithOffset() {
+        Vector2 start = player.getTransform().getPos().cpy();
+        player.move(20, 30);
+
+        assertEquals(start.x + 20, player.getTransform().getPos().x);
+        assertEquals(start.y + 30, player.getTransform().getPos().y);
+    }
+
+    @Test
+    public void testApplyGravityStopsAtZeroOnGround() {
+        player.setVerticalVelocity(0);
+        player.applyGravity(1 / 60f, true);
+        assertEquals(0, player.getVerticalVelocity(), "Velocity should remain zero on ground when already zero.");
+    }
+
+    @Test
+    public void testGetMovementSpeed() {
+        assertEquals(350, player.getMovementSpeed());
+    }
+
+
 
 }
