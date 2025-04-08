@@ -3,6 +3,7 @@ package inf112.skeleton.model.gameobject.mobileobject;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.math.Vector2;
+import inf112.skeleton.model.gameobject.CollisionBox;
 import inf112.skeleton.model.gameobject.Transform;
 import inf112.skeleton.model.gameobject.mobileobject.actor.Player;
 import org.junit.jupiter.api.Test;
@@ -62,6 +63,18 @@ public class MobileObjectTest {
     }
 
     @Test
+    public void testMoveHorizontallyWithExpectedDelta() {
+        float deltaTime = 1 / 60f;
+        int expectedDelta = (int)(player.getMovementSpeed() * deltaTime); // 350 * 1/60 = ~5.83 => 5
+
+        float startX = player.getTransform().getPos().x;
+        player.moveHorizontally(deltaTime, false, true);
+        float newX = player.getTransform().getPos().x;
+
+        assertEquals(startX + expectedDelta, newX);
+    }
+
+    @Test
     public void testMoveVertically() {
         player.setVerticalVelocity(300);
         player.moveVertically(1 / 60f);
@@ -103,6 +116,55 @@ public class MobileObjectTest {
         player.addVerticalVelocity(-100);
         assertEquals(50, player.getVerticalVelocity(), "Vertical velocity should decrease.");
     }
+
+    @Test
+    public void testSetMovementDirectionUpdatesCorrectly() {
+        Vector2 start = player.getTransform().getPos().cpy();
+
+        // Move right
+        Vector2 right = new Vector2(start.x + 10, start.y);
+        player.move(right);
+        assertEquals(1, player.getMovementDirection());
+
+        // Move left
+        Vector2 left = new Vector2(right.x - 20, right.y);
+        player.move(left);
+        assertEquals(-1, player.getMovementDirection());
+
+        // No movement
+        player.move(left); // move to same pos
+        assertEquals(0, player.getMovementDirection());
+    }
+
+    @Test
+    public void testMoveWithOffset() {
+        Vector2 start = player.getTransform().getPos().cpy();
+        player.move(20, 30);
+
+        assertEquals(start.x + 20, player.getTransform().getPos().x);
+        assertEquals(start.y + 30, player.getTransform().getPos().y);
+    }
+
+    @Test
+    public void testApplyGravityStopsAtZeroOnGround() {
+        player.setVerticalVelocity(0);
+        player.applyGravity(1 / 60f, true);
+        assertEquals(0, player.getVerticalVelocity(), "Velocity should remain zero on ground when already zero.");
+    }
+
+    @Test
+    public void testApplyGravityAffectsVelocity() {
+        player.setVerticalVelocity(0);
+        player.applyGravity(1 / 60f, false);
+        assertEquals(-53, player.getVerticalVelocity()); // 3200 / 60 = ~53
+    }
+
+    @Test
+    public void testGetMovementSpeed() {
+        assertEquals(350, player.getMovementSpeed());
+    }
+
+
 
 
 }
