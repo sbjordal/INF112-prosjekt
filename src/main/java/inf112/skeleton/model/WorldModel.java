@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.controller.ControllableWorldModel;
 import inf112.skeleton.controller.Controller;
 import inf112.skeleton.model.gameobject.*;
+import inf112.skeleton.model.gameobject.fixedobject.Ground;
 import inf112.skeleton.model.gameobject.fixedobject.item.Banana;
 import inf112.skeleton.model.gameobject.fixedobject.item.Coin;
 import inf112.skeleton.model.gameobject.fixedobject.item.Item;
@@ -32,9 +33,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     List<GameObject> objectList;
     private final List<GameObject> toRemove;
     private LevelManager.Level currentLevel;
-    private Integer totalScore;
     int countDown;
-    private Integer coinCounter;
     long lastScoreUpdate = System.currentTimeMillis();
     private boolean infoMode;
     boolean isMovingRight;
@@ -52,8 +51,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         this.currentLevel = LevelManager.Level.LEVEL_1;
         this.toRemove = new ArrayList<>();
         this.collisionHandler = new CollisionHandler(height);
-        this.coinCounter = 0;
-        this.totalScore = 0;
         setUpModel();
     }
 
@@ -200,7 +197,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     // TODO: Må skrives om og kanskje flyttes til movable? Evt actor eller player?
     private boolean isTouchingGround() {
         for (GameObject object : objectList) {
-            if (!(object instanceof Enemy || object instanceof Item || object instanceof Player)) {
+            if (object instanceof Ground) {
                 CollisionBox objectCollisionBox = object.getCollisionBox();
                 if (player.getCollisionBox().isCollidingFromBottom(objectCollisionBox)) {
                     return true;
@@ -287,8 +284,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
     @Override
     public void backToGameMenu() {
-        coinCounter = 0;
-        totalScore = 0;
+        player.resetScores();
         infoMode = false;
         gameState = GameState.GAME_MENU;
     }
@@ -346,12 +342,12 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
     @Override
     public int getTotalScore() {
-        return totalScore;
+        return player.getTotalScore();
     }
 
     @Override
     public int getCoinCounter() {
-        return coinCounter;
+        return player.getCoinCounter();
     }
 
     @Override

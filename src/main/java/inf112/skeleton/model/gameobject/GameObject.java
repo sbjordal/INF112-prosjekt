@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector2;
  * Represents every object that is visualized on the screen.
  * To visualize the object a {@link Transform} is required.
  */
-public class GameObject implements ViewableObject{
+public class GameObject implements ViewableObject, Collidable {
     private Transform transform;
     private CollisionBox collisionBox;
 
@@ -35,5 +35,10 @@ public class GameObject implements ViewableObject{
 
     public void setSize(Vector2 size) {
         transform.size = size;
+    }
+
+    @Override
+    public void accept(CollisionVisitor visitor) {
+
     }
 }

@@ -1,5 +1,6 @@
 package inf112.skeleton.model.gameobject.fixedobject.item;
 
+import inf112.skeleton.model.gameobject.CollisionVisitor;
 import inf112.skeleton.model.gameobject.Scorable;
 import inf112.skeleton.model.gameobject.Transform;
 import inf112.skeleton.model.gameobject.mobileobject.actor.Player;
