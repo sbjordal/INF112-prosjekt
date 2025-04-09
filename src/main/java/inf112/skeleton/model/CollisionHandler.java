@@ -128,5 +128,11 @@ public class CollisionHandler {
     int getBOUNCE_COOLDOWN(){
         return BOUNCE_COOLDOWN;
     }
+    protected SoundHandler getSoundHandler() {
+        return soundHandler;
+    }
+    protected void setSoundHandler(SoundHandler soundHandler) {
+        this.soundHandler = soundHandler;
+    }
 }
 
