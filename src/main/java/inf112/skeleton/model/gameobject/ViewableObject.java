@@ -1,5 +1,7 @@
 package inf112.skeleton.model.gameobject;
 
+import com.badlogic.gdx.math.Rectangle;
+
 // TODO: comment me :)
 public interface ViewableObject {
 
@@ -10,10 +12,17 @@ public interface ViewableObject {
      */
     Transform getTransform();
 
+//    /**
+//     * TODO: comment/delete me
+//     * @return
+//     */
+//    CollisionBox getCollisionBox();
+
+
     /**
      * TODO: comment me
      * @return
      */
-    CollisionBox getCollisionBox();
+    Rectangle getRectangle();
 
 }
