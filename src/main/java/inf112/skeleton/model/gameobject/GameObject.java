@@ -41,6 +41,11 @@ public class GameObject implements ViewableObject{
         return rectangle;
     }
 
+    @Override
+    public void setRectanglePos(Vector2 newPos) {
+        rectangle.setPosition(newPos);
+    }
+
     public void setSize(Vector2 size) {
         transform.size = size;
     }

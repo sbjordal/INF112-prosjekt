@@ -2,6 +2,7 @@ package inf112.skeleton.model;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.controller.ControllableWorldModel;
 import inf112.skeleton.controller.Controller;
@@ -26,7 +27,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     public static final int LEVEL_WIDTH = 4500;
     GameState gameState;
     Player player;
-    private WorldBoard board;
+    private Rectangle board;
     private WorldView worldView;
     private float viewportLeftX;
     private Controller controller;
@@ -64,7 +65,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         isMovingRight = false;
         isMovingLeft = false;
         isJumping = false;
-        board = new WorldBoard(LEVEL_WIDTH, height);
+        board = new Rectangle(0,0,LEVEL_WIDTH, height); // TODO, Revisjon, trenger ikke lengre WordlBoard
     }
 
     @Override
@@ -91,7 +92,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     private void setupInput() {
         controller = new Controller(this);
         Gdx.input.setInputProcessor(controller);
-        collisionHandler.init();
+//        collisionHandler.init(); // TODO, må flytte init (denne initierer bare SoundHandler)
     }
 
     //TODO: Skal denne fjernes?
@@ -159,18 +160,13 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         return startCoordinate + endCoordinate;
     }
 
-    boolean isLegalMove(CollisionBox collisionBox) {
-        return positionIsOnBoard(collisionBox) && !isColliding(collisionBox);
+    boolean isLegalMove(Rectangle rectangle) {
+        return positionIsOnBoard(rectangle) && !isColliding(rectangle);
     }
 
-    private boolean positionIsOnBoard(CollisionBox collisionBox) {
+    private boolean positionIsOnBoard(Rectangle rectangle) {
         final int belowLevel = -200;
-        boolean isWithinWidthBound = collisionBox.botLeft.x >= 0 &&
-                collisionBox.botLeft.x > viewportLeftX &&
-                collisionBox.topRight.x < board.width();
-        boolean isWithinHeightBound = collisionBox.botLeft.y >= belowLevel  && collisionBox.topRight.y < board.height();
-
-        return isWithinWidthBound && isWithinHeightBound;
+        return board.contains(rectangle) && rectangle.getX() > viewportLeftX;
     }
 
     //TODO: Må skrives om, ikke lov med instanceof-sjekk av objekter. Flyttes til actor eller player?
@@ -202,8 +198,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     private boolean isTouchingGround() {
         for (GameObject object : objectList) {
             if (object instanceof Ground) {
-                CollisionBox objectCollisionBox = object.getCollisionBox();
-                if (player.getCollisionBox().isCollidingFromBottom(objectCollisionBox)) {
+                if (player.getRectangle().overlaps(object.getRectangle())){
                     return true;
                 }
             }
