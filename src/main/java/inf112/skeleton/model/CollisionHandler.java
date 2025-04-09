@@ -41,6 +41,7 @@ public class CollisionHandler {
             boolean isGround = object instanceof Ground;
 
             if ((isTopCollision && isGround) || isCeiling) {
+                // TODO, burde dette under være i Player klassen?
                 if (player.getVerticalVelocity() > 0) {
                     float bumpForceLoss = 0.1f;
                     int bumpSpeed = (int) (-player.getVerticalVelocity() * bumpForceLoss);

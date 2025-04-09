@@ -144,6 +144,9 @@ public abstract class Enemy extends Actor implements Scorable, Collidable {
 
     @Override
     public void onCollide(Collidable gameObject) {
+        // Kan kollidere med ground, player og andre Enemies
+
+
 
     }
 

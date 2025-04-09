@@ -165,13 +165,20 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     }
 
     private boolean positionIsOnBoard(Rectangle rectangle) {
-        final int belowLevel = -200;
+        final int belowLevel = -200; // TODO, dette ble brukt til å håndtere fall utenfor skjermen
         return board.contains(rectangle) && rectangle.getX() > viewportLeftX;
     }
 
     //TODO: Må skrives om, ikke lov med instanceof-sjekk av objekter. Flyttes til actor eller player?
-    private boolean isColliding(CollisionBox collisionBox){
+    private boolean isColliding(Rectangle rectangle) {
         Pair<Boolean, GameObject> collided = collisionHandler.checkCollision(player, objectList, collisionBox);
+//        // TODO, dette er fra CollisionHandler.checkCollision, burde dette under være i Player klassen?
+//        if (player.getVerticalVelocity() > 0) {
+//            float bumpForceLoss = 0.1f;
+//            int bumpSpeed = (int) (-player.getVerticalVelocity() * bumpForceLoss);
+//            player.setVerticalVelocity(bumpSpeed);
+//        }
+
         if (collided.first && !toRemove.contains(collided.second)) {
             if (collided.second instanceof Coin coin) {
                 int newScore = collisionHandler.handleCoinCollision(coin, totalScore);
