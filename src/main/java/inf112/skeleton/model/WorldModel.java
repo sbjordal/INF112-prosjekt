@@ -71,7 +71,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         setupGameObjects();
         setupGraphics();
         setupInput();
-        setupLogger();
     }
 
     private void setupGameObjects() {
@@ -91,13 +90,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         controller = new Controller(this);
         Gdx.input.setInputProcessor(controller);
         collisionHandler.init();
-    }
-
-    //TODO: Skal denne fjernes?
-    private void setupLogger() {
-//        logger.info("FPS {}", Gdx.graphics.getFramesPerSecond());
-//        logger.info("Height {}", Gdx.graphics.getHeight());
-//        logger.info("Width {}", Gdx.graphics.getWidth());
     }
 
     /**
@@ -319,10 +311,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         return Collections.unmodifiableList(objectList);
     }
 
-    @Override
-    public int getMovementSpeed() {
-        return player.getMovementSpeed();
-    }
 
     @Override
     public void setMovingRight(boolean movingRight) {

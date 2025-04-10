@@ -1,6 +1,7 @@
 package inf112.skeleton.controller;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputAdapter;
 import inf112.skeleton.model.GameState;
 import com.badlogic.gdx.InputProcessor;
 import inf112.skeleton.model.LevelManager;
@@ -13,7 +14,7 @@ import static java.lang.System.exit;
  * Reading material on event handling for use of LigGDX:
  * https://libgdx.com/wiki/input/event-handling
  */
-public class Controller implements InputProcessor {
+public class Controller extends InputAdapter {
 
     private final ControllableWorldModel controllableModel;
 
@@ -39,7 +40,7 @@ public class Controller implements InputProcessor {
             }
             return true;
         }
-        else if (controllableModel.getGameState() == GameState.GAME_ACTIVE) { // TODO, denne linjen blir brukt mange ganger her, mulig å gjøre mer generisk?
+        else if (controllableModel.getGameState() == GameState.GAME_ACTIVE) {
             switch (keyCode) {
                 case Input.Keys.LEFT, Input.Keys.A:
                     controllableModel.setMovingLeft(true);
@@ -124,37 +125,4 @@ public class Controller implements InputProcessor {
         }
         return true;
     }
-
-
-    // TODO, få slettet metodene under, kommer ikke til å bruke disse, forslag: Lag en "mellomklasse" / grensesnitt
-    @Override
-    public boolean touchDown(int i, int i1, int i2, int i3) {
-        return false;
-    }
-
-    @Override
-    public boolean touchUp(int i, int i1, int i2, int i3) {
-        return false;
-    }
-
-    @Override
-    public boolean touchCancelled(int i, int i1, int i2, int i3) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDragged(int i, int i1, int i2) {
-        return false;
-    }
-
-    @Override
-    public boolean mouseMoved(int i, int i1) {
-        return false;
-    }
-
-    @Override
-    public boolean scrolled(float v, float v1) {
-        return false;
-    }
-
 }
