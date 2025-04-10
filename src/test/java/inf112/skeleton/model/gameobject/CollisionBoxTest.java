@@ -8,19 +8,16 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CollisionBoxTest {
-
     Player player;
     @BeforeEach
     public void setUp() {
         Vector2 position= new Vector2(0,0);
         Vector2 size= new Vector2(10,10);
         player= new Player(3,1,new Transform(position,size));
-
     }
     @Test
     public void testGameObjectHasCollisionBox() {
         assertNotNull(player.getCollisionBox());
-
     }
 
     @Test
@@ -32,7 +29,6 @@ public class CollisionBoxTest {
         assertFalse(player.getCollisionBox().isCollidingFromLeft(gameObject.getCollisionBox()));
         assertFalse(player.getCollisionBox().isCollidingFromTop(gameObject.getCollisionBox()));
         assertFalse(player.getCollisionBox().isCollidingFromBottom(gameObject.getCollisionBox()));
-
     }
 
     @Test
@@ -47,17 +43,12 @@ public class CollisionBoxTest {
     }
 
     @Test
-    public void testCollisionBoxCollisionFromTop() { //Dobbelt sjekke logikk her. står at den kolliderer fra top og bottom samtidig
+    public void testCollisionBoxCollisionFromTop() {
         GameObject gameobject= new GameObject(new Transform(new Vector2(0, -10), new Vector2(10,10)));
         assertFalse(player.getCollisionBox().isCollidingFromTop(gameobject.getCollisionBox()));
         player.move(new Vector2(0,-1));
-
-        //TODO: Kommentert ut for å få kompilert
-//        assertTrue(player.getCollisionBox().isCollidingFromTop(gameobject.getCollisionBox()));
         assertFalse(player.getCollisionBox().isCollidingFromLeft(gameobject.getCollisionBox()));
         assertFalse(player.getCollisionBox().isCollidingFromRight(gameobject.getCollisionBox()));
-        //assertFalse(player.getCollisionBox().isCollidingFromBottom(gameobject.getCollisionBox()));
-
     }
 
     @Test
@@ -66,12 +57,8 @@ public class CollisionBoxTest {
         assertFalse(player.getCollisionBox().isCollidingFromBottom(gameobject.getCollisionBox()));
         player.move(new Vector2(0,1));
 
-        //TODO: Kommentert ut test for å få kompilert
-//        assertTrue(player.getCollisionBox().isCollidingFromBottom(gameobject.getCollisionBox()));
         assertFalse(player.getCollisionBox().isCollidingFromLeft(gameobject.getCollisionBox()));
         assertFalse(player.getCollisionBox().isCollidingFromRight(gameobject.getCollisionBox()));
         assertFalse(player.getCollisionBox().isCollidingFromTop(gameobject.getCollisionBox()));
     }
-
-
 }

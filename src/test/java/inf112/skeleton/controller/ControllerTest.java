@@ -5,8 +5,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.badlogic.gdx.Input;
-import inf112.skeleton.controller.ControllableWorldModel;
-import inf112.skeleton.controller.Controller;
 import inf112.skeleton.model.GameState;
 import inf112.skeleton.model.LevelManager;
 import org.junit.jupiter.api.*;
