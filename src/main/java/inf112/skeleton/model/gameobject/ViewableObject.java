@@ -13,24 +13,24 @@ public interface ViewableObject {
      */
     Transform getTransform();
 
+    /**
+     * TODO: comment/delete me
+     * @return
+     */
+    CollisionBox getCollisionBox();
+
+
 //    /**
-//     * TODO: comment/delete me
+//     * TODO: comment me
 //     * @return
 //     */
-//    CollisionBox getCollisionBox();
-
-
-    /**
-     * TODO: comment me
-     * @return
-     */
-    Rectangle getRectangle();
-
-    /**
-     * TODO: comment me
-     * @param newPos
-     * @return
-     */
-    void setRectanglePos(Vector2 newPos);
+//    Rectangle getRectangle();
+//
+//    /**
+//     * TODO: comment me
+//     * @param newPos
+//     * @return
+//     */
+//    void setRectanglePos(Vector2 newPos);
 
 }

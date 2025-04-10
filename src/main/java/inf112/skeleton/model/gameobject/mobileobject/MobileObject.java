@@ -1,6 +1,5 @@
 package inf112.skeleton.model.gameobject.mobileobject;
 
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.model.gameobject.GameObject;
 import inf112.skeleton.model.gameobject.Movable;
@@ -43,7 +42,7 @@ public abstract class MobileObject extends GameObject implements Movable {
         Vector2 oldPos = getTransform().getPos();
         setMovementDirection(oldPos, newPosition);
         getTransform().alterPosition(newPosition);
-        setRectanglePos(newPosition);
+        updateCollisionBox();
     }
 
     private void setMovementDirection(Vector2 oldPos, Vector2 newPos){
@@ -69,16 +68,15 @@ public abstract class MobileObject extends GameObject implements Movable {
      */
     public void move(int deltaX, int deltaY) {
         getTransform().alterPosition(deltaX, deltaY);
-        setRectanglePos(getTransform().getPos());
+        updateCollisionBox();
     }
 
-//    /**
-//     * Updates the transform of the collision box to match the current transform.
-//     */
-//    private void updateCollisionBox() {
-//        setCollisionBox(getTransform());
-//    }
-
+    /**
+     * Updates the transform of the collision box to match the current transform.
+     */
+    private void updateCollisionBox() {
+        setCollisionBox(getTransform());
+    }
 
     /**
      * Returns the MobileObject's movement speed.

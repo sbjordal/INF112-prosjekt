@@ -2,12 +2,10 @@ package inf112.skeleton.model;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.controller.ControllableWorldModel;
 import inf112.skeleton.controller.Controller;
 import inf112.skeleton.model.gameobject.*;
-import inf112.skeleton.model.gameobject.fixedobject.Ground;
 import inf112.skeleton.model.gameobject.fixedobject.item.Banana;
 import inf112.skeleton.model.gameobject.fixedobject.item.Coin;
 import inf112.skeleton.model.gameobject.fixedobject.item.Item;
@@ -27,7 +25,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     public static final int LEVEL_WIDTH = 4500;
     GameState gameState;
     Player player;
-    private Rectangle board;
+    private WorldBoard board;
     private WorldView worldView;
     private float viewportLeftX;
     private Controller controller;
@@ -65,7 +63,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         isMovingRight = false;
         isMovingLeft = false;
         isJumping = false;
-        board = new Rectangle(0,0,LEVEL_WIDTH, height); // TODO, Revisjon, trenger ikke lengre WordlBoard
+        board = new WorldBoard(LEVEL_WIDTH, height);
     }
 
     @Override
@@ -73,7 +71,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         setupGameObjects();
         setupGraphics();
         setupInput();
-        setupLogger();
     }
 
     private void setupGameObjects() {
@@ -92,14 +89,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     private void setupInput() {
         controller = new Controller(this);
         Gdx.input.setInputProcessor(controller);
-//        collisionHandler.init(); // TODO, må flytte init (denne initierer bare SoundHandler)
-    }
-
-    //TODO: Skal denne fjernes?
-    private void setupLogger() {
-//        logger.info("FPS {}", Gdx.graphics.getFramesPerSecond());
-//        logger.info("Height {}", Gdx.graphics.getHeight());
-//        logger.info("Width {}", Gdx.graphics.getWidth());
+        collisionHandler.init();
     }
 
     /**
@@ -160,25 +150,23 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         return startCoordinate + endCoordinate;
     }
 
-    boolean isLegalMove(Rectangle rectangle) {
-        return positionIsOnBoard(rectangle) && !isColliding(rectangle);
+    boolean isLegalMove(CollisionBox collisionBox) {
+        return positionIsOnBoard(collisionBox) && !isColliding(collisionBox);
     }
 
-    private boolean positionIsOnBoard(Rectangle rectangle) {
-        final int belowLevel = -200; // TODO, dette ble brukt til å håndtere fall utenfor skjermen
-        return board.contains(rectangle) && rectangle.getX() > viewportLeftX;
+    private boolean positionIsOnBoard(CollisionBox collisionBox) {
+        final int belowLevel = -200;
+        boolean isWithinWidthBound = collisionBox.botLeft.x >= 0 &&
+                collisionBox.botLeft.x > viewportLeftX &&
+                collisionBox.topRight.x < board.width();
+        boolean isWithinHeightBound = collisionBox.botLeft.y >= belowLevel  && collisionBox.topRight.y < board.height();
+
+        return isWithinWidthBound && isWithinHeightBound;
     }
 
     //TODO: Må skrives om, ikke lov med instanceof-sjekk av objekter. Flyttes til actor eller player?
-    private boolean isColliding(Rectangle rectangle) {
+    private boolean isColliding(CollisionBox collisionBox){
         Pair<Boolean, GameObject> collided = collisionHandler.checkCollision(player, objectList, collisionBox);
-//        // TODO, dette er fra CollisionHandler.checkCollision, burde dette under være i Player klassen?
-//        if (player.getVerticalVelocity() > 0) {
-//            float bumpForceLoss = 0.1f;
-//            int bumpSpeed = (int) (-player.getVerticalVelocity() * bumpForceLoss);
-//            player.setVerticalVelocity(bumpSpeed);
-//        }
-
         if (collided.first && !toRemove.contains(collided.second)) {
             if (collided.second instanceof Coin coin) {
                 int newScore = collisionHandler.handleCoinCollision(coin, totalScore);
@@ -204,8 +192,9 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     // TODO: Må skrives om og kanskje flyttes til movable? Evt actor eller player?
     private boolean isTouchingGround() {
         for (GameObject object : objectList) {
-            if (object instanceof Ground) {
-                if (player.getRectangle().overlaps(object.getRectangle())){
+            if (!(object instanceof Enemy || object instanceof Item || object instanceof Player)) {
+                CollisionBox objectCollisionBox = object.getCollisionBox();
+                if (player.getCollisionBox().isCollidingFromBottom(objectCollisionBox)) {
                     return true;
                 }
             }
@@ -324,8 +313,9 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
     @Override
     public int getMovementSpeed() {
-        return player.getMovementSpeed();
+        return 0;
     }
+
 
     @Override
     public void setMovingRight(boolean movingRight) {

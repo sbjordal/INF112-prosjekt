@@ -11,7 +11,7 @@ import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.model.GameState;
 import inf112.skeleton.model.gameobject.Transform;
 import inf112.skeleton.model.gameobject.ViewableObject;
-import inf112.skeleton.model.gameobject.fixedobject.FixedObject;
+import inf112.skeleton.model.gameobject.fixedobject.Ground;
 import inf112.skeleton.model.gameobject.fixedobject.item.Banana;
 import inf112.skeleton.model.gameobject.fixedobject.item.Coin;
 import inf112.skeleton.model.gameobject.fixedobject.item.Star;
@@ -141,7 +141,7 @@ public class WorldViewTest {
                 new Snail(1, 0, 0, 1, new Transform(new Vector2(), new Vector2())),
                 new Coin(transform),
                 new Banana(transform),
-                new FixedObject(transform),
+                new Ground(transform),
                 new Star(transform)
         );
 
