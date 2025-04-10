@@ -1,6 +1,7 @@
 package inf112.skeleton.model.gameobject.mobileobject;
 
 import com.badlogic.gdx.math.Vector2;
+import inf112.skeleton.model.PositionValidator;
 import inf112.skeleton.model.gameobject.CollisionBox;
 import inf112.skeleton.model.gameobject.GameObject;
 import inf112.skeleton.model.gameobject.Movable;
@@ -31,7 +32,6 @@ public abstract class MobileObject extends GameObject implements Movable {
      */
     protected MobileObject(int movementSpeed, Transform transform) {
         super(transform);
-
         this.movementSpeed = movementSpeed;
         this.verticalVelocity = 0;
         this.movementDirection = 0;
@@ -63,7 +63,6 @@ public abstract class MobileObject extends GameObject implements Movable {
             movementDirection = 0;
         }
     }
-
 
     /**
      * Moves the {@link GameObject} based on offset values.
@@ -145,5 +144,41 @@ public abstract class MobileObject extends GameObject implements Movable {
             }
         }
         return false;
+    }
+
+    @Override
+    public Vector2 filterPosition(int deltaX, int deltaY, PositionValidator validator){
+        Transform transform = this.getTransform();
+        Vector2 position = transform.getPos();
+        Vector2 size = transform.getSize();
+        float filteredX = binarySearch(position.x, position.y, deltaX, size, true, validator);
+        float filteredY = binarySearch(filteredX, position.y, deltaY, size, false, validator);
+
+        return new Vector2(filteredX, filteredY);
+    }
+
+    private float binarySearch(float startX, float startY, int delta, Vector2 size, boolean isX, PositionValidator validator) {
+        int low = 0;
+        int high = Math.abs(delta);
+        boolean isNegative = delta < 0;
+
+        while (low < high) {
+            int mid = (low + high + 1) / 2;
+            int testDelta = isNegative ? -mid : mid;
+
+            Vector2 newPosition = isX ? new Vector2(startX + testDelta, startY) : new Vector2(startX, startY + testDelta);
+            Transform newTransform = new Transform(newPosition, size);
+            CollisionBox newCollisionBox = new CollisionBox(newTransform);
+
+            if (validator.isLegalMove(newCollisionBox)) {
+                low = mid;
+            } else {
+                high = mid - 1;
+            }
+        }
+        final float startCoordinate = isX ? startX : startY;
+        final float endCoordinate = isNegative ? -low : low;
+
+        return startCoordinate + endCoordinate;
     }
 }

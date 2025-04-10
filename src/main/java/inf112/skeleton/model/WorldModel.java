@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class WorldModel implements ViewableWorldModel, ControllableWorldModel, ApplicationListener {
+public class WorldModel implements ViewableWorldModel, ControllableWorldModel, ApplicationListener, PositionValidator {
     public static final int LEVEL_WIDTH = 4500;
     GameState gameState;
     Player player;
@@ -98,53 +98,8 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         resume();
     }
 
-    /**
-     * Filters player's position to be valid.
-     * A valid position is a position that does not overlap with any other {@link GameObject} types.
-     * The filter-algorithm will favor the desired distances.
-     *
-     * @param deltaX    the desired distance in the horizontal direction.
-     * @param deltaY    the desired distance in the vertical direction.
-     * @return          filtered player position.
-     */
-    private Vector2 filterPlayerPosition(int deltaX, int deltaY) {
-        Transform transform = player.getTransform();
-        Vector2 position = transform.getPos();
-        Vector2 size = transform.getSize();
-
-        float filteredX = binarySearch(position.x, position.y, deltaX, size, true);
-        float filteredY = binarySearch(filteredX, position.y, deltaY, size, false);
-
-        return new Vector2(filteredX, filteredY);
-    }
-
-    private float binarySearch(float startX, float startY, int delta, Vector2 size, boolean isX) {
-        int low = 0;
-        int high = Math.abs(delta);
-        boolean isNegative = delta < 0;
-
-        while (low < high) {
-            int mid = (low + high + 1) / 2;
-            int testDelta = isNegative ? -mid : mid;
-
-            Vector2 newPosition = isX ? new Vector2(startX + testDelta, startY) : new Vector2(startX, startY + testDelta);
-            Transform newTransform = new Transform(newPosition, size);
-            CollisionBox newCollisionBox = new CollisionBox(newTransform);
-
-            if (isLegalMove(newCollisionBox)) {
-                low = mid;
-            } else {
-                high = mid - 1;
-            }
-        }
-
-        final float startCoordinate = isX ? startX : startY;
-        final float endCoordinate = isNegative ? -low : low;
-
-        return startCoordinate + endCoordinate;
-    }
-
-    boolean isLegalMove(CollisionBox collisionBox) {
+    @Override
+    public boolean isLegalMove(CollisionBox collisionBox) {
         return positionIsOnBoard(collisionBox) && !isColliding(collisionBox);
     }
 
@@ -212,7 +167,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     }
 
     private void resolvePlayerMovement(int deltaX, int deltaY) {
-        Vector2 newPlayerPosition = filterPlayerPosition(deltaX, deltaY);
+        Vector2 newPlayerPosition = player.filterPosition(deltaX, deltaY, this);
         if (!player.getRespawned()) {
             player.move(newPlayerPosition);
         }

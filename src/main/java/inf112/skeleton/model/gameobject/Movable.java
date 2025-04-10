@@ -1,5 +1,8 @@
 package inf112.skeleton.model.gameobject;
 
+import com.badlogic.gdx.math.Vector2;
+import inf112.skeleton.model.PositionValidator;
+
 import java.util.List;
 
 public interface Movable {
@@ -40,4 +43,16 @@ public interface Movable {
      * @param deltaTime  The time in seconds since the last update.
      */
     void moveVertically(float deltaTime);
+
+    /**
+     * Filters object's position to be valid.
+     * A valid position is a position that does not overlap with any other {@link GameObject} types.
+     * The filter-algorithm will favor the desired distances.
+     *
+     * @param deltaX    the desired distance in the horizontal direction.
+     * @param deltaY    the desired distance in the vertical direction.
+     * @param validator A way to validate the new position for the object.
+     * @return          filtered player position.
+     */
+    Vector2 filterPosition(int deltaX, int deltaY, PositionValidator validator);
 }
