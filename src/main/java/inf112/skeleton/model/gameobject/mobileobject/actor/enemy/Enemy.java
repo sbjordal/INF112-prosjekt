@@ -96,7 +96,6 @@ public abstract class Enemy extends Actor implements Scorable {
             lastCollisionTime = currentTime;
             return true;
         }
-
         return false;
     }
 
