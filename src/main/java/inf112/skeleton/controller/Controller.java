@@ -10,9 +10,6 @@ import static java.lang.System.exit;
 
 /**
  * A class that handles key input and manipulates the model accordingly.
- *
- * Reading material on event handling for use of LigGDX:
- * https://libgdx.com/wiki/input/event-handling
  */
 public class Controller extends InputAdapter {
 
