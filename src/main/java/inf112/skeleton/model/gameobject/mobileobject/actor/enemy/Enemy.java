@@ -1,6 +1,5 @@
 package inf112.skeleton.model.gameobject.mobileobject.actor.enemy;
 
-import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.model.WorldModel;
 import inf112.skeleton.model.gameobject.CollisionBox;
 import inf112.skeleton.model.gameobject.Scorable;
@@ -63,7 +62,6 @@ public abstract class Enemy extends Actor implements Scorable {
             if ((isColliding && !isCollidingFromBottom) || isOutsideLevel) {
                 if (isReadyToCollide()) {
 
-                    // Attack the player if the colliding object is the player
                     if (gameObject instanceof Player player && !isOutsideLevel) {
                         attack(player);
                     }
@@ -82,24 +80,8 @@ public abstract class Enemy extends Actor implements Scorable {
         move(distance, 0);
     }
 
-    /**
-     * Attacks the player, prioritizing power-up removal over direct damage.
-     * If the player has a power-up, it is removed. Otherwise, the player takes damage.
-     *
-     * @param player The player to attack.
-     */
     private void attack(Player player) {
-        // TODO: This is copy-pasted straight from WorldModel. This should use Player.hitBy() once WorldModel code regarding player is refactored.
-        // TODO: include ATTACK_COOLDOWN to affect attack frequency.
-        if (player.getHasPowerUp()) {
-            player.setHasPowerUp(false);
-            player.setSize(new Vector2(40, 80)); // TODO: STANDARD_PLAYER_SIZE.
-            int middleOfPlayer = (int) (player.getTransform().getSize().x / 2);
-            player.move(middleOfPlayer, 0);
-
-        } else {
-            dealDamage(player, getDamage());
-        }
+        player.hitBy(getDamage());
     }
 
     /**
@@ -140,19 +122,4 @@ public abstract class Enemy extends Actor implements Scorable {
     public int getObjectScore() {
         return objectScore;
     }
-
-
-    // TODO: prøvde å få enemy til å kun skifte retning når den kolliderer fra retning fremover.
-    //  Fungerer ikke helt som den skal på grunn av kollisjons håndteringen fra vesntre/høyre.
-//    private boolean isCollidingFromFront(CollisionBox otherCollisionBox) {
-//        if (otherCollisionBox == null) {
-//            throw new NullPointerException("CollisionBox is null.");
-//        }
-//
-//        return switch (direction) {
-//            case LEFT -> getCollisionBox().isCollidingFromLeft(otherCollisionBox);
-//            case RIGHT -> getCollisionBox().isCollidingFromRight(otherCollisionBox);
-//        };
-//    }
-
 }
