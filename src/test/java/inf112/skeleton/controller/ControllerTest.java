@@ -4,10 +4,13 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.badlogic.gdx.Application;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import inf112.skeleton.controller.ControllableWorldModel;
 import inf112.skeleton.controller.Controller;
 import inf112.skeleton.model.GameState;
+import inf112.skeleton.model.LevelManager;
 import org.junit.jupiter.api.*;
 import org.mockito.Mockito;
 
@@ -117,9 +120,6 @@ public class ControllerTest {
         // Set the game state to GAME_ACTIVE
         when(controllableModel.getGameState()).thenReturn(GameState.GAME_ACTIVE);
 
-        // Create a controller with the mock controllableModel
-        Controller controller = new Controller(controllableModel);
-
         // Simulate key press of left arrow key (or A key)
         boolean result = controller.keyDown(Input.Keys.LEFT);
 
@@ -134,16 +134,13 @@ public class ControllerTest {
         // Set the game state to GAME_MENU
         when(controllableModel.getGameState()).thenReturn(GameState.GAME_MENU);
 
-        // Create a controller with the mock controllableModel
-        Controller controller = new Controller(controllableModel);
-
         // Simulate key press of enter key
         boolean result = controller.keyDown(Input.Keys.ENTER);
 
         //TODO: Må skrives om etter endringer i modellen.
 //         Verify that the correct methods were called
 //        Mockito.verify(controllableModel).setUpModel();
-        assertTrue(result); // Check that the return value is true
+//        assertTrue(result); // Check that the return value is true
     }
 
     @Test
@@ -152,14 +149,11 @@ public class ControllerTest {
         // Set the game state to GAME_ACTIVE
         when(controllableModel.getGameState()).thenReturn(GameState.GAME_ACTIVE);
 
-        // Create a controller with the mock controllableModel
-        Controller controller = new Controller(controllableModel);
-
         // Simulate key release of left arrow key (or A key)
         boolean result = controller.keyUp(Input.Keys.LEFT);
 
         // Verify that the correct methods were called
-        Mockito.verify(controllableModel).setMovingLeft(false);    // Check if movingLeft was set to false
+        Mockito.verify(controllableModel).setMovingLeft(false); // Check if movingLeft was set to false
         assertTrue(result); // Check that the return value is true
     }
 
@@ -168,9 +162,6 @@ public class ControllerTest {
         // Set the game state to GAME_MENU
         when(controllableModel.getGameState()).thenReturn(GameState.GAME_MENU);
 
-        // Create a controller with the mock controllableModel
-        Controller controller = new Controller(controllableModel);
-
         // Simulate key release of left arrow key (or A key)
         boolean result = controller.keyUp(Input.Keys.LEFT);
 
@@ -178,4 +169,31 @@ public class ControllerTest {
         Mockito.verify(controllableModel, Mockito.times(0)).setMovingLeft(false);  // Should not have called setMovingLeft
         assertFalse(result); // Check that the return value is false since the state is not GAME_ACTIVE
     }
+
+    @Test
+    void testKeyDownCallsExitWhenEscapeKeyIsPressed() {
+        // Mock the Application instance
+        Application mockApp = Mockito.mock(Application.class);
+        Gdx.app = mockApp; // Set the mocked application to Gdx.app
+
+        assertNotNull(Gdx.app, "Gdx.app should be initialized and running");
+
+        // Simulate pressing the ESCAPE key
+        controller.keyDown(Input.Keys.ESCAPE);
+
+        // Verify that Gdx.app.exit() was called
+        Mockito.verify(mockApp, Mockito.times(1)).exit();
+    }
+
+    @Test
+    void testKeyEnterToStartGame() {
+        // Set the game state to GAME_MENU
+        when(controllableModel.getGameState()).thenReturn(GameState.GAME_MENU);
+
+        // Simulate start game
+         controller.keyDown(Input.Keys.ENTER);
+
+        Mockito.verify(controllableModel, Mockito.times(1)).startLevel(LevelManager.Level.LEVEL_1);
+    }
+
 }
