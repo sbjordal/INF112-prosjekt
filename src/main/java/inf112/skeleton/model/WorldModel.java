@@ -160,7 +160,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     }
 
     private boolean positionIsOnBoard(CollisionBox collisionBox) {
-        final int belowLevel = -200;
+        final int belowLevel = -200; // brukes for at player skal falle utenfor view(port)
         boolean isWithinWidthBound = collisionBox.botLeft.x >= 0 &&
                 collisionBox.botLeft.x > viewportLeftX &&
                 collisionBox.topRight.x < board.width();
