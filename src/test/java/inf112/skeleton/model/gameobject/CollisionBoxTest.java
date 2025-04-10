@@ -17,7 +17,6 @@ public class CollisionBoxTest {
         Vector2 position= new Vector2(0,0);
         Vector2 size= new Vector2(10,10);
         player= new Player(3,1,new Transform(position,size));
-        System.out.println("Player reset to position: " + player.getTransform().getPos());
 
     }
     @Test

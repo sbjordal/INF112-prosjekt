@@ -67,15 +67,6 @@ public class CollisionHandler {
             }
         } else {
             if (currentTime - player.getLastAttackTime() >= ATTACK_COOLDOWN) {
-
-                // TODO...
-                // Enemy dealing damage to the player is moved into Enemy.moveEnemy()
-                // - This is to make sure that the enemy doesn't deal damage twice.
-                // - The logic needs to be inside Enemy class. If not, the enemy won't deal damage
-                //   when it collides with the player.
-                // - As of right now, ATTACK_COOLDOWN only affects totalScore. It does NOT affect the frequency of attacks.
-
-                // Reduce total score
                 final int scorePenalty = 4;
                 totalScore = Math.max(0, totalScore - scorePenalty);
 

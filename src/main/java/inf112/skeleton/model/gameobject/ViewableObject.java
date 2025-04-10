@@ -1,6 +1,8 @@
 package inf112.skeleton.model.gameobject;
 
-// TODO: comment me :)
+/**
+ * An interface to be implemented by all objects in the game that should be visible.
+ */
 public interface ViewableObject {
 
     /**
@@ -11,8 +13,9 @@ public interface ViewableObject {
     Transform getTransform();
 
     /**
-     * TODO: comment me
-     * @return
+     * A getter for CollisionBox. CollisionBox is the bounding box of an object, used to
+     * detect collisions.
+     * @return the collisionBox of the GameObject
      */
     CollisionBox getCollisionBox();
 

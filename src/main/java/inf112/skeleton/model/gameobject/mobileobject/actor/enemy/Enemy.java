@@ -97,10 +97,6 @@ public abstract class Enemy extends Actor implements Scorable {
             int middleOfPlayer = (int) (player.getTransform().getSize().x / 2);
             player.move(middleOfPlayer, 0);
 
-            // TODO: This is very cumbersome to fix considering it will only be temporary.
-            //       Thus, Jump force will NOT behave correctly when enemies revert the player back to normal size.
-            // jumpForce = NORMAL_JUMP_FORCE;
-
         } else {
             dealDamage(player, getDamage());
         }

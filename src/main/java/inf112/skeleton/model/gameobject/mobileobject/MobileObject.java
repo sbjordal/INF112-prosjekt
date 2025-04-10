@@ -1,9 +1,15 @@
 package inf112.skeleton.model.gameobject.mobileobject;
 
 import com.badlogic.gdx.math.Vector2;
+import inf112.skeleton.model.gameobject.CollisionBox;
 import inf112.skeleton.model.gameobject.GameObject;
 import inf112.skeleton.model.gameobject.Movable;
 import inf112.skeleton.model.gameobject.Transform;
+import inf112.skeleton.model.gameobject.fixedobject.item.Item;
+import inf112.skeleton.model.gameobject.mobileobject.actor.Player;
+import inf112.skeleton.model.gameobject.mobileobject.actor.enemy.Enemy;
+
+import java.util.List;
 
 /**
  * Represents all mobile object types.
@@ -45,7 +51,7 @@ public abstract class MobileObject extends GameObject implements Movable {
         updateCollisionBox();
     }
 
-    private void setMovementDirection(Vector2 oldPos, Vector2 newPos){
+    void setMovementDirection(Vector2 oldPos, Vector2 newPos){
         float deltaX = newPos.x - oldPos.x;
         if (deltaX > 0){
             movementDirection = 1;
@@ -67,6 +73,9 @@ public abstract class MobileObject extends GameObject implements Movable {
      * @param deltaY    The vertical offset value.
      */
     public void move(int deltaX, int deltaY) {
+        Vector2 oldPos = getTransform().getPos();
+        Vector2 newPos = new Vector2(oldPos.x + deltaX, oldPos.y + deltaY);
+        setMovementDirection(oldPos, newPos);
         getTransform().alterPosition(deltaX, deltaY);
         updateCollisionBox();
     }
@@ -110,8 +119,6 @@ public abstract class MobileObject extends GameObject implements Movable {
         }
     }
 
-    // TODO: Burde vi heller bruke en av move-metodene? Evt bruke moveHorizontally og moveVertically?
-    // Nå har vi 4 move-metoder
     @Override
     public void moveHorizontally(float deltaTime, boolean moveLeft, boolean moveRight) {
         if (moveLeft == moveRight) return;
@@ -125,5 +132,18 @@ public abstract class MobileObject extends GameObject implements Movable {
     public void moveVertically(float deltaTime) {
         int delta = (int)(verticalVelocity * deltaTime);
         move(0, delta);
+    }
+
+    @Override
+    public boolean isTouchingGround(List<GameObject> objectList) {
+        for (GameObject object : objectList) {
+            if (!(object instanceof Enemy || object instanceof Item || object instanceof Player)) {
+                CollisionBox objectCollisionBox = object.getCollisionBox();
+                if (this.getCollisionBox().isCollidingFromBottom(objectCollisionBox)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

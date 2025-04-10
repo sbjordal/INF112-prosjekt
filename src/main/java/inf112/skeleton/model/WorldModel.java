@@ -8,15 +8,11 @@ import inf112.skeleton.controller.Controller;
 import inf112.skeleton.model.gameobject.*;
 import inf112.skeleton.model.gameobject.fixedobject.item.Banana;
 import inf112.skeleton.model.gameobject.fixedobject.item.Coin;
-import inf112.skeleton.model.gameobject.fixedobject.item.Item;
 import inf112.skeleton.model.gameobject.fixedobject.item.Star;
 import inf112.skeleton.model.gameobject.mobileobject.actor.enemy.*;
 import inf112.skeleton.model.gameobject.mobileobject.actor.Player;
 import inf112.skeleton.view.ViewableWorldModel;
 import inf112.skeleton.view.WorldView;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -40,7 +36,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     boolean isMovingRight;
     boolean isMovingLeft;
     boolean isJumping;
-    private final Logger logger;
     private final int height;
     private final CollisionHandler collisionHandler;
 
@@ -48,7 +43,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         this.height = height;
         this.worldView = new WorldView(this, width, height);
         this.gameState = GameState.GAME_MENU;
-        this.logger = LoggerFactory.getLogger(WorldModel.class);
         this.currentLevel = LevelManager.Level.LEVEL_1;
         this.toRemove = new ArrayList<>();
         this.collisionHandler = new CollisionHandler(height);
@@ -164,9 +158,8 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         return isWithinWidthBound && isWithinHeightBound;
     }
 
-    //TODO: Må skrives om, ikke lov med instanceof-sjekk av objekter. Flyttes til actor eller player?
     private boolean isColliding(CollisionBox collisionBox){
-        Pair<Boolean, GameObject> collided = collisionHandler.checkCollision(player, objectList, collisionBox);
+        Pair<Boolean, GameObject> collided = collisionHandler.checkCollision(player, Collections.unmodifiableList(objectList), collisionBox);
         if (collided.first && !toRemove.contains(collided.second)) {
             if (collided.second instanceof Coin coin) {
                 int newScore = collisionHandler.handleCoinCollision(coin, totalScore);
@@ -187,19 +180,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
             }
         }
         return collided.first;
-    }
-
-    // TODO: Må skrives om og kanskje flyttes til movable? Evt actor eller player?
-    private boolean isTouchingGround() {
-        for (GameObject object : objectList) {
-            if (!(object instanceof Enemy || object instanceof Item || object instanceof Player)) {
-                CollisionBox objectCollisionBox = object.getCollisionBox();
-                if (player.getCollisionBox().isCollidingFromBottom(objectCollisionBox)) {
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 
     @Override
@@ -244,7 +224,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     }
 
     private void updatePlayerMovement(float deltaTime) {
-        boolean isGrounded = isTouchingGround();
+        boolean isGrounded = player.isTouchingGround(Collections.unmodifiableList(objectList));
         if (isJumping) {
             player.jump(isGrounded);
         }
@@ -310,7 +290,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     public List<ViewableObject> getObjectList() {
         return Collections.unmodifiableList(objectList);
     }
-
 
     @Override
     public void setMovingRight(boolean movingRight) {

@@ -3,8 +3,6 @@ package inf112.skeleton.app;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import inf112.skeleton.model.WorldModel;
-import org.slf4j.LoggerFactory;
-import org.slf4j.Logger;
 
 public class Main {
     private final static int WINDOW_WIDTH = 1500;

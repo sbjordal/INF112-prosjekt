@@ -2,8 +2,13 @@ package inf112.skeleton.model.gameobject.mobileobject.actor;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
+import inf112.skeleton.model.gameobject.CollisionBox;
 import inf112.skeleton.model.gameobject.GameObject;
 import inf112.skeleton.model.gameobject.Transform;
+import inf112.skeleton.model.gameobject.fixedobject.item.Item;
+import inf112.skeleton.model.gameobject.mobileobject.actor.enemy.Enemy;
+
+import java.util.List;
 
 /**
  * Represents the user-controlled actor in the game.
@@ -89,4 +94,5 @@ final public class Player extends Actor {
     }
 
     public int getJumpForce() { return jumpForce; }
+
 }
