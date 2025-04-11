@@ -80,7 +80,7 @@ public abstract class Enemy extends Actor implements Scorable {
         move(distance, 0);
     }
 
-    private void attack(Player player) {
+    protected void attack(Player player) {
         player.takeDamage(getDamage());
     }
 

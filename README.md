@@ -12,7 +12,8 @@
 ## Om spillet (TODO)
 
 Hvordan spille: 
-- Mål: komme lengst mulig, få høyest mulig score og ikke miste liv ved å komme borti monster/enemies. Man stater med ett liv.
+- Mål: Målet er å fullføre så mange level som mulig. Dette gjøres ved å fange en stjerne 
+- komme lengst mulig, få høyest mulig score og ikke miste liv ved å komme borti monster/enemies. Man stater med ett liv.
 - Kontroller: høyre/venstre piltaster for frem og tilbake.
 
 

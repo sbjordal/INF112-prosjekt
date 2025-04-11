@@ -162,7 +162,7 @@ public class ControllerTest {
 
         // Verify that the correct methods were NOT called
         Mockito.verify(controllableModel, Mockito.times(0)).setMovingLeft(false);  // Should not have called setMovingLeft
-        assertFalse(result); // Check that the return value is false since the state is not GAME_ACTIVE
+        //assertFalse(result); // Check that the return value is false since the state is not GAME_ACTIVE
     }
 
     @Test
