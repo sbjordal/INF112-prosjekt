@@ -9,15 +9,15 @@
 * Lenke til Jira (krever invitert tilgang): https://endre-aspoy.atlassian.net/jira/core/projects/IS/board
 
 
-## Om spillet (TODO)
+## Om spillet 
 
 Hvordan spille: 
-- Mål: Målet er å fullføre så mange level som mulig. Dette gjøres ved å fange en stjerne 
-- komme lengst mulig, få høyest mulig score og ikke miste liv ved å komme borti monster/enemies. Man stater med ett liv.
-- Kontroller: høyre/venstre piltaster for frem og tilbake.
+- Mål: Målet med spillet er å fange stjernen på hvert level. Underveis skal spilleren samle penger, spise bananer, drepe
+  fiender samt unngå å bli drept selv. 
+-  Kontroller: høyre/venstre piltaster for frem og tilbake, eventuelt A/D. For å hoppe, trykk inn space eller W. 
 
 
-## Kjøring (TODO)
+## Kjøring 
 * Kompileres med `mvn package`, benytter Apache Maven 3.6.3.
 * Kjøres med `mvn exec:java`.
 * Krever Java 17.0.14 eller senere.
@@ -27,7 +27,7 @@ Hvordan spille:
 - En snegl på siste level beveger seg innimellom bak/gjennom vegger. Det virker som at dette kun skjer dersom man har spilt gjennom alle levelene en gang før.
 - Hvis du holder inne hoppe knappen mens du pauser, så vil player hoppe konstant selv om du har slippet knappen.
 
-## Credits (TODO)
+## Credits 
 
 ### Konsept
 - Super Mario Bros (1984) for inspirasjon.
