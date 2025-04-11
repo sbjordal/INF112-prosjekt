@@ -88,7 +88,7 @@ public abstract class Enemy extends Actor implements Scorable {
      *
      * @param player The player to attack.
      */
-    private void attack(Player player) {
+    protected void attack(Player player) {
         // TODO: This is copy-pasted straight from WorldModel. This should use Player.hitBy() once WorldModel code regarding player is refactored.
         // TODO: include ATTACK_COOLDOWN to affect attack frequency.
         if (player.getHasPowerUp()) {

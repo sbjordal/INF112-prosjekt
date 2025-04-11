@@ -11,9 +11,7 @@ public class Main {
     private final static int WINDOW_HEIGHT = 920;
 
     public static void main(String[] args) {
-        Logger logger = LoggerFactory.getLogger(Main.class);
         Lwjgl3ApplicationConfiguration cfg = new Lwjgl3ApplicationConfiguration();
-        //logger.info("App started: {}", LocalDateTime.now());
         cfg.setResizable(false);
         cfg.setTitle("Mario 2");
         cfg.setWindowedMode(WINDOW_WIDTH, WINDOW_HEIGHT);
