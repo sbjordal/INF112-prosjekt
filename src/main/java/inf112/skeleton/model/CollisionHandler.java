@@ -30,6 +30,13 @@ public class CollisionHandler {
     }
 
     Pair<Boolean, GameObject> checkCollision(Player player, List<GameObject> gameObjects, CollisionBox collisionBox) {
+        // for (GameObject object : gameObjects) {
+        //  for (GameObject object : gameObjects) {
+        //    if collided:
+        //            accept()
+        //  }
+        // }
+
         for (GameObject object : gameObjects) {
             if (object == player) continue;
             CollisionBox otherBox = object.getCollisionBox();

@@ -2,10 +2,8 @@ package inf112.skeleton.model.gameobject.mobileobject.actor;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
-import inf112.skeleton.model.gameobject.Collidable;
-import inf112.skeleton.model.gameobject.Visitor;
-import inf112.skeleton.model.gameobject.GameObject;
-import inf112.skeleton.model.gameobject.Transform;
+import inf112.skeleton.model.Pair;
+import inf112.skeleton.model.gameobject.*;
 import inf112.skeleton.model.gameobject.fixedobject.Ground;
 import inf112.skeleton.model.gameobject.fixedobject.item.Banana;
 import inf112.skeleton.model.gameobject.fixedobject.item.Coin;
@@ -91,6 +89,14 @@ final public class Player extends Actor implements Visitor, Collidable {
 
     @Override
     public void visit(Ground ground) {
+        boolean isOnTopCollision = getCollisionBox().isCollidingFromTop(ground.getCollisionBox());
+
+        if (isOnTopCollision && getVerticalVelocity() > 0) {
+            float bumpForceLoss = 0.1f;
+            int bumpSpeed = (int) (-getVerticalVelocity() * bumpForceLoss);
+            setVerticalVelocity(bumpSpeed);
+        }
+
         //TODO, implement me
     }
 
@@ -134,9 +140,7 @@ final public class Player extends Actor implements Visitor, Collidable {
     }
 
     @Override
-    public void visit(Player player) {
-        // Ingenting skal skje?
-    }
+    public void visit(Player player) {}
 
     public int getTotalScore() {
         return totalScore;
