@@ -203,7 +203,7 @@ Husk at akseptansekriterier ofte skrives mer eller mindre som tester
 7. Husk å skrive hvilke bugs som finnes i de kravene dere har utført (dersom det finnes bugs).
 
 - Bugs:
-  - mister ikke liv hvis player collider med et item hvis de går i samme retning
+  - mister ikke liv hvis player collider med en fiende hvis de går i samme retning
   - En snegl på siste level beveger seg innimellom bak/gjennom vegger. Det virker som at dette kun skjer dersom man har spilt gjennom alle levelene en gang før.
   - Hvis du holder inne hoppe knappen mens du pauser, så vil player hoppe konstant selv om du har slippet knappen.
  
