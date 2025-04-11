@@ -13,14 +13,17 @@ public interface ControllableWorldModel {
     GameState getGameState();
 
     /**
-     * TODO skriv!
-     * @return
+     * InfoMode is a boolean value used to decide if the information of the game should be displayed or not.
+     * @return a boolean, true if the information should be displayed, otherwise false.
      */
     boolean getInfoMode();
 
 
     /**
      * Modifies infoMode
+     * @param infoMode the boolean value it should be set to.
+     *                 True if you want to signal that infoMode should be displayed
+     *                 False, if not.
      */
     void setInfoMode(boolean infoMode);
 
@@ -39,15 +42,15 @@ public interface ControllableWorldModel {
      */
     void resume();
 
-    /***
-     * //TODO
-     * @param movingRight
+    /**
+     * A method for signalling whether the player is currently moving to the right, or not.
+     * @param movingRight, True if the player is currently moving right, False if not.
      */
     void setMovingRight(boolean movingRight);
 
     /**
-     * // TODO
-     * @param movingLeft
+     * A method for signalling whether the player is currently moving to the left, or not.
+     * @param movingLeft, True if the player is currently moving left, False if not.
      */
     void setMovingLeft(boolean movingLeft);
 
@@ -57,13 +60,6 @@ public interface ControllableWorldModel {
      * @param isJumping Boolean determine the jumping state.
      */
     void setJumping(boolean isJumping);
-
-    /**
-     * Gets the original speed of the object that was set when the object was initialized
-     * // TODO : ?
-     * @return the original speed of the object
-     */
-    int getMovementSpeed();
 
     /**
      * Start the specified level.

@@ -5,8 +5,6 @@ import inf112.skeleton.model.gameobject.Transform;
 
 /**
  * A factory class responsible for creating {@link Enemy} objects.
- * // TODO: Legge til Enemy type i argument og konstruktør og legge til rette for å kunne ha
- *          ulike create-metoder for ulike enemy typer senere.
  */
 public class EnemyFactory {
 

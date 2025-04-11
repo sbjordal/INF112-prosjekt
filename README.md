@@ -12,7 +12,8 @@
 ## Om spillet (TODO)
 
 Hvordan spille: 
-- Mål: komme lengst mulig, få høyest mulig score og ikke miste liv ved å komme borti monster/enemies. Man stater med ett liv.
+- Mål: Målet er å fullføre så mange level som mulig. Dette gjøres ved å fange en stjerne 
+- komme lengst mulig, få høyest mulig score og ikke miste liv ved å komme borti monster/enemies. Man stater med ett liv.
 - Kontroller: høyre/venstre piltaster for frem og tilbake.
 
 
@@ -21,10 +22,10 @@ Hvordan spille:
 * Kjøres med `mvn exec:java`.
 * Krever Java 17.0.14 eller senere.
 
-## Kjente feil (TODO)
-- Dersom man pauser under bevegelse vil spilleren fortsette å bevege når man returnerer til et aktivt spill, selv om
-piltasten ikke holdes inne.
-- Dersom man trykker begge piltaster samtidig vil bakgrunnen bevege seg, selv om spilleren ikke beveger seg.
+## Kjente feil 
+- mister ikke liv hvis player collider med en fiende hvis de går i samme retning
+- En snegl på siste level beveger seg innimellom bak/gjennom vegger. Det virker som at dette kun skjer dersom man har spilt gjennom alle levelene en gang før.
+- Hvis du holder inne hoppe knappen mens du pauser, så vil player hoppe konstant selv om du har slippet knappen.
 
 ## Credits (TODO)
 

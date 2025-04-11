@@ -94,18 +94,18 @@ public class MobileObjectTest {
         assertEquals(0, player.getVerticalVelocity(), "On ground, gravity should not affect velocity.");
     }
 
-    //TODO: Fungerer ikke, actual er 0 i alle tilfellene, oppdateres ikke riktig etter moveHorizontally?
-//    @Test
-//    public void testGetMovementDirection() {
-//        player.moveHorizontally(1 / 60f, true, false);
-//        assertEquals(-1, player.getMovementDirection(), "Movement direction should be -1 when moving left.");
-//
-//        player.moveHorizontally(1 / 60f, false, true);
-//        assertEquals(1, player.getMovementDirection(), "Movement direction should be 1 when moving right.");
-//
-//        player.moveHorizontally(1 / 60f, false, false);
-//        assertEquals(0, player.getMovementDirection(), "Movement direction should be 0 when not moving.");
-//    }
+    @Test
+    public void testGetMovementDirection() {
+        player.moveHorizontally(1 / 60f, true, false);
+        assertEquals(-1, player.getMovementDirection(), "Movement direction should be -1 when moving left.");
+
+        player.moveHorizontally(1 / 60f, false, true);
+        assertEquals(1, player.getMovementDirection(), "Movement direction should be 1 when moving right.");
+
+        player.move(0, 0);
+        player.moveHorizontally(1 / 60f, false, false);
+        assertEquals(0, player.getMovementDirection(), "Movement direction should be 0 when not moving.");
+    }
 
     @Test
     public void testAddVerticalVelocity() {
@@ -163,8 +163,6 @@ public class MobileObjectTest {
     public void testGetMovementSpeed() {
         assertEquals(350, player.getMovementSpeed());
     }
-
-
 
 
 }

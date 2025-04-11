@@ -11,14 +11,14 @@ public interface ViewableWorldModel {
      *
      * @return board width
      */
-    public int getBoardWidth();
+    int getBoardWidth();
 
     /**
      * Returns the player as a ViewableObject
      *
      * @return ViewableObject of the player
      */
-    public ViewableObject getViewablePlayer();
+    ViewableObject getViewablePlayer();
 
 
     /**
@@ -27,15 +27,7 @@ public interface ViewableWorldModel {
      *
      * @return list of ViewableObjects
      */
-    public List<ViewableObject> getObjectList();
-
-
-    /**
-     * Returns the current speed of the player
-     *
-     * @return speed of player as int
-     */
-    public int getMovementSpeed();
+    List<ViewableObject> getObjectList();
 
     /**
      * Tells us the state of the game
@@ -82,8 +74,8 @@ public interface ViewableWorldModel {
     int getLevelWidth();
 
     /**
-     * TODO skriv!
-     * @return
+     * InfoMode is a boolean value used to decide if the information of the game should be displayed or not.
+     * @return a boolean, true if the information should be displayed, otherwise false.
      */
     boolean getInfoMode();
 

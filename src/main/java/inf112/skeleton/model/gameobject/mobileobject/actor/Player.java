@@ -22,6 +22,7 @@ final public class Player extends Actor implements CollisionVisitor {
     private static final int NORMAL_BOUNCE_FORCE = 35000;
     private static final int SMALL_BOUNCE_FORCE = 27000;
     private static final int NORMAL_JUMP_FORCE = 63000;
+    private static final Vector2 STANDARD_PLAYER_SIZE = new Vector2(40, 80);
     private int jumpForce;
     private boolean isJustRespawned;
     private boolean hasPowerUp;
@@ -185,7 +186,18 @@ final public class Player extends Actor implements CollisionVisitor {
         this.lastBounceTime = lastBounceTime;
     }
 
-    public int getJumpForce() {
-        return jumpForce;
+    public int getJumpForce() { return jumpForce; }
+
+    public void takeDamage(int damage){
+        if (hasPowerUp) {
+            hasPowerUp = false;
+            setSize(STANDARD_PLAYER_SIZE);
+            int middleOfPlayer = (int) (getTransform().getSize().x / 2);
+            move(middleOfPlayer, 0);
+
+        } else {
+            receiveDamage(damage);
+        }
     }
+
 }

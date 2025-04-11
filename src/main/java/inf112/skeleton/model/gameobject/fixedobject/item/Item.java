@@ -7,7 +7,7 @@ import inf112.skeleton.model.gameobject.mobileobject.actor.Player;
 /**
  * Represents every fixed object that can be picked up by {@link Player}.
  */
-public class Item extends FixedObject {// TODO: fjerne denne klassen siden den ikke har noe unik funksjon?
+public class Item extends FixedObject {
 
     /**
      * Creates a new Item with the specified transform.
@@ -16,11 +16,5 @@ public class Item extends FixedObject {// TODO: fjerne denne klassen siden den i
      */
     public Item(Transform transform) {
         super(transform);
-    }
-
-    public void pickUp() {
-        // TODO: remove this method. Logic is handled in WorldModel.
-        //       Java doesn't support passing by reference for primitives.
-        //       So updating 'coinCounter' and 'totalScore' would be cumbersome.
     }
 }

@@ -1,19 +1,18 @@
 package inf112.skeleton.controller;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputAdapter;
 import inf112.skeleton.model.GameState;
-import com.badlogic.gdx.InputProcessor;
 import inf112.skeleton.model.LevelManager;
 
-import static java.lang.System.exit;
-
 /**
- * A class that handles key input and manipulates the model accordingly.
+ * A class that handles keyboard input and manipulates the model accordingly.
  *
  * Reading material on event handling for use of LigGDX:
  * https://libgdx.com/wiki/input/event-handling
  */
-public class Controller implements InputProcessor {
+public class Controller extends InputAdapter {
 
     private final ControllableWorldModel controllableModel;
 
@@ -21,140 +20,66 @@ public class Controller implements InputProcessor {
         this.controllableModel = controllableModel;
     }
 
-    /**
-     * When keyboard key is pressed down once. Used for player movement.
-     * Only works for player movement if Gamestate is Active.
-     *
-     * @param keyCode   integer corresponding to a key pressed.
-     * @return          true if successful, false otherwise.
-     */
+    private boolean isGameState(GameState state) {
+        return controllableModel.getGameState() == state;
+    }
+
+    private void handleMovement(int keyCode, boolean isPressed) {
+        switch (keyCode) {
+            case Input.Keys.LEFT, Input.Keys.A:
+                controllableModel.setMovingLeft(isPressed);
+                break;
+            case Input.Keys.RIGHT, Input.Keys.D:
+                controllableModel.setMovingRight(isPressed);
+                break;
+            case Input.Keys.UP, Input.Keys.W, Input.Keys.SPACE:
+                controllableModel.setJumping(isPressed);
+                break;
+        }
+    }
+
+    private void toggleInfoMode() {
+        controllableModel.setInfoMode(!controllableModel.getInfoMode());
+    }
+
     @Override
     public boolean keyDown(int keyCode) {
         if (keyCode == Input.Keys.ESCAPE) {
-            exit(0);
-        }
-        if (controllableModel.getGameState() == GameState.GAME_MENU) {
-            if (keyCode == Input.Keys.ENTER) {
-                controllableModel.startLevel(LevelManager.Level.LEVEL_1);
-            }
-            return true;
-        }
-        else if (controllableModel.getGameState() == GameState.GAME_ACTIVE) { // TODO, denne linjen blir brukt mange ganger her, mulig å gjøre mer generisk?
-            switch (keyCode) {
-                case Input.Keys.LEFT, Input.Keys.A:
-                    controllableModel.setMovingLeft(true);
-                    break;
-                case Input.Keys.RIGHT, Input.Keys.D:
-                    controllableModel.setMovingRight(true);
-                    break;
-                case Input.Keys.UP, Input.Keys.W, Input.Keys.SPACE:
-                    controllableModel.setJumping(true);
-                    break;
-            }
-            return true;
-        }
-        else if (controllableModel.getGameState() == GameState.GAME_OVER) {
-            switch (keyCode) {
-                case Input.Keys.ENTER:
-                    controllableModel.backToGameMenu();
-                    break;
-            }
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * When finger is lifted from key. Used for player movement.
-     * Only works for player movement if Gamestate is Active.
-     *
-     * @param keyCode   integer corresponding to a key pressed.
-     * @return          true if successful, false otherwise.
-     */
-    @Override
-    public boolean keyUp(int keyCode) {
-        if (controllableModel.getGameState() == GameState.GAME_ACTIVE) {
-            switch (keyCode) {
-                case Input.Keys.LEFT, Input.Keys.A:
-                    controllableModel.setMovingLeft(false);
-                    break;
-                case Input.Keys.RIGHT, Input.Keys.D:
-                    controllableModel.setMovingRight(false);
-                    break;
-                case Input.Keys.UP, Input.Keys.W, Input.Keys.SPACE:
-                    controllableModel.setJumping(false);
-                    break;
-            }
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * When a keyboard key is pressed, and not held down.
-     * Mainly used for changing game state, like start, pause, unpause.
-     * @param c     specific keyboard key
-     * @return      true if successful, false if not
-     */
-    @Override
-    public boolean keyTyped(char c) {
-        if (controllableModel.getGameState() == GameState.GAME_MENU) {
-             if (c == 'i') {
-                 controllableModel.setInfoMode(!controllableModel.getInfoMode());
-            }
-            return true;
-        }
-        if (controllableModel.getGameState() == GameState.GAME_ACTIVE) {
-            if (c == 'p') {
-                controllableModel.setMovingLeft(false);
-                controllableModel.setMovingRight(false);
-                controllableModel.pause();
-            }
-        }
-        else if (controllableModel.getGameState() == GameState.GAME_PAUSED) {
-            if (c == 'p')  {
-                controllableModel.resume();
-            }
-            else if (c == 'r')  {
-                controllableModel.backToGameMenu();
-            }
-            else if (c == 'i') {
-                controllableModel.setInfoMode(!controllableModel.getInfoMode());
-            }
+            Gdx.app.exit();
+        } else if (isGameState(GameState.GAME_MENU) && keyCode == Input.Keys.ENTER) {
+            controllableModel.startLevel(LevelManager.Level.LEVEL_1);
+        } else if (isGameState(GameState.GAME_ACTIVE)) {
+            handleMovement(keyCode, true);
+        } else if (isGameState(GameState.GAME_OVER) && keyCode == Input.Keys.ENTER) {
+            controllableModel.backToGameMenu();
         }
         return true;
     }
 
-
-    // TODO, få slettet metodene under, kommer ikke til å bruke disse, forslag: Lag en "mellomklasse" / grensesnitt
     @Override
-    public boolean touchDown(int i, int i1, int i2, int i3) {
-        return false;
+    public boolean keyUp(int keyCode) {
+        if (isGameState(GameState.GAME_ACTIVE)) {
+            handleMovement(keyCode, false);
+        }
+        return true;
     }
 
     @Override
-    public boolean touchUp(int i, int i1, int i2, int i3) {
-        return false;
-    }
-
-    @Override
-    public boolean touchCancelled(int i, int i1, int i2, int i3) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDragged(int i, int i1, int i2) {
-        return false;
-    }
-
-    @Override
-    public boolean mouseMoved(int i, int i1) {
-        return false;
-    }
-
-    @Override
-    public boolean scrolled(float v, float v1) {
-        return false;
+    public boolean keyTyped(char c) {
+        if (isGameState(GameState.GAME_MENU) && c == 'i') {
+            toggleInfoMode();
+        } else if (isGameState(GameState.GAME_ACTIVE) && c == 'p') {
+            controllableModel.setMovingLeft(false);
+            controllableModel.setMovingRight(false);
+            controllableModel.pause();
+        } else if (isGameState(GameState.GAME_PAUSED)) {
+            switch (c) {
+                case 'p' -> controllableModel.resume();
+                case 'r' -> controllableModel.backToGameMenu();
+                case 'i' -> toggleInfoMode();
+            }
+        }
+        return true;
     }
 
 }

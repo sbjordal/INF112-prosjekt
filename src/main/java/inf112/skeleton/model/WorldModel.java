@@ -9,20 +9,16 @@ import inf112.skeleton.model.gameobject.*;
 import inf112.skeleton.model.gameobject.fixedobject.Ground;
 import inf112.skeleton.model.gameobject.fixedobject.item.Banana;
 import inf112.skeleton.model.gameobject.fixedobject.item.Coin;
-import inf112.skeleton.model.gameobject.fixedobject.item.Item;
 import inf112.skeleton.model.gameobject.fixedobject.item.Star;
 import inf112.skeleton.model.gameobject.mobileobject.actor.enemy.*;
 import inf112.skeleton.model.gameobject.mobileobject.actor.Player;
 import inf112.skeleton.view.ViewableWorldModel;
 import inf112.skeleton.view.WorldView;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class WorldModel implements ViewableWorldModel, ControllableWorldModel, ApplicationListener {
+public class WorldModel implements ViewableWorldModel, ControllableWorldModel, ApplicationListener, PositionValidator {
     public static final int LEVEL_WIDTH = 4500;
     GameState gameState;
     Player player;
@@ -39,7 +35,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     boolean isMovingRight;
     boolean isMovingLeft;
     boolean isJumping;
-    private final Logger logger;
     private final int height;
     private final CollisionHandler collisionHandler;
 
@@ -47,7 +42,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         this.height = height;
         this.worldView = new WorldView(this, width, height);
         this.gameState = GameState.GAME_MENU;
-        this.logger = LoggerFactory.getLogger(WorldModel.class);
         this.currentLevel = LevelManager.Level.LEVEL_1;
         this.toRemove = new ArrayList<>();
         this.collisionHandler = new CollisionHandler(height);
@@ -68,7 +62,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         setupGameObjects();
         setupGraphics();
         setupInput();
-        setupLogger();
     }
 
     private void setupGameObjects() {
@@ -90,13 +83,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         collisionHandler.init();
     }
 
-    //TODO: Skal denne fjernes?
-    private void setupLogger() {
-//        logger.info("FPS {}", Gdx.graphics.getFramesPerSecond());
-//        logger.info("Height {}", Gdx.graphics.getHeight());
-//        logger.info("Width {}", Gdx.graphics.getWidth());
-    }
-
     /**
      * Start the specified level.
      *
@@ -109,53 +95,8 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         resume();
     }
 
-    /**
-     * Filters player's position to be valid.
-     * A valid position is a position that does not overlap with any other {@link GameObject} types.
-     * The filter-algorithm will favor the desired distances.
-     *
-     * @param deltaX    the desired distance in the horizontal direction.
-     * @param deltaY    the desired distance in the vertical direction.
-     * @return          filtered player position.
-     */
-    private Vector2 filterPlayerPosition(int deltaX, int deltaY) {
-        Transform transform = player.getTransform();
-        Vector2 position = transform.getPos();
-        Vector2 size = transform.getSize();
-
-        float filteredX = binarySearch(position.x, position.y, deltaX, size, true);
-        float filteredY = binarySearch(filteredX, position.y, deltaY, size, false);
-
-        return new Vector2(filteredX, filteredY);
-    }
-
-    private float binarySearch(float startX, float startY, int delta, Vector2 size, boolean isX) {
-        int low = 0;
-        int high = Math.abs(delta);
-        boolean isNegative = delta < 0;
-
-        while (low < high) {
-            int mid = (low + high + 1) / 2;
-            int testDelta = isNegative ? -mid : mid;
-
-            Vector2 newPosition = isX ? new Vector2(startX + testDelta, startY) : new Vector2(startX, startY + testDelta);
-            Transform newTransform = new Transform(newPosition, size);
-            CollisionBox newCollisionBox = new CollisionBox(newTransform);
-
-            if (isLegalMove(newCollisionBox)) {
-                low = mid;
-            } else {
-                high = mid - 1;
-            }
-        }
-
-        final float startCoordinate = isX ? startX : startY;
-        final float endCoordinate = isNegative ? -low : low;
-
-        return startCoordinate + endCoordinate;
-    }
-
-    boolean isLegalMove(CollisionBox collisionBox) {
+    @Override
+    public boolean isLegalMove(CollisionBox collisionBox) {
         return positionIsOnBoard(collisionBox) && !isColliding(collisionBox);
     }
 
@@ -169,9 +110,8 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         return isWithinWidthBound && isWithinHeightBound;
     }
 
-    //TODO: Må skrives om, ikke lov med instanceof-sjekk av objekter. Flyttes til actor eller player?
     private boolean isColliding(CollisionBox collisionBox){
-        Pair<Boolean, GameObject> collided = collisionHandler.checkCollision(player, objectList, collisionBox);
+        Pair<Boolean, GameObject> collided = collisionHandler.checkCollision(player, Collections.unmodifiableList(objectList), collisionBox);
         if (collided.first && !toRemove.contains(collided.second)) {
             if (collided.second instanceof Coin coin) {
                 int newScore = collisionHandler.handleCoinCollision(coin, totalScore);
@@ -237,7 +177,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     }
 
     private void resolvePlayerMovement(int deltaX, int deltaY) {
-        Vector2 newPlayerPosition = filterPlayerPosition(deltaX, deltaY);
+        Vector2 newPlayerPosition = player.filterPosition(deltaX, deltaY, this);
         if (!player.getRespawned()) {
             player.move(newPlayerPosition);
         }
@@ -249,7 +189,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     }
 
     private void updatePlayerMovement(float deltaTime) {
-        boolean isGrounded = isTouchingGround();
+        boolean isGrounded = player.isTouchingGround(Collections.unmodifiableList(objectList));
         if (isJumping) {
             player.jump(isGrounded);
         }
@@ -313,11 +253,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     @Override
     public List<ViewableObject> getObjectList() {
         return Collections.unmodifiableList(objectList);
-    }
-
-    @Override
-    public int getMovementSpeed() {
-        return player.getMovementSpeed();
     }
 
     @Override
