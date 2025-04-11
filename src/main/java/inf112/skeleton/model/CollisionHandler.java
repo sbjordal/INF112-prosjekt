@@ -1,8 +1,10 @@
 package inf112.skeleton.model;
 
 import com.badlogic.gdx.Gdx;
+import inf112.skeleton.model.gameobject.Collidable;
 import inf112.skeleton.model.gameobject.CollisionBox;
 import inf112.skeleton.model.gameobject.GameObject;
+import inf112.skeleton.model.gameobject.Visitor;
 import inf112.skeleton.model.gameobject.fixedobject.FixedObject;
 import inf112.skeleton.model.gameobject.fixedobject.Ground;
 import inf112.skeleton.model.gameobject.fixedobject.item.Banana;
@@ -29,15 +31,18 @@ public class CollisionHandler {
         this.soundHandler = new SoundHandler();
     }
 
-    Pair<Boolean, GameObject> checkCollision(Player player, List<GameObject> gameObjects, CollisionBox collisionBox) {
-        // for (GameObject object : gameObjects) {
-        //  for (GameObject object : gameObjects) {
-        //    if collided:
-        //            accept()
-        //  }
-        // }
+    Pair<Boolean, Collidable> checkCollision(List<Collidable> collidables, List<Visitor> visitors) {
+         for (Visitor visitor : visitors) {
+             for (Collidable collided : collidables) {
+                 if (visitor.getCollisionBox().isCollidingWith(collided.getCollisionBox())) {
+                     collided.accept(visitor);
+                 }
+            }
+         }
 
-        for (GameObject object : gameObjects) {
+
+        /////////////////////////////////////////////////
+        for (Collidable object : gameObjects) {
             if (object == player) continue;
             CollisionBox otherBox = object.getCollisionBox();
             boolean isTopCollision = collisionBox.isCollidingFromTop(otherBox);

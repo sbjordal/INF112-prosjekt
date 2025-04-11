@@ -19,6 +19,8 @@ final public class Player extends Actor implements Visitor, Collidable {
     private static final int NORMAL_BOUNCE_FORCE = 35000;
     private static final int SMALL_BOUNCE_FORCE = 27000;
     private static final int NORMAL_JUMP_FORCE = 63000;
+    private final int ATTACK_COOLDOWN = 800;
+    private final int BOUNCE_COOLDOWN = 64;
     private static final Vector2 STANDARD_PLAYER_SIZE = new Vector2(40, 80);
     private int jumpForce;
     private boolean isJustRespawned;
@@ -104,39 +106,38 @@ final public class Player extends Actor implements Visitor, Collidable {
     public void visit(Enemy enemy) {
         //TODO, nmå bli fikset med hva som kom fra CollisionHandler (kopiert derfa)
         // Originale metode parameter fra CollisionHandler:
-//        (Enemy enemy, Integer totalScore, CollisionBox newPlayerCollisionBox){
-            long currentTime = System.currentTimeMillis();
+        long currentTime = System.currentTimeMillis();
 
-            if (newPlayerCollisionBox.isCollidingFromBottom(enemy.getCollisionBox())) {
-                if (currentTime - getLastBounceTime() >= BOUNCE_COOLDOWN) {
+        if (getCollisionBox().isCollidingFromBottom(enemy.getCollisionBox())) {
+            if (currentTime - getLastBounceTime() >= BOUNCE_COOLDOWN) {
 
-                    bounce();
-                    dealDamage(enemy, getDamage());
+                bounce();
+                dealDamage(enemy, getDamage());
 
-                    if (!enemy.isAlive()) {
-                        totalScore += enemy.getObjectScore();
-                    }
-
-                    setLastBounceTime(currentTime);
+                if (!enemy.isAlive()) {
+                    totalScore += enemy.getObjectScore();
                 }
-            } else {
-                if (currentTime - getLastAttackTime() >= ATTACK_COOLDOWN) {
 
-                    // TODO...
-                    // Enemy dealing damage to the player is moved into Enemy.moveEnemy()
-                    // - This is to make sure that the enemy doesn't deal damage twice.
-                    // - The logic needs to be inside Enemy class. If not, the enemy won't deal damage
-                    //   when it collides with the player.
-                    // - As of right now, ATTACK_COOLDOWN only affects totalScore. It does NOT affect the frequency of attacks.
-
-                    // Reduce total score
-                    final int scorePenalty = 4;
-                    totalScore = Math.max(0, totalScore - scorePenalty);
-
-                    setLastAttackTime(currentTime);
-                }
+                setLastBounceTime(currentTime);
             }
-//        }
+        } else {
+            if (currentTime - getLastAttackTime() >= ATTACK_COOLDOWN) {
+
+                // TODO...
+                // Enemy dealing damage to the player is moved into Enemy.moveEnemy()
+                // - This is to make sure that the enemy doesn't deal damage twice.
+                // - The logic needs to be inside Enemy class. If not, the enemy won't deal damage
+                //   when it collides with the player.
+                // - As of right now, ATTACK_COOLDOWN only affects totalScore. It does NOT affect the frequency of attacks.
+
+                // Reduce total score
+                final int scorePenalty = 4;
+                totalScore = Math.max(0, totalScore - scorePenalty);
+
+                setLastAttackTime(currentTime);
+            }
+        }
+
     }
 
     @Override

@@ -110,7 +110,18 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         return isWithinWidthBound && isWithinHeightBound;
     }
 
-    private boolean isColliding(CollisionBox collisionBox){
+    private boolean isColliding(List<Visitor> visitors, List<Collidable> collidables) {
+
+        for (Visitor visitor : visitors) {
+            for (Collidable collided : collidables) {
+                if (visitor.getCollisionBox().isCollidingWith(collided.getCollisionBox())) {
+                    collided.accept(visitor);
+                }
+            }
+        }
+
+
+
         Pair<Boolean, GameObject> collided = collisionHandler.checkCollision(player, Collections.unmodifiableList(objectList), collisionBox);
         if (collided.first && !toRemove.contains(collided.second)) {
             if (collided.second instanceof Coin coin) {
