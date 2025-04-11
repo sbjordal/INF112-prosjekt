@@ -1,8 +1,10 @@
 package inf112.skeleton.model.gameobject.fixedobject.item;
 import com.badlogic.gdx.math.Vector2;
+import inf112.skeleton.model.gameobject.Collidable;
 import inf112.skeleton.model.gameobject.Transform;
+import inf112.skeleton.model.gameobject.Visitor;
 
-public class Banana extends Item {
+public class Banana extends Item implements Collidable {
     private final int BIG_JUMP_FORCE = 73000; //////
     private final Vector2 LARGE_PLAYER_SIZE = new Vector2(65, 135);
     /**
@@ -12,6 +14,11 @@ public class Banana extends Item {
      */
     public Banana(Transform transform) {
         super(transform);
+    }
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
     }
 
     public int getBigJumpForce() {

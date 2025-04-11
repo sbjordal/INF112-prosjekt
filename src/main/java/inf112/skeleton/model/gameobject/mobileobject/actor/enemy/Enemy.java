@@ -1,11 +1,12 @@
 package inf112.skeleton.model.gameobject.mobileobject.actor.enemy;
 
 import inf112.skeleton.model.WorldModel;
-import inf112.skeleton.model.gameobject.CollisionBox;
-import inf112.skeleton.model.gameobject.Scorable;
-import inf112.skeleton.model.gameobject.GameObject;
-import inf112.skeleton.model.gameobject.Transform;
+import inf112.skeleton.model.gameobject.*;
+import inf112.skeleton.model.gameobject.fixedobject.Ground;
+import inf112.skeleton.model.gameobject.fixedobject.item.Banana;
+import inf112.skeleton.model.gameobject.fixedobject.item.Coin;
 import inf112.skeleton.model.gameobject.fixedobject.item.Item;
+import inf112.skeleton.model.gameobject.fixedobject.item.Star;
 import inf112.skeleton.model.gameobject.mobileobject.actor.Actor;
 import inf112.skeleton.model.gameobject.mobileobject.actor.Player;
 
@@ -15,7 +16,7 @@ import java.util.List;
  * Represents all enemy types.
  * An enemy type is any {@link GameObject} that inflicts damage on the player.
  */
-public abstract class Enemy extends Actor implements Scorable {
+public abstract class Enemy extends Actor implements Scorable, Visitor, Collidable {
     final private static long COLLISION_COOLDOWN = 48;
     final private int objectScore;
     private long lastCollisionTime;
@@ -116,6 +117,54 @@ public abstract class Enemy extends Actor implements Scorable {
             case RIGHT: direction = Direction.LEFT; break;
         }
     }
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
+
+    @Override
+    public void visit(Coin coin) {}
+
+    @Override
+    public void visit(Star star) {}
+
+    @Override
+    public void visit(Banana banana) {}
+
+    @Override
+    public void visit(Ground ground) {
+        boolean isCollidingFromLeft = getCollisionBox().isCollidingFromLeft(ground.getCollisionBox());
+        boolean isCollidingFromRight = getCollisionBox().isCollidingFromRight(ground.getCollisionBox());
+        if (isCollidingFromLeft || isCollidingFromRight) {
+            switchDirection();
+        }
+    }
+
+    @Override
+    public void visit(Enemy enemy) {
+        switchDirection();
+    }
+
+    @Override
+    public void visit(Player player) {
+        CollisionBox playerCollisionBox = player.getCollisionBox();
+        final float endOfLevel = WorldModel.LEVEL_WIDTH - getTransform().getSize().x;
+        final boolean isColliding = getCollisionBox().isCollidingWith(playerCollisionBox);
+        final boolean isCollidingFromBottom = getCollisionBox().isCollidingFromBottom(playerCollisionBox);
+        final boolean isOutsideLevel = getTransform().getPos().x < 0 || getTransform().getPos().x > endOfLevel;
+
+
+        if (((isColliding && !isCollidingFromBottom) || isOutsideLevel) && isReadyToCollide()) {
+            if (!isOutsideLevel) {
+                attack(player);
+            }
+            switchDirection();
+        }
+
+    }
+
+
 
     @Override
     public int getObjectScore() {

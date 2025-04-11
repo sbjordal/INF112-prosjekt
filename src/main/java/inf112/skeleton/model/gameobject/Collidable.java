@@ -2,6 +2,10 @@ package inf112.skeleton.model.gameobject;
 
 public interface Collidable {
 
-    void accept(CollisionVisitor visitor);
+    /**
+     * TODO
+     * @param visitor
+     */
+    void accept(Visitor visitor);
 
 }

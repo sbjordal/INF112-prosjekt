@@ -2,9 +2,8 @@ package inf112.skeleton.model.gameobject.mobileobject.actor;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
-import inf112.skeleton.model.LevelManager;
-import inf112.skeleton.model.gameobject.CollisionBox;
-import inf112.skeleton.model.gameobject.CollisionVisitor;
+import inf112.skeleton.model.gameobject.Collidable;
+import inf112.skeleton.model.gameobject.Visitor;
 import inf112.skeleton.model.gameobject.GameObject;
 import inf112.skeleton.model.gameobject.Transform;
 import inf112.skeleton.model.gameobject.fixedobject.Ground;
@@ -18,7 +17,7 @@ import inf112.skeleton.model.gameobject.mobileobject.actor.enemy.Enemy;
  * The user-controlled actor is unique and is defined as the only {@link GameObject}
  * that responds to user-input.
  */
-final public class Player extends Actor implements CollisionVisitor {
+final public class Player extends Actor implements Visitor, Collidable {
     private static final int NORMAL_BOUNCE_FORCE = 35000;
     private static final int SMALL_BOUNCE_FORCE = 27000;
     private static final int NORMAL_JUMP_FORCE = 63000;
@@ -66,18 +65,23 @@ final public class Player extends Actor implements CollisionVisitor {
     }
 
     @Override
-    public void collideWithCoin(Coin coin) {
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
+
+    @Override
+    public void visit(Coin coin) {
         coinCounter++;
         totalScore += coin.getObjectScore();
     }
 
     @Override
-    public void collideWithStar(Star star) {
+    public void visit(Star star) {
         goToNextLevel = true; // TODO, husk å sette til false i modellen etter denne er gettet
     }
 
     @Override
-    public void collideWithBanana(Banana banana) {
+    public void visit(Banana banana) {
         hasPowerUp = true;
         setSize(banana.getLargePlayerSize());
         int middleOfPlayer = (int) (getTransform().getSize().x / 2);
@@ -86,12 +90,12 @@ final public class Player extends Actor implements CollisionVisitor {
     }
 
     @Override
-    public void collideWithGround(Ground ground) {
+    public void visit(Ground ground) {
         //TODO, implement me
     }
 
     @Override
-    public void collideWithEnemy(Enemy enemy) {
+    public void visit(Enemy enemy) {
         //TODO, nmå bli fikset med hva som kom fra CollisionHandler (kopiert derfa)
         // Originale metode parameter fra CollisionHandler:
 //        (Enemy enemy, Integer totalScore, CollisionBox newPlayerCollisionBox){
@@ -127,6 +131,11 @@ final public class Player extends Actor implements CollisionVisitor {
                 }
             }
 //        }
+    }
+
+    @Override
+    public void visit(Player player) {
+        // Ingenting skal skje?
     }
 
     public int getTotalScore() {
