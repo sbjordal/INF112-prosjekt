@@ -3,9 +3,11 @@ package inf112.skeleton.model;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import inf112.skeleton.model.gameobject.Collidable;
 import inf112.skeleton.model.gameobject.GameObject;
 import inf112.skeleton.model.gameobject.fixedobject.FixedObject;
 import inf112.skeleton.model.gameobject.mobileobject.actor.Player;
+import inf112.skeleton.model.gameobject.mobileobject.actor.enemy.Enemy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -46,7 +48,7 @@ public class LevelManagerTest {
         when(fileHandle.readString()).thenReturn(validJson);
 
         try {
-            Triple<List<GameObject>, Player> result = LevelManager.loadLevel(LevelManager.Level.LEVEL_1);
+            Triple<List<Enemy>, List<Collidable>, Player> result = LevelManager.loadLevel(LevelManager.Level.LEVEL_1);
 
             // Sjekk at resultatet ikke er null
             assertNotNull(result);

@@ -32,6 +32,7 @@ public class WorldView implements Screen {
     private HashMap<String, Texture> textures;
     private PlayerAnimation playerAnimation;
     private GameState gameState;
+    private SoundHandler soundHandler;
 
     public WorldView(ViewableWorldModel model, int width, int height) {
         this.viewport = new ExtendViewport(width, height);
@@ -39,6 +40,7 @@ public class WorldView implements Screen {
         this.layout = new GlyphLayout();
         this.textures = new HashMap<>();
         this.gameState = model.getGameState();
+        this.soundHandler = new SoundHandler();
     }
 
     /**

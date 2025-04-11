@@ -1,6 +1,6 @@
 package inf112.skeleton.model.gameobject;
 
-public interface Collidable {
+public interface Collidable extends ViewableObject {
 
     /**
      * TODO

@@ -42,37 +42,7 @@ public abstract class Enemy extends Actor implements Scorable, Visitor, Collidab
     /**
      * Moves the Enemy in a predefined movement pattern.
      */
-    public void moveEnemy(float deltaTime, List<GameObject> objectList) {
-        for (GameObject gameObject : objectList) {
-            if (gameObject == null) {
-                throw new NullPointerException("GameObject is null.");
-            }
-
-            // makes enemy able to move through items
-            if (gameObject instanceof Item) {
-                continue;
-            }
-
-            // switches direction when colliding
-            CollisionBox otherCollisionBox = gameObject.getCollisionBox();
-            final float endOfLevel = WorldModel.LEVEL_WIDTH - getTransform().getSize().x;
-            final boolean isColliding = getCollisionBox().isCollidingWith(otherCollisionBox);
-            final boolean isCollidingFromBottom = getCollisionBox().isCollidingFromBottom(otherCollisionBox);
-            final boolean isOutsideLevel = getTransform().getPos().x < 0 || getTransform().getPos().x > endOfLevel;
-
-            if ((isColliding && !isCollidingFromBottom) || isOutsideLevel) {
-                if (isReadyToCollide()) {
-
-                    if (gameObject instanceof Player player && !isOutsideLevel) {
-                        attack(player);
-                    }
-                    switchDirection();
-
-                    break;
-                }
-            }
-        }
-
+    public void moveEnemy(float deltaTime) {
         int distance = (int) (getMovementSpeed() * deltaTime);
         if (direction == Direction.LEFT) {
             distance *= -1;

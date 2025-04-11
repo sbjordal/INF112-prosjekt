@@ -12,12 +12,15 @@ import inf112.skeleton.model.gameobject.Visitor;
 import inf112.skeleton.model.gameobject.fixedobject.Ground;
 import inf112.skeleton.model.gameobject.fixedobject.item.ItemFactory;
 import inf112.skeleton.model.gameobject.mobileobject.actor.Player;
+import inf112.skeleton.model.gameobject.mobileobject.actor.enemy.Enemy;
 import inf112.skeleton.model.gameobject.mobileobject.actor.enemy.EnemyFactory;
 import inf112.skeleton.model.gameobject.mobileobject.actor.enemy.EnemyType;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static inf112.skeleton.model.LevelManager.Level.*;
 
 /**
  * Manages the loading of levels in the game.
@@ -43,7 +46,7 @@ public class LevelManager {
      * @return The extracted game objects as a list.
      * @throws IllegalStateException If anything other than exactly one player or exactly one star was found.
      */
-    public static Triple<List<Visitor>, List<Collidable>, Player> loadLevel(Level level) {
+    public static Triple<List<Enemy>, List<Collidable>, Player> loadLevel(Level level) {
         FileHandle levelFile = getLevelFile(level);
         ObjectMapper objectMapper = new ObjectMapper();
         String levelContent;
@@ -58,7 +61,7 @@ public class LevelManager {
         }
 
         //List<GameObject> objects = new ArrayList<>();
-        List<Visitor> visitors = new ArrayList<>();
+        List<Enemy> enemies = new ArrayList<>();
         List<Collidable> collidables = new ArrayList<>();
 
         int mapHeight = jsonRoot.get("height").asInt() * jsonRoot.get("tileheight").asInt();
@@ -88,7 +91,6 @@ public class LevelManager {
                         Transform transform = new Transform(position, size);
                         player = new Player(3, 350, transform);
                         playeridx = collidables.size();
-                        visitors.add(player);
                         collidables.add(player);
                         playerCount++;
                     }
@@ -100,11 +102,11 @@ public class LevelManager {
                     case "banana" -> collidables.add(ItemFactory.createBanana(x, y));
                     case "snail" -> {
                         collidables.add(EnemyFactory.createSnail(x, y, EnemyType.SNAIL));
-                        visitors.add(EnemyFactory.createSnail(x, y, EnemyType.SNAIL));
+                        enemies.add(EnemyFactory.createSnail(x, y, EnemyType.SNAIL));
                     }
                     case "leopard" -> {
                         collidables.add(EnemyFactory.createLeopard(x, y, EnemyType.LEOPARD));
-                        visitors.add(EnemyFactory.createLeopard(x, y, EnemyType.LEOPARD));
+                        enemies.add(EnemyFactory.createLeopard(x, y, EnemyType.LEOPARD));
                     }
                     default -> System.out.println("Unknown layer: " + layerName + ". Case sensitivity maybe?");
                 }
@@ -120,7 +122,7 @@ public class LevelManager {
         if (!(obj instanceof Player)){
             throw new IllegalArgumentException("object not instance of PLayer");
         }
-        return new Triple<>(visitors, collidables, (Player) collidables.get(playeridx));
+        return new Triple<>(enemies, collidables, (Player) collidables.get(playeridx));
     }
 
     /**
@@ -146,5 +148,23 @@ public class LevelManager {
         };
 
         return Gdx.files.classpath(levelPath);
+    }
+
+    /**
+     * TODO comment
+     *
+     * @param level
+     * @return
+     */
+    static Level getNextLevel(Level level) {
+        switch (level) {
+            case LEVEL_1:
+                return (LEVEL_2);
+            case LEVEL_2:
+                return (LEVEL_3);
+            case LEVEL_3:
+                return (LEVEL_1);
+            default: throw new IllegalArgumentException("No such level exists");
+        }
     }
 }

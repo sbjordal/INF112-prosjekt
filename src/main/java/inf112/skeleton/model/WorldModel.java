@@ -5,10 +5,6 @@ import com.badlogic.gdx.Gdx;
 import inf112.skeleton.controller.ControllableWorldModel;
 import inf112.skeleton.controller.Controller;
 import inf112.skeleton.model.gameobject.*;
-import inf112.skeleton.model.gameobject.fixedobject.Ground;
-import inf112.skeleton.model.gameobject.fixedobject.item.Banana;
-import inf112.skeleton.model.gameobject.fixedobject.item.Coin;
-import inf112.skeleton.model.gameobject.fixedobject.item.Star;
 import inf112.skeleton.model.gameobject.mobileobject.actor.enemy.*;
 import inf112.skeleton.model.gameobject.mobileobject.actor.Player;
 import inf112.skeleton.view.ViewableWorldModel;
@@ -26,7 +22,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     private float viewportLeftX;
     private Controller controller;
     //List<GameObject> objectList;
-    List<Visitor> visitors;
+    List<Enemy> enemies;
     List<Collidable> collidables;
     private final List<GameObject> toRemove;
     private LevelManager.Level currentLevel;
@@ -37,7 +33,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     boolean isMovingLeft;
     boolean isJumping;
     private final int height;
-    private final CollisionHandler collisionHandler;
+//    private final CollisionHandler collisionHandler;
 
     public WorldModel(int width, int height) {
         this.height = height;
@@ -45,7 +41,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         this.gameState = GameState.GAME_MENU;
         this.currentLevel = LevelManager.Level.LEVEL_1;
         this.toRemove = new ArrayList<>();
-        this.collisionHandler = new CollisionHandler(height);
+//        this.collisionHandler = new CollisionHandler(height);
         setUpModel();
     }
 
@@ -66,8 +62,8 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     }
 
     private void setupGameObjects() {
-        Triple<List<Visitor>, List<Collidable>, Player> triple = LevelManager.loadLevel(currentLevel);
-        visitors = triple.first;
+        Triple<List<Enemy>, List<Collidable>, Player> triple = LevelManager.loadLevel(currentLevel);
+        enemies = triple.first;
         collidables = triple.second;
         player = triple.third;
         player.setRespawned(true);
@@ -82,7 +78,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     private void setupInput() {
         controller = new Controller(this);
         Gdx.input.setInputProcessor(controller);
-        collisionHandler.init();
+//        collisionHandler.init();
     }
 
     /**
@@ -160,6 +156,16 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 //        return false;
 //    }
 
+    private void goToNextLevel() {
+        boolean gotNextLevel = player.getGoToNextLevel();
+        if (gotNextLevel) {
+            LevelManager.Level nextLevel = LevelManager.getNextLevel(currentLevel);
+            currentLevel = nextLevel;
+            startLevel(nextLevel);
+            // TODO: revisjon, har tidgiligere fjernet stjernen her men det var strengt tatt ikke nødvendig
+        }
+    }
+
     @Override
     public void render() {
         final float deltaTime = Gdx.graphics.getDeltaTime();
@@ -169,7 +175,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
             moveEnemies(deltaTime);
             checkForGameOver();
             collidables.removeAll(toRemove);
-            visitors.removeAll(collidables);
+            enemies.removeAll(collidables);
             toRemove.clear();
         }
         worldView.render(deltaTime);
@@ -220,10 +226,8 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
     // TODO oppdater
     void moveEnemies(float deltaTime) {
-        for (GameObject gameObject : objectList) {
-            if (gameObject instanceof Enemy enemy) {
-                enemy.moveEnemy(deltaTime, objectList);
-            }
+        for (Enemy enemy : enemies) {
+            enemy.moveEnemy(deltaTime);
         }
     }
 
@@ -268,7 +272,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
     @Override
     public List<ViewableObject> getObjectList() {
-        return Collections.unmodifiableList(objectList);
+        return Collections.unmodifiableList(collidables);
     }
 
     @Override
