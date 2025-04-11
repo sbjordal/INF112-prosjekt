@@ -24,7 +24,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     //List<GameObject> objectList;
     List<Enemy> enemies;
     List<Collidable> collidables;
-    private final List<GameObject> toRemove;
+    private List<Collidable> toRemove;
     private LevelManager.Level currentLevel;
     int countDown;
     long lastScoreUpdate = System.currentTimeMillis();
@@ -162,7 +162,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
             LevelManager.Level nextLevel = LevelManager.getNextLevel(currentLevel);
             currentLevel = nextLevel;
             startLevel(nextLevel);
-            // TODO: revisjon, har tidgiligere fjernet stjernen her men det var strengt tatt ikke nødvendig
         }
     }
 
@@ -174,8 +173,9 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
             updatePlayerMovement(deltaTime);
             moveEnemies(deltaTime);
             checkForGameOver();
+            toRemove = player.getObjectsToRemove();
             collidables.removeAll(toRemove);
-            enemies.removeAll(collidables);
+            enemies.removeAll(toRemove);
             toRemove.clear();
         }
         worldView.render(deltaTime);

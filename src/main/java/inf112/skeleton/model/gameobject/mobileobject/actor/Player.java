@@ -11,6 +11,7 @@ import inf112.skeleton.model.gameobject.fixedobject.item.Star;
 import inf112.skeleton.model.gameobject.mobileobject.actor.enemy.Enemy;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,6 +34,7 @@ final public class Player extends Actor implements Visitor, Collidable {
     private long lastBounceTime;
     private Integer coinCounter;
     private Integer totalScore;
+    private List<Collidable> objectsToRemove;
 
 
     /**
@@ -52,6 +54,7 @@ final public class Player extends Actor implements Visitor, Collidable {
         this.jumpForce = NORMAL_JUMP_FORCE;
         this.coinCounter = 0;
         this.totalScore = 0;
+        objectsToRemove = new ArrayList<>();
     }
     public void jump(boolean isGrounded) {
         if (isGrounded) {
@@ -76,11 +79,13 @@ final public class Player extends Actor implements Visitor, Collidable {
     public void visit(Coin coin) {
         coinCounter++;
         totalScore += coin.getObjectScore();
+        objectsToRemove.add(coin);
     }
 
     @Override
     public void visit(Star star) {
         goToNextLevel = true; // TODO, husk å sette til false i modellen etter denne er gettet
+        objectsToRemove.add(star);
     }
 
     @Override
@@ -90,6 +95,7 @@ final public class Player extends Actor implements Visitor, Collidable {
         int middleOfPlayer = (int) (getTransform().getSize().x / 2);
         move(-middleOfPlayer, 0);
         jumpForce = banana.getBigJumpForce();
+        objectsToRemove.add(banana);
     }
 
     @Override
@@ -112,6 +118,7 @@ final public class Player extends Actor implements Visitor, Collidable {
         long currentTime = System.currentTimeMillis();
 
         if (getCollisionBox().isCollidingFromBottom(enemy.getCollisionBox())) {
+
             if (currentTime - getLastBounceTime() >= BOUNCE_COOLDOWN) {
 
                 bounce();
@@ -119,11 +126,13 @@ final public class Player extends Actor implements Visitor, Collidable {
 
                 if (!enemy.isAlive()) {
                     totalScore += enemy.getObjectScore();
+                    objectsToRemove.add(enemy);
                 }
 
                 setLastBounceTime(currentTime);
             }
         } else {
+            System.out.println("Jeg kolliderer med enemy fra siden :)");
             if (currentTime - getLastAttackTime() >= ATTACK_COOLDOWN) {
 
                 takeDamage(enemy.getDamage());
@@ -153,7 +162,6 @@ final public class Player extends Actor implements Visitor, Collidable {
             if (collisionBox.isCollidingWith(collided.getCollisionBox())) {
 
                 if (collided instanceof Player) {
-                    System.out.println("player has collided with player");
                     continue;
                 }
 
@@ -165,16 +173,17 @@ final public class Player extends Actor implements Visitor, Collidable {
         return false;
     }
 
+    public List<Collidable> getObjectsToRemove() {
+        return objectsToRemove;
+    }
+
     public void resolvePlayerMovement(int deltaX, int deltaY, PositionValidator validator) {
         Vector2 newPlayerPosition = filterPosition(deltaX, deltaY, validator);
         if (!getRespawned()) {
             move(newPlayerPosition);
         }
         setRespawned(false);
-
         final int belowLevel = -200;
-        System.out.println("New playerp position y: " + newPlayerPosition.y);
-
         if (newPlayerPosition.y <= belowLevel) {
             receiveDamage(getLives());
         }
