@@ -81,7 +81,7 @@ public abstract class Enemy extends Actor implements Scorable {
     }
 
     private void attack(Player player) {
-        player.hitBy(getDamage());
+        player.takeDamage(getDamage());
     }
 
     /**
