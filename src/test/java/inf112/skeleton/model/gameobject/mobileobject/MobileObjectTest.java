@@ -29,61 +29,6 @@ public class MobileObjectTest {
         player = new Player(3, 350, transform);
     }
 
-    @Test
-    public void testMoveHorizontally() {
-
-        float initialPosition = player.getTransform().getPos().x;
-
-        // initial position
-        assertEquals(100, initialPosition);
-
-
-        // Moving left
-        player.moveHorizontally(1 / 60f, true, false);
-        assertTrue(player.getTransform().getPos().x < initialPosition, "Player should move left.");
-
-        float playerPosition = player.getTransform().getPos().x;
-
-        // Moving right
-        player.moveHorizontally(1 / 60f, false, true);
-        assertTrue(player.getTransform().getPos().x > playerPosition, "Player should move right.");
-
-
-        playerPosition = player.getTransform().getPos().x;
-        assertEquals(initialPosition, playerPosition, "Player should be at initial position");
-
-        // Moving right again
-        player.moveHorizontally(1 / 60f, false, true);
-        assertTrue(player.getTransform().getPos().x > playerPosition, "Player should move right.");
-
-        // Should not move if direction is not set
-        float noMoveX = player.getTransform().getPos().x;
-        player.moveHorizontally(1 / 60f, false, false);
-        assertEquals(noMoveX, player.getTransform().getPos().x, "Player should not move if both directions are false.");
-    }
-
-    @Test
-    public void testMoveHorizontallyWithExpectedDelta() {
-        float deltaTime = 1 / 60f;
-        int expectedDelta = (int)(player.getMovementSpeed() * deltaTime); // 350 * 1/60 = ~5.83 => 5
-
-        float startX = player.getTransform().getPos().x;
-        player.moveHorizontally(deltaTime, false, true);
-        float newX = player.getTransform().getPos().x;
-
-        assertEquals(startX + expectedDelta, newX);
-    }
-
-    @Test
-    public void testMoveVertically() {
-        player.setVerticalVelocity(300);
-        player.moveVertically(1 / 60f);
-        assertEquals(5, player.getTransform().getPos().y, "Player should move upward by velocity.");
-
-        player.setVerticalVelocity(-300);
-        player.moveVertically(1 / 60f);
-        assertEquals(0, player.getTransform().getPos().y, "Player should move downward by velocity.");
-    }
 
     @Test
     public void testApplyGravity() {
@@ -96,15 +41,12 @@ public class MobileObjectTest {
 
     @Test
     public void testGetMovementDirection() {
-        player.moveHorizontally(1 / 60f, true, false);
+        player.move(-1, 0);
         assertEquals(-1, player.getMovementDirection(), "Movement direction should be -1 when moving left.");
 
-        player.moveHorizontally(1 / 60f, false, true);
+        player.move(1, 0);
         assertEquals(1, player.getMovementDirection(), "Movement direction should be 1 when moving right.");
 
-        player.move(0, 0);
-        player.moveHorizontally(1 / 60f, false, false);
-        assertEquals(0, player.getMovementDirection(), "Movement direction should be 0 when not moving.");
     }
 
     @Test

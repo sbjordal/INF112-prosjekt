@@ -119,6 +119,18 @@ public abstract class Enemy extends Actor implements Scorable, Visitor, Collidab
     }
 
     @Override
+    public boolean isColliding(List<Collidable> collidables, CollisionBox collisionBox) {
+        for (Collidable collided : collidables) {
+            if (collisionBox.isCollidingWith(collided.getCollisionBox())) {
+                collided.accept(this);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
     }

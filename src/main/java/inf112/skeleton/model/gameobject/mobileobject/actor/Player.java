@@ -2,13 +2,16 @@ package inf112.skeleton.model.gameobject.mobileobject.actor;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
-import inf112.skeleton.model.Pair;
+import inf112.skeleton.model.PositionValidator;
 import inf112.skeleton.model.gameobject.*;
 import inf112.skeleton.model.gameobject.fixedobject.Ground;
 import inf112.skeleton.model.gameobject.fixedobject.item.Banana;
 import inf112.skeleton.model.gameobject.fixedobject.item.Coin;
 import inf112.skeleton.model.gameobject.fixedobject.item.Star;
 import inf112.skeleton.model.gameobject.mobileobject.actor.enemy.Enemy;
+
+
+import java.util.List;
 
 /**
  * Represents the user-controlled actor in the game.
@@ -142,6 +145,30 @@ final public class Player extends Actor implements Visitor, Collidable {
 
     @Override
     public void visit(Player player) {}
+
+    @Override
+    public boolean isColliding(List<Collidable> collidables, CollisionBox collisionBox) {
+        for (Collidable collided : collidables) {
+            if (collisionBox.isCollidingWith(collided.getCollisionBox())) {
+                collided.accept(this);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public void resolvePlayerMovement(int deltaX, int deltaY, PositionValidator validator) {
+        Vector2 newPlayerPosition = filterPosition(deltaX, deltaY, validator);
+        if (!getRespawned()) {
+            move(newPlayerPosition);
+        }
+        setRespawned(false);
+        final int belowLevel = -200;
+        if (newPlayerPosition.y <= belowLevel) {
+            receiveDamage(getLives());
+        }
+    }
 
     public int getTotalScore() {
         return totalScore;

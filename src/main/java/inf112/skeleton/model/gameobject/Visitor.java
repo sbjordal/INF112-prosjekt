@@ -7,6 +7,8 @@ import inf112.skeleton.model.gameobject.fixedobject.item.Star;
 import inf112.skeleton.model.gameobject.mobileobject.actor.Player;
 import inf112.skeleton.model.gameobject.mobileobject.actor.enemy.Enemy;
 
+import java.util.List;
+
 public interface Visitor {
 
     /**
@@ -51,5 +53,10 @@ public interface Visitor {
      * @return the collisionBox of the GameObject
      */
     CollisionBox getCollisionBox();
+
+    /**
+     * TODO
+     */
+    boolean isColliding(List<Collidable> collidables, CollisionBox collisionBox);
 
 }

@@ -3,13 +3,9 @@ package inf112.skeleton.model;
 import com.badlogic.gdx.Gdx;
 import inf112.skeleton.model.gameobject.Collidable;
 import inf112.skeleton.model.gameobject.CollisionBox;
-import inf112.skeleton.model.gameobject.GameObject;
 import inf112.skeleton.model.gameobject.Visitor;
-import inf112.skeleton.model.gameobject.fixedobject.FixedObject;
 import inf112.skeleton.model.gameobject.fixedobject.Ground;
-import inf112.skeleton.model.gameobject.fixedobject.item.Banana;
 import inf112.skeleton.model.gameobject.fixedobject.item.Coin;
-import inf112.skeleton.model.gameobject.fixedobject.item.Item;
 import inf112.skeleton.model.gameobject.mobileobject.actor.Player;
 import inf112.skeleton.model.gameobject.mobileobject.actor.enemy.Enemy;
 
@@ -31,7 +27,7 @@ public class CollisionHandler {
         this.soundHandler = new SoundHandler();
     }
 
-    Pair<Boolean, Collidable> checkCollision(List<Collidable> collidables, List<Visitor> visitors) {
+    Triple<Boolean, Collidable> checkCollision(List<Collidable> collidables, List<Visitor> visitors) {
          for (Visitor visitor : visitors) {
              for (Collidable collided : collidables) {
                  if (visitor.getCollisionBox().isCollidingWith(collided.getCollisionBox())) {
@@ -55,13 +51,13 @@ public class CollisionHandler {
                     int bumpSpeed = (int) (-player.getVerticalVelocity() * bumpForceLoss);
                     player.setVerticalVelocity(bumpSpeed);
                 }
-                return new Pair<>(true, null);
+                return new Triple<>(true, null);
             }
             if (collisionBox.isCollidingWith(otherBox)) {
-                return new Pair<>(true, object);
+                return new Triple<>(true, object);
             }
         }
-        return new Pair<>(false, null);
+        return new Triple<>(false, null);
     }
     Integer handleEnemyCollision(Player player, Enemy enemy, Integer totalScore, CollisionBox newPlayerCollisionBox){
         long currentTime = System.currentTimeMillis();

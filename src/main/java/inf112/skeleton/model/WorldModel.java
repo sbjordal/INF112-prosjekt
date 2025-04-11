@@ -2,7 +2,6 @@ package inf112.skeleton.model;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.controller.ControllableWorldModel;
 import inf112.skeleton.controller.Controller;
 import inf112.skeleton.model.gameobject.*;
@@ -26,7 +25,9 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     private WorldView worldView;
     private float viewportLeftX;
     private Controller controller;
-    List<GameObject> objectList;
+    //List<GameObject> objectList;
+    List<Visitor> visitors;
+    List<Collidable> collidables;
     private final List<GameObject> toRemove;
     private LevelManager.Level currentLevel;
     int countDown;
@@ -65,9 +66,10 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     }
 
     private void setupGameObjects() {
-        Pair<List<GameObject>, Player> pair = LevelManager.loadLevel(currentLevel);
-        objectList = pair.first;
-        player = pair.second;
+        Triple<List<Visitor>, List<Collidable>, Player> triple = LevelManager.loadLevel(currentLevel);
+        visitors = triple.first;
+        collidables = triple.second;
+        player = triple.third;
         player.setRespawned(true);
     }
 
@@ -97,7 +99,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
     @Override
     public boolean isLegalMove(CollisionBox collisionBox) {
-        return positionIsOnBoard(collisionBox) && !isColliding(collisionBox);
+        return positionIsOnBoard(collisionBox) && !player.isColliding(collidables, collisionBox); // todo passere liste av collidables
     }
 
     private boolean positionIsOnBoard(CollisionBox collisionBox) {
@@ -109,54 +111,54 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
         return isWithinWidthBound && isWithinHeightBound;
     }
+//
+//    private boolean isColliding(List<Visitor> visitors, List<Collidable> collidables) {
+//
+//
+//        for (Collidable collided : collidables) {
+//            if (player.getCollisionBox().isCollidingWith(collided.getCollisionBox())) {
+//                collided.accept(player);
+//            }
+//        }
+//
+//
+//
+//
+//        Triple<Boolean, GameObject> collided = collisionHandler.checkCollision(player, Collections.unmodifiableList(objectList), collisionBox);
+//        if (collided.first && !toRemove.contains(collided.second)) {
+//            if (collided.second instanceof Coin coin) {
+//                int newScore = collisionHandler.handleCoinCollision(coin, totalScore);
+//                coinCounter++;
+//                totalScore = newScore;
+//                toRemove.add(coin);
+//            } else if (collided.second instanceof Banana banana) {
+//                collisionHandler.handleBananaCollision(player, banana);
+//                toRemove.add(banana);
+//            } else if (collided.second instanceof Star star) {
+//                LevelManager.Level nextLevel = collisionHandler.handleStarCollision(currentLevel);
+//                startLevel(nextLevel);
+//                toRemove.add(star);
+//
+//            } else if (collided.second instanceof Enemy enemy) {
+//                totalScore = collisionHandler.handleEnemyCollision(player, enemy, totalScore, collisionBox);
+//                if (!enemy.isAlive())  toRemove.add(enemy);
+//            }
+//        }
+//        return collided.first;
+//    }
 
-    private boolean isColliding(List<Visitor> visitors, List<Collidable> collidables) {
-
-        for (Visitor visitor : visitors) {
-            for (Collidable collided : collidables) {
-                if (visitor.getCollisionBox().isCollidingWith(collided.getCollisionBox())) {
-                    collided.accept(visitor);
-                }
-            }
-        }
-
-
-
-        Pair<Boolean, GameObject> collided = collisionHandler.checkCollision(player, Collections.unmodifiableList(objectList), collisionBox);
-        if (collided.first && !toRemove.contains(collided.second)) {
-            if (collided.second instanceof Coin coin) {
-                int newScore = collisionHandler.handleCoinCollision(coin, totalScore);
-                coinCounter++;
-                totalScore = newScore;
-                toRemove.add(coin);
-            } else if (collided.second instanceof Banana banana) {
-                collisionHandler.handleBananaCollision(player, banana);
-                toRemove.add(banana);
-            } else if (collided.second instanceof Star star) {
-                LevelManager.Level nextLevel = collisionHandler.handleStarCollision(currentLevel);
-                startLevel(nextLevel);
-                toRemove.add(star);
-
-            } else if (collided.second instanceof Enemy enemy) {
-                totalScore = collisionHandler.handleEnemyCollision(player, enemy, totalScore, collisionBox);
-                if (!enemy.isAlive())  toRemove.add(enemy);
-            }
-        }
-        return collided.first;
-    }
-
-    // TODO: Må skrives om og kanskje flyttes til movable? Evt actor eller player?
-    private boolean isTouchingGround() {
-        for (GameObject object : objectList) {
-            if (object instanceof Ground) {
-                CollisionBox objectCollisionBox = object.getCollisionBox();
-                if (player.getCollisionBox().isCollidingFromBottom(objectCollisionBox)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
+//    // TODO: Må skrives om og kanskje flyttes til movable? Evt actor eller player?
+//    private boolean isTouchingGround() {
+//        for (GameObject object : objectList) {
+//            if (object instanceof Ground) {
+//                CollisionBox objectCollisionBox = object.getCollisionBox();
+//                if (player.getCollisionBox().isCollidingFromBottom(objectCollisionBox)) {
+//                    return true;
+//                }
+//            }
+//        }
+//        return false;
+//    }
 
     @Override
     public void render() {
@@ -166,7 +168,8 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
             updatePlayerMovement(deltaTime);
             moveEnemies(deltaTime);
             checkForGameOver();
-            objectList.removeAll(toRemove);
+            collidables.removeAll(toRemove);
+            visitors.removeAll(collidables);
             toRemove.clear();
         }
         worldView.render(deltaTime);
@@ -187,33 +190,35 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         return currentTime - lastScoreUpdate >= 1000 && countDown >0 && gameState == GameState.GAME_ACTIVE;
     }
 
-    private void resolvePlayerMovement(int deltaX, int deltaY) {
-        Vector2 newPlayerPosition = player.filterPosition(deltaX, deltaY, this);
-        if (!player.getRespawned()) {
-            player.move(newPlayerPosition);
-        }
-        player.setRespawned(false);
-        final int belowLevel = -200;
-        if (newPlayerPosition.y <= belowLevel) {
-            player.receiveDamage(player.getLives());
-        }
-    }
+
+//    private void resolvePlayerMovement(int deltaX, int deltaY) {
+//        Vector2 newPlayerPosition = player.filterPosition(deltaX, deltaY, this);
+//        if (!player.getRespawned()) {
+//            player.move(newPlayerPosition);
+//        }
+//        player.setRespawned(false);
+//        final int belowLevel = -200;
+//        if (newPlayerPosition.y <= belowLevel) {
+//            player.receiveDamage(player.getLives());
+//        }
+//    }
 
     private void updatePlayerMovement(float deltaTime) {
-        boolean isGrounded = player.isTouchingGround(Collections.unmodifiableList(objectList));
+        boolean isGrounded = player.isTouchingGround(Collections.unmodifiableList(collidables));
         if (isJumping) {
             player.jump(isGrounded);
         }
         player.applyGravity(deltaTime, isGrounded);
         int deltaY = (int)(player.getVerticalVelocity() * deltaTime);
-        resolvePlayerMovement(0, deltaY);
+        player.resolvePlayerMovement(0, deltaY, this);
         if (isMovingRight ^ isMovingLeft) {
             int direction = isMovingRight ? 1 : -1;
             int deltaX = (int)(player.getMovementSpeed() * deltaTime) * direction;
-            resolvePlayerMovement(deltaX, 0);
+            player.resolvePlayerMovement(deltaX, 0, this);
         }
     }
 
+    // TODO oppdater
     void moveEnemies(float deltaTime) {
         for (GameObject gameObject : objectList) {
             if (gameObject instanceof Enemy enemy) {

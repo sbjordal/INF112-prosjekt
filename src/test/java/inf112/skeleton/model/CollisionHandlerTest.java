@@ -64,7 +64,7 @@ public class CollisionHandlerTest {
         Player player= new Player(3,10, new Transform(new Vector2(0,0), new Vector2(2,2)));
         List<GameObject> objects1= new ArrayList<>();
         objects1.add(player);
-        Pair<Boolean, GameObject> result1= handler.checkCollision(player, objects1, player.getCollisionBox());
+        Triple<Boolean, GameObject> result1= handler.checkCollision(player, objects1, player.getCollisionBox());
 
         assertFalse(result1.first);
         assertNull(result1.second);
@@ -74,7 +74,7 @@ public class CollisionHandlerTest {
         Item item= ItemFactory.createCoin(0,0);
         objects2.add(item);
         player.setVerticalVelocity(10);
-        Pair<Boolean, GameObject> result2= handler.checkCollision(player, objects2, player.getCollisionBox());
+        Triple<Boolean, GameObject> result2= handler.checkCollision(player, objects2, player.getCollisionBox());
 
         assertTrue(result2.first);
         assertInstanceOf(GameObject.class, result2.second);
@@ -87,7 +87,7 @@ public class CollisionHandlerTest {
         Item star= ItemFactory.createStar(20,20);
         objects3.add(star);
         Player playerTest1= new Player(3,10, new Transform(new Vector2(0,0), new Vector2(20,20)));
-        Pair<Boolean, GameObject> result3= handler.checkCollision(playerTest1, objects3, playerTest1.getCollisionBox());
+        Triple<Boolean, GameObject> result3= handler.checkCollision(playerTest1, objects3, playerTest1.getCollisionBox());
         assertTrue(playerTest1.getCollisionBox().topRight.y >= ceilingHeight - 1);
         assertTrue(result3.first);
         assertNull(result3.second);
@@ -103,7 +103,7 @@ public class CollisionHandlerTest {
         playerTest.setVerticalVelocity(verticalVelocityBeforeCheckCollision);
 
         assertTrue(playerTest.getVerticalVelocity()>0);
-        Pair<Boolean, GameObject> result5= handler2.checkCollision(playerTest, objects4, playerTest.getCollisionBox());
+        Triple<Boolean, GameObject> result5= handler2.checkCollision(playerTest, objects4, playerTest.getCollisionBox());
 
         assertNotEquals(verticalVelocityBeforeCheckCollision, playerTest.getVerticalVelocity());
         assertEquals(-1.0f, playerTest.getVerticalVelocity(), 0.01);
@@ -113,7 +113,7 @@ public class CollisionHandlerTest {
         List<GameObject> objects5= new ArrayList<>();
         FixedObject ground = new FixedObject(new Transform(new Vector2(0,-1), new Vector2(31,31)));
         objects5.add(ground);
-        Pair<Boolean, GameObject> result4= handler.checkCollision(player, objects5, player.getCollisionBox());
+        Triple<Boolean, GameObject> result4= handler.checkCollision(player, objects5, player.getCollisionBox());
         assertTrue(result4.first);
         assertNull(result4.second);
     }

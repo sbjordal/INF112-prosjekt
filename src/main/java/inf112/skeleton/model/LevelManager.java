@@ -5,9 +5,10 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector2;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import inf112.skeleton.model.gameobject.Collidable;
 import inf112.skeleton.model.gameobject.GameObject;
 import inf112.skeleton.model.gameobject.Transform;
-import inf112.skeleton.model.gameobject.fixedobject.FixedObject;
+import inf112.skeleton.model.gameobject.Visitor;
 import inf112.skeleton.model.gameobject.fixedobject.Ground;
 import inf112.skeleton.model.gameobject.fixedobject.item.ItemFactory;
 import inf112.skeleton.model.gameobject.mobileobject.actor.Player;
@@ -42,7 +43,7 @@ public class LevelManager {
      * @return The extracted game objects as a list.
      * @throws IllegalStateException If anything other than exactly one player or exactly one star was found.
      */
-    public static Pair<List<GameObject>, Player> loadLevel(Level level) {
+    public static Triple<List<Visitor>, List<Collidable>, Player> loadLevel(Level level) {
         FileHandle levelFile = getLevelFile(level);
         ObjectMapper objectMapper = new ObjectMapper();
         String levelContent;
@@ -56,7 +57,10 @@ public class LevelManager {
             throw new RuntimeException("Failed to load level: " + level);
         }
 
-        List<GameObject> objects = new ArrayList<>();
+        //List<GameObject> objects = new ArrayList<>();
+        List<Visitor> visitors = new ArrayList<>();
+        List<Collidable> collidables = new ArrayList<>();
+
         int mapHeight = jsonRoot.get("height").asInt() * jsonRoot.get("tileheight").asInt();
         int playerCount = 0;
         int starCount = 0;
@@ -76,25 +80,32 @@ public class LevelManager {
                         Vector2 position = new Vector2(x, y);
                         Transform transform = new Transform(position, size);
                         Ground ground = new Ground(transform);
-                        objects.add(ground);
+                        collidables.add(ground);
                     }
                     case "player" -> {
                         Vector2 size = new Vector2(40, 80);
                         Vector2 position = new Vector2(x, y);
                         Transform transform = new Transform(position, size);
                         player = new Player(3, 350, transform);
-                        playeridx = objects.size();
-                        objects.add(player);
+                        playeridx = collidables.size();
+                        visitors.add(player);
+                        collidables.add(player);
                         playerCount++;
                     }
                     case "star" -> {
-                        objects.add(ItemFactory.createStar(x, y));
+                        collidables.add(ItemFactory.createStar(x, y));
                         starCount++;
                     }
-                    case "coin" -> objects.add(ItemFactory.createCoin(x, y));
-                    case "banana" -> objects.add(ItemFactory.createBanana(x, y));
-                    case "snail" -> objects.add(EnemyFactory.createSnail(x, y, EnemyType.SNAIL));
-                    case "leopard" -> objects.add(EnemyFactory.createLeopard(x, y, EnemyType.LEOPARD));
+                    case "coin" -> collidables.add(ItemFactory.createCoin(x, y));
+                    case "banana" -> collidables.add(ItemFactory.createBanana(x, y));
+                    case "snail" -> {
+                        collidables.add(EnemyFactory.createSnail(x, y, EnemyType.SNAIL));
+                        visitors.add(EnemyFactory.createSnail(x, y, EnemyType.SNAIL));
+                    }
+                    case "leopard" -> {
+                        collidables.add(EnemyFactory.createLeopard(x, y, EnemyType.LEOPARD));
+                        visitors.add(EnemyFactory.createLeopard(x, y, EnemyType.LEOPARD));
+                    }
                     default -> System.out.println("Unknown layer: " + layerName + ". Case sensitivity maybe?");
                 }
             }
@@ -105,11 +116,11 @@ public class LevelManager {
         if (starCount != 1) {
             throw new IllegalStateException("Level must have exactly one Star, but found: " + starCount);
         }
-        GameObject obj = objects.get(playeridx);
+        GameObject obj = (GameObject) collidables.get(playeridx);
         if (!(obj instanceof Player)){
             throw new IllegalArgumentException("object not instance of PLayer");
         }
-        return new Pair<>(objects, (Player) objects.get(playeridx));
+        return new Triple<>(visitors, collidables, (Player) collidables.get(playeridx));
     }
 
     /**

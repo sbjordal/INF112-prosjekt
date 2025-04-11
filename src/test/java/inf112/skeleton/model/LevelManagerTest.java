@@ -46,7 +46,7 @@ public class LevelManagerTest {
         when(fileHandle.readString()).thenReturn(validJson);
 
         try {
-            Pair<List<GameObject>, Player> result = LevelManager.loadLevel(LevelManager.Level.LEVEL_1);
+            Triple<List<GameObject>, Player> result = LevelManager.loadLevel(LevelManager.Level.LEVEL_1);
 
             // Sjekk at resultatet ikke er null
             assertNotNull(result);

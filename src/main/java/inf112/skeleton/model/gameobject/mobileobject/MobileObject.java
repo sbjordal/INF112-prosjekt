@@ -2,10 +2,7 @@ package inf112.skeleton.model.gameobject.mobileobject;
 
 import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.model.PositionValidator;
-import inf112.skeleton.model.gameobject.CollisionBox;
-import inf112.skeleton.model.gameobject.GameObject;
-import inf112.skeleton.model.gameobject.Movable;
-import inf112.skeleton.model.gameobject.Transform;
+import inf112.skeleton.model.gameobject.*;
 import inf112.skeleton.model.gameobject.fixedobject.item.Item;
 import inf112.skeleton.model.gameobject.mobileobject.actor.Player;
 import inf112.skeleton.model.gameobject.mobileobject.actor.enemy.Enemy;
@@ -38,12 +35,7 @@ public abstract class MobileObject extends GameObject implements Movable {
         this.gravityForce = -3200;
     }
 
-    /**
-     * Moves the {@link GameObject} based on absolute values.
-     * Absolute values are values that overwrite already existing values.
-     *
-     * @param newPosition   A {@link Vector2} containing the absolute values of the new position.
-     */
+    @Override
     public void move(Vector2 newPosition) {
         Vector2 oldPos = getTransform().getPos();
         setMovementDirection(oldPos, newPosition);
@@ -64,13 +56,7 @@ public abstract class MobileObject extends GameObject implements Movable {
         }
     }
 
-    /**
-     * Moves the {@link GameObject} based on offset values.
-     * Offset values are relative differences added to already existing values.
-     *
-     * @param deltaX    The horizontal offset value.
-     * @param deltaY    The vertical offset value.
-     */
+    @Override
     public void move(int deltaX, int deltaY) {
         Vector2 oldPos = getTransform().getPos();
         Vector2 newPos = new Vector2(oldPos.x + deltaX, oldPos.y + deltaY);
@@ -118,24 +104,10 @@ public abstract class MobileObject extends GameObject implements Movable {
         }
     }
 
-    @Override
-    public void moveHorizontally(float deltaTime, boolean moveLeft, boolean moveRight) {
-        if (moveLeft == moveRight) return;
-
-        int direction = moveRight ? 1 : -1;
-        int delta = (int)(movementSpeed * deltaTime * direction);
-        move(delta, 0);
-    }
 
     @Override
-    public void moveVertically(float deltaTime) {
-        int delta = (int)(verticalVelocity * deltaTime);
-        move(0, delta);
-    }
-
-    @Override
-    public boolean isTouchingGround(List<GameObject> objectList) {
-        for (GameObject object : objectList) {
+    public boolean isTouchingGround(List<Collidable> objectList) {
+        for (Collidable object : objectList) {
             if (!(object instanceof Enemy || object instanceof Item || object instanceof Player)) {
                 CollisionBox objectCollisionBox = object.getCollisionBox();
                 if (this.getCollisionBox().isCollidingFromBottom(objectCollisionBox)) {
@@ -181,4 +153,5 @@ public abstract class MobileObject extends GameObject implements Movable {
 
         return startCoordinate + endCoordinate;
     }
+
 }
