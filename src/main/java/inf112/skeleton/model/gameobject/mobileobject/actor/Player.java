@@ -126,6 +126,8 @@ final public class Player extends Actor implements Visitor, Collidable {
         } else {
             if (currentTime - getLastAttackTime() >= ATTACK_COOLDOWN) {
 
+                takeDamage(enemy.getDamage());
+
                 // TODO...
                 // Enemy dealing damage to the player is moved into Enemy.moveEnemy()
                 // - This is to make sure that the enemy doesn't deal damage twice.
@@ -140,7 +142,6 @@ final public class Player extends Actor implements Visitor, Collidable {
                 setLastAttackTime(currentTime);
             }
         }
-
     }
 
     @Override
@@ -150,6 +151,12 @@ final public class Player extends Actor implements Visitor, Collidable {
     public boolean isColliding(List<Collidable> collidables, CollisionBox collisionBox) {
         for (Collidable collided : collidables) {
             if (collisionBox.isCollidingWith(collided.getCollisionBox())) {
+
+                if (collided instanceof Player) {
+                    System.out.println("player has collided with player");
+                    continue;
+                }
+
                 collided.accept(this);
                 return true;
             }
@@ -164,7 +171,10 @@ final public class Player extends Actor implements Visitor, Collidable {
             move(newPlayerPosition);
         }
         setRespawned(false);
+
         final int belowLevel = -200;
+        System.out.println("New playerp position y: " + newPlayerPosition.y);
+
         if (newPlayerPosition.y <= belowLevel) {
             receiveDamage(getLives());
         }

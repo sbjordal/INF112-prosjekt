@@ -139,11 +139,10 @@ public abstract class Enemy extends Actor implements Scorable, Visitor, Collidab
 
         if (((isColliding && !isCollidingFromBottom) || isOutsideLevel) && isReadyToCollide()) {
             if (!isOutsideLevel) {
-                attack(player);
+//                attack(player);
             }
             switchDirection();
         }
-
     }
 
 

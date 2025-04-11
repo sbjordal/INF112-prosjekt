@@ -59,9 +59,7 @@ public class EnemyTest {
 
     Enemy moveTestHelper(Enemy enemy) {
         assertEquals(new Vector2(50, 0),enemy.getTransform().getPos(), "Leopards start position should be 50x 0y");
-        List<GameObject> objectList = new ArrayList<>();
-        objectList.add(enemy);
-        enemy.moveEnemy(1/60f, objectList);
+        enemy.moveEnemy(1/60f);
         return enemy;
     }
 

@@ -95,7 +95,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
     @Override
     public boolean isLegalMove(CollisionBox collisionBox) {
-        return positionIsOnBoard(collisionBox) && !player.isColliding(collidables, collisionBox); // todo passere liste av collidables
+        return positionIsOnBoard(collisionBox) && !player.isColliding(collidables, collisionBox);
     }
 
     private boolean positionIsOnBoard(CollisionBox collisionBox) {

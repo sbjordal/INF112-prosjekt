@@ -142,6 +142,7 @@ public abstract class MobileObject extends GameObject implements Movable {
             Transform newTransform = new Transform(newPosition, size);
             CollisionBox newCollisionBox = new CollisionBox(newTransform);
 
+            System.out.println("isLegalMove: " + validator.isLegalMove(newCollisionBox));
             if (validator.isLegalMove(newCollisionBox)) {
                 low = mid;
             } else {

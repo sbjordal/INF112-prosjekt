@@ -3,6 +3,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.Gdx;
 
 // TODO: Må legge til event handler.
+// TODO: Dette er kommentert ut fordi programmet ikke kompilerer med denne implementasjonen.
 public class SoundHandler {
 //
 //    private Sound coinSound;
