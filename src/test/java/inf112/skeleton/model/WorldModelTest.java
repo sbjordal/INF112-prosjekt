@@ -7,10 +7,12 @@ import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.backends.headless.HeadlessApplication;
 import com.badlogic.gdx.backends.headless.HeadlessApplicationConfiguration;
 import com.badlogic.gdx.math.Vector2;
+import inf112.skeleton.model.gameobject.Collidable;
 import inf112.skeleton.model.gameobject.CollisionBox;
 import inf112.skeleton.model.gameobject.GameObject;
 import inf112.skeleton.model.gameobject.Transform;
 import inf112.skeleton.model.gameobject.fixedobject.FixedObject;
+import inf112.skeleton.model.gameobject.fixedobject.Ground;
 import inf112.skeleton.model.gameobject.mobileobject.actor.Player;
 import inf112.skeleton.model.gameobject.mobileobject.actor.enemy.Enemy;
 import inf112.skeleton.model.gameobject.mobileobject.actor.enemy.EnemyFactory;
@@ -51,7 +53,8 @@ public class WorldModelTest {
 
         transform = new Transform(new Vector2(0, 0), new Vector2(50, 100));
         worldModel.player = new Player(3, 5, transform);
-        worldModel.objectList = new ArrayList<>();
+        worldModel.collidables = new ArrayList<>();
+        worldModel.enemies = new ArrayList<>();
     }
 
     @Test
@@ -107,8 +110,8 @@ public class WorldModelTest {
     @Test
     public void testLegalMove_invalidMove_collision() {
         CollisionBox collisionMove = new CollisionBox(new Transform(new Vector2(40, 40), new Vector2(50, 50)));
-        GameObject obstacle = new FixedObject(new Transform(new Vector2(40, 40), new Vector2(50, 50)));
-        worldModel.objectList.add(obstacle);
+        Collidable obstacle = new Ground(new Transform(new Vector2(40, 40), new Vector2(50, 50)));
+        worldModel.collidables.add(obstacle);
 
         assertFalse(worldModel.isLegalMove(collisionMove));
     }
@@ -162,10 +165,10 @@ public class WorldModelTest {
     void testEnemiesMovable(){
         Enemy en1 = EnemyFactory.createSnail(10, 10, EnemyType.SNAIL);
         Enemy en2 = EnemyFactory.createLeopard(15, 10, EnemyType.LEOPARD);
-        worldModel.objectList.add(en1);
-        worldModel.objectList.add(en2);
+        worldModel.enemies.add(en1);
+        worldModel.enemies.add(en2);
         worldModel.moveEnemies(1 / 60f);
-        assertTrue(worldModel.objectList.get(0).getTransform().getPos().x == 11);
-        assertTrue(worldModel.objectList.get(1).getTransform().getPos().x == 13);
+        assertTrue(worldModel.enemies.get(0).getTransform().getPos().x == 11);
+        assertTrue(worldModel.enemies.get(1).getTransform().getPos().x == 13);
     }
 }
