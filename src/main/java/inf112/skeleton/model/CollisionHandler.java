@@ -73,6 +73,7 @@ public class CollisionHandler {
             }
         } else {
             if (currentTime - player.getLastAttackTime() >= ATTACK_COOLDOWN) {
+                soundHandler.playOuchSound(); // TODO, finne korrekt plassering på denne lyden
                 final int scorePenalty = 4;
                 totalScore = Math.max(0, totalScore - scorePenalty);
 

@@ -4,13 +4,18 @@ import com.badlogic.gdx.Gdx;
 
 public class SoundHandler {
 
-    private Sound coinSound;
-    
-    public SoundHandler() { this.coinSound = Gdx.audio.newSound(Gdx.files.internal("sfx/coinrecieved.mp3"));}
+    private final Sound coinSound;
+    private final Sound ouchSound;
+
+    public SoundHandler() {
+        this.coinSound = Gdx.audio.newSound(Gdx.files.internal("sfx/coinrecieved.mp3"));
+        this.ouchSound = Gdx.audio.newSound(Gdx.files.internal("sfx/characterouch.mp3"));
+    }
 
     // Ekstra konstruktør for testing
-    public SoundHandler(Sound coinSound) {
+    public SoundHandler(Sound coinSound, Sound ouchSound) {
         this.coinSound = coinSound;
+        this.ouchSound = ouchSound;
     }
 
     public void playCoinSound() {
@@ -18,5 +23,11 @@ public class SoundHandler {
     }
 
     public Sound getCoinSound() { return coinSound; }
+
+    public void playOuchSound() {
+        ouchSound.play(0.25f);
+    }
+
+    public Sound getOuchSound() { return ouchSound; }
 
 }

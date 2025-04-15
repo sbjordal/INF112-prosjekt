@@ -50,4 +50,7 @@ Hvordan spille:
 - coin/scoreUp
   - https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=230517
   - https://pixabay.com/sound-effects/coin-recieved-230517/
+- Ouch / damage taken
+  - Sound Effect by <a href="https://pixabay.com/users/kodasworldproductions-27998106/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=163912">Nykoda Caston</a> from <a href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=163912">Pixabay</a>
+  - https://pixabay.com/sound-effects/characterouch2-163912/
 

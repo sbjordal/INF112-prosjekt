@@ -24,7 +24,7 @@ public class SoundHandlerTest {
     @BeforeEach
     public void setup() {
        mockSound = mock(Sound.class);
-       handler = new SoundHandler(mockSound);
+       handler = new SoundHandler(mockSound, mockSound);
     }
 
 
