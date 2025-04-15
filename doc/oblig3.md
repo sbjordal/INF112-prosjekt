@@ -130,8 +130,7 @@ spillet gøyere og oppgave krav. Det eneste kravet vi ikke har fullført er 75% 
 	- Siste MVP krav: Spilleren kan bevege seg, Når spiller dør kommer en slutt-skjerm der spiller kan velge å starte banen på nytt, Når spillet åpnes møtes spiller med en start skjerm (Game_Menu).
 	- Nye krav/funksjonalitet: Kunne drepe fiende ved å hoppe på dem, Få fiender til å bevege seg + flere fiender, Levels/baner lages dynamisk fra en tekstfil eller lignende, Legge inn slutt på banen som gjør 
 	det mulig å gå videre til neste level, Når tiden er ute(countdown = 0) skal gamestaten endres til GAME_OVER, Lage og hente ut av en enemy-fabrikk (OPPGAVE KRAV), Legge til funksjonalitet 
-	for power-up  (OPPGAVE KRAV), Legge på lyd (OPPGAVE KRAV), Det bør være mulig å legge til nye power-ups uten å endre koden til spilleren (eller andre som blir påvirket (OPPGAVE KRAV), 
-	Implementere en logger, alt av printing skal i loggen heller en terminalen.
+	for power-up  (OPPGAVE KRAV), Legge på lyd (OPPGAVE KRAV), Det bør være mulig å legge til nye power-ups uten å endre koden til spilleren (eller andre som blir påvirket (OPPGAVE KRAV),
 
 2. **For hvert krav dere jobber med, må dere lage 1) ordentlige brukerhistorier, 2) akseptansekriterier og 3) arbeidsoppgaver.** 
 Husk at akseptansekriterier ofte skrives mer eller mindre som tester
@@ -179,11 +178,7 @@ Husk at akseptansekriterier ofte skrives mer eller mindre som tester
    * Brukerhistorie: Som utvikler ønsker jeg å kunne legge til nye power-ups uten å endre eksisterende spiller-kode, slik at spillet blir enklere å vedlikeholde og utvide i fremtiden.
    * Akseptansekriterier: Nye power-ups kan legges til uten å endre spiller-klassen.
    * Arbeidsoppgaver: Refaktorer power-up koden på den måten slik at spiller-koden er uavhengig av power-up typen.
-   
-   10.  **Implementer en logger**
-   * Brukerhistorie: Som utvikler ønsker jeg muligheten for å samle all relevant informasjon fra spillet i en logg slik at debugging blir mer oversiktligig.
-   * Akseptansekriterier: Mulighet for å bruke logger om det er ønsket.
-   * Arbeidsoppgaver: Implementer en logger som viser relevant utskrift for utviklere.
+
    
 3. **Dersom dere har oppgaver som dere skal til å starte med, hvor dere har oversikt over både brukerhistorie, akseptansekriterier og arbeidsoppgaver, kan dere ta med disse i innleveringen også.**
     * Vi har oppnådd alle kravene våres for både MVP og post-MVP. Vi har derfor ingen planer om å legge til mer funksjonalitet som krever brukerhistorier.
@@ -203,7 +198,7 @@ Husk at akseptansekriterier ofte skrives mer eller mindre som tester
 7. Husk å skrive hvilke bugs som finnes i de kravene dere har utført (dersom det finnes bugs).
 
 - Bugs:
-  - mister ikke liv hvis player collider med et item hvis de går i samme retning
+  - mister ikke liv hvis player collider med en fiende hvis de går i samme retning
   - En snegl på siste level beveger seg innimellom bak/gjennom vegger. Det virker som at dette kun skjer dersom man har spilt gjennom alle levelene en gang før.
   - Hvis du holder inne hoppe knappen mens du pauser, så vil player hoppe konstant selv om du har slippet knappen.
  
@@ -218,3 +213,6 @@ Husk at akseptansekriterier ofte skrives mer eller mindre som tester
 * Bugs:
   - Spillers bevegelse stanses nå av å pause spillet, og fortsetter ikke når det gjenopptas.
   -  Bakgrunn beveger seg kun dersom spilleren beveger seg.
+
+* Hvordan prosjektet skal bygges, testes og kjøres finnes beskrivelse for i README.md
+* Klassediagram finnes i mappen uml under root. Den inneholder de viktigste klassene i prosjektet vårt.

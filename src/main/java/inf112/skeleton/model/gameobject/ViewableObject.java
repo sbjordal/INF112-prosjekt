@@ -1,9 +1,8 @@
 package inf112.skeleton.model.gameobject;
 
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
-
-// TODO: comment me :)
+/**
+ * An interface to be implemented by all objects in the game that should be visible.
+ */
 public interface ViewableObject {
 
     /**
@@ -14,23 +13,10 @@ public interface ViewableObject {
     Transform getTransform();
 
     /**
-     * TODO: comment/delete me
-     * @return
+     * A getter for CollisionBox. CollisionBox is the bounding box of an object, used to
+     * detect collisions.
+     * @return the collisionBox of the GameObject
      */
     CollisionBox getCollisionBox();
-
-
-//    /**
-//     * TODO: comment me
-//     * @return
-//     */
-//    Rectangle getRectangle();
-//
-//    /**
-//     * TODO: comment me
-//     * @param newPos
-//     * @return
-//     */
-//    void setRectanglePos(Vector2 newPos);
 
 }

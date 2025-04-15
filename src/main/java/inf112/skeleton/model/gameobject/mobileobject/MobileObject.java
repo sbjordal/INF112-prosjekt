@@ -1,9 +1,16 @@
 package inf112.skeleton.model.gameobject.mobileobject;
 
 import com.badlogic.gdx.math.Vector2;
+import inf112.skeleton.model.PositionValidator;
+import inf112.skeleton.model.gameobject.CollisionBox;
 import inf112.skeleton.model.gameobject.GameObject;
 import inf112.skeleton.model.gameobject.Movable;
 import inf112.skeleton.model.gameobject.Transform;
+import inf112.skeleton.model.gameobject.fixedobject.item.Item;
+import inf112.skeleton.model.gameobject.mobileobject.actor.Player;
+import inf112.skeleton.model.gameobject.mobileobject.actor.enemy.Enemy;
+
+import java.util.List;
 
 /**
  * Represents all mobile object types.
@@ -25,7 +32,6 @@ public abstract class MobileObject extends GameObject implements Movable {
      */
     protected MobileObject(int movementSpeed, Transform transform) {
         super(transform);
-
         this.movementSpeed = movementSpeed;
         this.verticalVelocity = 0;
         this.movementDirection = 0;
@@ -45,7 +51,7 @@ public abstract class MobileObject extends GameObject implements Movable {
         updateCollisionBox();
     }
 
-    private void setMovementDirection(Vector2 oldPos, Vector2 newPos){
+    void setMovementDirection(Vector2 oldPos, Vector2 newPos){
         float deltaX = newPos.x - oldPos.x;
         if (deltaX > 0){
             movementDirection = 1;
@@ -58,7 +64,6 @@ public abstract class MobileObject extends GameObject implements Movable {
         }
     }
 
-
     /**
      * Moves the {@link GameObject} based on offset values.
      * Offset values are relative differences added to already existing values.
@@ -67,6 +72,9 @@ public abstract class MobileObject extends GameObject implements Movable {
      * @param deltaY    The vertical offset value.
      */
     public void move(int deltaX, int deltaY) {
+        Vector2 oldPos = getTransform().getPos();
+        Vector2 newPos = new Vector2(oldPos.x + deltaX, oldPos.y + deltaY);
+        setMovementDirection(oldPos, newPos);
         getTransform().alterPosition(deltaX, deltaY);
         updateCollisionBox();
     }
@@ -110,8 +118,6 @@ public abstract class MobileObject extends GameObject implements Movable {
         }
     }
 
-    // TODO: Burde vi heller bruke en av move-metodene? Evt bruke moveHorizontally og moveVertically?
-    // Nå har vi 4 move-metoder
     @Override
     public void moveHorizontally(float deltaTime, boolean moveLeft, boolean moveRight) {
         if (moveLeft == moveRight) return;
@@ -125,5 +131,54 @@ public abstract class MobileObject extends GameObject implements Movable {
     public void moveVertically(float deltaTime) {
         int delta = (int)(verticalVelocity * deltaTime);
         move(0, delta);
+    }
+
+    @Override
+    public boolean isTouchingGround(List<GameObject> objectList) {
+        for (GameObject object : objectList) {
+            if (!(object instanceof Enemy || object instanceof Item || object instanceof Player)) {
+                CollisionBox objectCollisionBox = object.getCollisionBox();
+                if (this.getCollisionBox().isCollidingFromBottom(objectCollisionBox)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public Vector2 filterPosition(int deltaX, int deltaY, PositionValidator validator){
+        Transform transform = this.getTransform();
+        Vector2 position = transform.getPos();
+        Vector2 size = transform.getSize();
+        float filteredX = binarySearch(position.x, position.y, deltaX, size, true, validator);
+        float filteredY = binarySearch(filteredX, position.y, deltaY, size, false, validator);
+
+        return new Vector2(filteredX, filteredY);
+    }
+
+    private float binarySearch(float startX, float startY, int delta, Vector2 size, boolean isX, PositionValidator validator) {
+        int low = 0;
+        int high = Math.abs(delta);
+        boolean isNegative = delta < 0;
+
+        while (low < high) {
+            int mid = (low + high + 1) / 2;
+            int testDelta = isNegative ? -mid : mid;
+
+            Vector2 newPosition = isX ? new Vector2(startX + testDelta, startY) : new Vector2(startX, startY + testDelta);
+            Transform newTransform = new Transform(newPosition, size);
+            CollisionBox newCollisionBox = new CollisionBox(newTransform);
+
+            if (validator.isLegalMove(newCollisionBox)) {
+                low = mid;
+            } else {
+                high = mid - 1;
+            }
+        }
+        final float startCoordinate = isX ? startX : startY;
+        final float endCoordinate = isNegative ? -low : low;
+
+        return startCoordinate + endCoordinate;
     }
 }

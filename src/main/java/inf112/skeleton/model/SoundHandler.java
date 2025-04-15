@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 
 public class SoundHandler {
 
-    // TODO, lage liste/map med lyder?
     private Sound coinSound;
     
     public SoundHandler() { this.coinSound = Gdx.audio.newSound(Gdx.files.internal("sfx/coinrecieved.mp3"));}

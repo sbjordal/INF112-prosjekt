@@ -48,7 +48,7 @@ public class CollisionHandlerTest {
     }
 
     @Test
-    public void testInitializationCollisionHandler() { // TODO: teste soundhandler her eller skulle den flyttes?
+    public void testInitializationCollisionHandler() {
         int ceilingHeight= handler.getCeilingHeight();
         int attackCoolDown= handler.getATTACK_COOLDOWN();
         int bounceCoolDown= handler.getBOUNCE_COOLDOWN();

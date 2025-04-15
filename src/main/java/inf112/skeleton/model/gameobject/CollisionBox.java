@@ -78,8 +78,6 @@ public class CollisionBox {
                 topRight.y < other.topRight.y - acceptanceRange;
     }
 
-
-    // TODO: --------------- Disse trenger vi muligens ikke ---------------
     public boolean isCollidingFromLeft(CollisionBox other) {
         return isCollidingWith(other) &&
                 topRight.x > other.botLeft.x &&
