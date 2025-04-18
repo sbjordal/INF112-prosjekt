@@ -171,6 +171,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         if (gameState.equals(GameState.GAME_ACTIVE)) {
             updateScore(shouldUpdateCountDown());
             updatePlayerMovement(deltaTime);
+            goToNextLevel(); // TODO kan den stå her?
             moveEnemies(deltaTime);
             checkForGameOver();
             toRemove = player.getObjectsToRemove();
@@ -222,6 +223,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
             int deltaX = (int)(player.getMovementSpeed() * deltaTime) * direction;
             player.resolvePlayerMovement(deltaX, 0, this);
         }
+
     }
 
     // TODO oppdater

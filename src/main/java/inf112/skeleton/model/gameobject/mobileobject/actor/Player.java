@@ -206,7 +206,9 @@ final public class Player extends Actor implements Visitor, Collidable {
     }
 
     public boolean getGoToNextLevel() {
-        return goToNextLevel;
+        boolean currentValue = goToNextLevel;
+        goToNextLevel = false;
+        return currentValue;
     }
 
     public void resetScores() {
