@@ -17,8 +17,6 @@ import static org.mockito.Mockito.when;
 
 public class EnemyTest {
 
-    //TODO: Sjekk pit for hva som mangler (hvilke linjer som ikke er testet). Noen enemytester
-    // er implementert under enemyfactory
     @Test
     void testEnemyDeathSnail() {
         Enemy enemy = EnemyFactory.createSnail(0, 0, EnemyType.SNAIL);

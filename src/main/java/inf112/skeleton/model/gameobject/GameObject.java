@@ -1,4 +1,5 @@
 package inf112.skeleton.model.gameobject;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 /**
@@ -8,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 public class GameObject implements ViewableObject {
     private Transform transform;
     private CollisionBox collisionBox;
+//    private Rectangle rectangle;
 
     /**
      * Creates a new GameObject with the specified transform and texture.
@@ -16,6 +18,7 @@ public class GameObject implements ViewableObject {
      */
     public GameObject(Transform transform){
         this.transform = transform;
+//        this.rectangle = new Rectangle(transform.getPos().x,transform.getPos().y, transform.getSize().x, transform.getSize().y);
         this.collisionBox = new CollisionBox(transform);
     }
 
@@ -32,6 +35,16 @@ public class GameObject implements ViewableObject {
     protected void setCollisionBox(Transform transform) {
         collisionBox = new CollisionBox(transform);
     }
+
+//    @Override
+//    public Rectangle getRectangle(){
+//        return rectangle;
+//    }
+
+//    @Override
+//    public void setRectanglePos(Vector2 newPos) {
+//        rectangle.setPosition(newPos);
+//    }
 
     public void setSize(Vector2 size) {
         transform.size = size;

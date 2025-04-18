@@ -13,6 +13,7 @@ import inf112.skeleton.model.gameobject.Transform;
 import inf112.skeleton.model.gameobject.ViewableObject;
 import inf112.skeleton.model.gameobject.fixedobject.FixedObject;
 import inf112.skeleton.model.gameobject.fixedobject.Ground;
+import inf112.skeleton.model.gameobject.fixedobject.Ground;
 import inf112.skeleton.model.gameobject.fixedobject.item.Banana;
 import inf112.skeleton.model.gameobject.fixedobject.item.Coin;
 import inf112.skeleton.model.gameobject.fixedobject.item.Star;

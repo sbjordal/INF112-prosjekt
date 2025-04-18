@@ -2,6 +2,7 @@ package inf112.skeleton.model;
 
 import inf112.skeleton.model.gameobject.GameObject;
 
+// TODO, revisjon, denne klassen trengs ikke lengre, er erstattet av en instans av Rectangle i worldModel.setUpmodel
 /**
  * Represents the dimensions of the world board.
  * The world board defines the confinements of the playable area.
