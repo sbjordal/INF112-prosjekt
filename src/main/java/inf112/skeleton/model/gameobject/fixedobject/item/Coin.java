@@ -34,8 +34,8 @@ public class Coin extends Item implements Scorable, Collidable {
         return objectScore;
     }
 
-    @Override
-    public void onCollide(Collidable gameObject) {
-
-    }
+//    @Override
+//    public void onCollide(Collidable gameObject) {
+//
+//    }
 }
