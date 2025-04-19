@@ -24,27 +24,49 @@ import static org.mockito.Mockito.verify;
 
 public class SoundHandlerTest {
 
-    private Sound mockSound;
+    private Sound mockCoinSound;
+    private Sound mockOuchSound;
     private SoundHandler handler;
 
     @BeforeEach
     public void setup() {
-       mockSound = mock(Sound.class);
-       handler = new SoundHandler(mockSound, mockSound);
+       mockCoinSound = mock(Sound.class);
+       mockOuchSound = mock(Sound.class);
+       handler = new SoundHandler(mockCoinSound, mockOuchSound);
     }
 
 
     @Test
     public void testPlayCoinSound_PlaysSoundAtCorrectVolume () {
         handler.playCoinSound();
-        verify(mockSound).play(0.25f);
+        verify(mockCoinSound).play(0.25f);
     }
+
+
+    @Test
+    public void testPlayOuchSound_PlaysSoundAtCorrectVolume () {
+        handler.playCoinSound();
+        verify(mockOuchSound).play(0.25f);
+    }
+
+    @Test
+    void testGetCoinSound() {
+        // Verify that getCoinSound() returns the mocked coinSound object
+        assert handler.getCoinSound() == mockCoinSound;
+    }
+
+    @Test
+    void testGetOuchSound() {
+        // Verify that getOuchSound() returns the mocked ouchSound object
+        assert handler.getOuchSound() == mockOuchSound;
+    }
+
 
     @Test
     public void testCoinSoundIsStoredAndAccessible() {
 
-        assertNotNull(handler.getCoinSound());
-        assertEquals(mockSound, handler.getCoinSound());
+//        assertNotNull(handler.getCoinSound());
+//        assertEquals(mockSound, handler.getCoinSound());
     }
 
 //    @Test

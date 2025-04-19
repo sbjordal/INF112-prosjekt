@@ -2,6 +2,7 @@ package inf112.skeleton.model;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.Gdx;
 
+// TODO, slett denne, skal heller ligge i View pakken
 public class SoundHandler {
 
     private final Sound coinSound;
