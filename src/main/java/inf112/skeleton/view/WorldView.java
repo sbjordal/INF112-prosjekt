@@ -243,6 +243,7 @@ public class WorldView implements Screen {
             // Player texture is handled differently due to animations.
             if (object instanceof Player) continue;
 
+
             Texture objectTexture = getTexture(object);
             float objectX = object.getTransform().getPos().x;
             float objectY = object.getTransform().getPos().y;

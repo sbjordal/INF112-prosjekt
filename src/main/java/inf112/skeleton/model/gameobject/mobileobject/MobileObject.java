@@ -63,6 +63,7 @@ public abstract class MobileObject extends GameObject implements Movable {
         setMovementDirection(oldPos, newPos);
         getTransform().alterPosition(deltaX, deltaY);
         updateCollisionBox();
+
     }
 
     /**
