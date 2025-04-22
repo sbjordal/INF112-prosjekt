@@ -2,6 +2,8 @@ package inf112.skeleton.model;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.Gdx;
 
+//TODO: Soundhandler skal ligge i view, må flytte ting herfra.
+// Kommentert ut i view for å få prosjektet til å kompilere
 public class SoundHandler {
 
     private final Sound coinSound;
