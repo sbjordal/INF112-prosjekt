@@ -1,0 +1,139 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > Visitor</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">inf112.skeleton.model.gameobject</a>
+</div>
+
+<h1>Coverage Summary for Class: Visitor (inf112.skeleton.model.gameobject)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+</tr>
+  <tr>
+    <td class="name">Visitor$MockitoMock$ocWw9gVD</td>
+  </tr>
+  <tr>
+    <td class="name">Visitor$MockitoMock$ocWw9gVD$auxiliary$ffEQa680</td>
+  </tr>
+  <tr>
+    <td class="name">Visitor$MockitoMock$ocWw9gVD$auxiliary$v1uURrRP</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package inf112.skeleton.model.gameobject;
+&nbsp;
+&nbsp;import inf112.skeleton.model.gameobject.fixedobject.Ground;
+&nbsp;import inf112.skeleton.model.gameobject.fixedobject.item.Banana;
+&nbsp;import inf112.skeleton.model.gameobject.fixedobject.item.Coin;
+&nbsp;import inf112.skeleton.model.gameobject.fixedobject.item.Star;
+&nbsp;import inf112.skeleton.model.gameobject.mobileobject.actor.Player;
+&nbsp;import inf112.skeleton.model.gameobject.mobileobject.actor.enemy.Enemy;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;public interface Visitor {
+&nbsp;
+&nbsp;    /**
+&nbsp;     * TODO
+&nbsp;     * @param coin
+&nbsp;     */
+&nbsp;    void visit(Coin coin);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * TODO
+&nbsp;     * @param star
+&nbsp;     */
+&nbsp;    void visit(Star star);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * TODO
+&nbsp;     * @param banana
+&nbsp;     */
+&nbsp;    void visit(Banana banana);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * TODO
+&nbsp;     * @param ground
+&nbsp;     */
+&nbsp;    void visit(Ground ground);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * TODO
+&nbsp;     * @param enemy
+&nbsp;     */
+&nbsp;    void visit(Enemy enemy);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * TODO
+&nbsp;     * @param player
+&nbsp;     */
+&nbsp;    void visit(Player player);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * A getter for CollisionBox. CollisionBox is the bounding box of an object, used to
+&nbsp;     * detect collisions.
+&nbsp;     * @return the collisionBox of the GameObject
+&nbsp;     */
+&nbsp;    CollisionBox getCollisionBox();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * TODO
+&nbsp;     */
+&nbsp;    boolean isColliding(List&lt;Collidable&gt; collidables, CollisionBox collisionBox);
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-04-22 20:02</div>
+</div>
+</body>
+</html>
