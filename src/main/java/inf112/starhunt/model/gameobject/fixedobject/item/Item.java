@@ -9,6 +9,7 @@ import inf112.starhunt.model.gameobject.mobileobject.actor.Player;
  */
 public class Item extends FixedObject {
 
+    private boolean isCollected = false;
     /**
      * Creates a new Item with the specified transform.
      *
@@ -16,5 +17,13 @@ public class Item extends FixedObject {
      */
     public Item(Transform transform) {
         super(transform);
+    }
+
+    public boolean isCollected() {
+        return isCollected;
+    }
+
+    public void collect() {
+        this.isCollected = true;
     }
 }

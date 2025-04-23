@@ -92,11 +92,14 @@ final public class Player extends Actor implements Visitor, Collidable {
 
     @Override
     public void visit(Coin coin) {
-        coinCounter++;
-        totalScore += coin.getObjectScore();
-        objectsToRemove.add(coin);
-        if (coinCollected != null) {
-            coinCollected.run();
+        if (!coin.isCollected()) {
+            coin.collect();
+            coinCounter++;
+            totalScore += coin.getObjectScore();
+            objectsToRemove.add(coin);
+            if (coinCollected != null) {
+                coinCollected.run();
+            }
         }
     }
 
