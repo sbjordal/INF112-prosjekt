@@ -1,4 +1,4 @@
-package inf112.skeleton.view;
+package inf112.starhunt.view;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.Gdx;
 public class SoundHandler {
