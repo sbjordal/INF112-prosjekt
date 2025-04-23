@@ -37,6 +37,7 @@ final public class Player extends Actor implements Visitor, Collidable {
     private List<Collidable> objectsToRemove;
     private Runnable coinCollected;
     private Runnable takingDamage;
+    private int initialLives;
 
 
     /**
@@ -48,6 +49,7 @@ final public class Player extends Actor implements Visitor, Collidable {
      */
     public Player(int lives, int movementSpeed, Transform transform) {
         super(lives, movementSpeed, transform);
+        this.initialLives = lives;
         this.hasPowerUp = false;
         this.damage = 1;
         this.lastAttackTime = 0;
@@ -281,6 +283,7 @@ final public class Player extends Actor implements Visitor, Collidable {
     }
     public void resetForNewLevel(Vector2 spawnPoint) {
         move(spawnPoint);
+        setLives(initialLives);
         setVerticalVelocity(0);
         setRespawned(true);
     }

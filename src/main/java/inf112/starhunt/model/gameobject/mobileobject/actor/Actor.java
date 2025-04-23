@@ -1,5 +1,6 @@
 package inf112.starhunt.model.gameobject.mobileobject.actor;
 
+import inf112.starhunt.model.gameobject.GameObject;
 import inf112.starhunt.model.gameobject.Transform;
 import inf112.starhunt.model.gameobject.mobileobject.MobileObject;
 
@@ -97,5 +98,9 @@ public abstract class Actor extends MobileObject {
     private void die() {
         lives = 0;
         isAlive = false;
+    }
+
+    protected void setLives(int lives){
+        this.lives = lives;
     }
 }
