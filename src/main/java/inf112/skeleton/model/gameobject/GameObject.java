@@ -32,19 +32,18 @@ public class GameObject implements ViewableObject {
         return collisionBox;
     }
 
+    @Override
+    public void setOnCoinCollected(Runnable callback) {
+    }
+
+    @Override
+    public void setOnCollisionWithEnemy(Runnable callback) {
+
+    }
+
     protected void setCollisionBox(Transform transform) {
         collisionBox = new CollisionBox(transform);
     }
-
-//    @Override
-//    public Rectangle getRectangle(){
-//        return rectangle;
-//    }
-
-//    @Override
-//    public void setRectanglePos(Vector2 newPos) {
-//        rectangle.setPosition(newPos);
-//    }
 
     public void setSize(Vector2 size) {
         transform.size = size;

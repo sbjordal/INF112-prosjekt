@@ -35,6 +35,8 @@ final public class Player extends Actor implements Visitor, Collidable {
     private Integer coinCounter;
     private Integer totalScore;
     private List<Collidable> objectsToRemove;
+    private Runnable coinCollected;
+    private Runnable takingDamage;
 
 
     /**
@@ -56,6 +58,17 @@ final public class Player extends Actor implements Visitor, Collidable {
         this.totalScore = 0;
         objectsToRemove = new ArrayList<>();
     }
+
+    @Override
+    public void setOnCoinCollected(Runnable callback) {
+        this.coinCollected = callback;
+    }
+
+    @Override
+    public void setOnCollisionWithEnemy(Runnable callback) {
+        this.takingDamage = callback;
+    }
+
     public void jump(boolean isGrounded) {
         if (isGrounded) {
             jump(jumpForce);
@@ -80,6 +93,9 @@ final public class Player extends Actor implements Visitor, Collidable {
         coinCounter++;
         totalScore += coin.getObjectScore();
         objectsToRemove.add(coin);
+        if (coinCollected != null) {
+            coinCollected.run();
+        }
     }
 
     @Override
@@ -134,7 +150,9 @@ final public class Player extends Actor implements Visitor, Collidable {
         } else {
             System.out.println("Jeg kolliderer med enemy fra siden :)");
             if (currentTime - getLastAttackTime() >= ATTACK_COOLDOWN) {
-
+                if (takingDamage != null) {
+                    takingDamage.run();
+                }
                 takeDamage(enemy.getDamage());
 
                 // TODO...
