@@ -158,7 +158,6 @@ public abstract class Enemy extends Actor implements Scorable, Visitor, Collidab
         final boolean isCollidingFromBottom = getCollisionBox().isCollidingFromBottom(playerCollisionBox);
         final boolean isOutsideLevel = getTransform().getPos().x < 0 || getTransform().getPos().x > endOfLevel;
 
-
         if (((isColliding && !isCollidingFromBottom) || isOutsideLevel) && isReadyToCollide()) {
             if (!isOutsideLevel) {
 //                attack(player);

@@ -172,7 +172,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     // TODO oppdater
     void moveEnemies(float deltaTime) {
         for (Enemy enemy : enemies) {
-            enemy.isColliding(collidables, enemy.getCollisionBox());
             enemy.moveEnemy(deltaTime);
             enemy.isColliding(collidables, enemy.getCollisionBox());
         }
