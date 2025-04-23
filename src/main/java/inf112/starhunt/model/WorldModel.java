@@ -78,7 +78,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     private void setupInput() {
         controller = new Controller(this);
         Gdx.input.setInputProcessor(controller);
-//        collisionHandler.init();
     }
 
     /**
@@ -107,54 +106,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
         return isWithinWidthBound && isWithinHeightBound;
     }
-//
-//    private boolean isColliding(List<Visitor> visitors, List<Collidable> collidables) {
-//
-//
-//        for (Collidable collided : collidables) {
-//            if (player.getCollisionBox().isCollidingWith(collided.getCollisionBox())) {
-//                collided.accept(player);
-//            }
-//        }
-//
-//
-//
-//
-//        Triple<Boolean, GameObject> collided = collisionHandler.checkCollision(player, Collections.unmodifiableList(objectList), collisionBox);
-//        if (collided.first && !toRemove.contains(collided.second)) {
-//            if (collided.second instanceof Coin coin) {
-//                int newScore = collisionHandler.handleCoinCollision(coin, totalScore);
-//                coinCounter++;
-//                totalScore = newScore;
-//                toRemove.add(coin);
-//            } else if (collided.second instanceof Banana banana) {
-//                collisionHandler.handleBananaCollision(player, banana);
-//                toRemove.add(banana);
-//            } else if (collided.second instanceof Star star) {
-//                LevelManager.Level nextLevel = collisionHandler.handleStarCollision(currentLevel);
-//                startLevel(nextLevel);
-//                toRemove.add(star);
-//
-//            } else if (collided.second instanceof Enemy enemy) {
-//                totalScore = collisionHandler.handleEnemyCollision(player, enemy, totalScore, collisionBox);
-//                if (!enemy.isAlive())  toRemove.add(enemy);
-//            }
-//        }
-//        return collided.first;
-//    }
-
-//    // TODO: Må skrives om og kanskje flyttes til movable? Evt actor eller player?
-//    private boolean isTouchingGround() {
-//        for (GameObject object : objectList) {
-//            if (object instanceof Ground) {
-//                CollisionBox objectCollisionBox = object.getCollisionBox();
-//                if (player.getCollisionBox().isCollidingFromBottom(objectCollisionBox)) {
-//                    return true;
-//                }
-//            }
-//        }
-//        return false;
-//    }
 
     private void goToNextLevel() {
         boolean gotNextLevel = player.getGoToNextLevel();
@@ -197,19 +148,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         return currentTime - lastScoreUpdate >= 1000 && countDown >0 && gameState == GameState.GAME_ACTIVE;
     }
 
-
-//    private void resolvePlayerMovement(int deltaX, int deltaY) {
-//        Vector2 newPlayerPosition = player.filterPosition(deltaX, deltaY, this);
-//        if (!player.getRespawned()) {
-//            player.move(newPlayerPosition);
-//        }
-//        player.setRespawned(false);
-//        final int belowLevel = -200;
-//        if (newPlayerPosition.y <= belowLevel) {
-//            player.receiveDamage(player.getLives());
-//        }
-//    }
-
     private void updatePlayerMovement(float deltaTime) {
         boolean isGrounded = player.isTouchingGround(Collections.unmodifiableList(collidables));
         if (isJumping) {
@@ -229,6 +167,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     // TODO oppdater
     void moveEnemies(float deltaTime) {
         for (Enemy enemy : enemies) {
+            enemy.isColliding(collidables, enemy.getCollisionBox());
             enemy.moveEnemy(deltaTime);
         }
     }

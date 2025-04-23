@@ -2,6 +2,7 @@ package inf112.starhunt.view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -17,10 +18,11 @@ import inf112.starhunt.model.gameobject.Transform;
 import inf112.starhunt.model.gameobject.ViewableObject;
 import inf112.starhunt.model.gameobject.mobileobject.actor.Player;
 
+import java.util.EventListener;
 import java.util.HashMap;
 
 
-public class WorldView implements Screen {
+public class WorldView implements Screen, EventListener {
 
     private ViewableWorldModel model;
     private SpriteBatch batch;
@@ -32,7 +34,7 @@ public class WorldView implements Screen {
     private HashMap<String, Texture> textures;
     private PlayerAnimation playerAnimation;
     private GameState gameState;
-//    private SoundHandler soundHandler; // TODO, kommenert ut for å kompilere, krever EventHandler for å få til SoundHandler
+    private SoundHandler soundHandler; // TODO, kommenert ut for å kompilere, krever EventHandler for å få til SoundHandler
 
     public WorldView(ViewableWorldModel model, int width, int height) {
         this.viewport = new ExtendViewport(width, height);
@@ -40,7 +42,6 @@ public class WorldView implements Screen {
         this.layout = new GlyphLayout();
         this.textures = new HashMap<>();
         this.gameState = model.getGameState();
-//        this.soundHandler = new SoundHandler(); // TODO, kommenert ut for å kompilere, krever EventHandler for å få til SoundHandler
     }
 
     /**
@@ -74,6 +75,9 @@ public class WorldView implements Screen {
         font.setColor(Color.WHITE);
         batch = new SpriteBatch();
         menuBackgroundTexture = new Texture("background/plx-1.png");
+        soundHandler = new SoundHandler();
+        model.getViewablePlayer().setOnCoinCollected(() -> soundHandler.playCoinSound());
+        model.getViewablePlayer().setOnCollisionWithEnemy(() -> soundHandler.playOuchSound());
     }
 
     @Override
@@ -92,6 +96,7 @@ public class WorldView implements Screen {
         else if (model.getInfoMode() && (gameState == GameState.GAME_MENU || gameState == GameState.GAME_PAUSED)) {
             drawGameInfo();
         }
+
     }
 
 
@@ -264,16 +269,13 @@ public class WorldView implements Screen {
 
     @Override
     public void pause() {
-
     }
 
     @Override
     public void resume() {
-
     }
 
     @Override
     public void hide() {
-
     }
 }
