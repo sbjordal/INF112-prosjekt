@@ -1,0 +1,94 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > PositionValidator</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">inf112.skeleton.model</a>
+</div>
+
+<h1>Coverage Summary for Class: PositionValidator (inf112.skeleton.model)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+</tr>
+  <tr>
+    <td class="name">PositionValidator$MockitoMock$wUMG4fx3</td>
+  </tr>
+  <tr>
+    <td class="name">PositionValidator$MockitoMock$wUMG4fx3$auxiliary$2cb73pXt</td>
+  </tr>
+  <tr>
+    <td class="name">PositionValidator$MockitoMock$wUMG4fx3$auxiliary$B3w544Bq</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package inf112.skeleton.model;
+&nbsp;
+&nbsp;import inf112.skeleton.model.gameobject.CollisionBox;
+&nbsp;
+&nbsp;/**
+&nbsp; * Defines a contract for validating whether a game object&#39;s position is legal within the game world.
+&nbsp; *
+&nbsp; */
+&nbsp;public interface PositionValidator {
+&nbsp;    /**
+&nbsp;     * Determines whether the specified collision box is in a valid (legal) position.
+&nbsp;     *
+&nbsp;     * @param collisionBox The collision box representing the object&#39;s prospective position and size.
+&nbsp;     * @return {@code true} if the position is valid and movement is allowed; {@code false} otherwise.
+&nbsp;     */
+&nbsp;    boolean isLegalMove(CollisionBox collisionBox);
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-04-22 20:02</div>
+</div>
+</body>
+</html>

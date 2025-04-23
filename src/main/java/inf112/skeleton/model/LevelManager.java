@@ -12,9 +12,7 @@ import inf112.skeleton.model.gameobject.Visitor;
 import inf112.skeleton.model.gameobject.fixedobject.Ground;
 import inf112.skeleton.model.gameobject.fixedobject.item.ItemFactory;
 import inf112.skeleton.model.gameobject.mobileobject.actor.Player;
-import inf112.skeleton.model.gameobject.mobileobject.actor.enemy.Enemy;
-import inf112.skeleton.model.gameobject.mobileobject.actor.enemy.EnemyFactory;
-import inf112.skeleton.model.gameobject.mobileobject.actor.enemy.EnemyType;
+import inf112.skeleton.model.gameobject.mobileobject.actor.enemy.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -101,12 +99,14 @@ public class LevelManager {
                     case "coin" -> collidables.add(ItemFactory.createCoin(x, y));
                     case "banana" -> collidables.add(ItemFactory.createBanana(x, y));
                     case "snail" -> {
-                        collidables.add(EnemyFactory.createSnail(x, y, EnemyType.SNAIL));
-                        enemies.add(EnemyFactory.createSnail(x, y, EnemyType.SNAIL));
+                        final Snail snail = EnemyFactory.createSnail(x, y, EnemyType.SNAIL);
+                        collidables.add(snail);
+                        enemies.add(snail);
                     }
                     case "leopard" -> {
-                        collidables.add(EnemyFactory.createLeopard(x, y, EnemyType.LEOPARD));
-                        enemies.add(EnemyFactory.createLeopard(x, y, EnemyType.LEOPARD));
+                        final Leopard leopard = EnemyFactory.createLeopard(x, y, EnemyType.LEOPARD);
+                        collidables.add(leopard);
+                        enemies.add(leopard);
                     }
                     default -> System.out.println("Unknown layer: " + layerName + ". Case sensitivity maybe?");
                 }

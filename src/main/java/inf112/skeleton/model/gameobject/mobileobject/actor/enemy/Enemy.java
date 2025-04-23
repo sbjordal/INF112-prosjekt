@@ -1,5 +1,7 @@
 package inf112.skeleton.model.gameobject.mobileobject.actor.enemy;
 
+import com.badlogic.gdx.math.Vector2;
+import inf112.skeleton.model.PositionValidator;
 import inf112.skeleton.model.WorldModel;
 import inf112.skeleton.model.gameobject.*;
 import inf112.skeleton.model.gameobject.fixedobject.Ground;
@@ -37,18 +39,31 @@ public abstract class Enemy extends Actor implements Scorable, Visitor, Collidab
         this.objectScore = objectScore;
         this.damage = damage;
         this.lastCollisionTime = 0;
+        this.direction = Direction.RIGHT;
     }
 
     /**
      * Moves the Enemy in a predefined movement pattern.
      */
     public void moveEnemy(float deltaTime) {
+
         int distance = (int) (getMovementSpeed() * deltaTime);
         if (direction == Direction.LEFT) {
             distance *= -1;
         }
 
         move(distance, 0);
+    }
+
+    // TODO: Revisjon; tester annen moveEnemy-metode med validator
+    public void moveEnemy(float deltaTime, PositionValidator validator) {
+        int distance = (int) (getMovementSpeed() * deltaTime);
+        if (direction == Direction.LEFT) {
+            distance *= -1;
+        }
+
+        Vector2 newPos = filterPosition(distance, 0, validator);
+        move(newPos); // <-- Bruker den "smarte" metoden
     }
 
     protected void attack(Player player) {
@@ -82,6 +97,7 @@ public abstract class Enemy extends Actor implements Scorable, Visitor, Collidab
      * Switch the movement direction of an enemy.
      */
     protected void switchDirection() {
+        System.out.println("Switching direction!");
         switch (direction) {
             case LEFT: direction = Direction.RIGHT; break;
             case RIGHT: direction = Direction.LEFT; break;
@@ -116,9 +132,14 @@ public abstract class Enemy extends Actor implements Scorable, Visitor, Collidab
 
     @Override
     public void visit(Ground ground) {
-        boolean isCollidingFromLeft = getCollisionBox().isCollidingFromLeft(ground.getCollisionBox());
-        boolean isCollidingFromRight = getCollisionBox().isCollidingFromRight(ground.getCollisionBox());
-        if (isCollidingFromLeft || isCollidingFromRight) {
+        CollisionBox groundBox = ground.getCollisionBox();
+        CollisionBox myBox = getCollisionBox();
+
+        boolean isFromLeft = myBox.isCollidingFromLeft(groundBox);
+        boolean isFromRight = myBox.isCollidingFromRight(groundBox);
+
+        // Bare snu hvis det er en faktisk veggkollisjon
+        if (isFromLeft || isFromRight) {
             switchDirection();
         }
     }

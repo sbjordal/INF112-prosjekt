@@ -1,0 +1,125 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > Movable</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">inf112.skeleton.model.gameobject</a>
+</div>
+
+<h1>Coverage Summary for Class: Movable (inf112.skeleton.model.gameobject)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">Movable</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package inf112.skeleton.model.gameobject;
+&nbsp;
+&nbsp;import com.badlogic.gdx.math.Vector2;
+&nbsp;import inf112.skeleton.model.PositionValidator;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;public interface Movable {
+&nbsp;
+&nbsp;    /**
+&nbsp;     * A method for checking whether a Gameobject is standing on the ground, or not
+&nbsp;     * @param objectList, the list of objects that the object potentially is standing on.
+&nbsp;     * @return true if the Gameobject is touching the ground, false if not.
+&nbsp;     */
+&nbsp;    boolean isTouchingGround(List&lt;Collidable&gt; objectList);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Applies gravity to the object&#39;s vertical velocity.
+&nbsp;     * If the object is on the ground and not moving upward, vertical velocity is set to 0.
+&nbsp;     * Otherwise, gravity is applied based on the elapsed time since the last frame.
+&nbsp;     *
+&nbsp;     * @param deltaTime   The time in seconds since the last update. Used to ensure frame rate–independent physics.
+&nbsp;     * @param isOnGround  Whether the object is currently standing on a solid surface.
+&nbsp;     */
+&nbsp;    void applyGravity(float deltaTime, boolean isOnGround);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Filters object&#39;s position to be valid.
+&nbsp;     * A valid position is a position that does not overlap with any other {@link GameObject} types.
+&nbsp;     * The filter-algorithm will favor the desired distances.
+&nbsp;     *
+&nbsp;     * @param deltaX    the desired distance in the horizontal direction.
+&nbsp;     * @param deltaY    the desired distance in the vertical direction.
+&nbsp;     * @param validator A way to validate the new position for the object.
+&nbsp;     * @return          filtered player position.
+&nbsp;     */
+&nbsp;    Vector2 filterPosition(int deltaX, int deltaY, PositionValidator validator);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Moves the {@link GameObject} based on offset values.
+&nbsp;     * Offset values are relative differences added to already existing values.
+&nbsp;     *
+&nbsp;     * @param deltaX    The horizontal offset value.
+&nbsp;     * @param deltaY    The vertical offset value.
+&nbsp;     */
+&nbsp;     void move(int deltaX, int deltaY);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Moves the {@link GameObject} based on absolute values.
+&nbsp;     * Absolute values are values that overwrite already existing values.
+&nbsp;     *
+&nbsp;     * @param newPosition   A {@link Vector2} containing the absolute values of the new position.
+&nbsp;     */
+&nbsp;    void move(Vector2 newPosition);
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-04-22 20:02</div>
+</div>
+</body>
+</html>
