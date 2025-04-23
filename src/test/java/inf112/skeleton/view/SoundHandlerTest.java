@@ -9,7 +9,7 @@ import static org.mockito.Mockito.*;
 
 import com.badlogic.gdx.audio.Sound;
 
-import inf112.skeleton.view.SoundHandler;
+//import inf112.skeleton.view.SoundHandler;
 import com.badlogic.gdx.files.FileHandle;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -92,6 +92,6 @@ public class SoundHandlerTest {
 //            assertEquals(mockSound, handler.getCoinSound());
 //        }
 //    }
-}
+
 
 
