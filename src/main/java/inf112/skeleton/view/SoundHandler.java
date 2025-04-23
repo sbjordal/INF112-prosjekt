@@ -4,6 +4,10 @@ import com.badlogic.gdx.Gdx;
 
 // TODO: Må legge til event handler.
 // TODO: Dette er kommentert ut fordi programmet ikke kompilerer med denne implementasjonen.
+
+/**
+ * Class for handling sound effects, these are used when colliding or if player is losing a life.
+ */
 //public class SoundHandler {
 
 //    private final Sound coinSound;

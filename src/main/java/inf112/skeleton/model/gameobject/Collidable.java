@@ -1,5 +1,8 @@
 package inf112.skeleton.model.gameobject;
 
+/**
+ * All classes that are Collidable is able to collide into.
+ */
 public interface Collidable extends ViewableObject {
 
     /**

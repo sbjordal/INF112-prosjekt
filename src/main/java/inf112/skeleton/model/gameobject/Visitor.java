@@ -4,11 +4,17 @@ import inf112.skeleton.model.gameobject.fixedobject.Ground;
 import inf112.skeleton.model.gameobject.fixedobject.item.Banana;
 import inf112.skeleton.model.gameobject.fixedobject.item.Coin;
 import inf112.skeleton.model.gameobject.fixedobject.item.Star;
+import inf112.skeleton.model.gameobject.mobileobject.MobileObject;
 import inf112.skeleton.model.gameobject.mobileobject.actor.Player;
 import inf112.skeleton.model.gameobject.mobileobject.actor.enemy.Enemy;
 
 import java.util.List;
 
+/**
+ * An interface to be used for objects that is {@link MobileObject}
+ * and that can collide with other {@link Collidable} {@link GameObject}s.
+ *
+ */
 public interface Visitor {
 
     /**
