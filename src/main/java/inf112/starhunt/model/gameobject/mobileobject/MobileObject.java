@@ -105,7 +105,6 @@ public abstract class MobileObject extends GameObject implements Movable {
         }
     }
 
-
     @Override
     public boolean isTouchingGround(List<Collidable> objectList) {
         for (Collidable object : objectList) {

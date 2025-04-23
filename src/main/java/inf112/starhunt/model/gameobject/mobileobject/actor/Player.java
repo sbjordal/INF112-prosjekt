@@ -279,5 +279,9 @@ final public class Player extends Actor implements Visitor, Collidable {
             receiveDamage(damage);
         }
     }
-
+    public void resetForNewLevel(Vector2 spawnPoint) {
+        move(spawnPoint);
+        setVerticalVelocity(0);
+        setRespawned(true);
+    }
 }
