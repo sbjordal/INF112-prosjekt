@@ -8,12 +8,15 @@ public class SoundHandler {
         this.coinSound = Gdx.audio.newSound(Gdx.files.internal("sfx/coinrecieved.mp3"));
         this.ouchSound = Gdx.audio.newSound(Gdx.files.internal("sfx/characterouch.mp3"));
     }
-
     // Ekstra konstruktør for testing
     public SoundHandler(Sound coinSound, Sound ouchSound) {
         this.coinSound = coinSound;
         this.ouchSound = ouchSound;
     }
+/**
+ * Class for handling sound effects, these are used when colliding or if player is losing a life.
+ */
+//public class SoundHandler {
 
     public void playCoinSound() {
         coinSound.play(0.25f);
