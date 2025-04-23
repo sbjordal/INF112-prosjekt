@@ -3,6 +3,7 @@ package inf112.starhunt.model.gameobject.mobileobject;
 import com.badlogic.gdx.math.Vector2;
 import inf112.starhunt.model.PositionValidator;
 import inf112.starhunt.model.gameobject.*;
+import inf112.starhunt.model.gameobject.fixedobject.Ground;
 import inf112.starhunt.model.gameobject.fixedobject.item.Item;
 import inf112.starhunt.model.gameobject.mobileobject.actor.Player;
 import inf112.starhunt.model.gameobject.mobileobject.actor.enemy.Enemy;
@@ -105,10 +106,11 @@ public abstract class MobileObject extends GameObject implements Movable {
         }
     }
 
+
     @Override
     public boolean isTouchingGround(List<Collidable> objectList) {
         for (Collidable object : objectList) {
-            if (!(object instanceof Enemy || object instanceof Item || object instanceof Player)) {
+            if (object instanceof Ground) {
                 CollisionBox objectCollisionBox = object.getCollisionBox();
                 if (this.getCollisionBox().isCollidingFromBottom(objectCollisionBox)) {
                     return true;

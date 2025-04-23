@@ -174,6 +174,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         for (Enemy enemy : enemies) {
             enemy.isColliding(collidables, enemy.getCollisionBox());
             enemy.moveEnemy(deltaTime);
+            enemy.isColliding(collidables, enemy.getCollisionBox());
         }
     }
 

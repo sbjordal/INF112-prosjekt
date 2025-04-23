@@ -145,7 +145,9 @@ public abstract class Enemy extends Actor implements Scorable, Visitor, Collidab
 
     @Override
     public void visit(Enemy enemy) {
-        switchDirection();
+        if (!this.equals(enemy)) {
+            switchDirection();
+        }
     }
 
     @Override
