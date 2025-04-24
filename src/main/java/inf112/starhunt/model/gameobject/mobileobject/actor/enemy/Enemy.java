@@ -59,7 +59,7 @@ public abstract class Enemy extends Actor implements Scorable, Visitor, Collidab
      *
      * @return  true if enemy is ready to collide, else false
      */
-    private boolean isReadyToCollide() {
+    protected boolean isReadyToCollide() {
         long currentTime = System.currentTimeMillis();
         if (currentTime - lastCollisionTime >= COLLISION_COOLDOWN) {
             lastCollisionTime = currentTime;
