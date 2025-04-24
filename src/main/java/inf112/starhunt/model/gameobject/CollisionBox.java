@@ -78,6 +78,12 @@ public class CollisionBox {
                 topRight.y < other.topRight.y - acceptanceRange;
     }
 
+    /**
+     * Checks if the collision box is to the left of an external collision box.
+     *
+     * @param other     The external collision box.
+     * @return          True if the collision box is to the left, else false.
+     */
     public boolean isCollidingFromLeft(CollisionBox other) {
         return isCollidingWith(other) &&
                 topRight.x > other.botLeft.x &&
@@ -86,6 +92,12 @@ public class CollisionBox {
                 topRight.y > other.botLeft.y;
     }
 
+    /**
+     * Checks if the collision box is to the right of an external collision box.
+     *
+     * @param other     The external collision box.
+     * @return          True if the collision box is to the right, else false.
+     */
     public boolean isCollidingFromRight(CollisionBox other) {
         return isCollidingWith(other) &&
                 botLeft.x < other.topRight.x &&
