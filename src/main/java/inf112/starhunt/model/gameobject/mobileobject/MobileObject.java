@@ -121,17 +121,17 @@ public abstract class MobileObject extends GameObject implements Movable {
     }
 
     @Override
-    public Vector2 filterPosition(int deltaX, int deltaY, PositionValidator validator){
+    public Vector2 filterPosition(int deltaX, int deltaY, PositionValidator validator, Visitor visitor){
         Transform transform = this.getTransform();
         Vector2 position = transform.getPos();
         Vector2 size = transform.getSize();
-        float filteredX = binarySearch(position.x, position.y, deltaX, size, true, validator);
-        float filteredY = binarySearch(filteredX, position.y, deltaY, size, false, validator);
+        float filteredX = binarySearch(position.x, position.y, deltaX, size, true, validator, visitor);
+        float filteredY = binarySearch(filteredX, position.y, deltaY, size, false, validator, visitor);
 
         return new Vector2(filteredX, filteredY);
     }
 
-    private float binarySearch(float startX, float startY, int delta, Vector2 size, boolean isX, PositionValidator validator) {
+    private float binarySearch(float startX, float startY, int delta, Vector2 size, boolean isX, PositionValidator validator, Visitor visitor) {
         int low = 0;
         int high = Math.abs(delta);
         boolean isNegative = delta < 0;
@@ -144,7 +144,7 @@ public abstract class MobileObject extends GameObject implements Movable {
             Transform newTransform = new Transform(newPosition, size);
             CollisionBox newCollisionBox = new CollisionBox(newTransform);
 
-            if (validator.isLegalMove(newCollisionBox)) {
+            if (validator.isLegalMove(visitor, newCollisionBox)) {
                 low = mid;
             } else {
                 high = mid - 1;

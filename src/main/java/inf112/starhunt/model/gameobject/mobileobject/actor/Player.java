@@ -199,8 +199,8 @@ final public class Player extends Actor implements Visitor, Collidable {
     }
 
     @Override
-    public void resolveActorMovement(int deltaX, int deltaY, PositionValidator validator) {
-        Vector2 newActorPosition = filterPosition(deltaX, deltaY, validator);
+    public void resolveMovement(int deltaX, int deltaY, PositionValidator validator, Visitor visitor) {
+        Vector2 newActorPosition = filterPosition(deltaX, deltaY, validator, this);
         if (!getRespawned()) {
             move(newActorPosition);
         }

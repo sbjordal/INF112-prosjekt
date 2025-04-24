@@ -92,8 +92,8 @@ public abstract class Enemy extends Actor implements Scorable, Visitor, Collidab
     }
 
     @Override
-    public void resolveActorMovement(int deltaX, int deltaY, PositionValidator validator) {
-        Vector2 newActorPosition = filterPosition(deltaX, deltaY, validator);
+    public void resolveMovement(int deltaX, int deltaY, PositionValidator validator, Visitor visitor) {
+        Vector2 newActorPosition = filterPosition(deltaX, deltaY, validator, this);
 
         final int belowLevel = -200;
         if (newActorPosition.y <= belowLevel) {

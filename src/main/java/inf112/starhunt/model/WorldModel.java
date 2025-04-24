@@ -98,8 +98,8 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     }
 
     @Override
-    public boolean isLegalMove(CollisionBox collisionBox) {
-        return positionIsOnBoard(collisionBox) && !player.isColliding(collidables, collisionBox);
+    public boolean isLegalMove(Visitor visitor, CollisionBox collisionBox) {
+        return positionIsOnBoard(collisionBox) && !visitor.isColliding(collidables, collisionBox);
     }
 
     private boolean positionIsOnBoard(CollisionBox collisionBox) {
@@ -160,11 +160,11 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         }
         player.applyGravity(deltaTime, isGrounded);
         int deltaY = (int)(player.getVerticalVelocity() * deltaTime);
-        player.resolveActorMovement(0, deltaY, this);
+        player.resolveMovement(0, deltaY, this, player);
         if (isMovingRight ^ isMovingLeft) {
             int direction = isMovingRight ? 1 : -1;
             int deltaX = (int)(player.getMovementSpeed() * deltaTime) * direction;
-            player.resolveActorMovement(deltaX, 0, this);
+            player.resolveMovement(deltaX, 0, this, player);
         }
 
     }
@@ -172,8 +172,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     // TODO oppdater
     void moveEnemies(float deltaTime) {
         for (Enemy enemy : enemies) {
-            enemy.moveEnemy(deltaTime);
-            enemy.isColliding(collidables, enemy.getCollisionBox());
+            enemy.resolveMovement(enemy.getMovementDirection(), 0, this, enemy);
         }
     }
 
