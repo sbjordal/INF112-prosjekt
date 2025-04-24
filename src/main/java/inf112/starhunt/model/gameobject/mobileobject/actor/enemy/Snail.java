@@ -17,6 +17,6 @@ public final class Snail extends Enemy {
     public Snail(int lives, int movementSpeed, int objectScore, int damage, Transform transform) {
         super(lives, movementSpeed, objectScore, damage, transform);
 
-        this.direction = Direction.RIGHT;
+        setMovementDirection(1);
     }
 }

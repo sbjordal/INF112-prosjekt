@@ -64,5 +64,4 @@ public interface Visitor {
      * TODO
      */
     boolean isColliding(List<Collidable> collidables, CollisionBox collisionBox);
-
 }

@@ -32,7 +32,7 @@ public class Transform{
      * @param deltaX    The horizontal offset value.
      * @param deltaY    The vertical offset value.
      */
-    public void alterPosition(int deltaX, int deltaY) {
+    public void alterPosition(float deltaX, float deltaY) {
         position = new Vector2(position.x + deltaX, position.y + deltaY);
     }
 

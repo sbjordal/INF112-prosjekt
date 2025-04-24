@@ -151,12 +151,8 @@ final public class Player extends Actor implements Visitor, Collidable {
                 setLastBounceTime(currentTime);
             }
         } else {
-            System.out.println("Jeg kolliderer med enemy fra siden :)");
             if (currentTime - getLastAttackTime() >= ATTACK_COOLDOWN) {
-                if (takingDamage != null) {
-                    takingDamage.run();
-                }
-                takeDamage(enemy.getDamage());
+//                takeDamage(enemy.getDamage());
 
                 // TODO...
                 // Enemy dealing damage to the player is moved into Enemy.moveEnemy()
@@ -198,14 +194,16 @@ final public class Player extends Actor implements Visitor, Collidable {
         return objectsToRemove;
     }
 
-    public void resolvePlayerMovement(int deltaX, int deltaY, PositionValidator validator) {
-        Vector2 newPlayerPosition = filterPosition(deltaX, deltaY, validator);
+    @Override
+    public void resolveMovement(float deltaX, float deltaY, PositionValidator validator) {
+        Vector2 newActorPosition = filterPosition(deltaX, deltaY, validator, this);
         if (!getRespawned()) {
-            move(newPlayerPosition);
+            move(newActorPosition);
         }
+
         setRespawned(false);
         final int belowLevel = -200;
-        if (newPlayerPosition.y <= belowLevel) {
+        if (newActorPosition.y <= belowLevel) {
             receiveDamage(getLives());
         }
     }
@@ -280,6 +278,9 @@ final public class Player extends Actor implements Visitor, Collidable {
 
         } else {
             receiveDamage(damage);
+        }
+        if (takingDamage != null) {
+            takingDamage.run();
         }
     }
     public void resetForNewLevel(Vector2 spawnPoint) {

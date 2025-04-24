@@ -9,8 +9,8 @@ import com.badlogic.gdx.math.Vector2;
 public class CollisionBox {
     public Vector2 botLeft;
     public Vector2 topRight;
-    private final int width;
-    private final int height;
+    private final float width;
+    private final float height;
 
     /**
      * Creates a new collision box with the given transform.
@@ -19,8 +19,8 @@ public class CollisionBox {
      * @param transform The position and size of the collision box.
      */
     public CollisionBox(Transform transform) {
-        this.width = (int) transform.getSize().x;
-        this.height = (int) transform.getSize().y;
+        this.width = transform.getSize().x;
+        this.height = transform.getSize().y;
         this.botLeft = transform.getPos();
         this.topRight = new Vector2(this.botLeft.x + width, this.botLeft.y + height);
     }
@@ -56,7 +56,7 @@ public class CollisionBox {
      * @return          True if the collision box is on top, else false.
      */
     public boolean isCollidingFromBottom(CollisionBox other) {
-        final int acceptanceRange = 5;
+        final float acceptanceRange = 5.0f;
 
         return botLeft.y <= other.topRight.y &&
                 topRight.y > other.botLeft.y &&
@@ -71,7 +71,7 @@ public class CollisionBox {
      * @return          True if the collision box is on the bottom, else false.
      */
     public boolean isCollidingFromTop(CollisionBox other) {
-        final int acceptanceRange = (int) (other.height * 0.9f);
+        final float acceptanceRange = other.height * 0.9f;
 
         return isWithinBounds(other) &&
                 botLeft.y < other.topRight.y &&

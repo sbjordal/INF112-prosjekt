@@ -4,9 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import inf112.starhunt.model.PositionValidator;
 import inf112.starhunt.model.gameobject.*;
 import inf112.starhunt.model.gameobject.fixedobject.Ground;
-import inf112.starhunt.model.gameobject.fixedobject.item.Item;
 import inf112.starhunt.model.gameobject.mobileobject.actor.Player;
-import inf112.starhunt.model.gameobject.mobileobject.actor.enemy.Enemy;
 
 import java.util.List;
 
@@ -37,34 +35,23 @@ public abstract class MobileObject extends GameObject implements Movable {
     }
 
     @Override
-    public void move(Vector2 newPosition) {
-        Vector2 oldPos = getTransform().getPos();
-        setMovementDirection(oldPos, newPosition);
-        getTransform().alterPosition(newPosition);
+    public void move(Vector2 newPos) {
+        getTransform().alterPosition(newPos);
         updateCollisionBox();
-    }
-
-    void setMovementDirection(Vector2 oldPos, Vector2 newPos){
-        float deltaX = newPos.x - oldPos.x;
-        if (deltaX > 0){
-            movementDirection = 1;
-        }
-        else if (deltaX < 0){
-            movementDirection = -1;
-        }
-        else {
-            movementDirection = 0;
-        }
     }
 
     @Override
-    public void move(int deltaX, int deltaY) {
-        Vector2 oldPos = getTransform().getPos();
-        Vector2 newPos = new Vector2(oldPos.x + deltaX, oldPos.y + deltaY);
-        setMovementDirection(oldPos, newPos);
+    public void move(float deltaX, float deltaY) {
         getTransform().alterPosition(deltaX, deltaY);
         updateCollisionBox();
+    }
 
+    public void setMovementDirection(int movementDirection) {
+        this.movementDirection = movementDirection;
+    }
+
+    public void switchDirection() {
+        movementDirection *= -1;
     }
 
     /**
@@ -121,20 +108,21 @@ public abstract class MobileObject extends GameObject implements Movable {
     }
 
     @Override
-    public Vector2 filterPosition(int deltaX, int deltaY, PositionValidator validator){
+    public Vector2 filterPosition(float deltaX, float deltaY, PositionValidator validator, Visitor visitor){
         Transform transform = this.getTransform();
         Vector2 position = transform.getPos();
         Vector2 size = transform.getSize();
-        float filteredX = binarySearch(position.x, position.y, deltaX, size, true, validator);
-        float filteredY = binarySearch(filteredX, position.y, deltaY, size, false, validator);
+        float filteredX = binarySearch(position.x, position.y, deltaX, size, true, validator, visitor);
+        float filteredY = binarySearch(filteredX, position.y, deltaY, size, false, validator, visitor);
 
         return new Vector2(filteredX, filteredY);
     }
 
-    private float binarySearch(float startX, float startY, int delta, Vector2 size, boolean isX, PositionValidator validator) {
+    private float binarySearch(float startX, float startY, float delta, Vector2 size, boolean isX, PositionValidator validator, Visitor visitor) {
         int low = 0;
-        int high = Math.abs(delta);
+        int high = (int) Math.abs(delta);
         boolean isNegative = delta < 0;
+
 
         while (low < high) {
             int mid = (low + high + 1) / 2;
@@ -144,7 +132,7 @@ public abstract class MobileObject extends GameObject implements Movable {
             Transform newTransform = new Transform(newPosition, size);
             CollisionBox newCollisionBox = new CollisionBox(newTransform);
 
-            if (validator.isLegalMove(newCollisionBox)) {
+            if (validator.isLegalMove(visitor, newCollisionBox)) {
                 low = mid;
             } else {
                 high = mid - 1;

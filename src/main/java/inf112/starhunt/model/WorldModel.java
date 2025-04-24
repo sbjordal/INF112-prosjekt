@@ -98,8 +98,8 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     }
 
     @Override
-    public boolean isLegalMove(CollisionBox collisionBox) {
-        return positionIsOnBoard(collisionBox) && !player.isColliding(collidables, collisionBox);
+    public boolean isLegalMove(Visitor visitor, CollisionBox collisionBox) {
+        return positionIsOnBoard(collisionBox) && !visitor.isColliding(collidables, collisionBox);
     }
 
     private boolean positionIsOnBoard(CollisionBox collisionBox) {
@@ -155,16 +155,21 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
     private void updatePlayerMovement(float deltaTime) {
         boolean isGrounded = player.isTouchingGround(Collections.unmodifiableList(collidables));
+
         if (isJumping) {
             player.jump(isGrounded);
         }
         player.applyGravity(deltaTime, isGrounded);
-        int deltaY = (int)(player.getVerticalVelocity() * deltaTime);
-        player.resolvePlayerMovement(0, deltaY, this);
+        float deltaY = player.getVerticalVelocity() * deltaTime;
+        player.resolveMovement(0, deltaY, this);
         if (isMovingRight ^ isMovingLeft) {
             int direction = isMovingRight ? 1 : -1;
-            int deltaX = (int)(player.getMovementSpeed() * deltaTime) * direction;
-            player.resolvePlayerMovement(deltaX, 0, this);
+            player.setMovementDirection(direction);
+            float deltaX = (player.getMovementSpeed() * deltaTime) * direction;
+            player.resolveMovement(deltaX, 0, this);
+        }
+        if (!(isMovingRight || isMovingLeft)){
+            player.setMovementDirection(0);
         }
 
     }
@@ -172,8 +177,8 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     // TODO oppdater
     void moveEnemies(float deltaTime) {
         for (Enemy enemy : enemies) {
-            enemy.moveEnemy(deltaTime);
-            enemy.isColliding(collidables, enemy.getCollisionBox());
+            float deltaX = (enemy.getMovementSpeed() * deltaTime) * enemy.getMovementDirection();
+            enemy.resolveMovement(deltaX, 0, this);
         }
     }
 

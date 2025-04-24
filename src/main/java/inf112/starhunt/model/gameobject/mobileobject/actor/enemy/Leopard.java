@@ -1,5 +1,6 @@
 package inf112.starhunt.model.gameobject.mobileobject.actor.enemy;
 
+import com.badlogic.gdx.math.Vector2;
 import inf112.starhunt.model.gameobject.Transform;
 
 /**
@@ -17,6 +18,6 @@ public final class Leopard extends Enemy {
     public Leopard(int lives, int movementSpeed, int objectScore, int damage, Transform transform) {
         super(lives, movementSpeed, objectScore, damage, transform);
 
-        this.direction = Direction.LEFT;
+        setMovementDirection(-1);
     }
 }

@@ -34,7 +34,7 @@ public interface Movable {
      * @param validator A way to validate the new position for the object.
      * @return          filtered player position.
      */
-    Vector2 filterPosition(int deltaX, int deltaY, PositionValidator validator);
+    Vector2 filterPosition(float deltaX, float deltaY, PositionValidator validator, Visitor visitor);
 
     /**
      * Moves the {@link GameObject} based on offset values.
@@ -43,15 +43,16 @@ public interface Movable {
      * @param deltaX    The horizontal offset value.
      * @param deltaY    The vertical offset value.
      */
-     void move(int deltaX, int deltaY);
+     void move(float deltaX, float deltaY);
 
     /**
      * Moves the {@link GameObject} based on absolute values.
      * Absolute values are values that overwrite already existing values.
      *
-     * @param newPosition   A {@link Vector2} containing the absolute values of the new position.
+     * @param newPos   A {@link Vector2} containing the absolute values of the new position.
      */
-    void move(Vector2 newPosition);
+    void move(Vector2 newPos);
 
-
+    // TODO: comment
+    void resolveMovement(float deltaX, float deltaY, PositionValidator validator);
 }
