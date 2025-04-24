@@ -218,6 +218,7 @@ public class WorldModelTest {
 
         worldModel.player.visit(coin);
         assertEquals(5, worldModel.player.getTotalScore());
+        assertEquals(5, worldModel.getTotalScore());
     }
 
     @Test
@@ -226,6 +227,7 @@ public class WorldModelTest {
 
         worldModel.player.visit(coin);
         assertEquals(1, worldModel.player.getCoinCounter());
+        assertEquals(1, worldModel.getCoinCounter());
 
 
     }
@@ -233,9 +235,12 @@ public class WorldModelTest {
     @Test
     void testGetPlayerLivesReturnsCorrectValue() {
         Assertions.assertEquals(3, worldModel.player.getLives());
+        assertEquals(3, worldModel.getPlayerLives());
 
         worldModel.player.receiveDamage(1);
+
         Assertions.assertEquals(2, worldModel.player.getLives());
+        assertEquals(2, worldModel.getPlayerLives());
     }
 
 
@@ -253,6 +258,16 @@ public class WorldModelTest {
         assertFalse(worldModel.isLegalMove(visitor, invalidMove));  // Sjekker om bevegelsen er ulovlig (utenfor grenser)
     }
 
+    @Test
+    public void testGetMovementDirection(){
+        assertEquals(0, worldModel.getMovementDirection());
+
+        worldModel.player.setMovementDirection(1);
+        assertEquals(1, worldModel.getMovementDirection());
+
+        worldModel.player.setMovementDirection(-1);
+        assertEquals(-1, worldModel.getMovementDirection());
+    }
 
 
 }
