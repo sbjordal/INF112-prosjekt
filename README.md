@@ -1,4 +1,4 @@
-# TODO: INF112 Project – *(prosjekt navn)*
+# TODO: INF112 Project – *Starhunt*
 
 ## Team:
 * Gruppe 6 - *"Sjette_Etasje"*
@@ -14,7 +14,7 @@
 Hvordan spille: 
 - Mål: Målet med spillet er å fange stjernen på hvert level. Underveis skal spilleren samle penger, spise bananer, drepe
   fiender samt unngå å bli drept selv. 
--  Kontroller: høyre/venstre piltaster for frem og tilbake, eventuelt A/D. For å hoppe, trykk inn space eller W. 
+- Kontroller: høyre/venstre piltaster for frem og tilbake, eventuelt A/D. For å hoppe, trykk inn space, W eller pil opp. 
 
 
 ## Kjøring 
@@ -53,4 +53,3 @@ Hvordan spille:
 - Ouch / damage taken
   - Sound Effect by <a href="https://pixabay.com/users/kodasworldproductions-27998106/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=163912">Nykoda Caston</a> from <a href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=163912">Pixabay</a>
   - https://pixabay.com/sound-effects/characterouch2-163912/
-

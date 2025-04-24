@@ -48,7 +48,6 @@ public class LevelManager {
         ObjectMapper objectMapper = new ObjectMapper();
         String levelContent;
         JsonNode jsonRoot;
-        Player player;
 
         try {
             levelContent = levelFile.readString();
@@ -57,14 +56,13 @@ public class LevelManager {
             throw new RuntimeException("Failed to load level: " + level);
         }
 
-        //List<GameObject> objects = new ArrayList<>();
         List<Enemy> enemies = new ArrayList<>();
         List<Collidable> collidables = new ArrayList<>();
+        Player player = new Player(1, 0, new Transform(new Vector2(0, 0), new Vector2(0, 0)));
 
         int mapHeight = jsonRoot.get("height").asInt() * jsonRoot.get("tileheight").asInt();
         int playerCount = 0;
         int starCount = 0;
-        int playeridx = 0;
 
         for (JsonNode layer : jsonRoot.get("layers")) {
             if (!layer.get("type").asText().equals("objectgroup")) continue;
@@ -87,7 +85,6 @@ public class LevelManager {
                         Vector2 position = new Vector2(x, y);
                         Transform transform = new Transform(position, size);
                         player = new Player(3, 350, transform);
-                        playeridx = collidables.size();
                         collidables.add(player);
                         playerCount++;
                     }
@@ -117,11 +114,8 @@ public class LevelManager {
         if (starCount != 1) {
             throw new IllegalStateException("Level must have exactly one Star, but found: " + starCount);
         }
-        GameObject obj = (GameObject) collidables.get(playeridx);
-        if (!(obj instanceof Player)){
-            throw new IllegalArgumentException("object not instance of PLayer");
-        }
-        return new Triple<>(enemies, collidables, (Player) collidables.get(playeridx));
+
+        return new Triple<>(enemies, collidables, player);
     }
 
     /**

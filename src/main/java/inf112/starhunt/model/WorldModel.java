@@ -107,7 +107,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         boolean isWithinWidthBound = collisionBox.botLeft.x >= 0 &&
                 collisionBox.botLeft.x > viewportLeftX &&
                 collisionBox.topRight.x < board.width();
-        boolean isWithinHeightBound = collisionBox.botLeft.y >= belowLevel  && collisionBox.topRight.y < board.height();
+        boolean isWithinHeightBound = collisionBox.botLeft.y >= belowLevel;
 
         return isWithinWidthBound && isWithinHeightBound;
     }
@@ -172,8 +172,8 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     // TODO oppdater
     void moveEnemies(float deltaTime) {
         for (Enemy enemy : enemies) {
-            enemy.isColliding(collidables, enemy.getCollisionBox());
             enemy.moveEnemy(deltaTime);
+            enemy.isColliding(collidables, enemy.getCollisionBox());
         }
     }
 

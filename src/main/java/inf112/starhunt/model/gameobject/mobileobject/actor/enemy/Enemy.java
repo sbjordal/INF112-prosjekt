@@ -145,7 +145,9 @@ public abstract class Enemy extends Actor implements Scorable, Visitor, Collidab
 
     @Override
     public void visit(Enemy enemy) {
-        switchDirection();
+        if (!this.equals(enemy)) {
+            switchDirection();
+        }
     }
 
     @Override
@@ -155,7 +157,6 @@ public abstract class Enemy extends Actor implements Scorable, Visitor, Collidab
         final boolean isColliding = getCollisionBox().isCollidingWith(playerCollisionBox);
         final boolean isCollidingFromBottom = getCollisionBox().isCollidingFromBottom(playerCollisionBox);
         final boolean isOutsideLevel = getTransform().getPos().x < 0 || getTransform().getPos().x > endOfLevel;
-
 
         if (((isColliding && !isCollidingFromBottom) || isOutsideLevel) && isReadyToCollide()) {
             if (!isOutsideLevel) {
