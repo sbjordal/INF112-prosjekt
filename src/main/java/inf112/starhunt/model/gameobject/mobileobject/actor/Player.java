@@ -156,7 +156,7 @@ final public class Player extends Actor implements Visitor, Collidable {
                 if (takingDamage != null) {
                     takingDamage.run();
                 }
-                takeDamage(enemy.getDamage());
+//                takeDamage(enemy.getDamage());
 
                 // TODO...
                 // Enemy dealing damage to the player is moved into Enemy.moveEnemy()
@@ -198,14 +198,16 @@ final public class Player extends Actor implements Visitor, Collidable {
         return objectsToRemove;
     }
 
-    public void resolvePlayerMovement(int deltaX, int deltaY, PositionValidator validator) {
-        Vector2 newPlayerPosition = filterPosition(deltaX, deltaY, validator);
+    @Override
+    public void resolveActorMovement(int deltaX, int deltaY, PositionValidator validator) {
+        Vector2 newActorPosition = filterPosition(deltaX, deltaY, validator);
         if (!getRespawned()) {
-            move(newPlayerPosition);
+            move(newActorPosition);
         }
+
         setRespawned(false);
         final int belowLevel = -200;
-        if (newPlayerPosition.y <= belowLevel) {
+        if (newActorPosition.y <= belowLevel) {
             receiveDamage(getLives());
         }
     }

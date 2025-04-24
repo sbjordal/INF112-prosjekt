@@ -45,24 +45,12 @@ public abstract class Enemy extends Actor implements Scorable, Visitor, Collidab
      * Moves the Enemy in a predefined movement pattern.
      */
     public void moveEnemy(float deltaTime) {
-
         int distance = (int) (getMovementSpeed() * deltaTime);
         if (direction == Direction.LEFT) {
             distance *= -1;
         }
 
         move(distance, 0);
-    }
-
-    // TODO: Revisjon; tester annen moveEnemy-metode med validator
-    public void moveEnemy(float deltaTime, PositionValidator validator) {
-        int distance = (int) (getMovementSpeed() * deltaTime);
-        if (direction == Direction.LEFT) {
-            distance *= -1;
-        }
-
-        Vector2 newPos = filterPosition(distance, 0, validator);
-        move(newPos); // <-- Bruker den "smarte" metoden
     }
 
     protected void attack(Player player) {
@@ -104,9 +92,19 @@ public abstract class Enemy extends Actor implements Scorable, Visitor, Collidab
     }
 
     @Override
+    public void resolveActorMovement(int deltaX, int deltaY, PositionValidator validator) {
+        Vector2 newActorPosition = filterPosition(deltaX, deltaY, validator);
+
+        final int belowLevel = -200;
+        if (newActorPosition.y <= belowLevel) {
+            receiveDamage(getLives());
+        }
+    }
+
+    @Override
     public boolean isColliding(List<Collidable> collidables, CollisionBox collisionBox) {
         for (Collidable collided : collidables) {
-            if (collisionBox.isCollidingWith(collided.getCollisionBox())) {
+            if (getCollisionBox().isCollidingWith(collided.getCollisionBox())) {
                 collided.accept(this);
                 return true;
             }
@@ -131,16 +129,18 @@ public abstract class Enemy extends Actor implements Scorable, Visitor, Collidab
 
     @Override
     public void visit(Ground ground) {
-        CollisionBox groundBox = ground.getCollisionBox();
-        CollisionBox myBox = getCollisionBox();
+        System.out.println("Enemy visits Ground!");
 
-        boolean isFromLeft = myBox.isCollidingFromLeft(groundBox);
-        boolean isFromRight = myBox.isCollidingFromRight(groundBox);
-
-        // Bare snu hvis det er en faktisk veggkollisjon
-        if (isFromLeft || isFromRight) {
-            switchDirection();
-        }
+//        CollisionBox groundBox = ground.getCollisionBox();
+//        CollisionBox myBox = getCollisionBox();
+//
+//        boolean collidesFromLeft = myBox.isCollidingFromLeft(groundBox);
+//        boolean collidesFromRight = myBox.isCollidingFromRight(groundBox);
+//
+//        // Bare snu hvis det er en faktisk veggkollisjon
+//        if (collidesFromLeft || collidesFromRight) {
+//            switchDirection();
+//        }
     }
 
     @Override
@@ -155,12 +155,12 @@ public abstract class Enemy extends Actor implements Scorable, Visitor, Collidab
         CollisionBox playerCollisionBox = player.getCollisionBox();
         final float endOfLevel = WorldModel.LEVEL_WIDTH - getTransform().getSize().x;
         final boolean isColliding = getCollisionBox().isCollidingWith(playerCollisionBox);
-        final boolean isCollidingFromBottom = getCollisionBox().isCollidingFromBottom(playerCollisionBox);
+        final boolean isCollidingFromBottom = getCollisionBox().isCollidingFromTop(playerCollisionBox); // TODO: dinna va skifta til "isCollidingFromTop" fra "isCollidingFromBottom". Tror det skal være mer rett, men lager denne kommentaren her for å markere dette som en potensiell feil. :)
         final boolean isOutsideLevel = getTransform().getPos().x < 0 || getTransform().getPos().x > endOfLevel;
 
         if (((isColliding && !isCollidingFromBottom) || isOutsideLevel) && isReadyToCollide()) {
             if (!isOutsideLevel) {
-//                attack(player);
+                attack(player);
             }
             switchDirection();
         }

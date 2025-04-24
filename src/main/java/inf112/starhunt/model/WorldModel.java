@@ -160,11 +160,11 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         }
         player.applyGravity(deltaTime, isGrounded);
         int deltaY = (int)(player.getVerticalVelocity() * deltaTime);
-        player.resolvePlayerMovement(0, deltaY, this);
+        player.resolveActorMovement(0, deltaY, this);
         if (isMovingRight ^ isMovingLeft) {
             int direction = isMovingRight ? 1 : -1;
             int deltaX = (int)(player.getMovementSpeed() * deltaTime) * direction;
-            player.resolvePlayerMovement(deltaX, 0, this);
+            player.resolveActorMovement(deltaX, 0, this);
         }
 
     }

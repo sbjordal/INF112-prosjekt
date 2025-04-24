@@ -202,7 +202,7 @@ class PlayerTest {
         when(transformMock.getSize()).thenReturn(new Vector2(50, 100));
         player = new Player(3, 5, transformMock);
 
-        player.resolvePlayerMovement(0, 0, validator);
+        player.resolveActorMovement(0, 0, validator);
         assertEquals(0, player.getLives());
         assertFalse(player.isAlive());
     }
