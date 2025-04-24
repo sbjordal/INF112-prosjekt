@@ -121,11 +121,7 @@ final public class Player extends Actor implements Visitor, Collidable {
 
     @Override
     public void visit(Ground ground) {
-        boolean isBumpingHead = getCollisionBox().isCollidingWith(ground.getCollisionBox());
-
-        System.out.println("isBumpingHead: " + isBumpingHead);
-        System.out.println("player CollisionBox: " + getCollisionBox().botLeft.toString() + " -> " + getCollisionBox().topRight.toString());
-        System.out.println("ground CollisionBox: " + ground.getCollisionBox().botLeft.toString() + " -> " + ground.getCollisionBox().topRight.toString());
+        boolean isBumpingHead = getCollisionBox().isCollidingFromTop(ground.getCollisionBox());
 
         if (isBumpingHead && getVerticalVelocity() > 0) {
             float bumpForceLoss = 0.1f;

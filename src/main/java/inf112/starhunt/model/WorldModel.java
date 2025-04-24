@@ -107,7 +107,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         boolean isWithinWidthBound = collisionBox.botLeft.x >= 0 &&
                 collisionBox.botLeft.x > viewportLeftX &&
                 collisionBox.topRight.x < board.width();
-        boolean isWithinHeightBound = collisionBox.botLeft.y >= belowLevel  && collisionBox.topRight.y < board.height();
+        boolean isWithinHeightBound = collisionBox.botLeft.y >= belowLevel;
 
         return isWithinWidthBound && isWithinHeightBound;
     }

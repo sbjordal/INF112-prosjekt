@@ -73,7 +73,7 @@ public class CollisionBox {
     public boolean isCollidingFromTop(CollisionBox other) {
         final int acceptanceRange = (int) (other.height * 0.9f);
 
-        return isCollidingWith(other) &&
+        return isWithinBounds(other) &&
                 botLeft.y < other.topRight.y &&
                 topRight.y < other.topRight.y - acceptanceRange;
     }
@@ -85,11 +85,25 @@ public class CollisionBox {
                 botLeft.y < other.topRight.y &&
                 topRight.y > other.botLeft.y;
     }
+
     public boolean isCollidingFromRight(CollisionBox other) {
         return isCollidingWith(other) &&
                 botLeft.x < other.topRight.x &&
                 topRight.x > other.topRight.x &&
                 botLeft.y < other.topRight.y &&
                 topRight.y > other.botLeft.y;
+    }
+
+    /**
+     * Checks if the collision box is located inside an external collision box.
+     *
+     * @param other     The external collision box.
+     * @return          True if the collision box is inside, else false.
+     */
+    private boolean isWithinBounds(CollisionBox other) {
+        return botLeft.x <= other.topRight.x &&
+                topRight.x >= other.botLeft.x &&
+                botLeft.y <= other.topRight.y &&
+                topRight.y >= other.botLeft.y;
     }
 }
