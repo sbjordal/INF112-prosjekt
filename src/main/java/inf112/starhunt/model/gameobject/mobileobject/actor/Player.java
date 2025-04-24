@@ -151,11 +151,7 @@ final public class Player extends Actor implements Visitor, Collidable {
                 setLastBounceTime(currentTime);
             }
         } else {
-            System.out.println("Jeg kolliderer med enemy fra siden :)");
             if (currentTime - getLastAttackTime() >= ATTACK_COOLDOWN) {
-                if (takingDamage != null) {
-                    takingDamage.run();
-                }
 //                takeDamage(enemy.getDamage());
 
                 // TODO...
@@ -282,6 +278,9 @@ final public class Player extends Actor implements Visitor, Collidable {
 
         } else {
             receiveDamage(damage);
+        }
+        if (takingDamage != null) {
+            takingDamage.run();
         }
     }
     public void resetForNewLevel(Vector2 spawnPoint) {

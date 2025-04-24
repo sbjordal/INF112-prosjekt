@@ -70,16 +70,12 @@ public abstract class Enemy extends Actor implements Scorable, Visitor, Collidab
 
     @Override
     public void resolveMovement(float deltaX, float deltaY, PositionValidator validator) {
-
-        System.out.println("deltaX: " + deltaX);
-
         Vector2 newActorPosition = filterPosition(deltaX, deltaY, validator, this);
 
         final int belowLevel = -200;
         if (newActorPosition.y <= belowLevel) {
             receiveDamage(getLives());
         }
-
         move(newActorPosition);
     }
 
@@ -95,7 +91,6 @@ public abstract class Enemy extends Actor implements Scorable, Visitor, Collidab
                 return true;
             }
         }
-
         return false;
     }
 
@@ -115,18 +110,8 @@ public abstract class Enemy extends Actor implements Scorable, Visitor, Collidab
 
     @Override
     public void visit(Ground ground) {
-        System.out.println("Enemy visits Ground!");
-
-//        CollisionBox groundBox = ground.getCollisionBox();
-//        CollisionBox myBox = getCollisionBox();
-//
-//        boolean collidesFromLeft = myBox.isCollidingFromLeft(groundBox);
-//        boolean collidesFromRight = myBox.isCollidingFromRight(groundBox);
-//
-//        // Bare snu hvis det er en faktisk veggkollisjon
-//        if (collidesFromLeft || collidesFromRight) {
-//            switchDirection();
-//        }
+        //TODO, har tatt snarvei her, fordi enemy ikk er på bakken, så all kollisjon vil være i vegg
+        switchDirection();
     }
 
     @Override
@@ -144,16 +129,14 @@ public abstract class Enemy extends Actor implements Scorable, Visitor, Collidab
         final boolean isCollidingFromBottom = getCollisionBox().isCollidingFromTop(playerCollisionBox); // TODO: dinna va skifta til "isCollidingFromTop" fra "isCollidingFromBottom". Tror det skal være mer rett, men lager denne kommentaren her for å markere dette som en potensiell feil. :)
         final boolean isOutsideLevel = getTransform().getPos().x < 0 || getTransform().getPos().x > endOfLevel;
 
-        if (((isColliding && !isCollidingFromBottom) || isOutsideLevel) && isReadyToCollide()) {
-            if (!isOutsideLevel) {
-                attack(player);
-            }
-            switchDirection();
-        }
+//        if (((isColliding && !isCollidingFromBottom) || isOutsideLevel) && isReadyToCollide()) {
+//            if (!isOutsideLevel) {
+//                attack(player);
+//            }
+//        }
+        attack(player);
+        switchDirection();
     }
-
-
-
     @Override
     public int getObjectScore() {
         return objectScore;

@@ -36,41 +36,17 @@ public abstract class MobileObject extends GameObject implements Movable {
 
     @Override
     public void move(Vector2 newPos) {
-        Vector2 oldPos = getTransform().getPos();
-
-        if (!(this instanceof Player)) {
-            System.out.println("old: " + oldPos.x + " " + oldPos.y);
-            System.out.println("new: " + newPos.x + " " + newPos.y);
-        }
-
-        setMovementDirection(oldPos, newPos);
         getTransform().alterPosition(newPos);
         updateCollisionBox();
     }
 
     @Override
     public void move(float deltaX, float deltaY) {
-        Vector2 oldPos = getTransform().getPos();
-        Vector2 newPos = new Vector2(oldPos.x + deltaX, oldPos.y + deltaY);
-        setMovementDirection(oldPos, newPos);
         getTransform().alterPosition(deltaX, deltaY);
         updateCollisionBox();
     }
 
-    void setMovementDirection(Vector2 oldPos, Vector2 newPos){
-        float deltaX = newPos.x - oldPos.x;
-        if (deltaX > 0){
-            movementDirection = 1;
-        }
-        else if (deltaX < 0){
-            movementDirection = -1;
-        }
-        else {
-            movementDirection = 0;
-        }
-    }
-
-    protected void setMovementDirection(int movementDirection) {
+    public void setMovementDirection(int movementDirection) {
         this.movementDirection = movementDirection;
     }
 
