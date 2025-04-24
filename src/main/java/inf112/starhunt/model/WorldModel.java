@@ -160,11 +160,11 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         }
         player.applyGravity(deltaTime, isGrounded);
         int deltaY = (int)(player.getVerticalVelocity() * deltaTime);
-        player.resolveMovement(0, deltaY, this, player);
+        player.resolveMovement(0, deltaY, this);
         if (isMovingRight ^ isMovingLeft) {
             int direction = isMovingRight ? 1 : -1;
             int deltaX = (int)(player.getMovementSpeed() * deltaTime) * direction;
-            player.resolveMovement(deltaX, 0, this, player);
+            player.resolveMovement(deltaX, 0, this);
         }
 
     }
@@ -172,7 +172,10 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     // TODO oppdater
     void moveEnemies(float deltaTime) {
         for (Enemy enemy : enemies) {
-            enemy.resolveMovement(enemy.getMovementDirection(), 0, this, enemy);
+            System.out.println(enemy.getMovementDirection());
+
+            int deltaX = (int)(enemy.getMovementSpeed() * deltaTime) * enemy.getMovementDirection();
+            enemy.resolveMovement(deltaX, 0, this);
         }
     }
 

@@ -49,10 +49,10 @@ public interface Movable {
      * Moves the {@link GameObject} based on absolute values.
      * Absolute values are values that overwrite already existing values.
      *
-     * @param newPosition   A {@link Vector2} containing the absolute values of the new position.
+     * @param newPos   A {@link Vector2} containing the absolute values of the new position.
      */
-    void move(Vector2 newPosition);
+    void move(Vector2 newPos);
 
     // TODO: comment
-    void resolveMovement(int deltaX, int deltaY, PositionValidator validator, Visitor visitor);
+    void resolveMovement(int deltaX, int deltaY, PositionValidator validator);
 }

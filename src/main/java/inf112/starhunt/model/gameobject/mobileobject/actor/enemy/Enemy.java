@@ -21,7 +21,6 @@ public abstract class Enemy extends Actor implements Scorable, Visitor, Collidab
     final private static long COLLISION_COOLDOWN = 48;
     final private int objectScore;
     private long lastCollisionTime;
-    protected Direction direction;
 
     /**
      * Creates a new Enemy with the specified lives, movement speed, object score, damage and transform.
@@ -38,7 +37,6 @@ public abstract class Enemy extends Actor implements Scorable, Visitor, Collidab
         this.objectScore = objectScore;
         this.damage = damage;
         this.lastCollisionTime = 0;
-        this.direction = Direction.RIGHT;
     }
 
     /**
@@ -46,9 +44,7 @@ public abstract class Enemy extends Actor implements Scorable, Visitor, Collidab
      */
     public void moveEnemy(float deltaTime) {
         int distance = (int) (getMovementSpeed() * deltaTime);
-        if (direction == Direction.LEFT) {
-            distance *= -1;
-        }
+        distance *= getMovementDirection();
 
         move(distance, 0);
     }
@@ -72,33 +68,19 @@ public abstract class Enemy extends Actor implements Scorable, Visitor, Collidab
         return false;
     }
 
-    /**
-     * Represents the direction an enemy can move.
-     */
-    protected enum Direction {
-        LEFT,
-        RIGHT
-    }
-
-    /**
-     * Switch the movement direction of an enemy.
-     */
-    protected void switchDirection() {
-        System.out.println("Switching direction!");
-        switch (direction) {
-            case LEFT: direction = Direction.RIGHT; break;
-            case RIGHT: direction = Direction.LEFT; break;
-        }
-    }
-
     @Override
-    public void resolveMovement(int deltaX, int deltaY, PositionValidator validator, Visitor visitor) {
+    public void resolveMovement(int deltaX, int deltaY, PositionValidator validator) {
+
+        System.out.println("deltaX: " + deltaX);
+
         Vector2 newActorPosition = filterPosition(deltaX, deltaY, validator, this);
 
         final int belowLevel = -200;
         if (newActorPosition.y <= belowLevel) {
             receiveDamage(getLives());
         }
+
+        move(newActorPosition);
     }
 
     @Override
