@@ -289,4 +289,5 @@ final public class Player extends Actor implements Visitor, Collidable {
         setVerticalVelocity(0);
         setRespawned(true);
     }
+
 }
