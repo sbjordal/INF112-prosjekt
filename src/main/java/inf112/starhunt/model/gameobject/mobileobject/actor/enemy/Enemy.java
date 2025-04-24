@@ -131,16 +131,18 @@ public abstract class Enemy extends Actor implements Scorable, Visitor, Collidab
 
     @Override
     public void visit(Ground ground) {
-        CollisionBox groundBox = ground.getCollisionBox();
-        CollisionBox myBox = getCollisionBox();
+        System.out.println("Enemy collided with ground!");
 
-        boolean isFromLeft = myBox.isCollidingFromLeft(groundBox);
-        boolean isFromRight = myBox.isCollidingFromRight(groundBox);
-
-        // Bare snu hvis det er en faktisk veggkollisjon
-        if (isFromLeft || isFromRight) {
-            switchDirection();
-        }
+//        CollisionBox groundBox = ground.getCollisionBox();
+//        CollisionBox myBox = getCollisionBox();
+//
+//        boolean isFromLeft = myBox.isCollidingFromLeft(groundBox);
+//        boolean isFromRight = myBox.isCollidingFromRight(groundBox);
+//
+//        // Bare snu hvis det er en faktisk veggkollisjon
+//        if (isFromLeft || isFromRight) {
+//            switchDirection();
+//        }
     }
 
     @Override

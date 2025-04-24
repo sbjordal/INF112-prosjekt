@@ -166,7 +166,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
             int deltaX = (int)(player.getMovementSpeed() * deltaTime) * direction;
             player.resolvePlayerMovement(deltaX, 0, this);
         }
-
     }
 
     // TODO oppdater
