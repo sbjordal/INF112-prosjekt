@@ -47,7 +47,7 @@ public class Controller extends InputAdapter {
         if (keyCode == Input.Keys.ESCAPE) {
             Gdx.app.exit();
         } else if (isGameState(GameState.GAME_MENU) && keyCode == Input.Keys.ENTER) {
-            controllableModel.startLevel(LevelManager.Level.LEVEL_3); // TODO: denne bør bruke WorldModel sin currentLevel variabel.
+            controllableModel.startLevel(LevelManager.Level.LEVEL_1); // TODO: denne bør bruke WorldModel sin currentLevel variabel.
         } else if (isGameState(GameState.GAME_ACTIVE)) {
             handleMovement(keyCode, true);
         } else if (isGameState(GameState.GAME_OVER) && keyCode == Input.Keys.ENTER) {
