@@ -99,6 +99,11 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
     @Override
     public boolean isLegalMove(Visitor visitor, CollisionBox collisionBox) {
+
+        if (!(visitor instanceof Player)) {
+            System.out.println("isColliding : " + visitor.isColliding(collidables, collisionBox));
+        }
+
         return positionIsOnBoard(collisionBox) && !visitor.isColliding(collidables, collisionBox);
     }
 
@@ -155,15 +160,18 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
     private void updatePlayerMovement(float deltaTime) {
         boolean isGrounded = player.isTouchingGround(Collections.unmodifiableList(collidables));
+
+        System.out.println("isGrounded: " + isGrounded);
+
         if (isJumping) {
             player.jump(isGrounded);
         }
         player.applyGravity(deltaTime, isGrounded);
-        int deltaY = (int)(player.getVerticalVelocity() * deltaTime);
+        float deltaY = player.getVerticalVelocity() * deltaTime;
         player.resolveMovement(0, deltaY, this);
         if (isMovingRight ^ isMovingLeft) {
-            int direction = isMovingRight ? 1 : -1;
-            int deltaX = (int)(player.getMovementSpeed() * deltaTime) * direction;
+            float direction = isMovingRight ? 1 : -1;
+            float deltaX = (player.getMovementSpeed() * deltaTime) * direction;
             player.resolveMovement(deltaX, 0, this);
         }
 
@@ -174,7 +182,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         for (Enemy enemy : enemies) {
             System.out.println(enemy.getMovementDirection());
 
-            int deltaX = (int)(enemy.getMovementSpeed() * deltaTime) * enemy.getMovementDirection();
+            float deltaX = (enemy.getMovementSpeed() * deltaTime) * enemy.getMovementDirection();
             enemy.resolveMovement(deltaX, 0, this);
         }
     }

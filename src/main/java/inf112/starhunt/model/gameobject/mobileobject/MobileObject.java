@@ -4,9 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import inf112.starhunt.model.PositionValidator;
 import inf112.starhunt.model.gameobject.*;
 import inf112.starhunt.model.gameobject.fixedobject.Ground;
-import inf112.starhunt.model.gameobject.fixedobject.item.Item;
 import inf112.starhunt.model.gameobject.mobileobject.actor.Player;
-import inf112.starhunt.model.gameobject.mobileobject.actor.enemy.Enemy;
 
 import java.util.List;
 
@@ -51,7 +49,7 @@ public abstract class MobileObject extends GameObject implements Movable {
     }
 
     @Override
-    public void move(int deltaX, int deltaY) {
+    public void move(float deltaX, float deltaY) {
         Vector2 oldPos = getTransform().getPos();
         Vector2 newPos = new Vector2(oldPos.x + deltaX, oldPos.y + deltaY);
         setMovementDirection(oldPos, newPos);
@@ -134,7 +132,7 @@ public abstract class MobileObject extends GameObject implements Movable {
     }
 
     @Override
-    public Vector2 filterPosition(int deltaX, int deltaY, PositionValidator validator, Visitor visitor){
+    public Vector2 filterPosition(float deltaX, float deltaY, PositionValidator validator, Visitor visitor){
         Transform transform = this.getTransform();
         Vector2 position = transform.getPos();
         Vector2 size = transform.getSize();
@@ -144,10 +142,11 @@ public abstract class MobileObject extends GameObject implements Movable {
         return new Vector2(filteredX, filteredY);
     }
 
-    private float binarySearch(float startX, float startY, int delta, Vector2 size, boolean isX, PositionValidator validator, Visitor visitor) {
+    private float binarySearch(float startX, float startY, float delta, Vector2 size, boolean isX, PositionValidator validator, Visitor visitor) {
         int low = 0;
-        int high = Math.abs(delta);
+        int high = (int) Math.abs(delta);
         boolean isNegative = delta < 0;
+
 
         while (low < high) {
             int mid = (low + high + 1) / 2;

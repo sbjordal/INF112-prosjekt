@@ -199,7 +199,7 @@ final public class Player extends Actor implements Visitor, Collidable {
     }
 
     @Override
-    public void resolveMovement(int deltaX, int deltaY, PositionValidator validator) {
+    public void resolveMovement(float deltaX, float deltaY, PositionValidator validator) {
         Vector2 newActorPosition = filterPosition(deltaX, deltaY, validator, this);
         if (!getRespawned()) {
             move(newActorPosition);

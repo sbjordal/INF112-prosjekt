@@ -43,7 +43,7 @@ public abstract class Enemy extends Actor implements Scorable, Visitor, Collidab
      * Moves the Enemy in a predefined movement pattern.
      */
     public void moveEnemy(float deltaTime) {
-        int distance = (int) (getMovementSpeed() * deltaTime);
+        float distance = getMovementSpeed() * deltaTime;
         distance *= getMovementDirection();
 
         move(distance, 0);
@@ -69,7 +69,7 @@ public abstract class Enemy extends Actor implements Scorable, Visitor, Collidab
     }
 
     @Override
-    public void resolveMovement(int deltaX, int deltaY, PositionValidator validator) {
+    public void resolveMovement(float deltaX, float deltaY, PositionValidator validator) {
 
         System.out.println("deltaX: " + deltaX);
 
@@ -86,7 +86,11 @@ public abstract class Enemy extends Actor implements Scorable, Visitor, Collidab
     @Override
     public boolean isColliding(List<Collidable> collidables, CollisionBox collisionBox) {
         for (Collidable collided : collidables) {
-            if (getCollisionBox().isCollidingWith(collided.getCollisionBox())) {
+            if (this.equals(collided)) {
+                continue;
+            }
+
+            if (collisionBox.isCollidingWith(collided.getCollisionBox())) {
                 collided.accept(this);
                 return true;
             }
