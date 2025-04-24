@@ -1,0 +1,201 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > Controller</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">inf112.starhunt.controller</a>
+</div>
+
+<h1>Coverage Summary for Class: Controller (inf112.starhunt.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Controller</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (7/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    69,4%
+  </span>
+  <span class="absValue">
+    (25/36)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    93,8%
+  </span>
+  <span class="absValue">
+    (30/32)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package inf112.starhunt.controller;
+&nbsp;
+&nbsp;import com.badlogic.gdx.Gdx;
+&nbsp;import com.badlogic.gdx.Input;
+&nbsp;import com.badlogic.gdx.InputAdapter;
+&nbsp;import inf112.starhunt.model.GameState;
+&nbsp;import inf112.starhunt.model.LevelManager;
+&nbsp;
+&nbsp;/**
+&nbsp; * A class that handles keyboard input and manipulates the model accordingly.
+&nbsp; *
+&nbsp; * Reading material on event handling for use of LigGDX:
+&nbsp; * https://libgdx.com/wiki/input/event-handling
+&nbsp; */
+&nbsp;public class Controller extends InputAdapter {
+&nbsp;
+&nbsp;    private final ControllableWorldModel controllableModel;
+&nbsp;
+<b class="fc">&nbsp;    public Controller(ControllableWorldModel controllableModel) {</b>
+<b class="fc">&nbsp;        this.controllableModel = controllableModel;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private boolean isGameState(GameState state) {
+<b class="fc">&nbsp;        return controllableModel.getGameState() == state;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void handleMovement(int keyCode, boolean isPressed) {
+<b class="pc">&nbsp;        switch (keyCode) {</b>
+&nbsp;            case Input.Keys.LEFT, Input.Keys.A:
+<b class="fc">&nbsp;                controllableModel.setMovingLeft(isPressed);</b>
+&nbsp;                break;
+&nbsp;            case Input.Keys.RIGHT, Input.Keys.D:
+<b class="fc">&nbsp;                controllableModel.setMovingRight(isPressed);</b>
+&nbsp;                break;
+&nbsp;            case Input.Keys.UP, Input.Keys.W, Input.Keys.SPACE:
+<b class="fc">&nbsp;                controllableModel.setJumping(isPressed);</b>
+&nbsp;                break;
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    private void toggleInfoMode() {
+<b class="fc">&nbsp;        controllableModel.setInfoMode(!controllableModel.getInfoMode());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean keyDown(int keyCode) {
+<b class="fc">&nbsp;        if (keyCode == Input.Keys.ESCAPE) {</b>
+<b class="fc">&nbsp;            Gdx.app.exit();</b>
+<b class="pc">&nbsp;        } else if (isGameState(GameState.GAME_MENU) &amp;&amp; keyCode == Input.Keys.ENTER) {</b>
+<b class="fc">&nbsp;            controllableModel.startLevel(LevelManager.Level.LEVEL_1);</b>
+<b class="fc">&nbsp;        } else if (isGameState(GameState.GAME_ACTIVE)) {</b>
+<b class="fc">&nbsp;            handleMovement(keyCode, true);</b>
+<b class="pc">&nbsp;        } else if (isGameState(GameState.GAME_OVER) &amp;&amp; keyCode == Input.Keys.ENTER) {</b>
+<b class="fc">&nbsp;            controllableModel.backToGameMenu();</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean keyUp(int keyCode) {
+<b class="fc">&nbsp;        if (isGameState(GameState.GAME_ACTIVE)) {</b>
+<b class="fc">&nbsp;            handleMovement(keyCode, false);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean keyTyped(char c) {
+<b class="pc">&nbsp;        if (isGameState(GameState.GAME_MENU) &amp;&amp; c == &#39;i&#39;) {</b>
+<b class="fc">&nbsp;            toggleInfoMode();</b>
+<b class="pc">&nbsp;        } else if (isGameState(GameState.GAME_ACTIVE) &amp;&amp; c == &#39;p&#39;) {</b>
+<b class="fc">&nbsp;            controllableModel.setMovingLeft(false);</b>
+<b class="fc">&nbsp;            controllableModel.setMovingRight(false);</b>
+<b class="fc">&nbsp;            controllableModel.pause();</b>
+<b class="pc">&nbsp;        } else if (isGameState(GameState.GAME_PAUSED)) {</b>
+<b class="pc">&nbsp;            switch (c) {</b>
+<b class="fc">&nbsp;                case &#39;p&#39; -&gt; controllableModel.resume();</b>
+<b class="nc">&nbsp;                case &#39;r&#39; -&gt; controllableModel.backToGameMenu();</b>
+<b class="nc">&nbsp;                case &#39;i&#39; -&gt; toggleInfoMode();</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-04-22 20:02</div>
+</div>
+</body>
+</html>

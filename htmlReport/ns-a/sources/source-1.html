@@ -1,0 +1,178 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ParallaxBackground</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">inf112.starhunt.view</a>
+</div>
+
+<h1>Coverage Summary for Class: ParallaxBackground (inf112.starhunt.view)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ParallaxBackground</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (5/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    87,5%
+  </span>
+  <span class="absValue">
+    (14/16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    92,3%
+  </span>
+  <span class="absValue">
+    (24/26)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package inf112.starhunt.view;
+&nbsp;
+&nbsp;import com.badlogic.gdx.Gdx;
+&nbsp;import com.badlogic.gdx.graphics.Texture;
+&nbsp;import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+&nbsp;
+&nbsp;public class ParallaxBackground {
+&nbsp;    Texture[] layers;
+&nbsp;    float[] layerX;
+&nbsp;    private float[] scrollSpeeds;
+&nbsp;    private float screenWidth;
+&nbsp;    private float screenHeight;
+&nbsp;    private final int levelWidth;
+&nbsp;
+<b class="fc">&nbsp;    public ParallaxBackground(int levelWidth) {</b>
+<b class="fc">&nbsp;        layers = new Texture[5];</b>
+<b class="fc">&nbsp;        layerX = new float[5];</b>
+<b class="fc">&nbsp;        scrollSpeeds = new float[]{0.4f, 0.8f, 4.0f, 10.0f, 14.0f};</b>
+<b class="fc">&nbsp;        this.levelWidth = levelWidth;</b>
+<b class="fc">&nbsp;        loadTextures();</b>
+&nbsp;    }
+&nbsp;    public void loadTextures(){
+<b class="fc">&nbsp;       for (int i = 0; i &lt; 5; i++) {</b>
+<b class="fc">&nbsp;           String file = &quot;background/plx-&quot; + (i + 1) + &quot;.png&quot;;</b>
+<b class="fc">&nbsp;           layers[i] = new Texture(Gdx.files.internal(file));</b>
+&nbsp;       }
+<b class="fc">&nbsp;        screenWidth = Gdx.graphics.getWidth();</b>
+<b class="fc">&nbsp;        screenHeight = Gdx.graphics.getHeight();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void update(int movementDirection, float deltaTime, boolean isPaused) {
+<b class="fc">&nbsp;        if (!isPaused) {</b>
+<b class="fc">&nbsp;            for (int i = 0; i &lt; layers.length; i++) {</b>
+<b class="fc">&nbsp;                layerX[i] -= movementDirection * scrollSpeeds[i] * deltaTime;</b>
+<b class="pc">&nbsp;                if (layerX[i] &lt; -screenWidth) {</b>
+<b class="nc">&nbsp;                    layerX[i] += 2 * screenWidth;</b>
+&nbsp;                }
+<b class="pc">&nbsp;                if (layerX[i] &gt; screenWidth) {</b>
+<b class="nc">&nbsp;                    layerX[i] -= 2 * screenWidth;</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public void render(SpriteBatch batch) {
+<b class="fc">&nbsp;        float parallaxSpacing = 3.0f;</b>
+<b class="fc">&nbsp;        for (int i = 0; i &lt; layers.length; i++) {</b>
+<b class="fc">&nbsp;            float textureWidth = layers[i].getWidth();</b>
+<b class="fc">&nbsp;            float scaledTextureWidth = textureWidth * parallaxSpacing;</b>
+<b class="fc">&nbsp;            for (float x = layerX[i]; x &lt; levelWidth + scaledTextureWidth; x += scaledTextureWidth) {</b>
+<b class="fc">&nbsp;                batch.draw(layers[i], x, 0, scaledTextureWidth, screenHeight);</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public void dispose() {
+<b class="fc">&nbsp;        for (Texture texture : layers) {</b>
+<b class="fc">&nbsp;            texture.dispose();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+&nbsp;
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-04-22 20:02</div>
+</div>
+</body>
+</html>

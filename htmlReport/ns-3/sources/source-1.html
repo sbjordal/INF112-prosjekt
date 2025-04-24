@@ -1,0 +1,234 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > CollisionHandler</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">inf112.starhunt.model</a>
+</div>
+
+<h1>Coverage Summary for Class: CollisionHandler (inf112.starhunt.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CollisionHandler</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package inf112.starhunt.model;
+&nbsp;
+&nbsp;import com.badlogic.gdx.Gdx;
+&nbsp;import inf112.starhunt.model.gameobject.Collidable;
+&nbsp;import inf112.starhunt.model.gameobject.CollisionBox;
+&nbsp;import inf112.starhunt.model.gameobject.Visitor;
+&nbsp;import inf112.starhunt.model.gameobject.fixedobject.Ground;
+&nbsp;import inf112.starhunt.model.gameobject.fixedobject.item.Coin;
+&nbsp;import inf112.starhunt.model.gameobject.mobileobject.actor.Player;
+&nbsp;import inf112.starhunt.model.gameobject.mobileobject.actor.enemy.Enemy;
+&nbsp;import inf112.starhunt.view.SoundHandler;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;import static inf112.starhunt.model.LevelManager.Level.*;
+&nbsp;
+&nbsp;// TODO: slett denne
+<b class="nc">&nbsp;public class CollisionHandler {</b>
+&nbsp;//    private SoundHandler soundHandler;
+&nbsp;//    private final int ceilingHeight;
+&nbsp;//    private final int ATTACK_COOLDOWN = 800;
+&nbsp;//    private final int BOUNCE_COOLDOWN = 64;
+&nbsp;//
+&nbsp;//    public CollisionHandler(int ceilingHeight) {
+&nbsp;//        this.ceilingHeight = ceilingHeight;
+&nbsp;//    }
+&nbsp;//
+&nbsp;//    void init() {
+&nbsp;//        this.soundHandler = new SoundHandler();
+&nbsp;//    }
+&nbsp;//
+&nbsp;//    Triple&lt;Boolean, Collidable&gt; checkCollision(List&lt;Collidable&gt; collidables, List&lt;Visitor&gt; visitors) {
+&nbsp;//         for (Visitor visitor : visitors) {
+&nbsp;//             for (Collidable collided : collidables) {
+&nbsp;//                 if (visitor.getCollisionBox().isCollidingWith(collided.getCollisionBox())) {
+&nbsp;//                     collided.accept(visitor);
+&nbsp;//                 }
+&nbsp;//            }
+&nbsp;//         }
+&nbsp;//
+&nbsp;//
+&nbsp;//        /////////////////////////////////////////////////
+&nbsp;//        for (Collidable object : gameObjects) {
+&nbsp;//            if (object == player) continue;
+&nbsp;//            CollisionBox otherBox = object.getCollisionBox();
+&nbsp;//            boolean isTopCollision = collisionBox.isCollidingFromTop(otherBox);
+&nbsp;//            boolean isCeiling = collisionBox.topRight.y &gt;= ceilingHeight - 1;
+&nbsp;//            boolean isGround = object instanceof Ground;
+&nbsp;//
+&nbsp;//            if ((isTopCollision &amp;&amp; isGround) || isCeiling) {
+&nbsp;//                if (player.getVerticalVelocity() &gt; 0) {
+&nbsp;//                    float bumpForceLoss = 0.1f;
+&nbsp;//                    int bumpSpeed = (int) (-player.getVerticalVelocity() * bumpForceLoss);
+&nbsp;//                    player.setVerticalVelocity(bumpSpeed);
+&nbsp;//                }
+&nbsp;//                return new Triple&lt;&gt;(true, null);
+&nbsp;//            }
+&nbsp;//            if (collisionBox.isCollidingWith(otherBox)) {
+&nbsp;//                return new Triple&lt;&gt;(true, object);
+&nbsp;//            }
+&nbsp;//        }
+&nbsp;//        return new Triple&lt;&gt;(false, null);
+&nbsp;//    }
+&nbsp;//    Integer handleEnemyCollision(Player player, Enemy enemy, Integer totalScore, CollisionBox newPlayerCollisionBox){
+&nbsp;//        long currentTime = System.currentTimeMillis();
+&nbsp;//
+&nbsp;//        if (newPlayerCollisionBox.isCollidingFromBottom(enemy.getCollisionBox())){
+&nbsp;//            if (currentTime - player.getLastBounceTime() &gt;= BOUNCE_COOLDOWN) {
+&nbsp;//
+&nbsp;//                player.bounce();
+&nbsp;//                player.dealDamage(enemy, player.getDamage());
+&nbsp;//
+&nbsp;//                if (!enemy.isAlive()) {
+&nbsp;//                    totalScore += enemy.getObjectScore();
+&nbsp;//                }
+&nbsp;//
+&nbsp;//                player.setLastBounceTime(currentTime);
+&nbsp;//            }
+&nbsp;//        } else {
+&nbsp;//            if (currentTime - player.getLastAttackTime() &gt;= ATTACK_COOLDOWN) {
+&nbsp;//                final int scorePenalty = 4;
+&nbsp;//                totalScore = Math.max(0, totalScore - scorePenalty);
+&nbsp;//
+&nbsp;//                player.setLastAttackTime(currentTime);
+&nbsp;//            }
+&nbsp;//        }
+&nbsp;//        return totalScore;
+&nbsp;//    }
+&nbsp;//    int handleCoinCollision(Coin coin, Integer totalScore){
+&nbsp;//        int objectScore = coin.getObjectScore();
+&nbsp;//        int newScore = totalScore + objectScore;
+&nbsp;//        if (soundHandler == null) {
+&nbsp;//            Gdx.app.error(&quot;CollisionHandler&quot;, &quot;SoundHandler is null&quot;);
+&nbsp;//            return newScore;
+&nbsp;//        }
+&nbsp;//        soundHandler.playCoinSound();
+&nbsp;//        return newScore;
+&nbsp;//    }
+&nbsp;
+&nbsp;//    LevelManager.Level handleStarCollision(LevelManager.Level currentLevel) {
+&nbsp;//        switch (currentLevel) {
+&nbsp;//            case LEVEL_1:
+&nbsp;//                return (LEVEL_2);
+&nbsp;//            case LEVEL_2:
+&nbsp;//                return (LEVEL_3);
+&nbsp;//            case LEVEL_3:
+&nbsp;//                return (LEVEL_1);
+&nbsp;//            default: throw new IllegalArgumentException(&quot;No such level exists&quot;);
+&nbsp;//        }
+&nbsp;//    }
+&nbsp;
+&nbsp;//    int getCeilingHeight(){
+&nbsp;//        return ceilingHeight;
+&nbsp;//    }
+&nbsp;//
+&nbsp;//    int getATTACK_COOLDOWN(){
+&nbsp;//        return ATTACK_COOLDOWN;
+&nbsp;//    }
+&nbsp;//
+&nbsp;//    int getBOUNCE_COOLDOWN(){
+&nbsp;//        return BOUNCE_COOLDOWN;
+&nbsp;//    }
+&nbsp;//    protected SoundHandler getSoundHandler() {
+&nbsp;//        return soundHandler;
+&nbsp;//    }
+&nbsp;//    protected void setSoundHandler(SoundHandler soundHandler) {
+&nbsp;//        this.soundHandler = soundHandler;
+&nbsp;//    }
+&nbsp;}
+&nbsp;
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-04-22 20:02</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,148 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ControllableWorldModel</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">inf112.starhunt.controller</a>
+</div>
+
+<h1>Coverage Summary for Class: ControllableWorldModel (inf112.starhunt.controller)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+</tr>
+  <tr>
+    <td class="name">ControllableWorldModel$MockitoMock$YcA6Fj3B</td>
+  </tr>
+  <tr>
+    <td class="name">ControllableWorldModel$MockitoMock$YcA6Fj3B$auxiliary$amh76k4Q</td>
+  </tr>
+  <tr>
+    <td class="name">ControllableWorldModel$MockitoMock$YcA6Fj3B$auxiliary$MYFGeuQ7</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package inf112.starhunt.controller;
+&nbsp;
+&nbsp;import inf112.starhunt.model.GameState;
+&nbsp;import inf112.starhunt.model.LevelManager;
+&nbsp;
+&nbsp;public interface ControllableWorldModel {
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Tells us the state of the game
+&nbsp;     *
+&nbsp;     * @return the state of the game
+&nbsp;     */
+&nbsp;    GameState getGameState();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * InfoMode is a boolean value used to decide if the information of the game should be displayed or not.
+&nbsp;     * @return a boolean, true if the information should be displayed, otherwise false.
+&nbsp;     */
+&nbsp;    boolean getInfoMode();
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Modifies infoMode
+&nbsp;     * @param infoMode the boolean value it should be set to.
+&nbsp;     *                 True if you want to signal that infoMode should be displayed
+&nbsp;     *                 False, if not.
+&nbsp;     */
+&nbsp;    void setInfoMode(boolean infoMode);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Modifies gamestate to GAME_MENU
+&nbsp;     */
+&nbsp;    void backToGameMenu();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Pauses the game and modifies GameState
+&nbsp;     */
+&nbsp;    void pause();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Resumes the game and modifies GameState
+&nbsp;     */
+&nbsp;    void resume();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * A method for signalling whether the player is currently moving to the right, or not.
+&nbsp;     * @param movingRight, True if the player is currently moving right, False if not.
+&nbsp;     */
+&nbsp;    void setMovingRight(boolean movingRight);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * A method for signalling whether the player is currently moving to the left, or not.
+&nbsp;     * @param movingLeft, True if the player is currently moving left, False if not.
+&nbsp;     */
+&nbsp;    void setMovingLeft(boolean movingLeft);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets whether the player should be jumping or not.
+&nbsp;     *
+&nbsp;     * @param isJumping Boolean determine the jumping state.
+&nbsp;     */
+&nbsp;    void setJumping(boolean isJumping);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Start the specified level.
+&nbsp;     *
+&nbsp;     * @param level The level to start
+&nbsp;     */
+&nbsp;    void startLevel(LevelManager.Level level);
+&nbsp;}
+&nbsp;
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-04-22 20:02</div>
+</div>
+</body>
+</html>
