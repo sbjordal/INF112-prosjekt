@@ -1,4 +1,4 @@
-# TODO: INF112 Project – *Starhunt*
+# INF112 Project – *Star Hunt*
 
 ## Team:
 * Gruppe 6 - *"Sjette_Etasje"*
@@ -22,8 +22,7 @@ Hvordan spille:
 * Kjøres med `mvn exec:java`.
 * Krever Java 17.0.14 eller senere.
 
-## Kjente feil 
-- mister ikke liv hvis player collider med en fiende hvis de går i samme retning
+## Kjente feil
 - En snegl på siste level beveger seg innimellom bak/gjennom vegger. Det virker som at dette kun skjer dersom man har spilt gjennom alle levelene en gang før.
 - Hvis du holder inne hoppe knappen mens du pauser, så vil player hoppe konstant selv om du har slippet knappen.
 
