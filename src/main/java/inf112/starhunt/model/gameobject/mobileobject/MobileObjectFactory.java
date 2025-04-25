@@ -1,9 +1,12 @@
-package inf112.starhunt.model.gameobject.mobileobject.actor.enemy;
+package inf112.starhunt.model.gameobject.mobileobject;
 
 import com.badlogic.gdx.math.Vector2;
 import inf112.starhunt.model.gameobject.Transform;
-import inf112.starhunt.model.gameobject.fixedobject.item.Item;
-import inf112.starhunt.model.gameobject.fixedobject.item.ItemFactory;
+import inf112.starhunt.model.gameobject.mobileobject.actor.Player;
+import inf112.starhunt.model.gameobject.mobileobject.actor.enemy.Enemy;
+import inf112.starhunt.model.gameobject.mobileobject.actor.enemy.EnemyType;
+import inf112.starhunt.model.gameobject.mobileobject.actor.enemy.Leopard;
+import inf112.starhunt.model.gameobject.mobileobject.actor.enemy.Snail;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,18 +15,29 @@ import java.util.function.BiFunction;
 /**
  * A factory class responsible for creating {@link Enemy} objects.
  */
-public class EnemyFactory {
+public class MobileObjectFactory {
 
 
-    static Map<String, BiFunction<Float, Float, Enemy>> registry = new HashMap<>();
+    static Map<String, BiFunction<Float, Float, MobileObject>> registry = new HashMap<>();
     static {
-        registry.put("snail", EnemyFactory::createSnail);
-        registry.put("leopard", EnemyFactory::createLeopard);
+        registry.put("player", MobileObjectFactory::createPlayer);
+        registry.put("snail", MobileObjectFactory::createSnail);
+        registry.put("leopard", MobileObjectFactory::createLeopard);
     }
 
-    public static Enemy createEnemy(String enemyName, float x, float y) {
-        return registry.get(enemyName).apply(x, y);
+
+
+    public static MobileObject createMobileObject(String mobileObject, float x, float y) {
+        return registry.get(mobileObject).apply(x, y);
     }
+
+    private static MobileObject createPlayer(Float x, Float y) {
+        Vector2 size = new Vector2(40, 80);
+        Vector2 position = new Vector2(x, y);
+        Transform transform = new Transform(position, size);
+        return new Player(3, 350, transform);
+    }
+
     /**
      * Creates a new Snail with the specific arguments defined by its enemy type.
      *

@@ -1,33 +1,34 @@
 package inf112.starhunt.model.gameobject.fixedobject.item;
 
+import inf112.starhunt.model.gameobject.fixedobject.FixedObjectFactory;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ItemFactoryTest {
+public class FixedObjectFactoryTest {
 
     @Test
     void testCreateCoinNotNull() {
-        Coin coin = ItemFactory.createCoin(10, 20);
+        Coin coin = FixedObjectFactory.createCoin(10, 20);
         assertNotNull(coin, "Coin should not be null");
     }
 
     @Test
     void testCreateBananaNotNull() {
-        Banana banana = ItemFactory.createBanana(15, 25);
+        Banana banana = FixedObjectFactory.createBanana(15, 25);
         assertNotNull(banana, "Banana should not be null");
     }
 
     @Test
     void testCreateStarNotNull() {
-        Star star = ItemFactory.createStar(15, 25);
+        Star star = FixedObjectFactory.createStar(15, 25);
         assertNotNull(star, "Star should not be null");
     }
 
     @Test
     void testCreateCoinHasCorrectPositionAndSize() {
         float x = 10f, y = 20f;
-        Coin coin = ItemFactory.createCoin(x, y);
+        Coin coin = FixedObjectFactory.createCoin(x, y);
 
         assertEquals(x, coin.getTransform().getPos().x, 0.001, "X position should match");
         assertEquals(y, coin.getTransform().getPos().y, 0.001, "Y position should match");
@@ -39,7 +40,7 @@ public class ItemFactoryTest {
     @Test
     void testCreateBananaHasCorrectPositionAndSize() {
         float x = 15f, y = 25f;
-        Banana banana = ItemFactory.createBanana(x, y);
+        Banana banana = FixedObjectFactory.createBanana(x, y);
 
         assertEquals(x, banana.getTransform().getPos().x, 0.001, "X position should match");
         assertEquals(y, banana.getTransform().getPos().y, 0.001, "Y position should match");
@@ -51,7 +52,7 @@ public class ItemFactoryTest {
     @Test
     void testCreateStarHasCorrectPositionAndSize() {
         float x = 15f, y = 25f;
-        Star star = ItemFactory.createStar(x, y);
+        Star star = FixedObjectFactory.createStar(x, y);
 
         assertEquals(x, star.getTransform().getPos().x, 0.001, "X position should match");
         assertEquals(y, star.getTransform().getPos().y, 0.001, "Y position should match");
@@ -62,24 +63,24 @@ public class ItemFactoryTest {
 
     @Test
     void testCreatedCoinsAreNotSameObject() {
-        Coin coin1 = ItemFactory.createCoin(5, 5);
-        Coin coin2 = ItemFactory.createCoin(5, 5);
+        Coin coin1 = FixedObjectFactory.createCoin(5, 5);
+        Coin coin2 = FixedObjectFactory.createCoin(5, 5);
 
         assertNotEquals(coin1, coin2, "Two created coins should be different objects");
     }
 
     @Test
     void testCreatedBananasAreNotSameObject() {
-        Banana banana1 = ItemFactory.createBanana(10, 10);
-        Banana banana2 = ItemFactory.createBanana(10, 10);
+        Banana banana1 = FixedObjectFactory.createBanana(10, 10);
+        Banana banana2 = FixedObjectFactory.createBanana(10, 10);
 
         assertNotEquals(banana1, banana2, "Two created bananas should be different objects");
     }
 
     @Test
     void testCreatedStarsAreNotSameObject() {
-        Star star1 = ItemFactory.createStar(10, 10);
-        Star star2 = ItemFactory.createStar(10, 10);
+        Star star1 = FixedObjectFactory.createStar(10, 10);
+        Star star2 = FixedObjectFactory.createStar(10, 10);
 
         assertNotEquals(star1, star2, "Two created stars should be different objects");
     }

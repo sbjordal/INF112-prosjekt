@@ -9,7 +9,8 @@ import inf112.starhunt.model.gameobject.Collidable;
 import inf112.starhunt.model.gameobject.GameObject;
 import inf112.starhunt.model.gameobject.Transform;
 import inf112.starhunt.model.gameobject.fixedobject.Ground;
-import inf112.starhunt.model.gameobject.fixedobject.item.ItemFactory;
+import inf112.starhunt.model.gameobject.fixedobject.FixedObjectFactory;
+import inf112.starhunt.model.gameobject.mobileobject.MobileObjectFactory;
 import inf112.starhunt.model.gameobject.mobileobject.actor.Player;
 import inf112.starhunt.model.gameobject.mobileobject.actor.enemy.*;
 
@@ -95,20 +96,20 @@ public class LevelManager {
                     //item
 
                     case "star" -> {
-                        collidables.add(ItemFactory.createStar(x, y));
+                        collidables.add(FixedObjectFactory.createStar(x, y));
                         starCount++;
                     }
-                    case "coin" -> collidables.add(ItemFactory.createCoin(x, y));
-                    case "banana" -> collidables.add(ItemFactory.createBanana(x, y));
+                    case "coin" -> collidables.add(FixedObjectFactory.createCoin(x, y));
+                    case "banana" -> collidables.add(FixedObjectFactory.createBanana(x, y));
 
                     // enemies
                     case "snail" -> {
-                        final Snail snail = EnemyFactory.createSnail(x, y);
+                        final Snail snail = MobileObjectFactory.createSnail(x, y);
                         collidables.add(snail);
                         enemies.add(snail);
                     }
                     case "leopard" -> {
-                        final Leopard leopard = EnemyFactory.createLeopard(x, y);
+                        final Leopard leopard = MobileObjectFactory.createLeopard(x, y);
                         collidables.add(leopard);
                         enemies.add(leopard);
                     }
