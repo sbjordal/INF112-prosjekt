@@ -71,6 +71,7 @@ public class Controller extends InputAdapter {
         } else if (isGameState(GameState.GAME_ACTIVE) && c == 'p') {
             controllableModel.setMovingLeft(false);
             controllableModel.setMovingRight(false);
+            controllableModel.setJumping(false);
             controllableModel.pause();
         } else if (isGameState(GameState.GAME_PAUSED)) {
             switch (c) {
