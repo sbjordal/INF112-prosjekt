@@ -61,6 +61,13 @@ final public class Player extends Actor implements Visitor, Collidable {
         objectsToRemove = new ArrayList<>();
     }
 
+    /**
+     * Constructor for LevelManager
+     */
+    public Player() {
+        super(1,0,new Transform(new Vector2(0, 0), new Vector2(0, 0)));
+    }
+
     @Override
     public void setOnCoinCollected(Runnable callback) {
         this.coinCollected = callback;
@@ -135,6 +142,10 @@ final public class Player extends Actor implements Visitor, Collidable {
         final long currentTime = System.currentTimeMillis();
         final boolean isReadyToBounce = currentTime - getLastBounceTime() >= BOUNCE_COOLDOWN;
         final boolean isOnTopOfEnemy = getCollisionBox().isCollidingFromBottom(enemy.getCollisionBox());
+
+        if(enemy.getMovementDirection() == this.getMovementDirection()) {
+            takeDamage(enemy.getDamage());
+        }
 
         if (isOnTopOfEnemy && isReadyToBounce) {
             bounce();

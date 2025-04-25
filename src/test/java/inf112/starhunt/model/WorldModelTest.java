@@ -7,15 +7,13 @@ import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.backends.headless.HeadlessApplication;
 import com.badlogic.gdx.backends.headless.HeadlessApplicationConfiguration;
 import com.badlogic.gdx.math.Vector2;
-import inf112.starhunt.model.gameobject.Collidable;
 import inf112.starhunt.model.gameobject.CollisionBox;
 import inf112.starhunt.model.gameobject.Transform;
 import inf112.starhunt.model.gameobject.Visitor;
-import inf112.starhunt.model.gameobject.fixedobject.Ground;
 import inf112.starhunt.model.gameobject.fixedobject.item.Coin;
 import inf112.starhunt.model.gameobject.mobileobject.actor.Player;
 import inf112.starhunt.model.gameobject.mobileobject.actor.enemy.Enemy;
-import inf112.starhunt.model.gameobject.mobileobject.actor.enemy.EnemyFactory;
+import inf112.starhunt.model.gameobject.mobileobject.MobileObjectFactory;
 import inf112.starhunt.model.gameobject.mobileobject.actor.enemy.EnemyType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -171,8 +169,8 @@ public class WorldModelTest {
 
     @Test
     void testEnemiesMovable(){
-        Enemy en1 = EnemyFactory.createSnail(10, 10, EnemyType.SNAIL);
-        Enemy en2 = EnemyFactory.createLeopard(15, 10, EnemyType.LEOPARD);
+        Enemy en1 = MobileObjectFactory.createSnail(10, 10, EnemyType.SNAIL);
+        Enemy en2 = MobileObjectFactory.createLeopard(15, 10, EnemyType.LEOPARD);
         worldModel.enemies.add(en1);
         worldModel.enemies.add(en2);
         worldModel.moveEnemies(1 / 60f);

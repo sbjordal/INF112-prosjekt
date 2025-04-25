@@ -2,16 +2,13 @@ package inf112.starhunt.model;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.math.Vector2;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.IntNode;
 import inf112.starhunt.model.gameobject.Collidable;
-import inf112.starhunt.model.gameobject.Transform;
 import inf112.starhunt.model.gameobject.fixedobject.Ground;
 import inf112.starhunt.model.gameobject.fixedobject.item.Banana;
 import inf112.starhunt.model.gameobject.fixedobject.item.Coin;
-import inf112.starhunt.model.gameobject.fixedobject.item.ItemFactory;
 import inf112.starhunt.model.gameobject.fixedobject.item.Star;
 import inf112.starhunt.model.gameobject.mobileobject.actor.Player;
 import inf112.starhunt.model.gameobject.mobileobject.actor.enemy.Enemy;

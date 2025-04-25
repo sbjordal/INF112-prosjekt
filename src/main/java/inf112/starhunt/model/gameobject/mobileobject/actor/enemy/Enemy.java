@@ -123,17 +123,6 @@ public abstract class Enemy extends Actor implements Scorable, Visitor, Collidab
 
     @Override
     public void visit(Player player) {
-        CollisionBox playerCollisionBox = player.getCollisionBox();
-        final float endOfLevel = WorldModel.LEVEL_WIDTH - getTransform().getSize().x;
-        final boolean isColliding = getCollisionBox().isCollidingWith(playerCollisionBox);
-        final boolean isCollidingFromBottom = getCollisionBox().isCollidingFromTop(playerCollisionBox); // TODO: dinna va skifta til "isCollidingFromTop" fra "isCollidingFromBottom". Tror det skal være mer rett, men lager denne kommentaren her for å markere dette som en potensiell feil. :)
-        final boolean isOutsideLevel = getTransform().getPos().x < 0 || getTransform().getPos().x > endOfLevel;
-
-//        if (((isColliding && !isCollidingFromBottom) || isOutsideLevel) && isReadyToCollide()) {
-//            if (!isOutsideLevel) {
-//                attack(player);
-//            }
-//        }
         attack(player);
         switchDirection();
     }

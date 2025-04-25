@@ -1,24 +1,36 @@
-package inf112.starhunt.model.gameobject.fixedobject.item;
+package inf112.starhunt.model.gameobject.fixedobject;
 
 import com.badlogic.gdx.math.Vector2;
 import inf112.starhunt.model.gameobject.Transform;
+import inf112.starhunt.model.gameobject.fixedobject.item.Banana;
+import inf112.starhunt.model.gameobject.fixedobject.item.Coin;
+import inf112.starhunt.model.gameobject.fixedobject.item.Star;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiFunction;
 
 // TODO: lag hjelpefunksjon på innholdet til Coin, Banana og Star for å redusere duplikat kode.
-public class ItemFactory {
-//    static Map<String, BiFunction<Float, Float, Item>> registry;
-//    static {
-//        registry.put("banana", ItemFactory::createBanana);
-//        registry.put("star", ItemFactory::createStar);
-//        registry.put("coin", ItemFactory::createCoin);
-//    }
+public class FixedObjectFactory {
+    static Map<String, BiFunction<Float, Float, FixedObject>> registry = new HashMap<>();
+    static {
+        registry.put("ground", FixedObjectFactory::createGround);
+        registry.put("banana", FixedObjectFactory::createBanana);
+        registry.put("star", FixedObjectFactory::createStar);
+        registry.put("coin", FixedObjectFactory::createCoin);
+    }
 
-    public static Item createItem(String item, float x, float y) {
-        // TODO: return korrekt item fra registry variabelen basert på 'item' stringen.
+    public static FixedObject createFixedObject(String fixedObject, float x, float y) {
+        return registry.get(fixedObject).apply(x, y);
+    }
 
-        return null;
+    public static Ground createGround(float x, float y){
+
+        Vector2 size = new Vector2(50, 50);
+        Vector2 position = new Vector2(x, y);
+        Transform transform = new Transform(position, size);
+
+        return new Ground(transform);
     }
 
     public static Coin createCoin(float x, float y){

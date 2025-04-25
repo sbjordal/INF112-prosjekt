@@ -3,14 +3,13 @@ package inf112.starhunt.model.gameobject.mobileobject.actor.enemy;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.math.Vector2;
-import inf112.starhunt.model.PositionValidator;
-import inf112.starhunt.model.gameobject.CollisionBox;
 import inf112.starhunt.model.gameobject.Transform;
 import inf112.starhunt.model.gameobject.Visitor;
 import inf112.starhunt.model.gameobject.fixedobject.Ground;
 import inf112.starhunt.model.gameobject.fixedobject.item.Banana;
 import inf112.starhunt.model.gameobject.fixedobject.item.Coin;
 import inf112.starhunt.model.gameobject.fixedobject.item.Star;
+import inf112.starhunt.model.gameobject.mobileobject.MobileObjectFactory;
 import inf112.starhunt.model.gameobject.mobileobject.actor.Player;
 import org.junit.jupiter.api.Test;
 
@@ -22,7 +21,7 @@ public class EnemyTest {
 
     @Test
     void testEnemyDeathSnail() {
-        Enemy enemy = EnemyFactory.createSnail(0, 0, EnemyType.SNAIL);
+        Enemy enemy = MobileObjectFactory.createSnail(0, 0, EnemyType.SNAIL);
         assertTrue(enemy.isAlive());
         enemy.receiveDamage(1);
         assertFalse( enemy.isAlive());
@@ -30,7 +29,7 @@ public class EnemyTest {
 
     @Test
     void testEnemyDeathLeopard() {
-        Enemy enemy = EnemyFactory.createLeopard(0, 0, EnemyType.LEOPARD);
+        Enemy enemy = MobileObjectFactory.createLeopard(0, 0, EnemyType.LEOPARD);
         assertTrue(enemy.isAlive());
         enemy.receiveDamage(1);
         assertTrue( enemy.isAlive());
@@ -40,7 +39,7 @@ public class EnemyTest {
 
     @Test
     void testMoveEnemySnail() {
-        Enemy snailEnemy = EnemyFactory.createSnail(50, 0, EnemyType.SNAIL);
+        Enemy snailEnemy = MobileObjectFactory.createSnail(50, 0, EnemyType.SNAIL);
         float initialPositionX = snailEnemy.getTransform().getPos().x;
 
         snailEnemy = moveTestHelper(snailEnemy);
@@ -50,7 +49,7 @@ public class EnemyTest {
 
     @Test
     void testMoveEnemyLeopard() {
-        Enemy leopardEnemy = EnemyFactory.createLeopard(50, 0, EnemyType.LEOPARD);
+        Enemy leopardEnemy = MobileObjectFactory.createLeopard(50, 0, EnemyType.LEOPARD);
         float initialPositionX = leopardEnemy.getTransform().getPos().x;
 
         leopardEnemy = moveTestHelper(leopardEnemy);
@@ -66,13 +65,13 @@ public class EnemyTest {
 
     @Test
     void testObjectScoreSnail() {
-        Enemy snailEnemy = EnemyFactory.createSnail(50, 0, EnemyType.SNAIL);
+        Enemy snailEnemy = MobileObjectFactory.createSnail(50, 0, EnemyType.SNAIL);
         assertEquals(10, snailEnemy.getObjectScore());
     }
 
     @Test
     void testObjectScoreLeopard() {
-        Enemy leopardEnemy = EnemyFactory.createLeopard(50, 0, EnemyType.LEOPARD);
+        Enemy leopardEnemy = MobileObjectFactory.createLeopard(50, 0, EnemyType.LEOPARD);
         assertEquals(30, leopardEnemy.getObjectScore());
     }
 
@@ -87,14 +86,14 @@ public class EnemyTest {
 
     @Test
     void testAttackSnail() {
-        Enemy snailEnemy = EnemyFactory.createSnail(50, 0, EnemyType.SNAIL);
+        Enemy snailEnemy = MobileObjectFactory.createSnail(50, 0, EnemyType.SNAIL);
         Player player = setUpPlayer();
         testAttack(snailEnemy, player);
     }
 
     @Test
     void testAttackLeopard() {
-        Enemy leopardEnemy = EnemyFactory.createLeopard(50, 0, EnemyType.LEOPARD);
+        Enemy leopardEnemy = MobileObjectFactory.createLeopard(50, 0, EnemyType.LEOPARD);
         Player player = setUpPlayer();
         testAttack(leopardEnemy, player);
     }
@@ -116,14 +115,14 @@ public class EnemyTest {
 
     @Test
     void testAttackSnailWithPowerUp() {
-        Enemy snailEnemy = EnemyFactory.createSnail(50, 0, EnemyType.SNAIL);
+        Enemy snailEnemy = MobileObjectFactory.createSnail(50, 0, EnemyType.SNAIL);
         Player player = setUpPlayer();
         testAttackWithPowerUp(snailEnemy, player);
     }
 
     @Test
     void testAttackLeopardWithPowerUp() {
-        Enemy leopardEnemy = EnemyFactory.createLeopard(50, 0, EnemyType.LEOPARD);
+        Enemy leopardEnemy = MobileObjectFactory.createLeopard(50, 0, EnemyType.LEOPARD);
         Player player = setUpPlayer();
         testAttackWithPowerUp(leopardEnemy, player);
     }
@@ -146,7 +145,7 @@ public class EnemyTest {
 
     @Test
     void testVisitPlayerTriggersAttackAndDirectionSwitch() {
-        Enemy enemy = EnemyFactory.createLeopard(0, 0, EnemyType.LEOPARD);
+        Enemy enemy = MobileObjectFactory.createLeopard(0, 0, EnemyType.LEOPARD);
         Player player = setUpPlayer();
 
         int dirBefore = enemy.getMovementDirection();
@@ -158,7 +157,7 @@ public class EnemyTest {
 
     @Test
     void testVisitGroundSwitchesDirection() {
-        Enemy enemy = EnemyFactory.createSnail(0, 0, EnemyType.SNAIL);
+        Enemy enemy = MobileObjectFactory.createSnail(0, 0, EnemyType.SNAIL);
 
         int directionBefore = enemy.getMovementDirection();
         enemy.visit(mock(Ground.class));
@@ -168,7 +167,7 @@ public class EnemyTest {
 
     @Test
     void testIsReadyToCollide() throws InterruptedException {
-        Enemy enemy = EnemyFactory.createSnail(0, 0, EnemyType.SNAIL);
+        Enemy enemy = MobileObjectFactory.createSnail(0, 0, EnemyType.SNAIL);
 
         // Første kall skal returnere true
         assertTrue(enemy.isReadyToCollide(), "Første kall skal være klar for kollisjon");
@@ -185,8 +184,8 @@ public class EnemyTest {
 
     @Test
     void testVisitEnemySwitchesDirectionIfDifferentEnemy() {
-        Enemy snail1 = EnemyFactory.createSnail(0, 0, EnemyType.SNAIL);
-        Enemy snail2 = EnemyFactory.createSnail(100, 0, EnemyType.SNAIL);
+        Enemy snail1 = MobileObjectFactory.createSnail(0, 0, EnemyType.SNAIL);
+        Enemy snail2 = MobileObjectFactory.createSnail(100, 0, EnemyType.SNAIL);
 
         int initialDirection = snail1.getMovementDirection();
 
@@ -198,7 +197,7 @@ public class EnemyTest {
 
     @Test
     void testVisitEnemyDoesNotSwitchDirectionIfSameEnemy() {
-        Enemy snail = EnemyFactory.createSnail(0, 0, EnemyType.SNAIL);
+        Enemy snail = MobileObjectFactory.createSnail(0, 0, EnemyType.SNAIL);
         int initialDirection = snail.getMovementDirection();
 
         // Besøk seg selv – skal ikke skje, men må sikres
@@ -210,7 +209,7 @@ public class EnemyTest {
 
     @Test
     void testAcceptCallsVisitOnVisitor() {
-        Enemy snail = EnemyFactory.createSnail(0, 0, EnemyType.SNAIL);
+        Enemy snail = MobileObjectFactory.createSnail(0, 0, EnemyType.SNAIL);
         Visitor mockVisitor = mock(Visitor.class);
 
         snail.accept(mockVisitor);
@@ -220,7 +219,7 @@ public class EnemyTest {
 
     @Test
     void testVisitItemsDoesNotSwitchDirection() {
-        Enemy snail = EnemyFactory.createSnail(0, 0, EnemyType.SNAIL);
+        Enemy snail = MobileObjectFactory.createSnail(0, 0, EnemyType.SNAIL);
         int initialDirection = snail.getMovementDirection();
 
         Coin coin = mock(Coin.class);

@@ -7,9 +7,12 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import inf112.starhunt.model.gameobject.Collidable;
 import inf112.starhunt.model.gameobject.GameObject;
+import inf112.starhunt.model.gameobject.GameObjectFactory;
 import inf112.starhunt.model.gameobject.Transform;
 import inf112.starhunt.model.gameobject.fixedobject.Ground;
-import inf112.starhunt.model.gameobject.fixedobject.item.ItemFactory;
+import inf112.starhunt.model.gameobject.fixedobject.FixedObjectFactory;
+import inf112.starhunt.model.gameobject.fixedobject.item.Star;
+import inf112.starhunt.model.gameobject.mobileobject.MobileObjectFactory;
 import inf112.starhunt.model.gameobject.mobileobject.actor.Player;
 import inf112.starhunt.model.gameobject.mobileobject.actor.enemy.*;
 
@@ -58,7 +61,7 @@ public class LevelManager {
 
         List<Enemy> enemies = new ArrayList<>();
         List<Collidable> collidables = new ArrayList<>();
-        Player player = new Player(1, 0, new Transform(new Vector2(0, 0), new Vector2(0, 0)));
+        Player player = new Player();
 
         int mapHeight = jsonRoot.get("height").asInt() * jsonRoot.get("tileheight").asInt();
         int playerCount = 0;
@@ -72,44 +75,25 @@ public class LevelManager {
                 int x = obj.get("x").asInt();
                 int y = mapHeight - obj.get("y").asInt() - obj.get("height").asInt();
 
-                switch (layerName) {
-                    case "ground" -> {
-                        // TODO: lag en hjelpemetode som er plassert i GameObject for å redusere duplikat kode. Gjelder: size, position aog transform.
+                GameObject gameObject = GameObjectFactory.createGameObject(layerName, x, y);
+                collidables.add((Collidable) gameObject);
 
-                        Vector2 size = new Vector2(50, 50);
-                        Vector2 position = new Vector2(x, y);
-                        Transform transform = new Transform(position, size);
-                        Ground ground = new Ground(transform);
-                        collidables.add(ground);
-                    }
-                    case "player" -> {
-                        Vector2 size = new Vector2(40, 80);
-                        Vector2 position = new Vector2(x, y);
-                        Transform transform = new Transform(position, size);
-                        player = new Player(3, 350, transform);
-                        collidables.add(player);
-                        playerCount++;
-                    }
-                    case "star" -> {
-                        collidables.add(ItemFactory.createStar(x, y));
-                        starCount++;
-                    }
-                    case "coin" -> collidables.add(ItemFactory.createCoin(x, y));
-                    case "banana" -> collidables.add(ItemFactory.createBanana(x, y));
-                    case "snail" -> {
-                        final Snail snail = EnemyFactory.createSnail(x, y, EnemyType.SNAIL);
-                        collidables.add(snail);
-                        enemies.add(snail);
-                    }
-                    case "leopard" -> {
-                        final Leopard leopard = EnemyFactory.createLeopard(x, y, EnemyType.LEOPARD);
-                        collidables.add(leopard);
-                        enemies.add(leopard);
-                    }
-                    default -> System.out.println("Unknown layer: " + layerName + ". Case sensitivity maybe?");
+                if (gameObject instanceof Enemy) {
+                    enemies.add((Enemy) gameObject);
                 }
             }
         }
+
+        for (Collidable collidable : collidables) {
+            if (collidable instanceof Star) {
+                starCount++;
+            }
+            if (collidable instanceof Player) {
+                playerCount++;
+                player = (Player) collidable;
+            }
+        }
+
         if (playerCount != 1) {
             throw new IllegalStateException("Level must have exactly one Player, but found: " + playerCount);
         }
