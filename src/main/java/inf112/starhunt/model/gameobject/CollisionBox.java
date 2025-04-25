@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
  * The collision area is squared and defined by two points: {@code botLeft} and {@code topRight}.
  */
 public class CollisionBox {
+    private final static float ACCEPTANCE_RANGE = 3.0f;
     public Vector2 botLeft;
     public Vector2 topRight;
     private final float width;
@@ -56,12 +57,10 @@ public class CollisionBox {
      * @return          True if the collision box is on top, else false.
      */
     public boolean isCollidingFromBottom(CollisionBox other) {
-        final float acceptanceRange = 5.0f;
-
         return botLeft.y <= other.topRight.y &&
                 topRight.y > other.botLeft.y &&
-                botLeft.x < other.topRight.x - acceptanceRange &&
-                topRight.x > other.botLeft.x + acceptanceRange;
+                botLeft.x < other.topRight.x - ACCEPTANCE_RANGE &&
+                topRight.x > other.botLeft.x + ACCEPTANCE_RANGE;
     }
 
     /**
@@ -79,29 +78,27 @@ public class CollisionBox {
     }
 
     /**
-     * Checks if the collision box is to the left of an external collision box.
+     * Checks if the collision box is to the right of an external collision box.
      *
      * @param other     The external collision box.
      * @return          True if the collision box is to the left, else false.
      */
     public boolean isCollidingFromLeft(CollisionBox other) {
-        return isCollidingWith(other) &&
-                topRight.x > other.botLeft.x &&
-                botLeft.x < other.botLeft.x &&
+        return botLeft.x < other.topRight.x + ACCEPTANCE_RANGE &&
+                topRight.x > other.topRight.x &&
                 botLeft.y < other.topRight.y &&
                 topRight.y > other.botLeft.y;
     }
 
     /**
-     * Checks if the collision box is to the right of an external collision box.
+     * Checks if the collision box is to the left of an external collision box.
      *
      * @param other     The external collision box.
      * @return          True if the collision box is to the right, else false.
      */
     public boolean isCollidingFromRight(CollisionBox other) {
-        return isCollidingWith(other) &&
-                botLeft.x < other.topRight.x &&
-                topRight.x > other.topRight.x &&
+        return topRight.x > other.botLeft.x - ACCEPTANCE_RANGE &&
+                botLeft.x < other.botLeft.x &&
                 botLeft.y < other.topRight.y &&
                 topRight.y > other.botLeft.y;
     }

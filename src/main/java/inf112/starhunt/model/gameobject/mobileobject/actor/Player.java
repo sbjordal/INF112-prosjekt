@@ -142,8 +142,11 @@ final public class Player extends Actor implements Visitor, Collidable {
         final long currentTime = System.currentTimeMillis();
         final boolean isReadyToBounce = currentTime - getLastBounceTime() >= BOUNCE_COOLDOWN;
         final boolean isOnTopOfEnemy = getCollisionBox().isCollidingFromBottom(enemy.getCollisionBox());
+        final boolean isCollidingFromLeft = getCollisionBox().isCollidingFromLeft(enemy.getCollisionBox());
+        final boolean isCollidingFromRight = getCollisionBox().isCollidingFromRight(enemy.getCollisionBox());
+        final boolean isWalkingIntoEnemy = enemy.getMovementDirection() == this.getMovementDirection() && (isCollidingFromLeft || isCollidingFromRight);
 
-        if(enemy.getMovementDirection() == this.getMovementDirection()) {
+        if(isWalkingIntoEnemy) {
             takeDamage(enemy.getDamage());
         }
 
