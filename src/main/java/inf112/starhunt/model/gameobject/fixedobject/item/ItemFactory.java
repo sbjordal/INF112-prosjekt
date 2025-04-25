@@ -3,22 +3,21 @@ package inf112.starhunt.model.gameobject.fixedobject.item;
 import com.badlogic.gdx.math.Vector2;
 import inf112.starhunt.model.gameobject.Transform;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiFunction;
 
 // TODO: lag hjelpefunksjon på innholdet til Coin, Banana og Star for å redusere duplikat kode.
 public class ItemFactory {
-//    static Map<String, BiFunction<Float, Float, Item>> registry;
-//    static {
-//        registry.put("banana", ItemFactory::createBanana);
-//        registry.put("star", ItemFactory::createStar);
-//        registry.put("coin", ItemFactory::createCoin);
-//    }
+    static Map<String, BiFunction<Float, Float, Item>> registry = new HashMap<>();
+    static {
+        registry.put("banana", ItemFactory::createBanana);
+        registry.put("star", ItemFactory::createStar);
+        registry.put("coin", ItemFactory::createCoin);
+    }
 
     public static Item createItem(String item, float x, float y) {
-        // TODO: return korrekt item fra registry variabelen basert på 'item' stringen.
-
-        return null;
+        return registry.get(item).apply(x, y);
     }
 
     public static Coin createCoin(float x, float y){

@@ -72,6 +72,7 @@ public class LevelManager {
                 int x = obj.get("x").asInt();
                 int y = mapHeight - obj.get("y").asInt() - obj.get("height").asInt();
 
+
                 switch (layerName) {
                     case "ground" -> {
                         // TODO: lag en hjelpemetode som er plassert i GameObject for å redusere duplikat kode. Gjelder: size, position aog transform.
@@ -90,19 +91,24 @@ public class LevelManager {
                         collidables.add(player);
                         playerCount++;
                     }
+
+                    //item
+
                     case "star" -> {
                         collidables.add(ItemFactory.createStar(x, y));
                         starCount++;
                     }
                     case "coin" -> collidables.add(ItemFactory.createCoin(x, y));
                     case "banana" -> collidables.add(ItemFactory.createBanana(x, y));
+
+                    // enemies
                     case "snail" -> {
-                        final Snail snail = EnemyFactory.createSnail(x, y, EnemyType.SNAIL);
+                        final Snail snail = EnemyFactory.createSnail(x, y);
                         collidables.add(snail);
                         enemies.add(snail);
                     }
                     case "leopard" -> {
-                        final Leopard leopard = EnemyFactory.createLeopard(x, y, EnemyType.LEOPARD);
+                        final Leopard leopard = EnemyFactory.createLeopard(x, y);
                         collidables.add(leopard);
                         enemies.add(leopard);
                     }
