@@ -136,6 +136,10 @@ final public class Player extends Actor implements Visitor, Collidable {
         final boolean isReadyToBounce = currentTime - getLastBounceTime() >= BOUNCE_COOLDOWN;
         final boolean isOnTopOfEnemy = getCollisionBox().isCollidingFromBottom(enemy.getCollisionBox());
 
+        if(enemy.getMovementDirection() == this.getMovementDirection()) {
+            takeDamage(enemy.getDamage());
+        }
+
         if (isOnTopOfEnemy && isReadyToBounce) {
             bounce();
             dealDamage(enemy, getDamage());
