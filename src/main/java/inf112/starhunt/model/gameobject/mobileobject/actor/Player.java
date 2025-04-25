@@ -111,9 +111,9 @@ final public class Player extends Actor implements Visitor, Collidable {
 
     @Override
     public void visit(Banana banana) {
+        final int middleOfPlayer = (int) (getTransform().getSize().x / 2);
         hasPowerUp = true;
         setSize(banana.getLargePlayerSize());
-        int middleOfPlayer = (int) (getTransform().getSize().x / 2);
         move(-middleOfPlayer, 0);
         jumpForce = banana.getBigJumpForce();
         objectsToRemove.add(banana);
@@ -149,23 +149,6 @@ final public class Player extends Actor implements Visitor, Collidable {
                 }
 
                 setLastBounceTime(currentTime);
-            }
-        } else {
-            if (currentTime - getLastAttackTime() >= ATTACK_COOLDOWN) {
-//                takeDamage(enemy.getDamage());
-
-                // TODO...
-                // Enemy dealing damage to the player is moved into Enemy.moveEnemy()
-                // - This is to make sure that the enemy doesn't deal damage twice.
-                // - The logic needs to be inside Enemy class. If not, the enemy won't deal damage
-                //   when it collides with the player.
-                // - As of right now, ATTACK_COOLDOWN only affects totalScore. It does NOT affect the frequency of attacks.
-
-                // Reduce total score
-                final int scorePenalty = 4;
-                totalScore = Math.max(0, totalScore - scorePenalty);
-
-                setLastAttackTime(currentTime);
             }
         }
     }
@@ -270,17 +253,24 @@ final public class Player extends Actor implements Visitor, Collidable {
     public int getJumpForce() { return jumpForce; }
 
     public void takeDamage(int damage){
-        if (hasPowerUp) {
-            hasPowerUp = false;
-            setSize(STANDARD_PLAYER_SIZE);
-            int middleOfPlayer = (int) (getTransform().getSize().x / 2);
-            move(middleOfPlayer, 0);
+        final long currentTime = System.currentTimeMillis();
+        final boolean playerReadyToTakeDamage = currentTime - getLastAttackTime() >= ATTACK_COOLDOWN;
+        final int scorePenalty = 4;
 
-        } else {
-            receiveDamage(damage);
-        }
-        if (takingDamage != null) {
-            takingDamage.run();
+        if (playerReadyToTakeDamage) {
+            reduceTotalScore(scorePenalty);
+
+            if (hasPowerUp) {
+                losePowerUp();
+            } else {
+                receiveDamage(damage);
+            }
+
+            if (takingDamage != null) {
+                takingDamage.run();
+            }
+
+            setLastAttackTime(currentTime);
         }
     }
 
@@ -291,4 +281,15 @@ final public class Player extends Actor implements Visitor, Collidable {
         setRespawned(true);
     }
 
+    private void reduceTotalScore(int scorePenalty) {
+        totalScore = Math.max(0, totalScore - scorePenalty);
+    }
+
+    private void losePowerUp() {
+        final int middleOfPlayer = (int) (getTransform().getSize().x / 2);
+        hasPowerUp = false;
+        jumpForce = NORMAL_JUMP_FORCE;
+        setSize(STANDARD_PLAYER_SIZE);
+        move(middleOfPlayer, 0);
+    }
 }
