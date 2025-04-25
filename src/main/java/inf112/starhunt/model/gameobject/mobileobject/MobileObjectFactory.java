@@ -26,12 +26,11 @@ public class MobileObjectFactory {
     }
 
 
-
     public static MobileObject createMobileObject(String mobileObject, float x, float y) {
         return registry.get(mobileObject).apply(x, y);
     }
 
-    private static MobileObject createPlayer(Float x, Float y) {
+    public static MobileObject createPlayer(Float x, Float y) {
         Vector2 size = new Vector2(40, 80);
         Vector2 position = new Vector2(x, y);
         Transform transform = new Transform(position, size);

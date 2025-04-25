@@ -61,6 +61,13 @@ final public class Player extends Actor implements Visitor, Collidable {
         objectsToRemove = new ArrayList<>();
     }
 
+    /**
+     * Constructor for LevelManager
+     */
+    public Player() {
+        super(1,0,new Transform(new Vector2(0, 0), new Vector2(0, 0)));
+    }
+
     @Override
     public void setOnCoinCollected(Runnable callback) {
         this.coinCollected = callback;
