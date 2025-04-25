@@ -132,24 +132,20 @@ final public class Player extends Actor implements Visitor, Collidable {
 
     @Override
     public void visit(Enemy enemy) {
-        //TODO, nmå bli fikset med hva som kom fra CollisionHandler (kopiert derfa)
-        // Originale metode parameter fra CollisionHandler:
-        long currentTime = System.currentTimeMillis();
+        final long currentTime = System.currentTimeMillis();
+        final boolean isReadyToBounce = currentTime - getLastBounceTime() >= BOUNCE_COOLDOWN;
+        final boolean isOnTopOfEnemy = getCollisionBox().isCollidingFromBottom(enemy.getCollisionBox());
 
-        if (getCollisionBox().isCollidingFromBottom(enemy.getCollisionBox())) {
+        if (isOnTopOfEnemy && isReadyToBounce) {
+            bounce();
+            dealDamage(enemy, getDamage());
 
-            if (currentTime - getLastBounceTime() >= BOUNCE_COOLDOWN) {
-
-                bounce();
-                dealDamage(enemy, getDamage());
-
-                if (!enemy.isAlive()) {
-                    totalScore += enemy.getObjectScore();
-                    objectsToRemove.add(enemy);
-                }
-
-                setLastBounceTime(currentTime);
+            if (!enemy.isAlive()) {
+                totalScore += enemy.getObjectScore();
+                objectsToRemove.add(enemy);
             }
+
+            setLastBounceTime(currentTime);
         }
     }
 
