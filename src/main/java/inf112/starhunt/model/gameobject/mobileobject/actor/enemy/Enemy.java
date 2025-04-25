@@ -137,6 +137,7 @@ public abstract class Enemy extends Actor implements Scorable, Visitor, Collidab
         attack(player);
         switchDirection();
     }
+
     @Override
     public int getObjectScore() {
         return objectScore;

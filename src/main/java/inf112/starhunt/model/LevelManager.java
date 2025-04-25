@@ -74,6 +74,8 @@ public class LevelManager {
 
                 switch (layerName) {
                     case "ground" -> {
+                        // TODO: lag en hjelpemetode som er plassert i GameObject for å redusere duplikat kode. Gjelder: size, position aog transform.
+
                         Vector2 size = new Vector2(50, 50);
                         Vector2 position = new Vector2(x, y);
                         Transform transform = new Transform(position, size);
