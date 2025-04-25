@@ -8,11 +8,13 @@ import inf112.starhunt.model.gameobject.Collidable;
 import inf112.starhunt.model.gameobject.CollisionBox;
 import inf112.starhunt.model.gameobject.Transform;
 import inf112.starhunt.model.gameobject.Visitor;
+import inf112.starhunt.model.gameobject.fixedobject.item.Banana;
 import inf112.starhunt.model.gameobject.fixedobject.item.Coin;
 import inf112.starhunt.model.gameobject.fixedobject.item.Star;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -23,6 +25,8 @@ class PlayerTest {
 
     private Player player;
     private Transform transform;
+    private Banana banana;
+    private Coin coin;
 
     @BeforeEach
     void setUp() {
@@ -33,6 +37,12 @@ class PlayerTest {
 
         transform = new Transform(new Vector2(0, 0), new Vector2(50, 100));
         player = new Player(3, 5, transform);
+
+        Transform bananaTransform = new Transform(new Vector2(0, 0), new Vector2(1, 1));
+        banana = new Banana(bananaTransform);
+
+        Transform coinTransform = new Transform(new Vector2(0, 0), new Vector2(1, 1));
+        coin = new Coin(coinTransform);
     }
 
     @Test
@@ -178,45 +188,58 @@ class PlayerTest {
         assertEquals(currentTime, player.getLastBounceTime(), "Last bounce time should be updated.");
     }
 
-    //TODO: Må justeres, fungerer ikke
-//    @Test
-//    void testEnemyCollisionFromSideTakesDamage() {
-//        Enemy enemy = mock(Enemy.class);
-//        when(enemy.getCollisionBox()).thenReturn(player.getCollisionBox());
-//        when(player.getCollisionBox().isCollidingFromBottom(any())).thenReturn(false);
-//        when(enemy.getDamage()).thenReturn(1);
-//
-//        int livesBefore = player.getLives();
-//        player.visit(enemy);
-//        assertTrue(player.getLives() < livesBefore);
-//    }
-//
-     // TODO: kommtert ut for å kompilere.
-//    @Test
-//    public void testResolvePlayerMovementBelowLevelKillsPlayer() {
-//        PositionValidator validator = mock(PositionValidator.class);
-//        when(validator.isLegalMove(any())).thenReturn(true);
-//
-//        Vector2 farDown = new Vector2(0, -300);
-//        Transform transformMock = mock(Transform.class);
-//        when(transformMock.getPos()).thenReturn(farDown);
-//        when(transformMock.getSize()).thenReturn(new Vector2(50, 100));
-//        player = new Player(3, 5, transformMock);
-//
-//        player.resolveMovement(0, 0, validator);
-//        assertEquals(0, player.getLives());
-//        assertFalse(player.isAlive());
-//    }
+
 
     @Test
-    public void testIsCollidingSkipsPlayer() {
-        Collidable otherPlayer = mock(Player.class);
-        when(otherPlayer.getCollisionBox()).thenReturn(mock(CollisionBox.class));
-        when(otherPlayer.getCollisionBox().isCollidingWith(any())).thenReturn(true);
+    void testResolvePlayerMovementBelowLevelKillsPlayer() {
+        // Opprett en mock for PositionValidator
+        PositionValidator validator = mock(PositionValidator.class);
 
-        List<Collidable> list = List.of(otherPlayer);
-        assertFalse(player.isColliding(list, mock(CollisionBox.class)));
+        // Sett posisjonen til et punkt langt under nivået
+        Vector2 farDown = new Vector2(0, -300); // Dette er under nivået
+
+        // Opprett en CollisionBox for spilleren og mock dens posisjon
+        CollisionBox collisionBox = new CollisionBox(new Transform(farDown, new Vector2(10, 10)));
+
+        // Vi antar at isLegalMove skal returnere false for fall under nivået
+        when(validator.isLegalMove(any(), eq(collisionBox))).thenReturn(false);  // Bruker eq(collisionBox) som matcher
+
+        // Mock Transform for spilleren
+        Transform transformMock = mock(Transform.class);
+        when(transformMock.getPos()).thenReturn(farDown);
+        when(transformMock.getSize()).thenReturn(new Vector2(50, 100));
+
+        // Opprett spilleren med 3 liv
+        Player player = new Player(3, 5, transformMock);
+
+        // Simuler bevegelse, spilleren bør falle under bakken og få livene sine redusert
+        player.resolveMovement(0, 0, validator);
+
+        // Etter bevegelsen, sjekk at spilleren har 0 liv
+        assertEquals(0, player.getLives(), "Player should lose all lives if they fall below the level.");
+        assertFalse(player.isAlive(), "Player should not be alive if they fall below the level.");
     }
+
+
+    @Test
+    void testIsCollidingSkipsPlayer() {
+        // Opprett et spy-objekt for player, så vi kan spore 'accept' metoden
+        Player otherPlayer = spy(new Player(3, 5, new Transform(new Vector2(0, 0), new Vector2(50, 100))));
+
+        // Legg til 'otherPlayer' i listen over kolliderbare objekter
+        List<Collidable> collidables = new ArrayList<>();
+        collidables.add(otherPlayer); // Denne spillerens kollisjonsboks skal ignoreres i isColliding
+
+        // Kall isColliding for å se om player hopper over andre spillere
+        boolean result = player.isColliding(collidables, player.getCollisionBox());
+
+        // Verifiser at accept() ikke ble kalt på otherPlayer, ettersom den skal bli hoppet over
+        verify(otherPlayer, times(0)).accept(player); // Skal ikke kalle accept på otherPlayer
+
+        // Sjekk at metoden returnerte false, da spilleren ikke skulle håndtere en kollisjon med en annen spiller
+        assertFalse(result, "Collision with Player should be skipped.");
+    }
+
 
     @Test
     void testUpdateAndGetTotalScore() {
@@ -259,33 +282,38 @@ class PlayerTest {
         assertTrue(player.getObjectsToRemove().contains(mockCoin));
     }
 
-    //TODO: Fungerer ikke
-//    @Test
-//    void testVisitBanana() {
-//        // Mock Banana-objektet
-//        Banana mockBanana = mock(Banana.class);
-//        int oldJumpForce = player.getJumpForce();
-//
-//        when(mockBanana.getBigJumpForce()).thenReturn(73000);
-//
-//        Transform mockTransform = mock(Transform.class);
-//        when(mockTransform.getSize()).thenReturn(new Vector2(50, 100)); // Mock størrelse
-//
-//        // Bruk mock Transform når du lager Player
-//        Player player = new Player(3, 5, mockTransform);
-//
-//
-//        player.visit(mockBanana);
-//
-//        // Sjekk at spilleren fikk power-up
-//        assertTrue(player.getHasPowerUp(), "Player should have power-up after visiting Banana.");
-//
-//        // Sjekk at jumpForce ble oppdatert
-//        //assertTrue(oldJumpForce < player.getJumpForce(), "Player's jump force should be updated.");
-//
-//        // Sjekk at banana er lagt til objectsToRemove
-//        //assertTrue(player.getObjectsToRemove().contains(mockBanana), "Player should add Banana to objectsToRemove.");
-//    }
+    @Test
+    void testVisitBanana() {
+
+        int oldJumpForce = player.getJumpForce();
+
+        player.visit(banana);
+
+        assertTrue(player.getHasPowerUp(), "Player should have power-up after visiting Banana.");
+        assertTrue(oldJumpForce < player.getJumpForce(), "Player's jump force should be updated.");
+        assertTrue(player.getObjectsToRemove().contains(banana), "Player should add Banana to objectsToRemove.");
+    }
+
+    @Test
+    void testIsCollidingWithNonPlayer() {
+        // Opprett mock-objekter
+        List<Collidable> collidables = new ArrayList<>();
+
+        Coin coinSpy = spy(coin);
+
+        CollisionBox playerCollisionBox = player.getCollisionBox();
+
+        collidables.add(coinSpy);
+
+        boolean result = player.isColliding(collidables, playerCollisionBox);
+
+        // Verifisere at accept-metoden ble kalt på mynten
+        verify(coinSpy).accept(player); // Dette sjekker at accept() ble kalt på mynten
+
+        // Bekreft at metoden returnerte true fordi vi fant en kollisjon
+        assertTrue(result, "Player should have collided with the coin.");
+    }
+
 
 
 

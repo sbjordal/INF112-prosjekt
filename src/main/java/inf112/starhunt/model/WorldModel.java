@@ -171,7 +171,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         if (!(isMovingRight || isMovingLeft)){
             player.setMovementDirection(0);
         }
-
     }
 
     // TODO oppdater

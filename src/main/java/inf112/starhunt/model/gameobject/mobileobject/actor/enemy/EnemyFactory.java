@@ -8,6 +8,8 @@ import inf112.starhunt.model.gameobject.Transform;
  */
 public class EnemyFactory {
 
+    // TODO: gjør det samme som du gjorde i ItemFactory med registry.
+
     /**
      * Creates a new Snail with the specific arguments defined by its enemy type.
      *

@@ -3,13 +3,20 @@ package inf112.starhunt.model.gameobject.mobileobject.actor.enemy;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.math.Vector2;
+import inf112.starhunt.model.PositionValidator;
+import inf112.starhunt.model.gameobject.CollisionBox;
 import inf112.starhunt.model.gameobject.Transform;
+import inf112.starhunt.model.gameobject.Visitor;
+import inf112.starhunt.model.gameobject.fixedobject.Ground;
+import inf112.starhunt.model.gameobject.fixedobject.item.Banana;
+import inf112.starhunt.model.gameobject.fixedobject.item.Coin;
+import inf112.starhunt.model.gameobject.fixedobject.item.Star;
 import inf112.starhunt.model.gameobject.mobileobject.actor.Player;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 public class EnemyTest {
 
@@ -136,5 +143,100 @@ public class EnemyTest {
         enemy.attack(player);
         assertEquals(2, player.getLives());
     }
+
+    @Test
+    void testVisitPlayerTriggersAttackAndDirectionSwitch() {
+        Enemy enemy = EnemyFactory.createLeopard(0, 0, EnemyType.LEOPARD);
+        Player player = setUpPlayer();
+
+        int dirBefore = enemy.getMovementDirection();
+        enemy.visit(player);
+
+        assertEquals(2, player.getLives(), "Player should lose one life");
+        assertEquals(-dirBefore, enemy.getMovementDirection(), "Enemy should switch direction");
+    }
+
+    @Test
+    void testVisitGroundSwitchesDirection() {
+        Enemy enemy = EnemyFactory.createSnail(0, 0, EnemyType.SNAIL);
+
+        int directionBefore = enemy.getMovementDirection();
+        enemy.visit(mock(Ground.class));
+
+        assertEquals(-directionBefore, enemy.getMovementDirection());
+    }
+
+    @Test
+    void testIsReadyToCollide() throws InterruptedException {
+        Enemy enemy = EnemyFactory.createSnail(0, 0, EnemyType.SNAIL);
+
+        // Første kall skal returnere true
+        assertTrue(enemy.isReadyToCollide(), "Første kall skal være klar for kollisjon");
+
+        // Umiddelbar nytt kall skal returnere false (fordi cooldown ikke er utløpt)
+        assertFalse(enemy.isReadyToCollide(), "Andre kall rett etter skal være blokkert pga. cooldown");
+
+        // Vent til cooldown (48ms) har gått over
+        Thread.sleep(60);
+
+        // Nå skal det igjen returnere true
+        assertTrue(enemy.isReadyToCollide(), "Etter venting skal kollisjon være mulig igjen");
+    }
+
+    @Test
+    void testVisitEnemySwitchesDirectionIfDifferentEnemy() {
+        Enemy snail1 = EnemyFactory.createSnail(0, 0, EnemyType.SNAIL);
+        Enemy snail2 = EnemyFactory.createSnail(100, 0, EnemyType.SNAIL);
+
+        int initialDirection = snail1.getMovementDirection();
+
+        // Besøk med en annen enemy
+        snail1.visit(snail2);
+
+        assertEquals(-initialDirection, snail1.getMovementDirection(), "Bevegelsesretningen skal snu ved kollisjon med en annen enemy");
+    }
+
+    @Test
+    void testVisitEnemyDoesNotSwitchDirectionIfSameEnemy() {
+        Enemy snail = EnemyFactory.createSnail(0, 0, EnemyType.SNAIL);
+        int initialDirection = snail.getMovementDirection();
+
+        // Besøk seg selv – skal ikke skje, men må sikres
+        snail.visit(snail);
+
+        assertEquals(initialDirection, snail.getMovementDirection(), "Bevegelsesretningen skal ikke endres ved besøk på seg selv");
+    }
+
+
+    @Test
+    void testAcceptCallsVisitOnVisitor() {
+        Enemy snail = EnemyFactory.createSnail(0, 0, EnemyType.SNAIL);
+        Visitor mockVisitor = mock(Visitor.class);
+
+        snail.accept(mockVisitor);
+
+        verify(mockVisitor).visit(snail); // Sjekker at riktig metode ble kalt
+    }
+
+    @Test
+    void testVisitItemsDoesNotSwitchDirection() {
+        Enemy snail = EnemyFactory.createSnail(0, 0, EnemyType.SNAIL);
+        int initialDirection = snail.getMovementDirection();
+
+        Coin coin = mock(Coin.class);
+        snail.visit(coin);
+        assertEquals(initialDirection, snail.getMovementDirection(), "Enemy should not switch direction when visiting Coin.");
+
+        Star star = mock(Star.class);
+        snail.visit(star);
+        assertEquals(initialDirection, snail.getMovementDirection());
+
+        Banana banana = mock(Banana.class);
+        snail.visit(banana);
+        assertEquals(initialDirection, snail.getMovementDirection());
+    }
+
+
+
 
 }

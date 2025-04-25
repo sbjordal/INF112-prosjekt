@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="90" height="19" tilewidth="50" tileheight="50" infinite="0" nextlayerid="9" nextobjectid="358">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="90" height="19" tilewidth="50" tileheight="50" infinite="0" nextlayerid="9" nextobjectid="359">
  <editorsettings>
   <export target="../level_three.json" format="json"/>
  </editorsettings>
@@ -23,7 +23,7 @@
   <object id="24" x="2627.36" y="309.792" width="40" height="40"/>
   <object id="220" x="3005.6" y="559.879" width="40" height="40"/>
   <object id="335" x="3830.75" y="859.551" width="40" height="40"/>
-  <object id="336" x="4445.41" y="859.817" width="40" height="40"/>
+  <object id="336" x="4390.91" y="859.82" width="40" height="40"/>
  </objectgroup>
  <objectgroup color="#ffff00" id="6" name="banana">
   <object id="28" x="3524.31" y="618.963" width="50" height="53"/>
@@ -56,7 +56,7 @@
   <object id="223" x="3009.5" y="369" width="30" height="30">
    <ellipse/>
   </object>
-  <object id="321" x="1811" y="358.333" width="30" height="30">
+  <object id="321" x="1708" y="308.333" width="30" height="30">
    <ellipse/>
   </object>
   <object id="322" x="1510.5" y="517.167" width="30" height="30">
@@ -285,5 +285,6 @@
   <object id="353" x="3800" y="600" width="50" height="50"/>
   <object id="354" x="3850" y="600" width="50" height="50"/>
   <object id="355" x="3800" y="550" width="50" height="50"/>
+  <object id="358" x="4450" y="850" width="50" height="50"/>
  </objectgroup>
 </map>

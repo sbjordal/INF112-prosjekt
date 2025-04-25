@@ -4,7 +4,7 @@
   <export target="../level_one.json" format="json"/>
  </editorsettings>
  <objectgroup color="#ffd500" id="8" name="star">
-  <object id="56" x="4394.01" y="547.646">
+  <object id="56" x="4350.68" y="648.313">
    <polygon points="0,0 23.4167,-48.6667 46.8333,0"/>
   </object>
  </objectgroup>
@@ -24,7 +24,7 @@
   <object id="22" x="609.75" y="611.167" width="30" height="30">
    <ellipse/>
   </object>
-  <object id="154" x="1060.33" y="500.667" width="30" height="30">
+  <object id="154" x="1059.66" y="459.334" width="30" height="30">
    <ellipse/>
   </object>
   <object id="276" x="2332.17" y="469.5" width="30" height="30">

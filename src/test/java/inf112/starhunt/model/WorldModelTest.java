@@ -10,11 +10,14 @@ import com.badlogic.gdx.math.Vector2;
 import inf112.starhunt.model.gameobject.Collidable;
 import inf112.starhunt.model.gameobject.CollisionBox;
 import inf112.starhunt.model.gameobject.Transform;
+import inf112.starhunt.model.gameobject.Visitor;
 import inf112.starhunt.model.gameobject.fixedobject.Ground;
+import inf112.starhunt.model.gameobject.fixedobject.item.Coin;
 import inf112.starhunt.model.gameobject.mobileobject.actor.Player;
 import inf112.starhunt.model.gameobject.mobileobject.actor.enemy.Enemy;
 import inf112.starhunt.model.gameobject.mobileobject.actor.enemy.EnemyFactory;
 import inf112.starhunt.model.gameobject.mobileobject.actor.enemy.EnemyType;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,6 +35,7 @@ public class WorldModelTest {
 
     private WorldModel worldModel;
     private Transform transform;
+    private Coin coin;
 
     @BeforeAll
     static void setUpBeforeALl() {
@@ -53,6 +57,11 @@ public class WorldModelTest {
         worldModel.player = new Player(3, 5, transform);
         worldModel.collidables = new ArrayList<>();
         worldModel.enemies = new ArrayList<>();
+
+        Transform coinTransform = new Transform(new Vector2(10, 20), new Vector2(30, 30));
+        coin = new Coin(coinTransform);
+
+
     }
 
     @Test
@@ -170,4 +179,95 @@ public class WorldModelTest {
         assertTrue(worldModel.enemies.get(0).getTransform().getPos().x == 11);
         assertTrue(worldModel.enemies.get(1).getTransform().getPos().x == 13);
     }
+
+    @Test
+    void testPauseAndResume() {
+        worldModel.resume();
+        assertEquals(GameState.GAME_ACTIVE, worldModel.getGameState());
+
+        worldModel.pause();
+        assertEquals(GameState.GAME_PAUSED, worldModel.getGameState());
+
+        worldModel.backToGameMenu();
+        assertEquals(GameState.GAME_MENU, worldModel.getGameState());
+    }
+
+
+    @Test
+    void testGetCountDown() {
+        // Standardverdi fra konstruktør/setUpModel
+        assertEquals(150, worldModel.getCountDown());
+    }
+
+    @Test
+    void testGetLevelWidthReturnsCorrectValue() {
+        WorldModel worldModel = new WorldModel(4500, 900);
+        assertEquals(4500, worldModel.getLevelWidth());
+    }
+
+    @Test
+    void testGetBoardWidthReturnsCorrectValue() {
+        WorldModel worldModel = new WorldModel(4500, 900);
+        assertEquals(4500, worldModel.getBoardWidth());
+    }
+
+
+    @Test
+    void testGetTotalScoreReturnsCorrectValue() {
+        assertEquals(0, worldModel.player.getTotalScore());
+
+        worldModel.player.visit(coin);
+        assertEquals(5, worldModel.player.getTotalScore());
+        assertEquals(5, worldModel.getTotalScore());
+    }
+
+    @Test
+    void testGetCoinCounterReturnsCorrectValue() {
+        assertEquals(0, worldModel.player.getCoinCounter());
+
+        worldModel.player.visit(coin);
+        assertEquals(1, worldModel.player.getCoinCounter());
+        assertEquals(1, worldModel.getCoinCounter());
+
+
+    }
+
+    @Test
+    void testGetPlayerLivesReturnsCorrectValue() {
+        Assertions.assertEquals(3, worldModel.player.getLives());
+        assertEquals(3, worldModel.getPlayerLives());
+
+        worldModel.player.receiveDamage(1);
+
+        Assertions.assertEquals(2, worldModel.player.getLives());
+        assertEquals(2, worldModel.getPlayerLives());
+    }
+
+
+    @Test
+    public void testLegalMove_validMove() {
+        Visitor visitor = worldModel.player;
+        CollisionBox validMove = new CollisionBox(new Transform(new Vector2(10, 10), new Vector2(50, 50)));
+        assertTrue(worldModel.isLegalMove(visitor, validMove));  // Sjekker om bevegelsen er lovlig
+    }
+
+    @Test
+    public void testLegalMove_invalidMove_outOfBounds() {
+        Visitor visitor = worldModel.player;
+        CollisionBox invalidMove = new CollisionBox(new Transform(new Vector2(-10, -10), new Vector2(50, 50)));
+        assertFalse(worldModel.isLegalMove(visitor, invalidMove));  // Sjekker om bevegelsen er ulovlig (utenfor grenser)
+    }
+
+    @Test
+    public void testGetMovementDirection(){
+        assertEquals(0, worldModel.getMovementDirection());
+
+        worldModel.player.setMovementDirection(1);
+        assertEquals(1, worldModel.getMovementDirection());
+
+        worldModel.player.setMovementDirection(-1);
+        assertEquals(-1, worldModel.getMovementDirection());
+    }
+
+
 }

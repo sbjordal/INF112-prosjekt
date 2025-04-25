@@ -4,7 +4,7 @@
   <export target="../level_two.json" format="json"/>
  </editorsettings>
  <objectgroup color="#ffd500" id="8" name="star">
-  <object id="56" x="2887.01" y="408.434">
+  <object id="56" x="2875.01" y="449.767">
    <polygon points="0,0 23.4167,-48.6667 46.8333,0"/>
   </object>
  </objectgroup>
@@ -33,7 +33,7 @@
   <object id="186" x="1835.08" y="700.25" width="30" height="30">
    <ellipse/>
   </object>
-  <object id="238" x="2135" y="429.833" width="30" height="30">
+  <object id="238" x="2134" y="418.833" width="30" height="30">
    <ellipse/>
   </object>
   <object id="240" x="1835" y="737" width="30" height="30">
@@ -572,9 +572,9 @@
   <object id="588" x="2800" y="500" width="50" height="50"/>
   <object id="589" x="2850" y="500" width="50" height="50"/>
   <object id="590" x="2900" y="500" width="50" height="50"/>
-  <object id="591" x="2800" y="450" width="50" height="50"/>
-  <object id="592" x="2850" y="450" width="50" height="50"/>
-  <object id="593" x="2900" y="450" width="50" height="50"/>
+  <object id="591" x="2800" y="250" width="50" height="50"/>
+  <object id="592" x="2850" y="250" width="50" height="50"/>
+  <object id="593" x="2900" y="250" width="50" height="50"/>
   <object id="762" x="2800" y="100" width="50" height="50"/>
   <object id="763" x="2800" y="150" width="50" height="50"/>
   <object id="764" x="2800" y="200" width="50" height="50"/>
