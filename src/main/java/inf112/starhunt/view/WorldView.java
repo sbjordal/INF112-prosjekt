@@ -243,17 +243,21 @@ public class WorldView implements Screen, EventListener {
     void drawObjects() {
         for (ViewableObject object : model.getObjectList()) {
 
-            // Skip drawing player.
-            // Player texture is handled differently due to animations.
             if (object instanceof Player) continue;
-
+            int direction = object.getDirection();
 
             Texture objectTexture = getTexture(object);
+
             float objectX = object.getTransform().getPos().x;
             float objectY = object.getTransform().getPos().y;
             float objectWidth = object.getTransform().getSize().x;
             float objectHeight = object.getTransform().getSize().y;
-            batch.draw(objectTexture, objectX, objectY, objectWidth, objectHeight);
+
+            if (direction >= 0) {
+                batch.draw(objectTexture, objectX + objectWidth, objectY, -objectWidth, objectHeight);
+            } else {
+                batch.draw(objectTexture, objectX, objectY, objectWidth, objectHeight);
+            }
         }
     }
 
