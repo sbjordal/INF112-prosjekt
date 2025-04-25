@@ -33,7 +33,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     boolean isMovingLeft;
     boolean isJumping;
     private final int height;
-//    private final CollisionHandler collisionHandler;
 
     public WorldModel(int width, int height) {
         this.height = height;
@@ -41,7 +40,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         this.gameState = GameState.GAME_MENU;
         this.currentLevel = LevelManager.Level.LEVEL_1;
         this.toRemove = new ArrayList<>();
-//        this.collisionHandler = new CollisionHandler(height);
         setUpModel();
     }
 
@@ -71,6 +69,8 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         }
         else {
             player.resetForNewLevel(triple.third.getTransform().getPos());
+            collidables.remove(triple.third);
+            collidables.add(player);
         }
     }
 
