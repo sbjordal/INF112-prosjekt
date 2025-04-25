@@ -293,7 +293,7 @@ final public class Player extends Actor implements Visitor, Collidable {
     }
 
     private void losePowerUp() {
-        final int middleOfPlayer = (int) (getTransform().getSize().x / 2);
+        final int middleOfPlayer = (int) (STANDARD_PLAYER_SIZE.x / 2);
         hasPowerUp = false;
         jumpForce = NORMAL_JUMP_FORCE;
         setSize(STANDARD_PLAYER_SIZE);
