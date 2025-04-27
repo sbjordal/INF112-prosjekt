@@ -90,51 +90,7 @@
 2. **For hvert krav dere jobber med, må dere lage 1) ordentlige brukerhistorier, 2) akseptansekriterier og 3) arbeidsoppgaver.**
    Husk at akseptansekriterier ofte skrives mer eller mindre som tester
 
-  1.  **Bekjemp fiender ved å hoppe på dem**
-  * Brukerhistorie: Som spiller trenger jeg å kunne bekjempe fiender for å gjøre det lettere å nå mål, samt kunne samle større poengsummer ved å utfordre risiko.
-  * Akseptansekriterier: Spilleren kan hoppe. Fiender blir bekjempet av å bli hoppet på av spilleren. Fiender gir spilleren poeng ved bekjempelse. Mengden poeng er knyttet til typen av fienden.
-  * Arbeidsoppgaver: Få spilleren til å kunne hoppe. Få fiender til å bli bekjempet av å bli hoppet på av spilleren. Få bekjempet fiender til å øke poengsummen til spilleren. Mengden økt poengsum skal bestemmes av fiende typen.
-
-  2.  **Fiender beveger seg, og det er flere fiender**
-  * Brukerhistorie: Som spiller trenger jeg ekstra utfordring angående manøvrering rundt fiender, samt flere fiender for å gjøre mål oppnåelse mer tilfredstillende.
-  * Akseptansekriterier: Fiender beveger på seg i et bestemt bevegelses mønster. Flere fiender er plassert på spillbrettet.
-  * Arbeidsoppgaver: Få fiender til å gå i en bestemt retning. Skift retning dersom fienden oppdager en kollisjon. Plasser flere fiender på spillbrettet.
-
-  3.  **Nivåer lages dynamisk fra tekstfiler**
-  * Brukerhistorie: Som spiller trenger jeg ulike ordninger av spillobjekter for å gi en mer varierende spillopplevelse.
-  * Akseptansekriterier: En tekstfil opprettes dynamisk som inneholder ordninger av spillobjekter. Tekstfilen blir lest ved innlasting av nytt nivå.
-  * Arbeidsoppgaver: Opprett tekstfiler ved hjelp av eksternt vertkøy som støtter plassering av objekter via et grafisk brukergrensesnitt. Opprett en klasse som håndterer lesing av tekstfiler ved nivå skift.
-
-  4.  **Mulighet for å gå videre til neste nivå**
-  * Brukerhistorie: Som spiller trenger jeg en mulighet for å kunne komme meg videre i spillet.
-  * Akseptansekriterier: Neste nivå lastes inn når spilleren plukker opp en stjerne.
-  * Arbeidsoppgaver: Opprett nytt stjerne objekt som laster inn nytt nivå ved opplukkelse. Plasser et stjerne objekt på spillbrettet.
-
-  5.  **Når tiden er ute skal spilleren tape**
-  * Brukerhistorie: Som spiller trenger jeg tidspress for å motivere meg til å fullføre hvert nivå.
-  * Akseptansekriterier: En nedtelling vises på skjermen i form av sekund. Spilleren taper når nedtellingen er nådd 0 sekund.
-  * Arbeidsoppgaver: Opprett en nedtelling som minsker for hvert sekund. Tegn nedtellingen på skjermen. Få spilleren til å tape når nedtellingen er nådd 0 sekund.
-
-  6.  **Lag fiender ved hjelp av en fiende-fabrikk**
-  * Brukerhistorie: Som spiller trenger jeg potensialet til å bli utfordret av et større antall fiender.
-  * Akseptansekriterier: Fiender blir plassert på spillbrettet ved hjelp av en fiende-fabrikk.
-  * Arbeidsoppgaver: Opprett en fiende-fabrikk som plasserer fiender på spillbrettet.
-
-  7.  **Spilleren kan plukke opp power-ups**
-  * Brukerhistorie: Som spiller trenger jeg en mulighet for å gjøre det lettere å bekjempe fiender.
-  * Akseptansekriterier: Power-ups er plassert utover spillbrettet. Spilleren får fordeler når hen plukker opp power-ups.
-  * Arbeidsoppgaver: Opprett en power-up i form av en banan som spilleren kan plukke opp. Bananen skal gi spilleren følgende fordeler: hoppe høyere, større fasong og ekstra liv som tapes ved angrep av fiender.
-
-  8.  **Spill av lyd når mynter plukkes opp**
-  * Brukerhistorie: Som spiller trenger jeg tilbakemelding i form av lyd for å gjøre spillet mer tilfredsstillende.
-  * Akseptansekriterier: Lyd spilles av når en mynt plukkes opp.
-  * Arbeidsoppgaver: Legg til en mynt-lyd som spilles av når en mynt blir plukket opp.
-
-  9.  **Det bør være mulig å legge til nye power-ups uten å endre koden til spilleren**
-  * Brukerhistorie: Som utvikler ønsker jeg å kunne legge til nye power-ups uten å endre eksisterende spiller-kode, slik at spillet blir enklere å vedlikeholde og utvide i fremtiden.
-  * Akseptansekriterier: Nye power-ups kan legges til uten å endre spiller-klassen.
-  * Arbeidsoppgaver: Refaktorer power-up koden på den måten slik at spiller-koden er uavhengig av power-up typen.
-
+  * [Finn ut hvilke nye krav vi har jobbet med siden sist oblig]
 
 3. **Dersom dere har oppgaver som dere skal til å starte med, hvor dere har oversikt over både brukerhistorie, akseptansekriterier og arbeidsoppgaver, kan dere ta med disse i innleveringen også.**
   * Vi har oppnådd alle kravene våres for både MVP og post-MVP. Vi har derfor ingen planer om å legge til mer funksjonalitet som krever brukerhistorier.
@@ -150,11 +106,6 @@
 
 
 7. Husk å skrive hvilke bugs som finnes i de kravene dere har utført (dersom det finnes bugs).
-
-- Bugs:
-  - Hvis du holder inne hoppe knappen mens du pauser, så vil player hoppe konstant selv om du har slippet knappen.
-
-
 
 ## Produkt og kode
 #### "Dette har vi gjort siden sist:"
