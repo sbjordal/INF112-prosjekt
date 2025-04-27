@@ -169,8 +169,8 @@ public class WorldModelTest {
 
     @Test
     void testEnemiesMovable(){
-        Enemy en1 = MobileObjectFactory.createSnail(10, 10, EnemyType.SNAIL);
-        Enemy en2 = MobileObjectFactory.createLeopard(15, 10, EnemyType.LEOPARD);
+        Enemy en1 = MobileObjectFactory.createSnail(10, 10);
+        Enemy en2 = MobileObjectFactory.createLeopard(15, 10);
         worldModel.enemies.add(en1);
         worldModel.enemies.add(en2);
         worldModel.moveEnemies(1 / 60f);

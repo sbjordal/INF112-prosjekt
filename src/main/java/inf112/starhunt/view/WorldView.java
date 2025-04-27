@@ -33,7 +33,7 @@ public class WorldView implements Screen, EventListener {
     private HashMap<String, Texture> textures;
     private PlayerAnimation playerAnimation;
     private GameState gameState;
-    private SoundHandler soundHandler; // TODO, kommenert ut for å kompilere, krever EventHandler for å få til SoundHandler
+    private SoundHandler soundHandler;
 
     public WorldView(ViewableWorldModel model, int width, int height) {
         this.viewport = new ExtendViewport(width, height);
@@ -75,8 +75,8 @@ public class WorldView implements Screen, EventListener {
         batch = new SpriteBatch();
         menuBackgroundTexture = new Texture("background/plx-1.png");
         soundHandler = new SoundHandler();
-        model.getViewablePlayer().setOnCoinCollected(() -> soundHandler.playCoinSound());
-        model.getViewablePlayer().setOnCollisionWithEnemy(() -> soundHandler.playOuchSound());
+        model.getViewablePlayer().setOnCoinCollected(() -> soundHandler.playSound("coin"));
+        model.getViewablePlayer().setOnCollisionWithEnemy(() -> soundHandler.playSound("ouch"));
     }
 
     @Override

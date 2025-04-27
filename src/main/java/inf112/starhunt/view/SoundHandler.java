@@ -1,34 +1,77 @@
 package inf112.starhunt.view;
+import com.badlogic.gdx.Audio;
+import com.badlogic.gdx.Files;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.Gdx;
-public class SoundHandler {
-    private final Sound coinSound;
-    private final Sound ouchSound;
-    public SoundHandler() {
-        this.coinSound = Gdx.audio.newSound(Gdx.files.internal("sfx/coinrecieved.mp3"));
-        this.ouchSound = Gdx.audio.newSound(Gdx.files.internal("sfx/characterouch.mp3"));
-    }
-    // Ekstra konstruktør for testing
-    public SoundHandler(Sound coinSound, Sound ouchSound) {
-        this.coinSound = coinSound;
-        this.ouchSound = ouchSound;
-    }
+import com.badlogic.gdx.files.FileHandle;
+
+import java.util.HashMap;
+import java.util.Map;
+
+
 /**
  * Class for handling sound effects, these are used when colliding or if player is losing a life.
  */
-//public class SoundHandler {
+public class SoundHandler {
+    private Map<String, Sound> sounds = new HashMap<>();
 
-    public void playCoinSound() {
-        coinSound.play(0.25f);
+    /**
+     * Default constructor, adds sounds by getting from the sfx directory.
+     */
+    public SoundHandler() {
+        this(Gdx.files, Gdx.audio);
     }
 
-    public Sound getCoinSound() { return coinSound; }
-
-    public void playOuchSound() {
-        ouchSound.play(0.25f);
+    // Dependency-injected constructor for easier testing
+    public SoundHandler(Files files, Audio audio) {
+        addSound("coin", "sfx/coinrecieved.mp3", files, audio);
+        addSound("ouch", "sfx/characterouch.mp3", files, audio);
     }
 
-    public Sound getOuchSound() {
-        return ouchSound;
+    /**
+     * Default method for adding a sound to the soundHandler map
+     * @param name
+     * @param filePath
+     */
+    public void addSound(String name, String filePath) {
+        FileHandle fileHandle = Gdx.files.internal(filePath);
+        Sound sound = Gdx.audio.newSound(fileHandle);
+        sounds.put(name, sound);
     }
+
+    /**
+     * Overloaded method for easier testing.
+     * @param name
+     * @param filePath
+     * @param files dependency needed for testing
+     * @param audio dependency needed for testing
+     */
+    public void addSound(String name, String filePath, Files files, Audio audio) {
+        FileHandle fileHandle = files.internal(filePath);
+        Sound sound = audio.newSound(fileHandle);
+        sounds.put(name, sound);
+    }
+
+
+    /**
+     * Plays a sound based on sound name defined in {@link SoundHandler} constructor
+     * @param name sound (nick)name for easier access
+     *             Prints error if input string is null
+     */
+    public void playSound(String name) {
+        Sound sound = sounds.get(name);
+        if (sound != null) {
+            sound.play(0.25f);
+        } else {
+            System.err.println("Sound not found: " + name);
+        }
+    }
+
+    /**
+     * Gets sound, mainly used for testing
+     */
+    public Sound getSound(String name) {
+        return sounds.get(name);
+    }
+
 }

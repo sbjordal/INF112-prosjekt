@@ -21,7 +21,7 @@ public class EnemyTest {
 
     @Test
     void testEnemyDeathSnail() {
-        Enemy enemy = MobileObjectFactory.createSnail(0, 0, EnemyType.SNAIL);
+        Enemy enemy = MobileObjectFactory.createSnail(0, 0);
         assertTrue(enemy.isAlive());
         enemy.receiveDamage(1);
         assertFalse( enemy.isAlive());
@@ -29,7 +29,7 @@ public class EnemyTest {
 
     @Test
     void testEnemyDeathLeopard() {
-        Enemy enemy = MobileObjectFactory.createLeopard(0, 0, EnemyType.LEOPARD);
+        Enemy enemy = MobileObjectFactory.createLeopard(0, 0);
         assertTrue(enemy.isAlive());
         enemy.receiveDamage(1);
         assertTrue( enemy.isAlive());
@@ -39,7 +39,7 @@ public class EnemyTest {
 
     @Test
     void testMoveEnemySnail() {
-        Enemy snailEnemy = MobileObjectFactory.createSnail(50, 0, EnemyType.SNAIL);
+        Enemy snailEnemy = MobileObjectFactory.createSnail(50, 0);
         float initialPositionX = snailEnemy.getTransform().getPos().x;
 
         snailEnemy = moveTestHelper(snailEnemy);
@@ -49,7 +49,7 @@ public class EnemyTest {
 
     @Test
     void testMoveEnemyLeopard() {
-        Enemy leopardEnemy = MobileObjectFactory.createLeopard(50, 0, EnemyType.LEOPARD);
+        Enemy leopardEnemy = MobileObjectFactory.createLeopard(50, 0);
         float initialPositionX = leopardEnemy.getTransform().getPos().x;
 
         leopardEnemy = moveTestHelper(leopardEnemy);
@@ -65,13 +65,13 @@ public class EnemyTest {
 
     @Test
     void testObjectScoreSnail() {
-        Enemy snailEnemy = MobileObjectFactory.createSnail(50, 0, EnemyType.SNAIL);
+        Enemy snailEnemy = MobileObjectFactory.createSnail(50, 0);
         assertEquals(10, snailEnemy.getObjectScore());
     }
 
     @Test
     void testObjectScoreLeopard() {
-        Enemy leopardEnemy = MobileObjectFactory.createLeopard(50, 0, EnemyType.LEOPARD);
+        Enemy leopardEnemy = MobileObjectFactory.createLeopard(50, 0);
         assertEquals(30, leopardEnemy.getObjectScore());
     }
 
@@ -86,14 +86,14 @@ public class EnemyTest {
 
     @Test
     void testAttackSnail() {
-        Enemy snailEnemy = MobileObjectFactory.createSnail(50, 0, EnemyType.SNAIL);
+        Enemy snailEnemy = MobileObjectFactory.createSnail(50, 0);
         Player player = setUpPlayer();
         testAttack(snailEnemy, player);
     }
 
     @Test
     void testAttackLeopard() {
-        Enemy leopardEnemy = MobileObjectFactory.createLeopard(50, 0, EnemyType.LEOPARD);
+        Enemy leopardEnemy = MobileObjectFactory.createLeopard(50, 0);
         Player player = setUpPlayer();
         testAttack(leopardEnemy, player);
     }
@@ -115,14 +115,14 @@ public class EnemyTest {
 
     @Test
     void testAttackSnailWithPowerUp() {
-        Enemy snailEnemy = MobileObjectFactory.createSnail(50, 0, EnemyType.SNAIL);
+        Enemy snailEnemy = MobileObjectFactory.createSnail(50, 0);
         Player player = setUpPlayer();
         testAttackWithPowerUp(snailEnemy, player);
     }
 
     @Test
     void testAttackLeopardWithPowerUp() {
-        Enemy leopardEnemy = MobileObjectFactory.createLeopard(50, 0, EnemyType.LEOPARD);
+        Enemy leopardEnemy = MobileObjectFactory.createLeopard(50, 0);
         Player player = setUpPlayer();
         testAttackWithPowerUp(leopardEnemy, player);
     }
@@ -145,7 +145,7 @@ public class EnemyTest {
 
     @Test
     void testVisitPlayerTriggersAttackAndDirectionSwitch() {
-        Enemy enemy = MobileObjectFactory.createLeopard(0, 0, EnemyType.LEOPARD);
+        Enemy enemy = MobileObjectFactory.createLeopard(0, 0);
         Player player = setUpPlayer();
 
         int dirBefore = enemy.getMovementDirection();
@@ -157,7 +157,7 @@ public class EnemyTest {
 
     @Test
     void testVisitGroundSwitchesDirection() {
-        Enemy enemy = MobileObjectFactory.createSnail(0, 0, EnemyType.SNAIL);
+        Enemy enemy = MobileObjectFactory.createSnail(0, 0);
 
         int directionBefore = enemy.getMovementDirection();
         enemy.visit(mock(Ground.class));
@@ -167,7 +167,7 @@ public class EnemyTest {
 
     @Test
     void testIsReadyToCollide() throws InterruptedException {
-        Enemy enemy = MobileObjectFactory.createSnail(0, 0, EnemyType.SNAIL);
+        Enemy enemy = MobileObjectFactory.createSnail(0, 0);
 
         // Første kall skal returnere true
         assertTrue(enemy.isReadyToCollide(), "Første kall skal være klar for kollisjon");
@@ -184,8 +184,8 @@ public class EnemyTest {
 
     @Test
     void testVisitEnemySwitchesDirectionIfDifferentEnemy() {
-        Enemy snail1 = MobileObjectFactory.createSnail(0, 0, EnemyType.SNAIL);
-        Enemy snail2 = MobileObjectFactory.createSnail(100, 0, EnemyType.SNAIL);
+        Enemy snail1 = MobileObjectFactory.createSnail(0, 0);
+        Enemy snail2 = MobileObjectFactory.createSnail(100, 0);
 
         int initialDirection = snail1.getMovementDirection();
 
@@ -197,7 +197,7 @@ public class EnemyTest {
 
     @Test
     void testVisitEnemyDoesNotSwitchDirectionIfSameEnemy() {
-        Enemy snail = MobileObjectFactory.createSnail(0, 0, EnemyType.SNAIL);
+        Enemy snail = MobileObjectFactory.createSnail(0, 0);
         int initialDirection = snail.getMovementDirection();
 
         // Besøk seg selv – skal ikke skje, men må sikres
@@ -209,7 +209,7 @@ public class EnemyTest {
 
     @Test
     void testAcceptCallsVisitOnVisitor() {
-        Enemy snail = MobileObjectFactory.createSnail(0, 0, EnemyType.SNAIL);
+        Enemy snail = MobileObjectFactory.createSnail(0, 0);
         Visitor mockVisitor = mock(Visitor.class);
 
         snail.accept(mockVisitor);
@@ -219,7 +219,7 @@ public class EnemyTest {
 
     @Test
     void testVisitItemsDoesNotSwitchDirection() {
-        Enemy snail = MobileObjectFactory.createSnail(0, 0, EnemyType.SNAIL);
+        Enemy snail = MobileObjectFactory.createSnail(0, 0);
         int initialDirection = snail.getMovementDirection();
 
         Coin coin = mock(Coin.class);
@@ -234,8 +234,5 @@ public class EnemyTest {
         snail.visit(banana);
         assertEquals(initialDirection, snail.getMovementDirection());
     }
-
-
-
 
 }

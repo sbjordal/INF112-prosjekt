@@ -10,14 +10,14 @@ public class MobileObjectFactoryTest {
 
     @BeforeEach
     void setUp() {
-        Enemy enemy = MobileObjectFactory.createSnail(5, 10, EnemyType.SNAIL);
+        Enemy enemy = MobileObjectFactory.createSnail(5, 10);
         assertNotNull(enemy, "Enemy should not be null");
     }
 
     @Test
     void testCreateEnemyHasCorrectPosition() {
         float x = 5f, y = 10f;
-        Enemy enemy = MobileObjectFactory.createSnail(x, y, EnemyType.SNAIL);
+        Enemy enemy = MobileObjectFactory.createSnail(x, y);
 
         assertEquals(x, enemy.getTransform().getPos().x, 0.001, "X position should match");
         assertEquals(y, enemy.getTransform().getPos().y, 0.001, "Y position should match");
@@ -25,7 +25,7 @@ public class MobileObjectFactoryTest {
 
     @Test
     void testCreateEnemyHasCorrectSize() {
-        Enemy enemy = MobileObjectFactory.createSnail(5, 10, EnemyType.SNAIL);
+        Enemy enemy = MobileObjectFactory.createSnail(5, 10);
 
         assertEquals(EnemyType.SNAIL.width, enemy.getTransform().getSize().x, 0.001, "Width should match");
         assertEquals(EnemyType.SNAIL.height, enemy.getTransform().getSize().y, 0.001, "Height should match");
@@ -33,7 +33,7 @@ public class MobileObjectFactoryTest {
 
     @Test
     void testCreateEnemyHasCorrectAttributes() {
-        Enemy enemy = MobileObjectFactory.createSnail(5, 10, EnemyType.SNAIL);
+        Enemy enemy = MobileObjectFactory.createSnail(5, 10);
 
         assertEquals(EnemyType.SNAIL.movementSpeed, enemy.getMovementSpeed(), "Movement speed should match");
         assertEquals(EnemyType.SNAIL.objectScore, enemy.getObjectScore(), "Object score should match");
@@ -43,7 +43,7 @@ public class MobileObjectFactoryTest {
     @Test
     void testCreateEnemyAtNegativePosition() {
         float x = -10f, y = -20f;
-        Enemy enemy = MobileObjectFactory.createSnail(x, y, EnemyType.SNAIL);
+        Enemy enemy = MobileObjectFactory.createSnail(x, y);
 
         assertEquals(x, enemy.getTransform().getPos().x, 0.001, "X position should match negative value");
         assertEquals(y, enemy.getTransform().getPos().y, 0.001, "Y position should match negative value");
@@ -51,8 +51,8 @@ public class MobileObjectFactoryTest {
 
     @Test
     void testEnemiesAreNotEqualButHaveSameAttributes() {
-        Enemy enemy1 = MobileObjectFactory.createSnail(5, 10, EnemyType.SNAIL);
-        Enemy enemy2 = MobileObjectFactory.createSnail(5, 10, EnemyType.SNAIL);
+        Enemy enemy1 = MobileObjectFactory.createSnail(5, 10);
+        Enemy enemy2 = MobileObjectFactory.createSnail(5, 10);
 
         assertNotEquals(enemy1, enemy2, "Enemies should not be the same object");
 
