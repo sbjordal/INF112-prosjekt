@@ -26,7 +26,8 @@ public class WorldView implements Screen, EventListener {
     private ViewableWorldModel model;
     private SpriteBatch batch;
     private Viewport viewport;
-    private Texture menuBackgroundTexture;
+//    private Texture menuBackgroundTexture;
+    private Texture menuTexture;
     private ParallaxBackground parallaxBackground;
     private BitmapFont font;
     private GlyphLayout layout;
@@ -73,7 +74,8 @@ public class WorldView implements Screen, EventListener {
         font = new BitmapFont(); //new BitmapFont(Gdx.files.internal("skeleton.fnt")); Lag fil med font
         font.setColor(Color.WHITE);
         batch = new SpriteBatch();
-        menuBackgroundTexture = new Texture("background/plx-1.png");
+//        menuBackgroundTexture = new Texture("background/plx-1.png");
+        menuTexture = new Texture(Gdx.files.internal("background/gamemenu.png"));
         soundHandler = new SoundHandler();
         model.getViewablePlayer().setOnCoinCollected(() -> soundHandler.playSound("coin"));
         model.getViewablePlayer().setOnCollisionWithEnemy(() -> soundHandler.playSound("ouch"));
@@ -88,11 +90,12 @@ public class WorldView implements Screen, EventListener {
             case GAME_PAUSED -> drawGamePaused();
             case GAME_OVER -> drawGameOver();
         }
-        if (!model.getInfoMode() && (gameState == GameState.GAME_MENU || gameState == GameState.GAME_PAUSED)) {
-            drawCenteredText("Press 'i' for game info",2, 100);
-        }
+//        if (!model.getInfoMode() && (gameState == GameState.GAME_MENU || gameState == GameState.GAME_PAUSED)) {
+////            drawCenteredText("Press 'i' for game info",2, 100);
+//        }
 
-        else if (model.getInfoMode() && (gameState == GameState.GAME_MENU || gameState == GameState.GAME_PAUSED)) {
+        // else
+        if (model.getInfoMode() && (gameState == GameState.GAME_MENU || gameState == GameState.GAME_PAUSED)) {
             drawGameInfo();
         }
 
@@ -104,14 +107,14 @@ public class WorldView implements Screen, EventListener {
         float leftX = getViewportLeftX();
         float bottomY = viewport.getCamera().position.y - viewport.getWorldHeight() / 2;
         batch.begin();
-        batch.draw(menuBackgroundTexture, leftX, bottomY, viewport.getWorldWidth(), viewport.getWorldHeight());
+        batch.draw(menuTexture, leftX, bottomY, viewport.getWorldWidth(), viewport.getWorldHeight());
         batch.end();
-        drawCenteredText("Press ENTER to start the game", 3,0);
+//        drawCenteredText("Press ENTER to start the game", 3,0);
     }
 
     private void drawGameInfo() {
         drawCenteredText("Press 'i' to remove game info", 3,-400);
-        drawCenteredText("To jump press 'w', 'space' or up-arrow\n" +
+        drawCenteredText("To jump press 'w', 'space' or up arrow\n" +
                 "To move right press 'd' or right arrow\n" +
                 "To move left press 'a' or left arrow\n" +
                 "To pause the game when playing press 'p'\n" +
@@ -134,7 +137,7 @@ public class WorldView implements Screen, EventListener {
         ScreenUtils.clear(Color.CLEAR);
         drawCenteredText("GAME OVER", 3, 0);
         font.getData().setScale(1);
-        drawCenteredText("Press ENTER to return to the game manu", 2, 100);
+        drawCenteredText("Press ENTER to return to the game menu", 2, 100);
     }
 
     void drawCenteredText(String text, int textScale, float lowerTextBy) {
