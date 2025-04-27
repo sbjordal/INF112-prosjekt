@@ -302,4 +302,6 @@ final public class Player extends Actor implements Visitor, Collidable {
         setSize(STANDARD_PLAYER_SIZE);
         move(middleOfPlayer, 0);
     }
+
+
 }
