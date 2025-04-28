@@ -133,9 +133,11 @@ public class WorldView implements Screen, EventListener {
 
     private void drawGameOver() {
         ScreenUtils.clear(Color.CLEAR);
-        drawCenteredText("GAME OVER", 3, 0);
+        drawCenteredText("GAME OVER", 4, 0);
         font.getData().setScale(1);
         drawCenteredText("Press ENTER to return to the game manu", 2, 100);
+
+        drawCenteredText("Score: " + model.getTotalScore() + "   Level: " + model.getLevelCounter(), 2, 200);
     }
 
     void drawCenteredText(String text, int textScale, float lowerTextBy) {
