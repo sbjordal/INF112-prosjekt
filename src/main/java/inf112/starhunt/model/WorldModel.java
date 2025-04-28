@@ -13,6 +13,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * TODO
+ */
 public class WorldModel implements ViewableWorldModel, ControllableWorldModel, ApplicationListener, PositionValidator {
     public static final int LEVEL_WIDTH = 4500;
     GameState gameState;
@@ -302,6 +305,5 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
     @Override
     public void resize( int i, int i1) {}
-
 
 }
