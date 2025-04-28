@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="90" height="19" tilewidth="50" tileheight="50" infinite="0" nextlayerid="9" nextobjectid="414">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="90" height="19" tilewidth="50" tileheight="50" infinite="0" nextlayerid="9" nextobjectid="422">
  <editorsettings>
   <export target="../level_one.json" format="json"/>
  </editorsettings>
@@ -16,6 +16,8 @@
   <object id="24" x="854.287" y="759.85" width="40" height="40"/>
   <object id="190" x="1678.55" y="759.333" width="40" height="40"/>
   <object id="209" x="1904.24" y="759.667" width="40" height="40"/>
+  <object id="416" x="3491.83" y="759.542" width="40" height="40"/>
+  <object id="417" x="4319.99" y="759.679" width="40" height="40"/>
  </objectgroup>
  <objectgroup color="#ffff00" id="6" name="banana">
   <object id="28" x="2072.31" y="694.705" width="50" height="53"/>
@@ -256,7 +258,7 @@
   <object id="270" x="3150" y="800" width="50" height="50"/>
   <object id="272" x="3150" y="850" width="50" height="50"/>
   <object id="274" x="3150" y="900" width="50" height="50"/>
-  <object id="311" x="3400" y="800" width="50" height="50"/>
+  <object id="311" x="3400" y="750" width="50" height="50"/>
   <object id="312" x="3450" y="800" width="50" height="50"/>
   <object id="313" x="3400" y="850" width="50" height="50"/>
   <object id="314" x="3450" y="850" width="50" height="50"/>
@@ -344,5 +346,10 @@
   <object id="405" x="4150" y="700" width="50" height="50"/>
   <object id="406" x="4150" y="750" width="50" height="50"/>
   <object id="407" x="4150" y="600" width="50" height="50"/>
+  <object id="415" x="3400" y="800" width="50" height="50"/>
+  <object id="418" x="4450" y="750" width="50" height="50"/>
+  <object id="419" x="4450" y="700" width="50" height="50"/>
+  <object id="420" x="4450" y="650" width="50" height="50"/>
+  <object id="421" x="4450" y="600" width="50" height="50"/>
  </objectgroup>
 </map>
