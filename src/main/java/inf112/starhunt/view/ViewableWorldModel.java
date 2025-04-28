@@ -59,6 +59,10 @@ public interface ViewableWorldModel {
      */
     int getPlayerLives();
 
+    /**
+     * Get the current time countdown
+     * @return int countDown
+     */
     int getCountDown();
 
     /**
@@ -78,6 +82,12 @@ public interface ViewableWorldModel {
      * @return a boolean, true if the information should be displayed, otherwise false.
      */
     boolean getInfoMode();
+
+    /**
+     * Get the current game level.
+     * @return int levelCounter
+     */
+    int getLevelCounter();
 
     /**
      * Updates where the left x of the viewport is

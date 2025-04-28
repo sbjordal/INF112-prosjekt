@@ -173,6 +173,7 @@ public class WorldView implements Screen, EventListener {
         String coinCount = "Coins: " + model.getCoinCounter();
         String lives = "Lives: " + model.getPlayerLives();
         String countDown = "CountDown: " + model.getCountDown();
+        String levelCount = "Level: " + model.getLevelCounter();
         font.getData().setScale(2);
 
 
@@ -194,6 +195,7 @@ public class WorldView implements Screen, EventListener {
         playerAnimation.update(deltaTime,  model.getGameState() != GameState.GAME_ACTIVE);
         batch.draw(currentFrame, playerX, playerY, playerWidth, playerHeight);
         font.draw(batch, countDown, leftX + 700, screenHeight - 10);
+        font.draw(batch, levelCount, leftX + 1000, screenHeight - 10);
         drawObjects();
         batch.end();
 
