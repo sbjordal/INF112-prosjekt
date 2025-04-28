@@ -84,13 +84,13 @@
 
 
 - **Oppsummert hva som er gjort siden sist:**
-  - 
+  - ouch lyd, level counter, abstract factory, fiender visuell skifting av retning
 
 
 2. **For hvert krav dere jobber med, må dere lage 1) ordentlige brukerhistorier, 2) akseptansekriterier og 3) arbeidsoppgaver.**
    Husk at akseptansekriterier ofte skrives mer eller mindre som tester
 
-  * [Finn ut hvilke nye krav vi har jobbet med siden sist oblig]
+  * Nye brukerhistorier: ...
 
 3. **Dersom dere har oppgaver som dere skal til å starte med, hvor dere har oversikt over både brukerhistorie, akseptansekriterier og arbeidsoppgaver, kan dere ta med disse i innleveringen også.**
   * Vi har oppnådd alle kravene våres for både MVP og post-MVP. Vi har derfor ingen planer om å legge til mer funksjonalitet som krever brukerhistorier.
