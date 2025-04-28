@@ -2,6 +2,7 @@ package inf112.starhunt.model.gameobject.mobileobject;
 
 import com.badlogic.gdx.math.Vector2;
 import inf112.starhunt.model.gameobject.Transform;
+import inf112.starhunt.model.gameobject.TransformUtils;
 import inf112.starhunt.model.gameobject.mobileobject.actor.Player;
 import inf112.starhunt.model.gameobject.mobileobject.actor.enemy.Enemy;
 import inf112.starhunt.model.gameobject.mobileobject.actor.enemy.EnemyType;
@@ -31,9 +32,7 @@ public class MobileObjectFactory {
     }
 
     public static MobileObject createPlayer(Float x, Float y) {
-        Vector2 size = new Vector2(40, 80);
-        Vector2 position = new Vector2(x, y);
-        Transform transform = new Transform(position, size);
+        Transform transform = TransformUtils.createTransformForObjects(40, 80, x, y);
         return new Player(3, 350, transform);
     }
 
@@ -45,10 +44,7 @@ public class MobileObjectFactory {
      * @return A new instance of Snail
      */
     public static Snail createSnail(float x, float y) {
-
-        Vector2 pos = new Vector2(x, y);
-        Vector2 size = new Vector2(EnemyType.SNAIL.width, EnemyType.SNAIL.height);
-        Transform transform = new Transform(pos, size);
+        Transform transform = TransformUtils.createTransformForObjects(EnemyType.SNAIL.width, EnemyType.SNAIL.height, x, y);
 
         return new Snail(EnemyType.SNAIL.health, EnemyType.SNAIL.movementSpeed, EnemyType.SNAIL.objectScore,
                 EnemyType.SNAIL.damage, transform);
@@ -62,12 +58,10 @@ public class MobileObjectFactory {
      * @return A new instance of Leopard
      */
     public static Leopard createLeopard(float x, float y) {
-
-        Vector2 pos = new Vector2(x, y);
-        Vector2 size = new Vector2(EnemyType.LEOPARD.width, EnemyType.LEOPARD.height);
-        Transform transform = new Transform(pos, size);
+        Transform transform = TransformUtils.createTransformForObjects(EnemyType.LEOPARD.width, EnemyType.LEOPARD.height, x, y);
 
         return new Leopard(EnemyType.LEOPARD.health, EnemyType.LEOPARD.movementSpeed, EnemyType.LEOPARD.objectScore,
                 EnemyType.LEOPARD.damage, transform);
     }
+
 }

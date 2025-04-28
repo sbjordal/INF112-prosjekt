@@ -2,6 +2,7 @@ package inf112.starhunt.model.gameobject.fixedobject;
 
 import com.badlogic.gdx.math.Vector2;
 import inf112.starhunt.model.gameobject.Transform;
+import inf112.starhunt.model.gameobject.TransformUtils;
 import inf112.starhunt.model.gameobject.fixedobject.item.Banana;
 import inf112.starhunt.model.gameobject.fixedobject.item.Coin;
 import inf112.starhunt.model.gameobject.fixedobject.item.Star;
@@ -10,7 +11,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiFunction;
 
-// TODO: lag hjelpefunksjon på innholdet til Coin, Banana og Star for å redusere duplikat kode.
 public class FixedObjectFactory {
     static Map<String, BiFunction<Float, Float, FixedObject>> registry = new HashMap<>();
     static {
@@ -26,9 +26,7 @@ public class FixedObjectFactory {
 
     public static Ground createGround(float x, float y){
 
-        Vector2 size = new Vector2(50, 50);
-        Vector2 position = new Vector2(x, y);
-        Transform transform = new Transform(position, size);
+        Transform transform = TransformUtils.createTransformForObjects(50, 50, x, y);
 
         return new Ground(transform);
     }
@@ -36,33 +34,22 @@ public class FixedObjectFactory {
     public static Coin createCoin(float x, float y){
 
         int DIAMETER = 30;
-        Vector2 pos = new Vector2(x, y);
-        Vector2 size = new Vector2(DIAMETER, DIAMETER);
-        Transform transform = new Transform(pos, size);
+        Transform transform = TransformUtils.createTransformForObjects(DIAMETER, DIAMETER, x, y);
 
         return new Coin(transform);
     }
 
     public static Banana createBanana(float x, float y){
-
-        int width = 50;
-        int height = 53;
-        Vector2 pos = new Vector2(x, y);
-        Vector2 size = new Vector2(width, height);
-        Transform transform = new Transform(pos, size);
+        Transform transform = TransformUtils.createTransformForObjects(50, 53, x, y);
 
         return new Banana(transform);
     }
 
     public static Star createStar(float x, float y){
-
-        int width = 72;
-        int height = 69;
-        Vector2 pos = new Vector2(x, y);
-        Vector2 size = new Vector2(width, height);
-        Transform transform = new Transform(pos, size);
+        Transform transform = TransformUtils.createTransformForObjects(72, 69, x, y);
 
         return new Star(transform);
     }
+
 }
 
