@@ -37,6 +37,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 <th class="coverageStat 
 ">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
   Line, %
 </th>
 </tr>
@@ -52,10 +56,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    100%
+    66,7%
   </span>
   <span class="absValue">
-    (1/1)
+    (4/6)
   </span>
 </td>
 <td class="coverageStat">
@@ -63,7 +67,15 @@ Current scope:     <a href="../../index.html">all classes</a>
     100%
   </span>
   <span class="absValue">
-    (1/1)
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (12/16)
   </span>
 </td>
 </tr>
@@ -76,27 +88,80 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <pre>
 <code class="sourceCode" id="sourceCode">&nbsp;package inf112.starhunt.view;
+&nbsp;import com.badlogic.gdx.Audio;
+&nbsp;import com.badlogic.gdx.Files;
 &nbsp;import com.badlogic.gdx.audio.Sound;
 &nbsp;import com.badlogic.gdx.Gdx;
+&nbsp;import com.badlogic.gdx.files.FileHandle;
 &nbsp;
-&nbsp;// TODO: Må legge til event handler.
-&nbsp;// TODO: Dette er kommentert ut fordi programmet ikke kompilerer med denne implementasjonen.
-<b class="fc">&nbsp;public class SoundHandler {</b>
-&nbsp;//
-&nbsp;//    private Sound coinSound;
-&nbsp;//
-&nbsp;////    public SoundHandler() { this.coinSound = Gdx.audio.newSound(Gdx.files.internal(&quot;sfx/coinrecieved.mp3&quot;));}
-&nbsp;//
-&nbsp;//    // Ekstra konstruktør for testing
-&nbsp;//    public SoundHandler(Sound coinSound) {
-&nbsp;//        this.coinSound = coinSound;
-&nbsp;//    }
-&nbsp;//
-&nbsp;//    public void playCoinSound() {
-&nbsp;//        coinSound.play(0.25f);
-&nbsp;//    }
-&nbsp;//
-&nbsp;//    public Sound getCoinSound() { return coinSound; }
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.Map;
+&nbsp;
+&nbsp;
+&nbsp;/**
+&nbsp; * Class for handling sound effects, these are used when colliding or if player is losing a life.
+&nbsp; */
+&nbsp;public class SoundHandler {
+<b class="fc">&nbsp;    private Map&lt;String, Sound&gt; sounds = new HashMap&lt;&gt;();</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Default constructor, adds sounds by getting from the sfx directory.
+&nbsp;     */
+&nbsp;    public SoundHandler() {
+<b class="nc">&nbsp;        this(Gdx.files, Gdx.audio);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // Dependency-injected constructor for easier testing
+<b class="fc">&nbsp;    public SoundHandler(Files files, Audio audio) {</b>
+<b class="fc">&nbsp;        addSound(&quot;coin&quot;, &quot;sfx/coinrecieved.mp3&quot;, files, audio);</b>
+<b class="fc">&nbsp;        addSound(&quot;ouch&quot;, &quot;sfx/characterouch.mp3&quot;, files, audio);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Default method for adding a sound to the soundHandler map
+&nbsp;     * @param name
+&nbsp;     * @param filePath
+&nbsp;     */
+&nbsp;    public void addSound(String name, String filePath) {
+<b class="nc">&nbsp;        FileHandle fileHandle = Gdx.files.internal(filePath);</b>
+<b class="nc">&nbsp;        Sound sound = Gdx.audio.newSound(fileHandle);</b>
+<b class="nc">&nbsp;        sounds.put(name, sound);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Overloaded method for easier testing.
+&nbsp;     * @param name
+&nbsp;     * @param filePath
+&nbsp;     * @param files dependency needed for testing
+&nbsp;     * @param audio dependency needed for testing
+&nbsp;     */
+&nbsp;    public void addSound(String name, String filePath, Files files, Audio audio) {
+<b class="fc">&nbsp;        FileHandle fileHandle = files.internal(filePath);</b>
+<b class="fc">&nbsp;        Sound sound = audio.newSound(fileHandle);</b>
+<b class="fc">&nbsp;        sounds.put(name, sound);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Plays a sound based on sound name defined in {@link SoundHandler} constructor
+&nbsp;     * @param name sound (nick)name for easier access
+&nbsp;     *             Prints error if input string is null
+&nbsp;     */
+&nbsp;    public void playSound(String name) {
+<b class="fc">&nbsp;        Sound sound = sounds.get(name);</b>
+<b class="fc">&nbsp;        if (sound != null) {</b>
+<b class="fc">&nbsp;            sound.play(0.25f);</b>
+&nbsp;        } else {
+<b class="fc">&nbsp;            System.err.println(&quot;Sound not found: &quot; + name);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Gets sound, mainly used for testing
+&nbsp;     */
+&nbsp;    public Sound getSound(String name) {
+<b class="fc">&nbsp;        return sounds.get(name);</b>
+&nbsp;    }
 &nbsp;
 &nbsp;}
 </code>
@@ -122,7 +187,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2025-04-22 20:02</div>
+    <div style="float:right;">generated on 2025-04-27 23:09</div>
 </div>
 </body>
 </html>

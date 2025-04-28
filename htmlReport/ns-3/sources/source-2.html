@@ -5,7 +5,7 @@
 <html id="htmlId">
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
-  <title>Coverage Report > GameState</title>
+  <title>Coverage Report > LevelManager</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -22,18 +22,19 @@ Current scope:     <a href="../../index.html">all classes</a>
     <a href="../index.html">inf112.starhunt.model</a>
 </div>
 
-<h1>Coverage Summary for Class: GameState (inf112.starhunt.model)</h1>
+<h1>Coverage Summary for Class: LevelManager (inf112.starhunt.model)</h1>
 
 <table class="coverageStats">
+
 <tr>
   <th class="name">Class</th>
 <th class="coverageStat 
 ">
-  Class, %
+  Method, %
 </th>
 <th class="coverageStat 
 ">
-  Method, %
+  Branch, %
 </th>
 <th class="coverageStat 
 ">
@@ -41,15 +42,34 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">GameState</td>
+  <td class="name">LevelManager</td>
 <td class="coverageStat">
   <span class="percent">
-    100%
+    75%
   </span>
   <span class="absValue">
-    (1/1)
+    (3/4)
   </span>
 </td>
+<td class="coverageStat">
+  <span class="percent">
+    96,2%
+  </span>
+  <span class="absValue">
+    (25/26)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    93,6%
+  </span>
+  <span class="absValue">
+    (44/47)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">LevelManager$Level</td>
 <td class="coverageStat">
   <span class="percent">
     100%
@@ -63,11 +83,37 @@ Current scope:     <a href="../../index.html">all classes</a>
     100%
   </span>
   <span class="absValue">
-    (5/5)
+    (4/4)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    83,3%
+  </span>
+  <span class="absValue">
+    (5/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    96,2%
+  </span>
+  <span class="absValue">
+    (25/26)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    94,1%
+  </span>
+  <span class="absValue">
+    (48/51)
   </span>
 </td>
 </tr>
-
 </table>
 
 <br/>
@@ -77,18 +123,154 @@ Current scope:     <a href="../../index.html">all classes</a>
 <pre>
 <code class="sourceCode" id="sourceCode">&nbsp;package inf112.starhunt.model;
 &nbsp;
+&nbsp;import com.badlogic.gdx.Gdx;
+&nbsp;import com.badlogic.gdx.files.FileHandle;
+&nbsp;import com.badlogic.gdx.math.Vector2;
+&nbsp;import com.fasterxml.jackson.databind.JsonNode;
+&nbsp;import com.fasterxml.jackson.databind.ObjectMapper;
+&nbsp;import inf112.starhunt.model.gameobject.Collidable;
+&nbsp;import inf112.starhunt.model.gameobject.GameObject;
+&nbsp;import inf112.starhunt.model.gameobject.GameObjectFactory;
+&nbsp;import inf112.starhunt.model.gameobject.Transform;
+&nbsp;import inf112.starhunt.model.gameobject.fixedobject.Ground;
+&nbsp;import inf112.starhunt.model.gameobject.fixedobject.FixedObjectFactory;
+&nbsp;import inf112.starhunt.model.gameobject.fixedobject.item.Star;
+&nbsp;import inf112.starhunt.model.gameobject.mobileobject.MobileObjectFactory;
+&nbsp;import inf112.starhunt.model.gameobject.mobileobject.actor.Player;
+&nbsp;import inf112.starhunt.model.gameobject.mobileobject.actor.enemy.*;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;import static inf112.starhunt.model.LevelManager.Level.*;
+&nbsp;
 &nbsp;/**
-&nbsp; * Represents the different states of the game.
-&nbsp; * {@link #GAME_ACTIVE}     The game is currently running.
-&nbsp; * {@link #GAME_PAUSED}     The game is temporarily paused.
-&nbsp; * {@link #GAME_OVER}       The game has ended.
-&nbsp; * {@link #GAME_MENU}       The game is in the main menu.
+&nbsp; * Manages the loading of levels in the game.
+&nbsp; * Each level is defined in a JSON file and parsed into a list of {@link GameObject} instances.
 &nbsp; */
-<b class="fc">&nbsp;public enum GameState {</b>
-<b class="fc">&nbsp;    GAME_ACTIVE,</b>
-<b class="fc">&nbsp;    GAME_PAUSED,</b>
-<b class="fc">&nbsp;    GAME_OVER,</b>
-<b class="fc">&nbsp;    GAME_MENU</b>
+<b class="nc">&nbsp;public class LevelManager {</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Enum representing available game levels.
+&nbsp;     */
+<b class="fc">&nbsp;    public enum Level{</b>
+<b class="fc">&nbsp;        LEVEL_1,</b>
+<b class="fc">&nbsp;        LEVEL_2,</b>
+<b class="fc">&nbsp;        LEVEL_3</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Load a level.
+&nbsp;     * The level is represented as a list of {@link GameObject} types.
+&nbsp;     * The game objects are extracted from a JSON file by parsing it.
+&nbsp;     *
+&nbsp;     * @param level Level to load.
+&nbsp;     * @return The extracted game objects as a list.
+&nbsp;     * @throws IllegalStateException If anything other than exactly one player or exactly one star was found.
+&nbsp;     */
+&nbsp;    public static Triple&lt;List&lt;Enemy&gt;, List&lt;Collidable&gt;, Player&gt; loadLevel(Level level) {
+<b class="fc">&nbsp;        FileHandle levelFile = getLevelFile(level);</b>
+<b class="fc">&nbsp;        ObjectMapper objectMapper = new ObjectMapper();</b>
+&nbsp;        String levelContent;
+&nbsp;        JsonNode jsonRoot;
+&nbsp;
+&nbsp;        try {
+<b class="fc">&nbsp;            levelContent = levelFile.readString();</b>
+<b class="fc">&nbsp;            jsonRoot = objectMapper.readTree(levelContent);</b>
+&nbsp;        } catch (IOException e) {
+<b class="fc">&nbsp;            throw new RuntimeException(&quot;Failed to load level: &quot; + level);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        List&lt;Enemy&gt; enemies = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        List&lt;Collidable&gt; collidables = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        Player player = new Player();</b>
+&nbsp;
+<b class="fc">&nbsp;        int mapHeight = jsonRoot.get(&quot;height&quot;).asInt() * jsonRoot.get(&quot;tileheight&quot;).asInt();</b>
+<b class="fc">&nbsp;        int playerCount = 0;</b>
+<b class="fc">&nbsp;        int starCount = 0;</b>
+&nbsp;
+<b class="fc">&nbsp;        for (JsonNode layer : jsonRoot.get(&quot;layers&quot;)) {</b>
+<b class="pc">&nbsp;            if (!layer.get(&quot;type&quot;).asText().equals(&quot;objectgroup&quot;)) continue;</b>
+&nbsp;
+<b class="fc">&nbsp;            String layerName = layer.get(&quot;name&quot;).asText();</b>
+<b class="fc">&nbsp;            for (JsonNode obj : layer.get(&quot;objects&quot;)) {</b>
+<b class="fc">&nbsp;                int x = obj.get(&quot;x&quot;).asInt();</b>
+<b class="fc">&nbsp;                int y = mapHeight - obj.get(&quot;y&quot;).asInt() - obj.get(&quot;height&quot;).asInt();</b>
+&nbsp;
+<b class="fc">&nbsp;                GameObject gameObject = GameObjectFactory.createGameObject(layerName, x, y);</b>
+<b class="fc">&nbsp;                collidables.add((Collidable) gameObject);</b>
+&nbsp;
+<b class="fc">&nbsp;                if (gameObject instanceof Enemy) {</b>
+<b class="fc">&nbsp;                    enemies.add((Enemy) gameObject);</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        for (Collidable collidable : collidables) {</b>
+<b class="fc">&nbsp;            if (collidable instanceof Star) {</b>
+<b class="fc">&nbsp;                starCount++;</b>
+&nbsp;            }
+<b class="fc">&nbsp;            if (collidable instanceof Player) {</b>
+<b class="fc">&nbsp;                playerCount++;</b>
+<b class="fc">&nbsp;                player = (Player) collidable;</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        if (playerCount != 1) {</b>
+<b class="fc">&nbsp;            throw new IllegalStateException(&quot;Level must have exactly one Player, but found: &quot; + playerCount);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        if (starCount != 1) {</b>
+<b class="fc">&nbsp;            throw new IllegalStateException(&quot;Level must have exactly one Star, but found: &quot; + starCount);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return new Triple&lt;&gt;(enemies, collidables, player);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Retrieves the corresponding JSON file for a given level.
+&nbsp;     *
+&nbsp;     * @param level The level to retrieve.
+&nbsp;     * @return A {@link FileHandle} pointing to the JSON file.
+&nbsp;     * @throws IllegalStateException If the level file is not found.
+&nbsp;     */
+&nbsp;    static FileHandle getLevelFile(Level level) {
+&nbsp;
+<b class="fc">&nbsp;        if (level == null) {</b>
+<b class="fc">&nbsp;            throw new IllegalStateException(&quot;No level file found for: null&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        String levelPath = &quot;levels/&quot;;</b>
+&nbsp;
+<b class="pc">&nbsp;        switch (level) {</b>
+<b class="fc">&nbsp;            case LEVEL_1: levelPath += &quot;level_one.json&quot;; break;</b>
+<b class="fc">&nbsp;            case LEVEL_2: levelPath += &quot;level_two.json&quot;; break;</b>
+<b class="fc">&nbsp;            case LEVEL_3: levelPath += &quot;level_three.json&quot;; break;</b>
+<b class="nc">&nbsp;            default: throw new IllegalStateException(&quot;No level file found for: &quot; + level);</b>
+&nbsp;        };
+&nbsp;
+<b class="fc">&nbsp;        return Gdx.files.classpath(levelPath);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * TODO comment
+&nbsp;     *
+&nbsp;     * @param level
+&nbsp;     * @return
+&nbsp;     */
+&nbsp;    static Level getNextLevel(Level level) {
+<b class="pc">&nbsp;        switch (level) {</b>
+&nbsp;            case LEVEL_1:
+<b class="fc">&nbsp;                return (LEVEL_2);</b>
+&nbsp;            case LEVEL_2:
+<b class="fc">&nbsp;                return (LEVEL_3);</b>
+&nbsp;            case LEVEL_3:
+<b class="fc">&nbsp;                return (LEVEL_1);</b>
+<b class="nc">&nbsp;            default: throw new IllegalArgumentException(&quot;No such level exists&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;
 &nbsp;}
 </code>
 </pre>
@@ -113,7 +295,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2025-04-22 20:02</div>
+    <div style="float:right;">generated on 2025-04-27 23:09</div>
 </div>
 </body>
 </html>
