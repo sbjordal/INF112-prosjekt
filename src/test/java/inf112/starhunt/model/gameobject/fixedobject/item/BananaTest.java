@@ -38,6 +38,6 @@ public class BananaTest {
         Visitor visitor = mock(Visitor.class);
         banana.accept(visitor);
 
-        verify(visitor, times(1)).visit(banana);
+        verify(visitor, times(1)).visitBanana(banana);
     }
 }

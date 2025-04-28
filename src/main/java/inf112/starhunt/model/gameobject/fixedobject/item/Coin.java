@@ -26,7 +26,7 @@ public class Coin extends Item implements Scorable, Collidable {
 
     @Override
     public void accept(Visitor visitor) {
-        visitor.visit(this);
+        visitor.visitCoin(this);
     }
 
     @Override

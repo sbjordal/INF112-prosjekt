@@ -13,6 +13,6 @@ public class Ground extends FixedObject implements Collidable {
 
     @Override
     public void accept(Visitor visitor) {
-        visitor.visit(this);
+        visitor.visitGround(this);
     }
 }

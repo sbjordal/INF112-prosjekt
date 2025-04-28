@@ -38,6 +38,6 @@ public class StarTest {
         Visitor visitor = mock(Visitor.class);
         star.accept(visitor);
 
-        verify(visitor, times(1)).visit(star);
+        verify(visitor, times(1)).visitStar(star);
     }
 }

@@ -94,11 +94,11 @@ final public class Player extends Actor implements Visitor, Collidable {
 
     @Override
     public void accept(Visitor visitor) {
-        visitor.visit(this);
+        visitor.visitPlayer(this);
     }
 
     @Override
-    public void visit(Coin coin) {
+    public void visitCoin(Coin coin) {
         if (!coin.isCollected()) {
             coin.collect();
             coinCounter++;
@@ -111,13 +111,13 @@ final public class Player extends Actor implements Visitor, Collidable {
     }
 
     @Override
-    public void visit(Star star) {
+    public void visitStar(Star star) {
         goToNextLevel = true; // TODO, husk å sette til false i modellen etter denne er gettet
         objectsToRemove.add(star);
     }
 
     @Override
-    public void visit(Banana banana) {
+    public void visitBanana(Banana banana) {
         final int middleOfPlayer = (int) (getTransform().getSize().x / 2);
         hasPowerUp = true;
         setSize(banana.getLargePlayerSize());
@@ -127,7 +127,7 @@ final public class Player extends Actor implements Visitor, Collidable {
     }
 
     @Override
-    public void visit(Ground ground) {
+    public void visitGround(Ground ground) {
         boolean isBumpingHead = getCollisionBox().isCollidingFromTop(ground.getCollisionBox());
 
         if (isBumpingHead && getVerticalVelocity() > 0) {
@@ -138,7 +138,7 @@ final public class Player extends Actor implements Visitor, Collidable {
     }
 
     @Override
-    public void visit(Enemy enemy) {
+    public void visitEnemy(Enemy enemy) {
         final long currentTime = System.currentTimeMillis();
         final boolean isReadyToBounce = currentTime - getLastBounceTime() >= BOUNCE_COOLDOWN;
         final boolean isOnTopOfEnemy = getCollisionBox().isCollidingFromBottom(enemy.getCollisionBox());
@@ -164,7 +164,7 @@ final public class Player extends Actor implements Visitor, Collidable {
     }
 
     @Override
-    public void visit(Player player) {}
+    public void visitPlayer(Player player) {}
 
     @Override
     public boolean isColliding(List<Collidable> collidables, CollisionBox collisionBox) {
