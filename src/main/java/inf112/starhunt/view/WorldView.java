@@ -33,7 +33,7 @@ public class WorldView implements Screen, EventListener {
     private HashMap<String, Texture> textures;
     private PlayerAnimation playerAnimation;
     private GameState gameState;
-    private SoundHandler soundHandler; // TODO, kommenert ut for å kompilere, krever EventHandler for å få til SoundHandler
+    private SoundHandler soundHandler;
 
     public WorldView(ViewableWorldModel model, int width, int height) {
         this.viewport = new ExtendViewport(width, height);
@@ -73,10 +73,10 @@ public class WorldView implements Screen, EventListener {
         font = new BitmapFont(); //new BitmapFont(Gdx.files.internal("skeleton.fnt")); Lag fil med font
         font.setColor(Color.WHITE);
         batch = new SpriteBatch();
-        menuBackgroundTexture = new Texture("background/plx-1.png");
+        menuBackgroundTexture = new Texture("background/menu_background.png");
         soundHandler = new SoundHandler();
-        model.getViewablePlayer().setOnCoinCollected(() -> soundHandler.playCoinSound());
-        model.getViewablePlayer().setOnCollisionWithEnemy(() -> soundHandler.playOuchSound());
+        model.getViewablePlayer().setOnCoinCollected(() -> soundHandler.playSound("coin"));
+        model.getViewablePlayer().setOnCollisionWithEnemy(() -> soundHandler.playSound("ouch"));
     }
 
     @Override
@@ -106,6 +106,7 @@ public class WorldView implements Screen, EventListener {
         batch.begin();
         batch.draw(menuBackgroundTexture, leftX, bottomY, viewport.getWorldWidth(), viewport.getWorldHeight());
         batch.end();
+
         drawCenteredText("Press ENTER to start the game", 3,0);
     }
 
@@ -132,9 +133,11 @@ public class WorldView implements Screen, EventListener {
 
     private void drawGameOver() {
         ScreenUtils.clear(Color.CLEAR);
-        drawCenteredText("GAME OVER", 3, 0);
+        drawCenteredText("GAME OVER", 4, 0);
         font.getData().setScale(1);
         drawCenteredText("Press ENTER to return to the game manu", 2, 100);
+
+        drawCenteredText("Score: " + model.getTotalScore() + "   Level: " + model.getLevelCounter(), 2, 200);
     }
 
     void drawCenteredText(String text, int textScale, float lowerTextBy) {
@@ -173,6 +176,7 @@ public class WorldView implements Screen, EventListener {
         String coinCount = "Coins: " + model.getCoinCounter();
         String lives = "Lives: " + model.getPlayerLives();
         String countDown = "CountDown: " + model.getCountDown();
+        String levelCount = "Level: " + model.getLevelCounter();
         font.getData().setScale(2);
 
 
@@ -187,13 +191,15 @@ public class WorldView implements Screen, EventListener {
         // Drawing objects
         batch.begin();
         parallaxBackground.render(batch);
-        font.draw(batch, totalScore, leftX, screenHeight-10);
-        font.draw(batch, coinCount, leftX + 300, screenHeight-10);
-        font.draw(batch, lives, leftX + 500, screenHeight - 10);
+        font.draw(batch, lives, leftX + 80, screenHeight - 15);
+        font.draw(batch, coinCount, leftX + 320, screenHeight - 15);
+        font.draw(batch, totalScore, leftX + 600, screenHeight - 15);
+
         TextureRegion currentFrame = playerAnimation.getFrame(movementDirection);
         playerAnimation.update(deltaTime,  model.getGameState() != GameState.GAME_ACTIVE);
         batch.draw(currentFrame, playerX, playerY, playerWidth, playerHeight);
-        font.draw(batch, countDown, leftX + 700, screenHeight - 10);
+        font.draw(batch, countDown, leftX + 930, screenHeight - 15);
+        font.draw(batch, levelCount, leftX + 1300, screenHeight - 15);
         drawObjects();
         batch.end();
 
@@ -243,17 +249,21 @@ public class WorldView implements Screen, EventListener {
     void drawObjects() {
         for (ViewableObject object : model.getObjectList()) {
 
-            // Skip drawing player.
-            // Player texture is handled differently due to animations.
             if (object instanceof Player) continue;
-
+            int direction = object.getDirection();
 
             Texture objectTexture = getTexture(object);
+
             float objectX = object.getTransform().getPos().x;
             float objectY = object.getTransform().getPos().y;
             float objectWidth = object.getTransform().getSize().x;
             float objectHeight = object.getTransform().getSize().y;
-            batch.draw(objectTexture, objectX, objectY, objectWidth, objectHeight);
+
+            if (direction >= 0) {
+                batch.draw(objectTexture, objectX + objectWidth, objectY, -objectWidth, objectHeight);
+            } else {
+                batch.draw(objectTexture, objectX, objectY, objectWidth, objectHeight);
+            }
         }
     }
 

@@ -8,9 +8,14 @@ import inf112.starhunt.model.gameobject.Collidable;
 import inf112.starhunt.model.gameobject.CollisionBox;
 import inf112.starhunt.model.gameobject.Transform;
 import inf112.starhunt.model.gameobject.Visitor;
+import inf112.starhunt.model.gameobject.fixedobject.FixedObjectFactory;
+import inf112.starhunt.model.gameobject.fixedobject.Ground;
 import inf112.starhunt.model.gameobject.fixedobject.item.Banana;
 import inf112.starhunt.model.gameobject.fixedobject.item.Coin;
 import inf112.starhunt.model.gameobject.fixedobject.item.Star;
+import inf112.starhunt.model.gameobject.mobileobject.MobileObjectFactory;
+import inf112.starhunt.model.gameobject.mobileobject.actor.enemy.Enemy;
+import inf112.starhunt.model.gameobject.mobileobject.actor.enemy.Snail;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -27,6 +32,8 @@ class PlayerTest {
     private Transform transform;
     private Banana banana;
     private Coin coin;
+    private Ground ground;
+    private Enemy enemy;
 
     @BeforeEach
     void setUp() {
@@ -43,6 +50,12 @@ class PlayerTest {
 
         Transform coinTransform = new Transform(new Vector2(0, 0), new Vector2(1, 1));
         coin = new Coin(coinTransform);
+
+        Transform groundTransform = new Transform(new Vector2(0, -10), new Vector2(10, 10));
+        ground = new Ground(groundTransform);
+
+        Transform snailTransform = new Transform(new Vector2(0, 0), new Vector2(1, 1));
+        enemy = MobileObjectFactory.createSnail(10, 0);
     }
 
     @Test
@@ -314,6 +327,20 @@ class PlayerTest {
         assertTrue(result, "Player should have collided with the coin.");
     }
 
+    @Test
+    void testSetOnCoinCollected() {
+        // Lag en enkel mock for Runnable
+        Runnable coinCollectedCallback = mock(Runnable.class);
+
+        // Sett callback-en via metoden
+        player.setOnCoinCollected(coinCollectedCallback);
+
+        // Kall på callbacken ved å simulere at en mynt blir samlet
+        player.visit(coin);
+
+        // Verifiser at callbacken ble kalt
+        verify(coinCollectedCallback, times(1)).run();
+    }
 
 
 

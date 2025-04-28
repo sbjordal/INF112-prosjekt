@@ -143,5 +143,9 @@ public abstract class MobileObject extends GameObject implements Movable {
 
         return startCoordinate + endCoordinate;
     }
+    @Override
+    public int getDirection(){
+        return movementDirection;
+    }
 
 }

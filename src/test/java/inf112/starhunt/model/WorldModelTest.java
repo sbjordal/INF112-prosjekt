@@ -100,28 +100,6 @@ public class WorldModelTest {
         assertFalse(worldModel.isJumping);
     }
 
-    // TODO: kommentert ut for å kompilere
-//    @Test
-//    public void testLegalMove_validMove() {
-//        CollisionBox validMove = new CollisionBox(new Transform(new Vector2(10, 10), new Vector2(50, 50)));
-//        assertTrue(worldModel.isLegalMove(validMove));
-//    }
-//
-//    @Test
-//    public void testLegalMove_invalidMove_outOfBounds() {
-//        CollisionBox invalidMove = new CollisionBox(new Transform(new Vector2(-10, -10), new Vector2(50, 50)));
-//        assertFalse(worldModel.isLegalMove(invalidMove));
-//    }
-//
-//    @Test
-//    public void testLegalMove_invalidMove_collision() {
-//        CollisionBox collisionMove = new CollisionBox(new Transform(new Vector2(40, 40), new Vector2(50, 50)));
-//        Collidable obstacle = new Ground(new Transform(new Vector2(40, 40), new Vector2(50, 50)));
-//        worldModel.collidables.add(obstacle);
-//
-//        assertFalse(worldModel.isLegalMove(collisionMove));
-//    }
-
     @Test
     void testInfoMode () {
         assertFalse(worldModel.getInfoMode());
@@ -169,8 +147,8 @@ public class WorldModelTest {
 
     @Test
     void testEnemiesMovable(){
-        Enemy en1 = MobileObjectFactory.createSnail(10, 10, EnemyType.SNAIL);
-        Enemy en2 = MobileObjectFactory.createLeopard(15, 10, EnemyType.LEOPARD);
+        Enemy en1 = MobileObjectFactory.createSnail(10, 10);
+        Enemy en2 = MobileObjectFactory.createLeopard(15, 10);
         worldModel.enemies.add(en1);
         worldModel.enemies.add(en2);
         worldModel.moveEnemies(1 / 60f);
@@ -195,6 +173,15 @@ public class WorldModelTest {
     void testGetCountDown() {
         // Standardverdi fra konstruktør/setUpModel
         assertEquals(150, worldModel.getCountDown());
+    }
+
+    @Test
+    void testLevelCounter() {
+        // Startverdi:
+        assertEquals(1, worldModel.getLevelCounter());
+
+        // Må endre oppsett av goToNextLevel-metode i modellen for å teste at vi går til riktig level.
+
     }
 
     @Test

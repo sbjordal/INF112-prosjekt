@@ -30,4 +30,9 @@ public interface ViewableObject {
      * @param callback
      */
     void setOnCollisionWithEnemy(Runnable callback);
+
+    /**
+     * TODO
+     */
+    int getDirection();
 }

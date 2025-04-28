@@ -5,7 +5,7 @@
 <html id="htmlId">
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
-  <title>Coverage Report > Leopard</title>
+  <title>Coverage Report > Snail</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -22,7 +22,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     <a href="../index.html">inf112.starhunt.model.gameobject.mobileobject.actor.enemy</a>
 </div>
 
-<h1>Coverage Summary for Class: Leopard (inf112.starhunt.model.gameobject.mobileobject.actor.enemy)</h1>
+<h1>Coverage Summary for Class: Snail (inf112.starhunt.model.gameobject.mobileobject.actor.enemy)</h1>
 
 <table class="coverageStats">
 <tr>
@@ -41,7 +41,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">Leopard</td>
+  <td class="name">Snail</td>
 <td class="coverageStat">
   <span class="percent">
     100%
@@ -80,9 +80,9 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;import inf112.starhunt.model.gameobject.Transform;
 &nbsp;
 &nbsp;/**
-&nbsp; * Represents the Leopard enemy type.
+&nbsp; * Represents the Snail enemy type.
 &nbsp; */
-&nbsp;public final class Leopard extends Enemy {
+&nbsp;public final class Snail extends Enemy {
 &nbsp;    /**
 &nbsp;     * Creates a new Enemy with the specified movement speed, object score, damage and transform.
 &nbsp;     *
@@ -91,10 +91,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * @param damage        The amount of damage the Enemy will inflict.
 &nbsp;     * @param transform     The initial transform of the Enemy.
 &nbsp;     */
-&nbsp;    public Leopard(int lives, int movementSpeed, int objectScore, int damage, Transform transform) {
+&nbsp;    public Snail(int lives, int movementSpeed, int objectScore, int damage, Transform transform) {
 <b class="fc">&nbsp;        super(lives, movementSpeed, objectScore, damage, transform);</b>
 &nbsp;
-<b class="fc">&nbsp;        this.direction = Direction.LEFT;</b>
+<b class="fc">&nbsp;        setMovementDirection(1);</b>
 &nbsp;    }
 &nbsp;}
 </code>
@@ -120,7 +120,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2025-04-22 20:02</div>
+    <div style="float:right;">generated on 2025-04-27 23:09</div>
 </div>
 </body>
 </html>

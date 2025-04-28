@@ -21,7 +21,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     private WorldView worldView;
     private float viewportLeftX;
     private Controller controller;
-    //List<GameObject> objectList;
     List<Enemy> enemies;
     List<Collidable> collidables;
     private List<Collidable> toRemove;
@@ -33,6 +32,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     boolean isMovingLeft;
     boolean isJumping;
     private final int height;
+    private int levelcounter;
 
     public WorldModel(int width, int height) {
         this.height = height;
@@ -41,6 +41,8 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         this.currentLevel = LevelManager.Level.LEVEL_1;
         this.toRemove = new ArrayList<>();
         setUpModel();
+
+        this.levelcounter = 1;
     }
 
     public void setUpModel() {
@@ -50,6 +52,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         isMovingLeft = false;
         isJumping = false;
         board = new WorldBoard(LEVEL_WIDTH, height);
+
     }
 
     @Override
@@ -112,13 +115,16 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         return isWithinWidthBound && isWithinHeightBound;
     }
 
+    //TODO: Får ikke testet pga private + trenger gotNextLevel for å øke levelcounter
     private void goToNextLevel() {
         boolean gotNextLevel = player.getGoToNextLevel();
         if (gotNextLevel) {
             LevelManager.Level nextLevel = LevelManager.getNextLevel(currentLevel);
             currentLevel = nextLevel;
             startLevel(nextLevel);
+            levelcounter++;
         }
+
     }
 
     @Override
@@ -144,6 +150,8 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
             lastScoreUpdate = System.currentTimeMillis();
         }
     }
+
+
 
     boolean shouldUpdateCountDown() {
         long currentTime = System.currentTimeMillis();
@@ -197,6 +205,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         player.resetScores();
         infoMode = false;
         gameState = GameState.GAME_MENU;
+        levelcounter = 1;
     }
 
     @Override
@@ -281,6 +290,9 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     }
 
     @Override
+    public int getLevelCounter() { return levelcounter; }
+
+    @Override
     public void updateViewportLeftX(float leftX) {
         viewportLeftX = leftX;
     }
@@ -290,4 +302,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
     @Override
     public void resize( int i, int i1) {}
+
+
 }

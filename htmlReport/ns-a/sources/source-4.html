@@ -53,18 +53,18 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    47,2%
+    47,4%
   </span>
   <span class="absValue">
-    (17/36)
+    (18/38)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    70,7%
+    68,8%
   </span>
   <span class="absValue">
-    (94/133)
+    (95/138)
   </span>
 </td>
 </tr>
@@ -99,18 +99,18 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    47,2%
+    47,4%
   </span>
   <span class="absValue">
-    (17/36)
+    (18/38)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    70,9%
+    69,1%
   </span>
   <span class="absValue">
-    (95/134)
+    (96/139)
   </span>
 </td>
 </tr>
@@ -140,10 +140,11 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;import inf112.starhunt.model.gameobject.ViewableObject;
 &nbsp;import inf112.starhunt.model.gameobject.mobileobject.actor.Player;
 &nbsp;
+&nbsp;import java.util.EventListener;
 &nbsp;import java.util.HashMap;
 &nbsp;
 &nbsp;
-&nbsp;public class WorldView implements Screen {
+&nbsp;public class WorldView implements Screen, EventListener {
 &nbsp;
 &nbsp;    private ViewableWorldModel model;
 &nbsp;    private SpriteBatch batch;
@@ -163,7 +164,6 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;        this.layout = new GlyphLayout();</b>
 <b class="fc">&nbsp;        this.textures = new HashMap&lt;&gt;();</b>
 <b class="fc">&nbsp;        this.gameState = model.getGameState();</b>
-<b class="fc">&nbsp;        this.soundHandler = new SoundHandler();</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    /**
@@ -197,6 +197,9 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        font.setColor(Color.WHITE);</b>
 <b class="nc">&nbsp;        batch = new SpriteBatch();</b>
 <b class="nc">&nbsp;        menuBackgroundTexture = new Texture(&quot;background/plx-1.png&quot;);</b>
+<b class="nc">&nbsp;        soundHandler = new SoundHandler();</b>
+<b class="nc">&nbsp;        model.getViewablePlayer().setOnCoinCollected(() -&gt; soundHandler.playSound(&quot;coin&quot;));</b>
+<b class="nc">&nbsp;        model.getViewablePlayer().setOnCollisionWithEnemy(() -&gt; soundHandler.playSound(&quot;ouch&quot;));</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    @Override
@@ -215,6 +218,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        else if (model.getInfoMode() &amp;&amp; (gameState == GameState.GAME_MENU || gameState == GameState.GAME_PAUSED)) {</b>
 <b class="nc">&nbsp;            drawGameInfo();</b>
 &nbsp;        }
+&nbsp;
 &nbsp;    }
 &nbsp;
 &nbsp;
@@ -362,17 +366,21 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    void drawObjects() {
 <b class="fc">&nbsp;        for (ViewableObject object : model.getObjectList()) {</b>
 &nbsp;
-&nbsp;            // Skip drawing player.
-&nbsp;            // Player texture is handled differently due to animations.
 <b class="fc">&nbsp;            if (object instanceof Player) continue;</b>
-&nbsp;
+<b class="fc">&nbsp;            int direction = object.getDirection();</b>
 &nbsp;
 <b class="fc">&nbsp;            Texture objectTexture = getTexture(object);</b>
+&nbsp;
 <b class="fc">&nbsp;            float objectX = object.getTransform().getPos().x;</b>
 <b class="fc">&nbsp;            float objectY = object.getTransform().getPos().y;</b>
 <b class="fc">&nbsp;            float objectWidth = object.getTransform().getSize().x;</b>
 <b class="fc">&nbsp;            float objectHeight = object.getTransform().getSize().y;</b>
-<b class="fc">&nbsp;            batch.draw(objectTexture, objectX, objectY, objectWidth, objectHeight);</b>
+&nbsp;
+<b class="pc">&nbsp;            if (direction &gt;= 0) {</b>
+<b class="fc">&nbsp;                batch.draw(objectTexture, objectX + objectWidth, objectY, -objectWidth, objectHeight);</b>
+&nbsp;            } else {
+<b class="nc">&nbsp;                batch.draw(objectTexture, objectX, objectY, objectWidth, objectHeight);</b>
+&nbsp;            }
 &nbsp;        }
 &nbsp;    }
 &nbsp;
@@ -387,17 +395,14 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;    @Override
 &nbsp;    public void pause() {
-&nbsp;
 <b class="nc">&nbsp;    }</b>
 &nbsp;
 &nbsp;    @Override
 &nbsp;    public void resume() {
-&nbsp;
 <b class="nc">&nbsp;    }</b>
 &nbsp;
 &nbsp;    @Override
 &nbsp;    public void hide() {
-&nbsp;
 <b class="nc">&nbsp;    }</b>
 &nbsp;}
 </code>
@@ -423,7 +428,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2025-04-22 20:02</div>
+    <div style="float:right;">generated on 2025-04-27 23:09</div>
 </div>
 </body>
 </html>

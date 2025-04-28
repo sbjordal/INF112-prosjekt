@@ -17,7 +17,6 @@ public class GameObject implements ViewableObject {
      */
     public GameObject(Transform transform){
         this.transform = transform;
-//        this.rectangle = new Rectangle(transform.getPos().x,transform.getPos().y, transform.getSize().x, transform.getSize().y);
         this.collisionBox = new CollisionBox(transform);
     }
 
@@ -38,6 +37,11 @@ public class GameObject implements ViewableObject {
     @Override
     public void setOnCollisionWithEnemy(Runnable callback) {
 
+    }
+
+    @Override
+    public int getDirection() {
+        return 0;
     }
 
     protected void setCollisionBox(Transform transform) {
