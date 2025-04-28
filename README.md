@@ -1,3 +1,5 @@
+<img align="right" width=200 src=".\src\main\resources\assets\gameicon.png">
+
 # INF112 Project – *Star Hunt*
 
 ## Team:
