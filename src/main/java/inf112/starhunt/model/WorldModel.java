@@ -17,14 +17,14 @@ import java.util.List;
  * TODO
  */
 public class WorldModel implements ViewableWorldModel, ControllableWorldModel, ApplicationListener, PositionValidator {
-    public static final int LEVEL_WIDTH = 4500;
-    GameState gameState;
     Player player;
+    public static final int LEVEL_WIDTH = 4500;
+    private GameState gameState;
     private WorldBoard board;
     private WorldView worldView;
     private float viewportLeftX;
     private Controller controller;
-    List<Enemy> enemies;
+    private List<Enemy> enemies;
     List<Collidable> collidables;
     private List<Collidable> toRemove;
     private LevelManager.Level currentLevel;
@@ -252,10 +252,21 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         this.isJumping = isJumping;
     }
 
+
+
     @Override
     public GameState getGameState() {
         return gameState;
     }
+
+    @Override
+    public void setGameState(GameState gameState) {
+        this.gameState = gameState;
+    }
+
+    public List<Enemy> getEnemies() { return Collections.unmodifiableList(enemies); }
+
+    public void setEnemies(List<Enemy> enemies) {this.enemies = enemies; }
 
     @Override
     public int getTotalScore() {
