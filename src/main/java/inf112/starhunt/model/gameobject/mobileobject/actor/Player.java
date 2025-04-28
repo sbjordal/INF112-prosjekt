@@ -65,7 +65,7 @@ final public class Player extends Actor implements Visitor, Collidable {
      * Constructor for LevelManager
      */
     public Player() {
-        super(1,0,new Transform(new Vector2(0, 0), new Vector2(0, 0)));
+        super(1,0,TransformUtils.createTransformForObjects(0,0,0,0));
     }
 
     @Override
