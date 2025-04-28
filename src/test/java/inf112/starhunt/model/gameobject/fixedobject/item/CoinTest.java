@@ -49,6 +49,6 @@ public class CoinTest {
         Visitor visitor = mock(Visitor.class);
         coin.accept(visitor);
 
-        verify(visitor, times(1)).visit(coin);
+        verify(visitor, times(1)).visitCoin(coin);
     }
 }

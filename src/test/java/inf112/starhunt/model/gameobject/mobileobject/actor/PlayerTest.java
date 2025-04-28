@@ -8,14 +8,12 @@ import inf112.starhunt.model.gameobject.Collidable;
 import inf112.starhunt.model.gameobject.CollisionBox;
 import inf112.starhunt.model.gameobject.Transform;
 import inf112.starhunt.model.gameobject.Visitor;
-import inf112.starhunt.model.gameobject.fixedobject.FixedObjectFactory;
 import inf112.starhunt.model.gameobject.fixedobject.Ground;
 import inf112.starhunt.model.gameobject.fixedobject.item.Banana;
 import inf112.starhunt.model.gameobject.fixedobject.item.Coin;
 import inf112.starhunt.model.gameobject.fixedobject.item.Star;
 import inf112.starhunt.model.gameobject.mobileobject.MobileObjectFactory;
 import inf112.starhunt.model.gameobject.mobileobject.actor.enemy.Enemy;
-import inf112.starhunt.model.gameobject.mobileobject.actor.enemy.Snail;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -118,7 +116,7 @@ class PlayerTest {
     void testVisitStarSetsNextLevel() {
         Star star = mock(Star.class);
 
-        player.visit(star);
+        player.visitStar(star);
         assertTrue(player.getGoToNextLevel());
         assertFalse(player.getGoToNextLevel()); // reset
     }
@@ -272,7 +270,7 @@ class PlayerTest {
     void testAcceptCallsVisitor() {
         Visitor visitor = mock(Visitor.class);
         player.accept(visitor);
-        verify(visitor, times(1)).visit(player);
+        verify(visitor, times(1)).visitPlayer(player);
     }
 
     @Test
@@ -283,7 +281,7 @@ class PlayerTest {
         when(mockCoin.getObjectScore()).thenReturn(mockScore);
 
         // Simuler besøk
-        player.visit(mockCoin);
+        player.visitCoin(mockCoin);
 
         // Sjekk at coinCounter har økt med 1
         assertEquals(1, player.getCoinCounter());
@@ -300,7 +298,7 @@ class PlayerTest {
 
         int oldJumpForce = player.getJumpForce();
 
-        player.visit(banana);
+        player.visitBanana(banana);
 
         assertTrue(player.getHasPowerUp(), "Player should have power-up after visiting Banana.");
         assertTrue(oldJumpForce < player.getJumpForce(), "Player's jump force should be updated.");
@@ -336,7 +334,7 @@ class PlayerTest {
         player.setOnCoinCollected(coinCollectedCallback);
 
         // Kall på callbacken ved å simulere at en mynt blir samlet
-        player.visit(coin);
+        player.visitCoin(coin);
 
         // Verifiser at callbacken ble kalt
         verify(coinCollectedCallback, times(1)).run();

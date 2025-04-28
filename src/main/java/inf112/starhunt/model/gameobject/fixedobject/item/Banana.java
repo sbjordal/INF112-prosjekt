@@ -18,7 +18,7 @@ public class Banana extends Item implements Collidable {
 
     @Override
     public void accept(Visitor visitor) {
-        visitor.visit(this);
+        visitor.visitBanana(this);
     }
 
     public int getBigJumpForce() {

@@ -14,7 +14,6 @@ import inf112.starhunt.model.gameobject.fixedobject.item.Coin;
 import inf112.starhunt.model.gameobject.mobileobject.actor.Player;
 import inf112.starhunt.model.gameobject.mobileobject.actor.enemy.Enemy;
 import inf112.starhunt.model.gameobject.mobileobject.MobileObjectFactory;
-import inf112.starhunt.model.gameobject.mobileobject.actor.enemy.EnemyType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -201,7 +200,7 @@ public class WorldModelTest {
     void testGetTotalScoreReturnsCorrectValue() {
         assertEquals(0, worldModel.player.getTotalScore());
 
-        worldModel.player.visit(coin);
+        worldModel.player.visitCoin(coin);
         assertEquals(5, worldModel.player.getTotalScore());
         assertEquals(5, worldModel.getTotalScore());
     }
@@ -210,7 +209,7 @@ public class WorldModelTest {
     void testGetCoinCounterReturnsCorrectValue() {
         assertEquals(0, worldModel.player.getCoinCounter());
 
-        worldModel.player.visit(coin);
+        worldModel.player.visitCoin(coin);
         assertEquals(1, worldModel.player.getCoinCounter());
         assertEquals(1, worldModel.getCoinCounter());
 

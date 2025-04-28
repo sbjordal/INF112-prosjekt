@@ -38,7 +38,7 @@ public class GroundTest {
     void testGroundAcceptsVisitor() {
         Visitor visitor = mock(Visitor.class);
         ground.accept(visitor);
-        verify(visitor, times(1)).visit(ground);
+        verify(visitor, times(1)).visitGround(ground);
     }
 
     @Test
