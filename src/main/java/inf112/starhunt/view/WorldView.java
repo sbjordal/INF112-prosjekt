@@ -73,7 +73,7 @@ public class WorldView implements Screen, EventListener {
         font = new BitmapFont(); //new BitmapFont(Gdx.files.internal("skeleton.fnt")); Lag fil med font
         font.setColor(Color.WHITE);
         batch = new SpriteBatch();
-        menuBackgroundTexture = new Texture("background/plx-1.png");
+        menuBackgroundTexture = new Texture("background/menu_background.png");
         soundHandler = new SoundHandler();
         model.getViewablePlayer().setOnCoinCollected(() -> soundHandler.playSound("coin"));
         model.getViewablePlayer().setOnCollisionWithEnemy(() -> soundHandler.playSound("ouch"));
@@ -106,6 +106,7 @@ public class WorldView implements Screen, EventListener {
         batch.begin();
         batch.draw(menuBackgroundTexture, leftX, bottomY, viewport.getWorldWidth(), viewport.getWorldHeight());
         batch.end();
+
         drawCenteredText("Press ENTER to start the game", 3,0);
     }
 
