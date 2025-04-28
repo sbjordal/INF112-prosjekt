@@ -12,6 +12,13 @@ public interface ControllableWorldModel {
      */
     GameState getGameState();
 
+
+    /**
+     * Sets the state of the game
+     *
+     */
+    void setGameState(GameState gameState);
+
     /**
      * InfoMode is a boolean value used to decide if the information of the game should be displayed or not.
      * @return a boolean, true if the information should be displayed, otherwise false.

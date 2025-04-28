@@ -13,15 +13,18 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * TODO
+ */
 public class WorldModel implements ViewableWorldModel, ControllableWorldModel, ApplicationListener, PositionValidator {
-    public static final int LEVEL_WIDTH = 4500;
-    GameState gameState;
     Player player;
+    public static final int LEVEL_WIDTH = 4500;
+    private GameState gameState;
     private WorldBoard board;
     private WorldView worldView;
     private float viewportLeftX;
     private Controller controller;
-    List<Enemy> enemies;
+    private List<Enemy> enemies;
     List<Collidable> collidables;
     private List<Collidable> toRemove;
     private LevelManager.Level currentLevel;
@@ -32,7 +35,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     boolean isMovingLeft;
     boolean isJumping;
     private final int height;
-    private int levelcounter;
+    private int levelCounter;
 
     public WorldModel(int width, int height) {
         this.height = height;
@@ -42,9 +45,12 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         this.toRemove = new ArrayList<>();
         setUpModel();
 
-        this.levelcounter = 1;
+        this.levelCounter = 1;
     }
 
+    /**
+     * TODO
+     */
     public void setUpModel() {
         viewportLeftX = 0;
         countDown = 150;
@@ -105,8 +111,9 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         return positionIsOnBoard(collisionBox) && !visitor.isColliding(collidables, collisionBox);
     }
 
+    // TODO, skiv javadoc på denne, beskriv hva som skjer
     private boolean positionIsOnBoard(CollisionBox collisionBox) {
-        final int belowLevel = -200; // brukes for at player skal falle utenfor view(port)
+        final int belowLevel = -200;
         boolean isWithinWidthBound = collisionBox.botLeft.x >= 0 &&
                 collisionBox.botLeft.x > viewportLeftX &&
                 collisionBox.topRight.x < board.width();
@@ -115,14 +122,13 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         return isWithinWidthBound && isWithinHeightBound;
     }
 
-    //TODO: Får ikke testet pga private + trenger gotNextLevel for å øke levelcounter
     private void goToNextLevel() {
         boolean gotNextLevel = player.getGoToNextLevel();
         if (gotNextLevel) {
             LevelManager.Level nextLevel = LevelManager.getNextLevel(currentLevel);
             currentLevel = nextLevel;
             startLevel(nextLevel);
-            levelcounter++;
+            levelCounter++;
         }
 
     }
@@ -133,7 +139,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         if (gameState.equals(GameState.GAME_ACTIVE)) {
             updateScore(shouldUpdateCountDown());
             updatePlayerMovement(deltaTime);
-            goToNextLevel(); // TODO kan den stå her?
+            goToNextLevel();
             moveEnemies(deltaTime);
             checkForGameOver();
             toRemove = player.getObjectsToRemove();
@@ -150,8 +156,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
             lastScoreUpdate = System.currentTimeMillis();
         }
     }
-
-
 
     boolean shouldUpdateCountDown() {
         long currentTime = System.currentTimeMillis();
@@ -181,7 +185,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         }
     }
 
-    // TODO oppdater
     void moveEnemies(float deltaTime) {
         for (Enemy enemy : enemies) {
             float deltaX = (enemy.getMovementSpeed() * deltaTime) * enemy.getMovementDirection();
@@ -205,7 +208,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         player.resetScores();
         infoMode = false;
         gameState = GameState.GAME_MENU;
-        levelcounter = 1;
+        levelCounter = 1;
     }
 
     @Override
@@ -249,10 +252,21 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         this.isJumping = isJumping;
     }
 
+
+
     @Override
     public GameState getGameState() {
         return gameState;
     }
+
+    @Override
+    public void setGameState(GameState gameState) {
+        this.gameState = gameState;
+    }
+
+    public List<Enemy> getEnemies() { return Collections.unmodifiableList(enemies); }
+
+    public void setEnemies(List<Enemy> enemies) {this.enemies = enemies; }
 
     @Override
     public int getTotalScore() {
@@ -290,7 +304,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     }
 
     @Override
-    public int getLevelCounter() { return levelcounter; }
+    public int getLevelCounter() { return levelCounter; }
 
     @Override
     public void updateViewportLeftX(float leftX) {
@@ -302,6 +316,5 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
 
     @Override
     public void resize( int i, int i1) {}
-
 
 }

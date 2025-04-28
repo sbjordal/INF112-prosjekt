@@ -11,6 +11,7 @@ import inf112.starhunt.model.gameobject.CollisionBox;
 import inf112.starhunt.model.gameobject.Transform;
 import inf112.starhunt.model.gameobject.Visitor;
 import inf112.starhunt.model.gameobject.fixedobject.item.Coin;
+import inf112.starhunt.model.gameobject.mobileobject.MobileObject;
 import inf112.starhunt.model.gameobject.mobileobject.actor.Player;
 import inf112.starhunt.model.gameobject.mobileobject.actor.enemy.Enemy;
 import inf112.starhunt.model.gameobject.mobileobject.MobileObjectFactory;
@@ -20,6 +21,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -33,6 +35,8 @@ public class WorldModelTest {
     private WorldModel worldModel;
     private Transform transform;
     private Coin coin;
+    private List<Enemy> enemies;
+    private GameState gameState;
 
     @BeforeAll
     static void setUpBeforeALl() {
@@ -53,7 +57,8 @@ public class WorldModelTest {
         transform = new Transform(new Vector2(0, 0), new Vector2(50, 100));
         worldModel.player = new Player(3, 5, transform);
         worldModel.collidables = new ArrayList<>();
-        worldModel.enemies = new ArrayList<>();
+        this.enemies = new ArrayList<>();
+
 
         Transform coinTransform = new Transform(new Vector2(10, 20), new Vector2(30, 30));
         coin = new Coin(coinTransform);
@@ -109,22 +114,22 @@ public class WorldModelTest {
     @Test
     void testGamestate(){
         //Upon starting the game, the state should be GAME_MENU
-        assertTrue(worldModel.gameState.equals(GameState.GAME_MENU));
+        assertTrue(worldModel.getGameState().equals(GameState.GAME_MENU));
         worldModel.resume();
-        assertTrue(worldModel.gameState.equals(GameState.GAME_ACTIVE));
+        assertTrue(worldModel.getGameState().equals(GameState.GAME_ACTIVE));
         worldModel.pause();
-        worldModel.gameState.equals(GameState.GAME_PAUSED);
+        worldModel.getGameState().equals(GameState.GAME_PAUSED);
         worldModel.backToGameMenu();
-        worldModel.gameState.equals(GameState.GAME_MENU);
+        worldModel.getGameState().equals(GameState.GAME_MENU);
         worldModel.resume();
     }
 
     @Test
     void testCheckForGameOver(){
-        worldModel.gameState = GameState.GAME_ACTIVE;
+        worldModel.setGameState(GameState.GAME_ACTIVE);
         worldModel.player.receiveDamage(3);
         worldModel.checkForGameOver();
-        assertTrue(worldModel.gameState == (GameState.GAME_OVER));
+        assertTrue(worldModel.getGameState() == (GameState.GAME_OVER));
     }
 
     @Test
@@ -148,11 +153,13 @@ public class WorldModelTest {
     void testEnemiesMovable(){
         Enemy en1 = MobileObjectFactory.createSnail(10, 10);
         Enemy en2 = MobileObjectFactory.createLeopard(15, 10);
-        worldModel.enemies.add(en1);
-        worldModel.enemies.add(en2);
+        enemies.add(en1);
+        enemies.add(en2);
+
+        worldModel.setEnemies(enemies);
         worldModel.moveEnemies(1 / 60f);
-        assertTrue(worldModel.enemies.get(0).getTransform().getPos().x == 11);
-        assertTrue(worldModel.enemies.get(1).getTransform().getPos().x == 13);
+        assertTrue(worldModel.getEnemies().get(0).getTransform().getPos().x == 11);
+        assertTrue(worldModel.getEnemies().get(1).getTransform().getPos().x == 13);
     }
 
     @Test
