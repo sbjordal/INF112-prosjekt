@@ -191,14 +191,15 @@ public class WorldView implements Screen, EventListener {
         // Drawing objects
         batch.begin();
         parallaxBackground.render(batch);
-        font.draw(batch, totalScore, leftX, screenHeight-10);
-        font.draw(batch, coinCount, leftX + 300, screenHeight-10);
-        font.draw(batch, lives, leftX + 500, screenHeight - 10);
+        font.draw(batch, lives, leftX + 80, screenHeight - 15);
+        font.draw(batch, coinCount, leftX + 320, screenHeight - 15);
+        font.draw(batch, totalScore, leftX + 600, screenHeight - 15);
+
         TextureRegion currentFrame = playerAnimation.getFrame(movementDirection);
         playerAnimation.update(deltaTime,  model.getGameState() != GameState.GAME_ACTIVE);
         batch.draw(currentFrame, playerX, playerY, playerWidth, playerHeight);
-        font.draw(batch, countDown, leftX + 700, screenHeight - 10);
-        font.draw(batch, levelCount, leftX + 1000, screenHeight - 10);
+        font.draw(batch, countDown, leftX + 930, screenHeight - 15);
+        font.draw(batch, levelCount, leftX + 1300, screenHeight - 15);
         drawObjects();
         batch.end();
 
