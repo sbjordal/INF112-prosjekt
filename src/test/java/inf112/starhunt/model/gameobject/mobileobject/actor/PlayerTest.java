@@ -4,10 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.math.Vector2;
 import inf112.starhunt.model.PositionValidator;
-import inf112.starhunt.model.gameobject.Collidable;
-import inf112.starhunt.model.gameobject.CollisionBox;
-import inf112.starhunt.model.gameobject.Transform;
-import inf112.starhunt.model.gameobject.Visitor;
+import inf112.starhunt.model.gameobject.*;
 import inf112.starhunt.model.gameobject.fixedobject.Ground;
 import inf112.starhunt.model.gameobject.fixedobject.item.Banana;
 import inf112.starhunt.model.gameobject.fixedobject.item.Coin;
@@ -40,19 +37,19 @@ class PlayerTest {
         Gdx.graphics = mockGraphics;
         when(Gdx.graphics.getDeltaTime()).thenReturn(1 / 60f); // 60 FPS som eksempel
 
-        transform = new Transform(new Vector2(0, 0), new Vector2(50, 100));
+        transform = TransformUtils.createTransformForObjects(0,0,50,100);
         player = new Player(3, 5, transform);
 
-        Transform bananaTransform = new Transform(new Vector2(0, 0), new Vector2(1, 1));
+        Transform bananaTransform = TransformUtils.createTransformForObjects(0,0,1,1);
         banana = new Banana(bananaTransform);
 
-        Transform coinTransform = new Transform(new Vector2(0, 0), new Vector2(1, 1));
+        Transform coinTransform = TransformUtils.createTransformForObjects(0,0,1,1);
         coin = new Coin(coinTransform);
 
-        Transform groundTransform = new Transform(new Vector2(0, -10), new Vector2(10, 10));
+        Transform groundTransform = TransformUtils.createTransformForObjects(0,-10,10,10);
         ground = new Ground(groundTransform);
 
-        Transform snailTransform = new Transform(new Vector2(0, 0), new Vector2(1, 1));
+        Transform snailTransform = TransformUtils.createTransformForObjects(0,0,1,1);
         enemy = MobileObjectFactory.createSnail(10, 0);
     }
 
@@ -235,7 +232,7 @@ class PlayerTest {
     @Test
     void testIsCollidingSkipsPlayer() {
         // Opprett et spy-objekt for player, så vi kan spore 'accept' metoden
-        Player otherPlayer = spy(new Player(3, 5, new Transform(new Vector2(0, 0), new Vector2(50, 100))));
+        Player otherPlayer = spy(new Player(3, 5, TransformUtils.createTransformForObjects(0,0,50,100)));
 
         // Legg til 'otherPlayer' i listen over kolliderbare objekter
         List<Collidable> collidables = new ArrayList<>();

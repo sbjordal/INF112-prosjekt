@@ -13,7 +13,7 @@ public class CollisionBoxTest {
     public void setUp() {
         Vector2 position= new Vector2(0,0);
         Vector2 size= new Vector2(10,10);
-        player= new Player(3,1,new Transform(position,size));
+        player= new Player(3,1,TransformUtils.createTransformForObjects(0,0,10,10));
     }
     @Test
     public void testGameObjectHasCollisionBox() {
@@ -22,7 +22,7 @@ public class CollisionBoxTest {
 
     @Test
     public void testCollisionBoxCollisionFromRight() {
-        GameObject gameObject= new GameObject(new Transform(new Vector2(20,0), new Vector2(10,10)));
+        GameObject gameObject= new GameObject(TransformUtils.createTransformForObjects(20,0,10,10));
         assertFalse(player.getCollisionBox().isCollidingFromRight(gameObject.getCollisionBox()));
         player.move(new Vector2(10,0));
         assertTrue(player.getCollisionBox().isCollidingFromRight(gameObject.getCollisionBox()));
@@ -33,7 +33,7 @@ public class CollisionBoxTest {
 
     @Test
     public void testCollisionBoxCollisionFromLeft() {
-        GameObject gameobject= new GameObject(new Transform(new Vector2(-20,0), new Vector2(10,10)));
+        GameObject gameobject= new GameObject(TransformUtils.createTransformForObjects(-20,0,10,10));
         assertFalse(player.getCollisionBox().isCollidingFromLeft(gameobject.getCollisionBox()));
         player.move(new Vector2(-10,0));
         assertTrue(player.getCollisionBox().isCollidingFromLeft(gameobject.getCollisionBox()));
@@ -44,7 +44,7 @@ public class CollisionBoxTest {
 
     @Test
     public void testCollisionBoxCollisionFromTop() {
-        GameObject gameobject= new GameObject(new Transform(new Vector2(0, -10), new Vector2(10,10)));
+        GameObject gameobject= new GameObject(TransformUtils.createTransformForObjects(0,-10,10,10));
         assertFalse(player.getCollisionBox().isCollidingFromTop(gameobject.getCollisionBox()));
         player.move(new Vector2(0,-20)); // players collisionbox har str 10, så 10 + 10
         assertFalse(player.getCollisionBox().isCollidingFromLeft(gameobject.getCollisionBox()));
@@ -55,7 +55,7 @@ public class CollisionBoxTest {
 
     @Test
     public void testCollisionBoxCollisionFromBottom() {
-        GameObject gameobject= new GameObject(new Transform(new Vector2(0,10 ), new Vector2(10,10)));
+        GameObject gameobject= new GameObject(TransformUtils.createTransformForObjects(0,10,10,10));
         assertFalse(player.getCollisionBox().isCollidingFromBottom(gameobject.getCollisionBox()));
         player.move(new Vector2(0,10));
 
@@ -69,7 +69,7 @@ public class CollisionBoxTest {
     @Test
     void testSetPositionUpdatesBotLeftAndTopRight() {
         // Lag en CollisionBox med en kjent posisjon og størrelse
-        Transform transform = new Transform(new Vector2(0, 0), new Vector2(10, 20));
+        Transform transform = TransformUtils.createTransformForObjects(0,0,10,20);
         CollisionBox collisionBox = new CollisionBox(transform);
 
         // Ny posisjon som vi setter
@@ -87,8 +87,8 @@ public class CollisionBoxTest {
     @Test
     void testIsCollidingWithOverlappingBoxes() {
         // Lag to kollisjonsbokser som overlapper
-        CollisionBox box1 = new CollisionBox(new Transform(new Vector2(0, 0), new Vector2(10, 10)));
-        CollisionBox box2 = new CollisionBox(new Transform(new Vector2(5, 5), new Vector2(10, 10)));  // Overlapper med box1
+        CollisionBox box1 = new CollisionBox(TransformUtils.createTransformForObjects(0,0,10,10));
+        CollisionBox box2 = new CollisionBox(TransformUtils.createTransformForObjects(5,5,10,10));  // Overlapper med box1
 
         // Sjekk at de kolliderer
         assertTrue(box1.isCollidingWith(box2), "The boxes should collide when they overlap.");
@@ -97,8 +97,8 @@ public class CollisionBoxTest {
     @Test
     void testIsCollidingWithNonOverlappingBoxes() {
         // Lag to kollisjonsbokser som ikke overlapper
-        CollisionBox box1 = new CollisionBox(new Transform(new Vector2(0, 0), new Vector2(10, 10)));
-        CollisionBox box2 = new CollisionBox(new Transform(new Vector2(20, 20), new Vector2(10, 10)));  // Ikke overlappende
+        CollisionBox box1 = new CollisionBox(TransformUtils.createTransformForObjects(0,0,10,10));
+        CollisionBox box2 = new CollisionBox(TransformUtils.createTransformForObjects(20,20,10,10));  // Ikke overlappende
 
         // Sjekk at de ikke kolliderer
         assertFalse(box1.isCollidingWith(box2), "The boxes should not collide when they don't overlap.");
@@ -108,8 +108,8 @@ public class CollisionBoxTest {
     @Test
     void testIsCollidingWithOneBoxInsideAnother() {
         // Lag en kollisjonsboks som er inne i en annen
-        CollisionBox box1 = new CollisionBox(new Transform(new Vector2(0, 0), new Vector2(20, 20)));
-        CollisionBox box2 = new CollisionBox(new Transform(new Vector2(5, 5), new Vector2(10, 10)));  // Box2 er inne i box1
+        CollisionBox box1 = new CollisionBox(TransformUtils.createTransformForObjects(0,0,20,20));
+        CollisionBox box2 = new CollisionBox(TransformUtils.createTransformForObjects(5,5,10,10));  // Box2 er inne i box1
 
         // Sjekk at de kolliderer
         assertTrue(box1.isCollidingWith(box2), "The boxes should collide when one is inside the other.");

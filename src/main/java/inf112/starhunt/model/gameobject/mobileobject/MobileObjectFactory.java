@@ -1,6 +1,5 @@
 package inf112.starhunt.model.gameobject.mobileobject;
 
-import com.badlogic.gdx.math.Vector2;
 import inf112.starhunt.model.gameobject.Transform;
 import inf112.starhunt.model.gameobject.TransformUtils;
 import inf112.starhunt.model.gameobject.mobileobject.actor.Player;
@@ -32,7 +31,7 @@ public class MobileObjectFactory {
     }
 
     public static MobileObject createPlayer(Float x, Float y) {
-        Transform transform = TransformUtils.createTransformForObjects(40, 80, x, y);
+        Transform transform = TransformUtils.createTransformForObjects(x, y, 40, 80);
         return new Player(3, 350, transform);
     }
 
@@ -44,7 +43,7 @@ public class MobileObjectFactory {
      * @return A new instance of Snail
      */
     public static Snail createSnail(float x, float y) {
-        Transform transform = TransformUtils.createTransformForObjects(EnemyType.SNAIL.width, EnemyType.SNAIL.height, x, y);
+        Transform transform = TransformUtils.createTransformForObjects(x, y, EnemyType.SNAIL.width, EnemyType.SNAIL.height);
 
         return new Snail(EnemyType.SNAIL.health, EnemyType.SNAIL.movementSpeed, EnemyType.SNAIL.objectScore,
                 EnemyType.SNAIL.damage, transform);
@@ -58,7 +57,7 @@ public class MobileObjectFactory {
      * @return A new instance of Leopard
      */
     public static Leopard createLeopard(float x, float y) {
-        Transform transform = TransformUtils.createTransformForObjects(EnemyType.LEOPARD.width, EnemyType.LEOPARD.height, x, y);
+        Transform transform = TransformUtils.createTransformForObjects(x, y, EnemyType.LEOPARD.width, EnemyType.LEOPARD.height);
 
         return new Leopard(EnemyType.LEOPARD.health, EnemyType.LEOPARD.movementSpeed, EnemyType.LEOPARD.objectScore,
                 EnemyType.LEOPARD.damage, transform);
