@@ -253,7 +253,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     }
 
 
-
     @Override
     public GameState getGameState() {
         return gameState;
