@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * TODO
  */
-public class WorldModel implements ViewableWorldModel, ControllableWorldModel, ApplicationListener, PositionValidator {
+public class WorldModel extends AbstractApplicationListener implements ViewableWorldModel, ControllableWorldModel, PositionValidator {
     public static final int LEVEL_WIDTH = 4500;
 
     Player player;
@@ -321,10 +321,4 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     public void updateViewportLeftX(float leftX) {
         viewportLeftX = leftX;
     }
-
-    @Override
-    public void dispose() {}
-
-    @Override
-    public void resize( int i, int i1) {}
 }
