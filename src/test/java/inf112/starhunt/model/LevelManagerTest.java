@@ -47,8 +47,6 @@ public class LevelManagerTest {
         when(Gdx.files.classpath(anyString())).thenReturn(fileHandle);
     }
 
-    //TODO: Kommentert ut, må tilpasses oppdatert kode, ser ut som at
-    // jsonfilen ikke lagres med riktige objekter etter vi laget ground?
 
     @Test
     void loadLevel_missingPlayer_throwsException() {

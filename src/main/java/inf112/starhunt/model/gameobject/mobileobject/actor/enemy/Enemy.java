@@ -110,7 +110,6 @@ public abstract class Enemy extends Actor implements Scorable, Visitor, Collidab
 
     @Override
     public void visitGround(Ground ground) {
-        //TODO, har tatt snarvei her, fordi enemy ikk er på bakken, så all kollisjon vil være i vegg
         switchDirection();
     }
 
