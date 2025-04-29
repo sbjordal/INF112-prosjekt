@@ -7,9 +7,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class ParallaxBackground {
     Texture[] layers;
     float[] layerX;
-    private float[] scrollSpeeds;
     private float screenWidth;
     private float screenHeight;
+    private final float[] scrollSpeeds;
     private final int levelWidth;
 
     public ParallaxBackground(int levelWidth) {
@@ -19,6 +19,7 @@ public class ParallaxBackground {
         this.levelWidth = levelWidth;
         loadTextures();
     }
+
     public void loadTextures(){
        for (int i = 0; i < 5; i++) {
            String file = "background/plx-" + (i + 1) + ".png";

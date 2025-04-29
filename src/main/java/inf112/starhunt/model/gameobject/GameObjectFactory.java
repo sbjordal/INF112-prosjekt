@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.function.BiFunction;
 
 public class GameObjectFactory {
-
         static Map<String, BiFunction<Float, Float, GameObject>> registry = new HashMap<>();
         static {
             registry.put("banana", FixedObjectFactory::createBanana);
@@ -24,8 +23,9 @@ public class GameObjectFactory {
 
         public static GameObject createGameObject(String gameObject, float x, float y) {
             GameObject object = registry.get(gameObject).apply(x, y);
+
             if (object == null) {
-                throw new IllegalArgumentException("Unknown gameobject: " + gameObject);
+                throw new IllegalArgumentException("Unknown GameObject type: " + gameObject);
             }
 
             return object;

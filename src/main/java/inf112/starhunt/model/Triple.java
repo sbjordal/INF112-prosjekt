@@ -19,5 +19,7 @@ public class Triple<A, B, C>{
         return second;
     }
 
-    public C getThird() {return third;}
+    public C getThird() {
+        return third;
+    }
 }

@@ -16,30 +16,33 @@ import java.util.List;
 /**
  *
  */
-public class WorldModel implements ViewableWorldModel, ControllableWorldModel, ApplicationListener, PositionValidator {
-    Player player;
+public class WorldModel extends AbstractApplicationListener implements ViewableWorldModel, ControllableWorldModel, PositionValidator {
     public static final int LEVEL_WIDTH = 4500;
-    private GameState gameState;
-    private WorldBoard board;
-    private WorldView worldView;
-    private float viewportLeftX;
-    private Controller controller;
-    private List<Enemy> enemies;
-    List<Collidable> collidables;
-    private List<Collidable> toRemove;
-    private LevelManager.Level currentLevel;
+
+    Player player;
     int countDown;
-    long lastScoreUpdate = System.currentTimeMillis();
-    private boolean infoMode;
+    long lastScoreUpdate;
     boolean isMovingRight;
     boolean isMovingLeft;
     boolean isJumping;
+    List<Collidable> collidables;
+
+    private GameState gameState;
+    private WorldBoard board;
+    private WorldView worldView;
+    private Controller controller;
+    private List<Enemy> enemies;
+    private List<Collidable> toRemove;
+    private LevelManager.Level currentLevel;
     private final int height;
+    private float viewportLeftX;
+    private boolean infoMode;
     private int levelCounter;
 
     public WorldModel(int width, int height) {
         this.height = height;
         this.worldView = new WorldView(this, width, height);
+        this.lastScoreUpdate = System.currentTimeMillis();
         this.gameState = GameState.GAME_MENU;
         this.currentLevel = LevelManager.Level.LEVEL_1;
         this.toRemove = new ArrayList<>();
@@ -58,7 +61,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         isMovingLeft = false;
         isJumping = false;
         board = new WorldBoard(LEVEL_WIDTH, height);
-
     }
 
     @Override
@@ -72,11 +74,11 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         Triple<List<Enemy>, List<Collidable>, Player> triple = LevelManager.loadLevel(currentLevel);
         enemies = triple.first;
         collidables = triple.second;
+
         if (levelCounter == 1) {
             player = triple.third;
             player.setRespawned(true);
-        }
-        else {
+        } else {
             player.resetForNewLevel(triple.third.getTransform().getPos());
             collidables.remove(triple.third);
             collidables.add(player);
@@ -111,6 +113,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         return positionIsOnBoard(collisionBox) && !visitor.isColliding(collidables, collisionBox);
     }
 
+    // TODO, skiv javadoc på denne, beskriv hva som skjer
     private boolean positionIsOnBoard(CollisionBox collisionBox) {
         final int belowLevel = -200;
         boolean isWithinWidthBound = collisionBox.botLeft.x >= 0 &&
@@ -129,7 +132,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
             startLevel(nextLevel);
             levelCounter++;
         }
-
     }
 
     @Override
@@ -161,25 +163,29 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         if (countDown == 0) {
             gameState = GameState.GAME_OVER;
         }
-        return currentTime - lastScoreUpdate >= 1000 && countDown >0 && gameState == GameState.GAME_ACTIVE;
+        return (currentTime - lastScoreUpdate) >= 1000 && countDown > 0 && gameState == GameState.GAME_ACTIVE;
     }
 
     private void updatePlayerMovement(float deltaTime) {
         boolean isGrounded = player.isTouchingGround(Collections.unmodifiableList(collidables));
-
         if (isJumping) {
             player.jump(isGrounded);
         }
+
         player.applyGravity(deltaTime, isGrounded);
         float deltaY = player.getVerticalVelocity() * deltaTime;
         player.resolveMovement(0, deltaY, this);
-        if (isMovingRight ^ isMovingLeft) {
+
+        final boolean isMoving = isMovingRight ^ isMovingLeft;
+        if (isMoving) {
             int direction = isMovingRight ? 1 : -1;
             player.setMovementDirection(direction);
             float deltaX = (player.getMovementSpeed() * deltaTime) * direction;
             player.resolveMovement(deltaX, 0, this);
         }
-        if (!(isMovingRight || isMovingLeft)){
+
+        final boolean isStandingStill = !(isMovingRight || isMovingLeft);
+        if (isStandingStill) {
             player.setMovementDirection(0);
         }
     }
@@ -263,14 +269,18 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         this.gameState = gameState;
     }
 
+    public List<Enemy> getEnemies() {
+        return Collections.unmodifiableList(enemies);
+    }
+
+    public void setEnemies(List<Enemy> enemies) {
+        this.enemies = enemies;
+    }
+
     @Override
     public LevelManager.Level getCurrentLevel() {
         return currentLevel;
     }
-
-    public List<Enemy> getEnemies() { return Collections.unmodifiableList(enemies); }
-
-    public void setEnemies(List<Enemy> enemies) {this.enemies = enemies; }
 
     @Override
     public int getTotalScore() {
@@ -308,17 +318,12 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     }
 
     @Override
-    public int getLevelCounter() { return levelCounter; }
+    public int getLevelCounter() {
+        return levelCounter;
+    }
 
     @Override
     public void updateViewportLeftX(float leftX) {
         viewportLeftX = leftX;
     }
-
-    @Override
-    public void dispose() {}
-
-    @Override
-    public void resize( int i, int i1) {}
-
 }

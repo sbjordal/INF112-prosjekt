@@ -19,10 +19,6 @@ public class FixedObjectFactory {
         registry.put("coin", FixedObjectFactory::createCoin);
     }
 
-    public static FixedObject createFixedObject(String fixedObject, float x, float y) {
-        return registry.get(fixedObject).apply(x, y);
-    }
-
     public static Ground createGround(float x, float y){
 
         Transform transform = TransformUtils.createTransformForObjects(x, y, 50, 50);

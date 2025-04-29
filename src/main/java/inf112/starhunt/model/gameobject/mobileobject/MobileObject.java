@@ -14,10 +14,10 @@ import java.util.List;
  * A variable position can be altered once instantiated.
  */
 public abstract class MobileObject extends GameObject implements Movable {
+    private final static int GRAVITY_FORCE = -3200;
     private final int movementSpeed;
     private int verticalVelocity;
     private int movementDirection;
-    private int gravityForce;
 
     /**
      * Creates a new MobileObject with the specified movement speed.
@@ -31,7 +31,6 @@ public abstract class MobileObject extends GameObject implements Movable {
         this.movementSpeed = movementSpeed;
         this.verticalVelocity = 0;
         this.movementDirection = 0;
-        this.gravityForce = -3200;
     }
 
     @Override
@@ -66,7 +65,9 @@ public abstract class MobileObject extends GameObject implements Movable {
      *
      * @return The movement speed as an integer.
      */
-    public int getMovementSpeed() { return movementSpeed; }
+    public int getMovementSpeed() {
+        return movementSpeed;
+    }
 
     public int getVerticalVelocity() {
         return verticalVelocity;
@@ -89,10 +90,9 @@ public abstract class MobileObject extends GameObject implements Movable {
         if (isOnGround && verticalVelocity <= 0) {
             verticalVelocity = 0;
         } else {
-            verticalVelocity += (int)(gravityForce * deltaTime);
+            verticalVelocity += (int)(GRAVITY_FORCE * deltaTime);
         }
     }
-
 
     @Override
     public boolean isTouchingGround(List<Collidable> objectList) {
@@ -109,7 +109,7 @@ public abstract class MobileObject extends GameObject implements Movable {
 
     @Override
     public Vector2 filterPosition(float deltaX, float deltaY, PositionValidator validator, Visitor visitor){
-        Transform transform = this.getTransform();
+        Transform transform = getTransform();
         Vector2 position = transform.getPos();
         Vector2 size = transform.getSize();
         float filteredX = binarySearch(position.x, position.y, deltaX, size, true, validator, visitor);
@@ -122,7 +122,6 @@ public abstract class MobileObject extends GameObject implements Movable {
         int low = 0;
         int high = (int) Math.abs(delta);
         boolean isNegative = delta < 0;
-
 
         while (low < high) {
             int mid = (low + high + 1) / 2;
@@ -143,9 +142,9 @@ public abstract class MobileObject extends GameObject implements Movable {
 
         return startCoordinate + endCoordinate;
     }
+
     @Override
     public int getDirection(){
         return movementDirection;
     }
-
 }

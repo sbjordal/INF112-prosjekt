@@ -8,9 +8,6 @@ import inf112.starhunt.model.LevelManager;
 
 /**
  * A class that handles keyboard input and manipulates the model accordingly.
- *
- * Reading material on event handling for use of LigGDX:
- * https://libgdx.com/wiki/input/event-handling
  */
 public class Controller extends InputAdapter {
 

@@ -144,7 +144,7 @@ public class LevelManager {
                 return (LEVEL_3);
             case LEVEL_3:
                 return (LEVEL_1);
-            default: throw new IllegalArgumentException("No such level exists");
+            default: throw new IllegalArgumentException("No such level exists: " + level);
         }
     }
 
