@@ -186,6 +186,7 @@ public class WorldView implements Screen, EventListener {
 
         // Parallax background
         int movementDirection = model.getMovementDirection();
+
         parallaxBackground.update(movementDirection, deltaTime, model.getGameState() != GameState.GAME_ACTIVE);
 
         // Drawing objects

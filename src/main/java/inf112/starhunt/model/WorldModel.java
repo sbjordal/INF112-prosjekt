@@ -72,7 +72,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         Triple<List<Enemy>, List<Collidable>, Player> triple = LevelManager.loadLevel(currentLevel);
         enemies = triple.first;
         collidables = triple.second;
-        if (currentLevel == LevelManager.Level.LEVEL_1) {
+        if (levelCounter == 1) {
             player = triple.third;
             player.setRespawned(true);
         }
