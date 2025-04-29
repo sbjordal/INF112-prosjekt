@@ -129,6 +129,9 @@
     - Vi har erfart at planene våre har måttet gjøres om på flere ganger, da det har dukket opp utfordringer vi ikke hadde
       sett for oss underveis. Pensum og forelesningene har lært oss mye om hvordan koden må bygges opp for å være SOLID og 
       testbar underveis i kurset, som har gjort at vi har måttet skrive om koden for å ta hensyn til dette.
+    - Vi har også erfart at ting vi har drevet med har vært vanskelig, som å skrive tester for libgdx-elementer. Det har 
+      vært frustrerende å stå fast og innse at gruppelederne heller ikke har svar på hvordan vi skulle løse utfordringene.
+      Det har vært mye mestring i å løse utfordringene som et team og oppnå et ferdig produkt vi er stolte av.
 
     **- Hva har vi gjort bra?**
       - Vi føler vi har vært gode på å kommunisere, ha jevnlige møter og ta opp og informere om ting mellom møtene. 
@@ -142,8 +145,8 @@
 
     **- Hva vi ville gjort annerledes om vi skulle startet på nytt:**
       - Vi skulle ha lest oss mer opp på libgdx og spilldesign i Java før vi startet å programmere. Vi forsøkte å bruke litt
-      tid på dette i starten før vi satt igang, men å bruke enda mer tid på dette før vi satt igang ville spart oss mye tid
-      på refaktorering senere. Det har dog vært veldig lærerikt å måtte gjøre om på strukturen underveis.
+        tid på dette i starten før vi satt igang, men å bruke enda mer tid på dette før vi satt igang ville spart oss mye tid
+        på refaktorering senere. Det har dog vært veldig lærerikt å måtte gjøre om på strukturen underveis.
       - Vi burde ha prioritert å skrive flere tester tidligere i prosjektet. Vi avventet å teste flere av klassene til logikken
         var på plass for å slippe å måtte gjøre om på alt vi hadde skrevet i etterkant. Vi burde hatt noen enkle tester for 
         å se at logikken ble riktig mens vi prøvde oss frem på hvordan koden måtte være for å få korrekt funksjonalitet.
