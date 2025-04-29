@@ -2,11 +2,16 @@ package inf112.starhunt.model.gameobject.mobileobject.actor;
 
 import com.badlogic.gdx.math.Vector2;
 import inf112.starhunt.model.PositionValidator;
+import inf112.starhunt.model.WorldModel;
 import inf112.starhunt.model.gameobject.Collidable;
 import inf112.starhunt.model.gameobject.Visitor;
 
 import java.util.List;
 
+/**
+ * This interface defines the essential behaviors and attributes a player must expose
+ * in order to interact with the {@link WorldModel}.
+ */
 public interface ModelablePlayer extends Visitor, Collidable {
 
     /**
