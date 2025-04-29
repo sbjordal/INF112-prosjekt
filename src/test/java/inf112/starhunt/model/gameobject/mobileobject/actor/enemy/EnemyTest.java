@@ -22,19 +22,19 @@ public class EnemyTest {
     @Test
     void testEnemyDeathSnail() {
         Enemy enemy = MobileObjectFactory.createSnail(0, 0);
-        assertTrue(enemy.isAlive());
+        assertTrue(enemy.getIsAlive());
         enemy.receiveDamage(1);
-        assertFalse( enemy.isAlive());
+        assertFalse( enemy.getIsAlive());
     }
 
     @Test
     void testEnemyDeathLeopard() {
         Enemy enemy = MobileObjectFactory.createLeopard(0, 0);
-        assertTrue(enemy.isAlive());
+        assertTrue(enemy.getIsAlive());
         enemy.receiveDamage(1);
-        assertTrue(enemy.isAlive());
+        assertTrue(enemy.getIsAlive());
         enemy.receiveDamage(1);
-        assertFalse(enemy.isAlive());
+        assertFalse(enemy.getIsAlive());
     }
 
     @Test
@@ -99,7 +99,7 @@ public class EnemyTest {
     }
 
     void testAttack(Enemy enemy, Player player) {
-        assertTrue(player.isAlive());
+        assertTrue(player.getIsAlive());
         assertEquals(3, player.getLives());
 
         enemy.attack(player);
@@ -112,7 +112,7 @@ public class EnemyTest {
 
 //        enemy.attack(player);
 //        assertEquals(0, player.getLives());
-//        assertFalse(player.isAlive());
+//        assertFalse(player.getIsAlive());
     }
 
     @Test
@@ -133,12 +133,12 @@ public class EnemyTest {
         player.setHasPowerUp(true);
 
         assertTrue(player.getHasPowerUp());
-        assertTrue(player.isAlive());
+        assertTrue(player.getIsAlive());
         assertEquals(3, player.getLives());
 
         enemy.attack(player);
         assertFalse(player.getHasPowerUp());
-        assertTrue(player.isAlive());
+        assertTrue(player.getIsAlive());
         assertEquals(3, player.getLives());
 
         //TODO: Får ikke attacke to ganger på rad, antakelig pga cooldown. Forsøkt Thread.sleep(60) uten hell

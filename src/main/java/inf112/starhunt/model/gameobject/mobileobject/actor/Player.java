@@ -19,13 +19,14 @@ import java.util.List;
  * The user-controlled actor is unique and is defined as the only {@link GameObject}
  * that responds to user-input.
  */
-final public class Player extends Actor implements Visitor, Collidable {
+final public class Player extends Actor implements ModelablePlayer {
     private final static int NORMAL_BOUNCE_FORCE = 35000;
     private final static int SMALL_BOUNCE_FORCE = 27000;
     private final static int NORMAL_JUMP_FORCE = 63000;
     private final static int ATTACK_COOLDOWN = 800;
     private final static int BOUNCE_COOLDOWN = 64;
     private final static Vector2 STANDARD_PLAYER_SIZE = new Vector2(40, 80);
+
     private int jumpForce;
     private boolean isJustRespawned;
     private boolean hasPowerUp;
@@ -78,20 +79,22 @@ final public class Player extends Actor implements Visitor, Collidable {
         takingDamage = callback;
     }
 
+    @Override
     public void jump(boolean isGrounded) {
         if (isGrounded) {
-            jump(jumpForce);
+            applyJumpForce(jumpForce);
         }
     }
 
-    public void jump(int force){
+    @Override
+    public void applyJumpForce(int force){
         int velocity = (int)(force * Gdx.graphics.getDeltaTime());
         setVerticalVelocity(velocity);
     }
 
     public void bounce(){
         int bounceForce = hasPowerUp ? SMALL_BOUNCE_FORCE : NORMAL_BOUNCE_FORCE;
-        jump(bounceForce);
+        applyJumpForce(bounceForce);
     }
 
     @Override
@@ -156,7 +159,7 @@ final public class Player extends Actor implements Visitor, Collidable {
             bounce();
             dealDamage(enemy, getDamage());
 
-            if (!enemy.isAlive()) {
+            if (!enemy.getIsAlive()) {
                 totalScore += enemy.getObjectScore();
                 objectsToRemove.add(enemy);
             }
@@ -185,6 +188,7 @@ final public class Player extends Actor implements Visitor, Collidable {
         return false;
     }
 
+    @Override
     public List<Collidable> getObjectsToRemove() {
         return objectsToRemove;
     }
@@ -203,6 +207,7 @@ final public class Player extends Actor implements Visitor, Collidable {
         }
     }
 
+    @Override
     public int getTotalScore() {
         return totalScore;
     }
@@ -215,16 +220,19 @@ final public class Player extends Actor implements Visitor, Collidable {
         coinCounter += deltaCoin;
     }
 
+    @Override
     public int getCoinCounter() {
         return coinCounter;
     }
 
+    @Override
     public boolean getGoToNextLevel() {
         boolean currentValue = goToNextLevel;
         goToNextLevel = false;
         return currentValue;
     }
 
+    @Override
     public void resetScores() {
         totalScore = 0;
         coinCounter = 0;
@@ -238,6 +246,7 @@ final public class Player extends Actor implements Visitor, Collidable {
         return hasPowerUp;
     }
 
+    @Override
     public void setRespawned(boolean bool){
         isJustRespawned = bool;
     }
@@ -288,6 +297,7 @@ final public class Player extends Actor implements Visitor, Collidable {
         }
     }
 
+    @Override
     public void resetForNewLevel(Vector2 spawnPoint) {
         move(spawnPoint);
         setLives(initialLives);

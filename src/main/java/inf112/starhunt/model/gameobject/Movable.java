@@ -53,6 +53,13 @@ public interface Movable {
      */
     void move(Vector2 newPos);
 
-    // TODO: comment
+    /**
+     * Resolves a proposed movement of the movable object.
+     * It filters the movement based on the provided validator.
+     *
+     * @param deltaX      The proposed change in the x-coordinate.
+     * @param deltaY      The proposed change in the y-coordinate.
+     * @param validator   The {@link PositionValidator} used to filter the movement.
+     */
     void resolveMovement(float deltaX, float deltaY, PositionValidator validator);
 }
