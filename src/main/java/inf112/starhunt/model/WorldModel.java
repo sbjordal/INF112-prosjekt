@@ -14,7 +14,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * TODO
+ *
  */
 public class WorldModel implements ViewableWorldModel, ControllableWorldModel, ApplicationListener, PositionValidator {
     Player player;
@@ -49,7 +49,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     }
 
     /**
-     * TODO
+     *
      */
     public void setUpModel() {
         viewportLeftX = 0;
@@ -111,7 +111,6 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         return positionIsOnBoard(collisionBox) && !visitor.isColliding(collidables, collisionBox);
     }
 
-    // TODO, skiv javadoc på denne, beskriv hva som skjer
     private boolean positionIsOnBoard(CollisionBox collisionBox) {
         final int belowLevel = -200;
         boolean isWithinWidthBound = collisionBox.botLeft.x >= 0 &&
@@ -208,6 +207,7 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
         player.resetScores();
         infoMode = false;
         gameState = GameState.GAME_MENU;
+        currentLevel= LevelManager.Level.LEVEL_1;
         levelCounter = 1;
     }
 
@@ -262,6 +262,11 @@ public class WorldModel implements ViewableWorldModel, ControllableWorldModel, A
     @Override
     public void setGameState(GameState gameState) {
         this.gameState = gameState;
+    }
+
+    @Override
+    public LevelManager.Level getCurrentLevel() {
+        return currentLevel;
     }
 
     public List<Enemy> getEnemies() { return Collections.unmodifiableList(enemies); }
