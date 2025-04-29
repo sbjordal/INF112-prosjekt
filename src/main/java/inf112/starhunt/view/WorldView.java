@@ -21,9 +21,8 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import java.util.EventListener;
 import java.util.HashMap;
 
-
-public class WorldView implements Screen, EventListener {
-    private ViewableWorldModel model;
+public class WorldView extends AbstractScreen implements EventListener {
+    private final ViewableWorldModel model;
     private SpriteBatch batch;
     private Texture headerTexture;
     private ParallaxBackground parallaxBackground;
@@ -296,17 +295,5 @@ public class WorldView implements Screen, EventListener {
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height, true);
-    }
-
-    @Override
-    public void pause() {
-    }
-
-    @Override
-    public void resume() {
-    }
-
-    @Override
-    public void hide() {
     }
 }
