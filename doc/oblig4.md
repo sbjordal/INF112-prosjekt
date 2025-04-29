@@ -109,5 +109,17 @@
 
 ## Produkt og kode
 #### "Dette har vi gjort siden sist:"
+* Siden sist har vi gjort en rekke endringer for å møte oppgave kravene, samt følge SOLID prinsipper.
+    - Vi har gitt spillet våres navnet "Star hunt", og endret i relevante filer og pakker.
+    - Vi har endret fabrikken vår til flere fabrikker, og gjort dem abstrakte. Disse oppretter nå samtlige objekter i spillet vårt.
+    - Vi har implementert et visitor pattern for kollisjon mellom objekter, fremfor å gjøre omfattende instanceOf sjekker i modellen, og med dette gjort koden mer modulær.
+    - Vi har flyttet lyder til view, og de spilles av ved bruk av event listener.
+    - Vi har opprettet en utils klasse for å kunne gjenbruke kode.
+    - Vi har skrevet enda flere tester, og skrevet om på de som behøvde det.
+    - Vi har fjernet død kode.
+    - Vi har fjernet ubrukte imports.
+    - Vi har endret tilgangsmodifikator på enkelte variabler og metoder, slik at de har den strengeste de kan ha, og dermed ivaretatt enkapsulering.
+    - Vi har finskrevet javadocs for alle klasser, metoder, konstruktører, feltvariabler. Vi har fulgt stilguiden fra inf101. (https://inf101v23.stromme.me/notat/stil/)
+
 * Bugs:
 
