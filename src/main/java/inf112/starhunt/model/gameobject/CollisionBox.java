@@ -8,8 +8,8 @@ import com.badlogic.gdx.math.Vector2;
  */
 public class CollisionBox {
     private final static float ACCEPTANCE_RANGE = 3.0f;
-    public Vector2 botLeft;
-    public Vector2 topRight;
+    public Vector2 botLeft; // TODO: lage get-ere for denne?
+    public Vector2 topRight; // TODO: samme her
     private final float width;
     private final float height;
 

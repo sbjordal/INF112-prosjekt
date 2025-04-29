@@ -19,13 +19,13 @@ import java.util.List;
 public class WorldModel extends AbstractApplicationListener implements ViewableWorldModel, ControllableWorldModel, PositionValidator {
     public static final int LEVEL_WIDTH = 4500;
 
-    Player player;
+    Player player; // TODO: kan den være privat
     int countDown;
     long lastScoreUpdate;
     boolean isMovingRight;
     boolean isMovingLeft;
     boolean isJumping;
-    List<Collidable> collidables;
+    List<Collidable> collidables; // TODO: kan den være privat
 
     private GameState gameState;
     private WorldBoard board;

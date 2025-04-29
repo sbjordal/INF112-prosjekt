@@ -5,8 +5,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class ParallaxBackground {
-    Texture[] layers;
-    float[] layerX;
+    Texture[] layers; // TODO: private?
+    float[] layerX; // TODO: private?
     private float screenWidth;
     private float screenHeight;
     private final float[] scrollSpeeds;
