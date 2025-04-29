@@ -55,7 +55,7 @@ public interface ModelablePlayer extends Visitor, Collidable {
 
     /**
      * Applies gravity to the player's vertical velocity.
-     * If the palyer is on the ground and not moving upward, vertical velocity is set to 0.
+     * If the player is on the ground and not moving upward, vertical velocity is set to 0.
      * Otherwise, gravity is applied based on the elapsed time since the last frame.
      *
      * @param deltaTime   The time in seconds since the last update. Used to ensure frame rate–independent physics.
@@ -63,13 +63,20 @@ public interface ModelablePlayer extends Visitor, Collidable {
      */
     void applyGravity(float deltaTime, boolean isOnGround);
 
+    /**
+     * Reduces the player's lives by the specified damage amount.
+     * If the damage reduces lives to zero or below, the player dies.
+     *
+     * @param damage The amount of damage to inflict. Must be non-negative.
+     * @throws IllegalArgumentException if {@code damage} is negative.
+     */
+    void receiveDamage(int damage);
+
     boolean getIsAlive();
 
     int getVerticalVelocity();
 
     int getMovementSpeed();
-
-    List<Collidable> getObjectsToRemove();
 
     int getTotalScore();
 
@@ -80,6 +87,8 @@ public interface ModelablePlayer extends Visitor, Collidable {
     int getLives();
 
     int getMovementDirection();
+
+    List<Collidable> getObjectsToRemove();
 
     void setMovementDirection(int movementDirection);
 

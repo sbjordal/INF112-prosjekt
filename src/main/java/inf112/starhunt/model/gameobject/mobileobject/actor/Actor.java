@@ -44,8 +44,8 @@ public abstract class Actor extends MobileObject {
     }
 
     /**
-     * Reduces the Actor's lives by the specified damage amount.
-     * If the damage reduces lives to zero or below, the Actor dies.
+     * Reduces the actor's lives by the specified damage amount.
+     * If the damage reduces lives to zero or below, the actor dies.
      *
      * @param damage The amount of damage to inflict. Must be non-negative.
      * @throws IllegalArgumentException if {@code damage} is negative.
