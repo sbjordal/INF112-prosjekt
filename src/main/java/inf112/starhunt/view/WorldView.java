@@ -17,6 +17,7 @@ import inf112.starhunt.model.gameobject.Transform;
 import inf112.starhunt.model.gameobject.ViewableObject;
 import inf112.starhunt.model.gameobject.mobileobject.actor.Player;
 
+
 import java.util.EventListener;
 import java.util.HashMap;
 
@@ -26,7 +27,8 @@ public class WorldView implements Screen, EventListener {
     private ViewableWorldModel model;
     private SpriteBatch batch;
     private Viewport viewport;
-    private Texture menuBackgroundTexture;
+    private Texture headerTexture;
+    private Texture infoTexture;
     private ParallaxBackground parallaxBackground;
     private BitmapFont font;
     private GlyphLayout layout;
@@ -73,7 +75,8 @@ public class WorldView implements Screen, EventListener {
         font = new BitmapFont(); //new BitmapFont(Gdx.files.internal("skeleton.fnt")); Lag fil med font
         font.setColor(Color.WHITE);
         batch = new SpriteBatch();
-        menuBackgroundTexture = new Texture("background/menu_background.png");
+        headerTexture = new Texture("background/header.png");
+        infoTexture = new Texture("background/info.png");
         soundHandler = new SoundHandler();
         model.getViewablePlayer().setOnCoinCollected(() -> soundHandler.playSound("coin"));
         model.getViewablePlayer().setOnCollisionWithEnemy(() -> soundHandler.playSound("ouch"));
@@ -94,6 +97,7 @@ public class WorldView implements Screen, EventListener {
 
         else if (model.getInfoMode() && (gameState == GameState.GAME_MENU || gameState == GameState.GAME_PAUSED)) {
             drawGameInfo();
+
         }
 
     }
@@ -101,16 +105,31 @@ public class WorldView implements Screen, EventListener {
 
     private void drawGameMenu() {
         ScreenUtils.clear(Color.CLEAR);
-        float leftX = getViewportLeftX();
-        float bottomY = viewport.getCamera().position.y - viewport.getWorldHeight() / 2;
+        float headerWidth = 800f;
+        float headerHeight = 400f;
+        float margin = 50f;
+        float headerX = (Gdx.graphics.getWidth() - headerWidth) / 2f;
+        float headerY = Gdx.graphics.getHeight() - headerHeight - margin;
+
         batch.begin();
-        batch.draw(menuBackgroundTexture, leftX, bottomY, viewport.getWorldWidth(), viewport.getWorldHeight());
+        parallaxBackground.render(batch);
+        if (gameState.equals(GameState.GAME_MENU) && !model.getInfoMode()) {
+            batch.draw(headerTexture, headerX, headerY, headerWidth, headerHeight);
+        }
         batch.end();
 
         drawCenteredText("Press ENTER to start the game", 3,0);
     }
 
     private void drawGameInfo() {
+        float infoWidth = 1300f;
+        float infoHeight = 200f;
+        float infoX = (Gdx.graphics.getWidth() - infoWidth) / 2f;
+        float margin = 50f;
+        float infoY = 0 + margin;
+        batch.begin();
+        batch.draw(infoTexture, infoX, infoY, infoWidth, infoHeight);
+        batch.end();
         drawCenteredText("Press 'i' to remove game info", 3,-400);
         drawCenteredText("To jump press 'w', 'space' or up-arrow\n" +
                 "To move right press 'd' or right arrow\n" +
@@ -135,7 +154,7 @@ public class WorldView implements Screen, EventListener {
         ScreenUtils.clear(Color.CLEAR);
         drawCenteredText("GAME OVER", 4, 0);
         font.getData().setScale(1);
-        drawCenteredText("Press ENTER to return to the game manu", 2, 100);
+        drawCenteredText("Press ENTER to return to the game menu", 2, 100);
 
         drawCenteredText("Score: " + model.getTotalScore() + "   Level: " + model.getLevelCounter(), 2, 200);
     }
@@ -154,17 +173,24 @@ public class WorldView implements Screen, EventListener {
         batch.end();
     }
 
-    void drawLevel() {
-
-        // Map-data
-        float deltaTime = Gdx.graphics.getDeltaTime();
-
+    private void drawPlayer(float deltaTime, int movementDirection, GameState gameState){
         // Player-data
         Transform playerTransform = model.getViewablePlayer().getTransform();
         float playerX = playerTransform.getPos().x;
         float playerY = playerTransform.getPos().y;
         float playerWidth = playerTransform.getSize().x;
         float playerHeight = playerTransform.getSize().y;
+
+        TextureRegion currentFrame = playerAnimation.getFrame(movementDirection);
+        boolean isPaused = !gameState.equals(GameState.GAME_ACTIVE);
+        playerAnimation.update(deltaTime,  isPaused);
+        batch.draw(currentFrame, playerX, playerY, playerWidth, playerHeight);
+    }
+
+    void drawLevel() {
+
+        // Map-data
+        float deltaTime = Gdx.graphics.getDeltaTime();
 
         // Camera
         ScreenUtils.clear(Color.CLEAR);
@@ -186,7 +212,6 @@ public class WorldView implements Screen, EventListener {
 
         // Parallax background
         int movementDirection = model.getMovementDirection();
-
         parallaxBackground.update(movementDirection, deltaTime, model.getGameState() != GameState.GAME_ACTIVE);
 
         // Drawing objects
@@ -195,12 +220,9 @@ public class WorldView implements Screen, EventListener {
         font.draw(batch, lives, leftX + 80, screenHeight - 15);
         font.draw(batch, coinCount, leftX + 320, screenHeight - 15);
         font.draw(batch, totalScore, leftX + 600, screenHeight - 15);
-
-        TextureRegion currentFrame = playerAnimation.getFrame(movementDirection);
-        playerAnimation.update(deltaTime,  model.getGameState() != GameState.GAME_ACTIVE);
-        batch.draw(currentFrame, playerX, playerY, playerWidth, playerHeight);
         font.draw(batch, countDown, leftX + 930, screenHeight - 15);
         font.draw(batch, levelCount, leftX + 1300, screenHeight - 15);
+        drawPlayer(deltaTime, movementDirection, gameState);
         drawObjects();
         batch.end();
 
