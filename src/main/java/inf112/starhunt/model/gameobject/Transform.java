@@ -22,8 +22,13 @@ public class Transform{
         this.size = size;
     }
 
-    public Vector2 getPos() { return position; }
-    public Vector2 getSize() { return size; }
+    public Vector2 getPos() {
+        return position;
+    }
+
+    public Vector2 getSize() {
+        return size;
+    }
 
     /**
      * Sets the transform's position based on offset values.

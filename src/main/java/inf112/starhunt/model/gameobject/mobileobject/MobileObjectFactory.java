@@ -16,18 +16,11 @@ import java.util.function.BiFunction;
  * A factory class responsible for creating {@link Enemy} objects.
  */
 public class MobileObjectFactory {
-
-
     static Map<String, BiFunction<Float, Float, MobileObject>> registry = new HashMap<>();
     static {
         registry.put("player", MobileObjectFactory::createPlayer);
         registry.put("snail", MobileObjectFactory::createSnail);
         registry.put("leopard", MobileObjectFactory::createLeopard);
-    }
-
-
-    public static MobileObject createMobileObject(String mobileObject, float x, float y) {
-        return registry.get(mobileObject).apply(x, y);
     }
 
     public static MobileObject createPlayer(Float x, Float y) {
@@ -62,5 +55,4 @@ public class MobileObjectFactory {
         return new Leopard(EnemyType.LEOPARD.health, EnemyType.LEOPARD.movementSpeed, EnemyType.LEOPARD.objectScore,
                 EnemyType.LEOPARD.damage, transform);
     }
-
 }

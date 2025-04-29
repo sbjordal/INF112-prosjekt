@@ -23,10 +23,8 @@ import java.util.HashMap;
 
 
 public class WorldView implements Screen, EventListener {
-
     private ViewableWorldModel model;
     private SpriteBatch batch;
-    private Viewport viewport;
     private Texture headerTexture;
     private ParallaxBackground parallaxBackground;
     private BitmapFont font;
@@ -35,6 +33,7 @@ public class WorldView implements Screen, EventListener {
     private PlayerAnimation playerAnimation;
     private GameState gameState;
     private SoundHandler soundHandler;
+    private final Viewport viewport;
 
     public WorldView(ViewableWorldModel model, int width, int height) {
         this.viewport = new ExtendViewport(width, height);
@@ -100,17 +99,13 @@ public class WorldView implements Screen, EventListener {
             case GAME_PAUSED -> drawGamePaused();
             case GAME_OVER -> drawGameOver();
         }
+
         if (!model.getInfoMode() && (gameState == GameState.GAME_MENU || gameState == GameState.GAME_PAUSED)) {
             drawCenteredText("Press 'i' for game info",2, 300);
-        }
-
-        else if (model.getInfoMode() && (gameState == GameState.GAME_MENU || gameState == GameState.GAME_PAUSED)) {
+        } else if (model.getInfoMode() && (gameState == GameState.GAME_MENU || gameState == GameState.GAME_PAUSED)) {
             drawGameInfo();
-
         }
-
     }
-
 
     private void drawGameMenu() {
         ScreenUtils.clear(Color.CLEAR);
@@ -126,6 +121,7 @@ public class WorldView implements Screen, EventListener {
             batch.draw(headerTexture, headerX, headerY, headerWidth, headerHeight);
         }
         batch.end();
+
         drawCenteredText("Press ENTER to start the game", 3,100);
     }
 
@@ -155,7 +151,6 @@ public class WorldView implements Screen, EventListener {
         drawLevel();
         drawCenteredText("PAUSED", 3, 0);
         drawCenteredText("Press 'r' to return to the game menu", 3, 330);
-
     }
 
     private void drawGameOver() {
@@ -163,7 +158,6 @@ public class WorldView implements Screen, EventListener {
         drawCenteredText("GAME OVER", 4.5f, 0);
         font.getData().setScale(1);
         drawCenteredText("Press ENTER to return to the game menu", 2, -200);
-
         drawCenteredText("Score: " + model.getTotalScore() + "   Level: " + model.getLevelCounter(), 2, 200);
     }
 
@@ -213,10 +207,8 @@ public class WorldView implements Screen, EventListener {
         String levelCount = "Level: " + model.getLevelCounter();
         font.getData().setScale(2);
 
-
         float screenHeight = viewport.getWorldHeight();
         float leftX = getViewportLeftX();
-
 
         // Parallax background
         int movementDirection = model.getMovementDirection();
@@ -233,7 +225,6 @@ public class WorldView implements Screen, EventListener {
         drawPlayer(deltaTime, movementDirection, gameState);
         drawObjects();
         batch.end();
-
     }
 
     void updateViewportCamera() {

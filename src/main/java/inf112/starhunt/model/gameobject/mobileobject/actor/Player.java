@@ -20,12 +20,12 @@ import java.util.List;
  * that responds to user-input.
  */
 final public class Player extends Actor implements Visitor, Collidable {
-    private static final int NORMAL_BOUNCE_FORCE = 35000;
-    private static final int SMALL_BOUNCE_FORCE = 27000;
-    private static final int NORMAL_JUMP_FORCE = 63000;
-    private final int ATTACK_COOLDOWN = 800;
-    private final int BOUNCE_COOLDOWN = 64;
-    private static final Vector2 STANDARD_PLAYER_SIZE = new Vector2(40, 80);
+    private final static int NORMAL_BOUNCE_FORCE = 35000;
+    private final static int SMALL_BOUNCE_FORCE = 27000;
+    private final static int NORMAL_JUMP_FORCE = 63000;
+    private final static int ATTACK_COOLDOWN = 800;
+    private final static int BOUNCE_COOLDOWN = 64;
+    private final static Vector2 STANDARD_PLAYER_SIZE = new Vector2(40, 80);
     private int jumpForce;
     private boolean isJustRespawned;
     private boolean hasPowerUp;
@@ -58,7 +58,7 @@ final public class Player extends Actor implements Visitor, Collidable {
         this.jumpForce = NORMAL_JUMP_FORCE;
         this.coinCounter = 0;
         this.totalScore = 0;
-        objectsToRemove = new ArrayList<>();
+        this.objectsToRemove = new ArrayList<>();
     }
 
     /**
@@ -70,12 +70,12 @@ final public class Player extends Actor implements Visitor, Collidable {
 
     @Override
     public void setOnCoinCollected(Runnable callback) {
-        this.coinCollected = callback;
+        coinCollected = callback;
     }
 
     @Override
     public void setOnCollisionWithEnemy(Runnable callback) {
-        this.takingDamage = callback;
+        takingDamage = callback;
     }
 
     public void jump(boolean isGrounded) {
@@ -83,10 +83,12 @@ final public class Player extends Actor implements Visitor, Collidable {
             jump(jumpForce);
         }
     }
+
     public void jump(int force){
         int velocity = (int)(force * Gdx.graphics.getDeltaTime());
         setVerticalVelocity(velocity);
     }
+
     public void bounce(){
         int bounceForce = hasPowerUp ? SMALL_BOUNCE_FORCE : NORMAL_BOUNCE_FORCE;
         jump(bounceForce);
@@ -260,7 +262,9 @@ final public class Player extends Actor implements Visitor, Collidable {
         this.lastBounceTime = lastBounceTime;
     }
 
-    public int getJumpForce() { return jumpForce; }
+    public int getJumpForce() {
+        return jumpForce;
+    }
 
     public void takeDamage(int damage){
         final long currentTime = System.currentTimeMillis();
@@ -302,6 +306,4 @@ final public class Player extends Actor implements Visitor, Collidable {
         setSize(STANDARD_PLAYER_SIZE);
         move(middleOfPlayer, 0);
     }
-
-
 }

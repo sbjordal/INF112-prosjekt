@@ -32,7 +32,7 @@ public class EnemyTest {
         Enemy enemy = MobileObjectFactory.createLeopard(0, 0);
         assertTrue(enemy.isAlive());
         enemy.receiveDamage(1);
-        assertTrue( enemy.isAlive());
+        assertTrue(enemy.isAlive());
         enemy.receiveDamage(1);
         assertFalse(enemy.isAlive());
     }

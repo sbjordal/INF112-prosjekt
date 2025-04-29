@@ -18,8 +18,8 @@ import java.util.List;
  * An enemy type is any {@link GameObject} that inflicts damage on the player.
  */
 public abstract class Enemy extends Actor implements Scorable, Visitor, Collidable {
-    final private static long COLLISION_COOLDOWN = 48;
-    final private int objectScore;
+    private final static long COLLISION_COOLDOWN = 48;
+    private final int objectScore;
     private long lastCollisionTime;
 
     /**
@@ -110,7 +110,6 @@ public abstract class Enemy extends Actor implements Scorable, Visitor, Collidab
 
     @Override
     public void visitGround(Ground ground) {
-        //TODO, har tatt snarvei her, fordi enemy ikk er på bakken, så all kollisjon vil være i vegg
         switchDirection();
     }
 
