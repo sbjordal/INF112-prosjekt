@@ -16,7 +16,7 @@ import inf112.starhunt.model.GameState;
 import inf112.starhunt.model.gameobject.Transform;
 import inf112.starhunt.model.gameobject.ViewableObject;
 import inf112.starhunt.model.gameobject.mobileobject.actor.Player;
-
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
 import java.util.EventListener;
 import java.util.HashMap;
@@ -28,7 +28,6 @@ public class WorldView implements Screen, EventListener {
     private SpriteBatch batch;
     private Viewport viewport;
     private Texture headerTexture;
-    private Texture infoTexture;
     private ParallaxBackground parallaxBackground;
     private BitmapFont font;
     private GlyphLayout layout;
@@ -72,14 +71,24 @@ public class WorldView implements Screen, EventListener {
         parallaxBackground = new ParallaxBackground(model.getLevelWidth());
         playerAnimation = new PlayerAnimation();
         loadTextures();
-        font = new BitmapFont(); //new BitmapFont(Gdx.files.internal("skeleton.fnt")); Lag fil med font
-        font.setColor(Color.WHITE);
         batch = new SpriteBatch();
         headerTexture = new Texture("background/header.png");
-        infoTexture = new Texture("background/info.png");
         soundHandler = new SoundHandler();
+        font = loadFont("font/VT323-Regular.ttf");
         model.getViewablePlayer().setOnCoinCollected(() -> soundHandler.playSound("coin"));
         model.getViewablePlayer().setOnCollisionWithEnemy(() -> soundHandler.playSound("ouch"));
+    }
+
+    private BitmapFont loadFont(String fontFilePath) {
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(fontFilePath));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = 24;
+        parameter.color = Color.WHITE;
+        parameter.borderWidth = 1f;
+        parameter.borderColor = Color.BLACK;
+        BitmapFont font = generator.generateFont(parameter);
+        generator.dispose();
+        return font;
     }
 
     @Override
@@ -92,7 +101,7 @@ public class WorldView implements Screen, EventListener {
             case GAME_OVER -> drawGameOver();
         }
         if (!model.getInfoMode() && (gameState == GameState.GAME_MENU || gameState == GameState.GAME_PAUSED)) {
-            drawCenteredText("Press 'i' for game info",2, 100);
+            drawCenteredText("Press 'i' for game info",2, 300);
         }
 
         else if (model.getInfoMode() && (gameState == GameState.GAME_MENU || gameState == GameState.GAME_PAUSED)) {
@@ -117,25 +126,24 @@ public class WorldView implements Screen, EventListener {
             batch.draw(headerTexture, headerX, headerY, headerWidth, headerHeight);
         }
         batch.end();
-
-        drawCenteredText("Press ENTER to start the game", 3,0);
+        drawCenteredText("Press ENTER to start the game", 3,100);
     }
 
     private void drawGameInfo() {
-        float infoWidth = 1300f;
-        float infoHeight = 200f;
-        float infoX = (Gdx.graphics.getWidth() - infoWidth) / 2f;
-        float margin = 50f;
-        float infoY = 0 + margin;
-        batch.begin();
-        batch.draw(infoTexture, infoX, infoY, infoWidth, infoHeight);
-        batch.end();
+        if (gameState.equals(GameState.GAME_MENU)) {
+            font.setColor(Color.GOLD);
+            drawCenteredText("Race to catch the star and grab as many coins as you can! Watch out for enemies — a single fall\n" +
+                    "or hit could cost you everything. Jump on enemies to knock them out, and munch on bananas to grow\n" +
+                    "bigger and tougher! Time's ticking... complete your mission before it's too late!", 1.3f, 200);
+            drawCenteredText("Ready? GO!", 1.5f, 350);
+            font.setColor(Color.WHITE);
+        }
         drawCenteredText("Press 'i' to remove game info", 3,-400);
         drawCenteredText("To jump press 'w', 'space' or up-arrow\n" +
                 "To move right press 'd' or right arrow\n" +
                 "To move left press 'a' or left arrow\n" +
                 "To pause the game when playing press 'p'\n" +
-                "To exit the game at any time press ESC", 2,-300);
+                "To exit the game at any time press ESC", 2,-350);
     }
 
 
@@ -152,14 +160,14 @@ public class WorldView implements Screen, EventListener {
 
     private void drawGameOver() {
         ScreenUtils.clear(Color.CLEAR);
-        drawCenteredText("GAME OVER", 4, 0);
+        drawCenteredText("GAME OVER", 4.5f, 0);
         font.getData().setScale(1);
-        drawCenteredText("Press ENTER to return to the game menu", 2, 100);
+        drawCenteredText("Press ENTER to return to the game menu", 2, -200);
 
         drawCenteredText("Score: " + model.getTotalScore() + "   Level: " + model.getLevelCounter(), 2, 200);
     }
 
-    void drawCenteredText(String text, int textScale, float lowerTextBy) {
+    void drawCenteredText(String text, float textScale, float lowerTextBy) {
         font.getData().setScale(textScale);
         layout.setText(font, text);
 
@@ -219,7 +227,7 @@ public class WorldView implements Screen, EventListener {
         parallaxBackground.render(batch);
         font.draw(batch, lives, leftX + 80, screenHeight - 15);
         font.draw(batch, coinCount, leftX + 320, screenHeight - 15);
-        font.draw(batch, totalScore, leftX + 600, screenHeight - 15);
+        font.draw(batch, totalScore, leftX + 550, screenHeight - 15);
         font.draw(batch, countDown, leftX + 930, screenHeight - 15);
         font.draw(batch, levelCount, leftX + 1300, screenHeight - 15);
         drawPlayer(deltaTime, movementDirection, gameState);
