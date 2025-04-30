@@ -1,9 +1,18 @@
 @startuml
 
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+class AbstractApplicationListener {
+  + AbstractApplicationListener(): 
+}
+class AbstractScreen {
+  + AbstractScreen(): 
+}
 class Actor {
   # Actor(int, int, Transform): 
   # damage: int
-  - isAlive: boolean
   - lives: int
    damage: int
    lives: int
@@ -11,8 +20,10 @@ class Actor {
 }
 class Banana {
   + Banana(Transform): 
-   largePlayerSize: Vector2
-   bigJumpForce: int
+  - LARGE_PLAYER_SIZE: Vector2
+  - BIG_JUMP_FORCE: int
+   BIG_JUMP_FORCE: int
+   LARGE_PLAYER_SIZE: Vector2
 }
 class BananaTest {
   + BananaTest(): 
@@ -25,32 +36,27 @@ class Coin {
 class CoinTest {
   + CoinTest(): 
 }
+interface Collidable << interface >> {
+   collisionBox: CollisionBox
+}
 class CollisionBox {
   + CollisionBox(Transform): 
+  + topRight: Vector2
+  + botLeft: Vector2
    position: Vector2
+   topRight: Vector2
+   botLeft: Vector2
 }
 class CollisionBoxTest {
   + CollisionBoxTest(): 
 }
-class CollisionHandler {
-  + CollisionHandler(int): 
-  - ceilingHeight: int
-  - ATTACK_COOLDOWN: int
-  - BOUNCE_COOLDOWN: int
-   ATTACK_COOLDOWN: int
-   BOUNCE_COOLDOWN: int
-   ceilingHeight: int
-}
-class CollisionHandlerTest {
-  + CollisionHandlerTest(): 
-}
 interface ControllableWorldModel << interface >> {
+   currentLevel: Level
+   infoMode: boolean
+   movingLeft: boolean
    gameState: GameState
    jumping: boolean
    movingRight: boolean
-   infoMode: boolean
-   movingLeft: boolean
-   movementSpeed: int
 }
 class Controller {
   + Controller(ControllableWorldModel): 
@@ -64,12 +70,6 @@ class Enemy {
    readyToCollide: boolean
    objectScore: int
 }
-class EnemyFactory {
-  + EnemyFactory(): 
-}
-class EnemyFactoryTest {
-  + EnemyFactoryTest(): 
-}
 class EnemyTest {
   + EnemyTest(): 
 }
@@ -79,25 +79,39 @@ enum EnemyType << enumeration >> {
 class FixedObject {
   + FixedObject(Transform): 
 }
+class FixedObjectFactory {
+  + FixedObjectFactory(): 
+}
+class FixedObjectFactoryTest {
+  + FixedObjectFactoryTest(): 
+}
 class GameObject {
   + GameObject(Transform): 
   - transform: Transform
   - collisionBox: CollisionBox
+   onCoinCollected: Runnable
+   onCollisionWithEnemy: Runnable
    collisionBox: CollisionBox
    size: Vector2
    transform: Transform
+   direction: int
+}
+class GameObjectFactory {
+  + GameObjectFactory(): 
 }
 enum GameState << enumeration >> {
   - GameState(): 
 }
+class Ground {
+  + Ground(Transform): 
+}
+class GroundTest {
+  + GroundTest(): 
+}
 class Item {
   + Item(Transform): 
-}
-class ItemFactory {
-  + ItemFactory(): 
-}
-class ItemFactoryTest {
-  + ItemFactoryTest(): 
+  - isCollected: boolean
+   isCollected: boolean
 }
 class Leopard {
   + Leopard(int, int, int, int, Transform): 
@@ -117,23 +131,35 @@ class MainTest {
 class MobileObject {
   # MobileObject(int, Transform): 
   - movementSpeed: int
-  - movementDirection: int
   - verticalVelocity: int
+  - movementDirection: int
    movementDirection: int
    verticalVelocity: int
    movementSpeed: int
+   direction: int
+}
+class MobileObjectFactory {
+  + MobileObjectFactory(): 
+}
+class MobileObjectFactoryTest {
+  + MobileObjectFactoryTest(): 
 }
 class MobileObjectTest {
   + MobileObjectTest(): 
 }
-interface Movable << interface >>
-class Pair<K, V> {
-  + Pair(K, V): 
-  + first: K
-  + second: V
-   first: K
-   second: V
+interface ModelablePlayer << interface >> {
+   respawned: boolean
+   goToNextLevel: boolean
+   movementDirection: int
+   objectsToRemove: List<Collidable>
+   movementSpeed: int
+   totalScore: int
+   coinCounter: int
+   lives: int
+   verticalVelocity: int
+   isAlive: boolean
 }
+interface Movable << interface >>
 class ParallaxBackground {
   + ParallaxBackground(int): 
 }
@@ -142,14 +168,25 @@ class ParallaxBackgroundTest {
 }
 class Player {
   + Player(int, int, Transform): 
-  - lastBounceTime: long
-  - hasPowerUp: boolean
+  + Player(): 
   - jumpForce: int
+  - lastBounceTime: long
+  - coinCounter: Integer
   - lastAttackTime: long
-   lastBounceTime: long
+  - hasPowerUp: boolean
+  - totalScore: Integer
+  - objectsToRemove: List<Collidable>
+  - goToNextLevel: boolean
    respawned: boolean
+   onCoinCollected: Runnable
+   onCollisionWithEnemy: Runnable
+   goToNextLevel: boolean
+   objectsToRemove: List<Collidable>
    hasPowerUp: boolean
+   totalScore: int
    lastAttackTime: long
+   coinCounter: int
+   lastBounceTime: long
    jumpForce: int
 }
 class PlayerAnimation {
@@ -159,8 +196,9 @@ class PlayerAnimationTest {
   + PlayerAnimationTest(): 
 }
 class PlayerTest {
-  ~ PlayerTest(): 
+  + PlayerTest(): 
 }
+interface PositionValidator << interface >>
 interface Scorable << interface >> {
    objectScore: int
 }
@@ -168,6 +206,7 @@ class Snail {
   + Snail(int, int, int, int, Transform): 
 }
 class SoundHandler {
+  + SoundHandler(Files, Audio): 
   + SoundHandler(): 
 }
 class SoundHandlerTest {
@@ -175,6 +214,9 @@ class SoundHandlerTest {
 }
 class Star {
   + Star(Transform): 
+}
+class StarTest {
+  + StarTest(): 
 }
 class Transform {
   + Transform(Vector2, Vector2): 
@@ -185,68 +227,90 @@ class Transform {
 class TransformTest {
   + TransformTest(): 
 }
+class TransformUtils {
+  + TransformUtils(): 
+}
+class Triple<A, B, C> {
+  + Triple(A, B, C): 
+  + third: C
+  + first: A
+  + second: B
+   third: C
+   first: A
+   second: B
+}
+class TripleTest {
+  + TripleTest(): 
+}
 interface ViewableObject << interface >> {
+   onCoinCollected: Runnable
+   onCollisionWithEnemy: Runnable
    collisionBox: CollisionBox
    transform: Transform
+   direction: int
 }
 interface ViewableWorldModel << interface >> {
-   movementDirection: int
-   coinCounter: int
+   levelWidth: int
+   boardWidth: int
    viewablePlayer: ViewableObject
    objectList: List<ViewableObject>
-   infoMode: boolean
-   movementSpeed: int
-   totalScore: int
+   levelCounter: int
    playerLives: int
+   movementDirection: int
+   totalScore: int
+   infoMode: boolean
    gameState: GameState
-   boardWidth: int
+   coinCounter: int
    countDown: int
-   levelWidth: int
+}
+interface Visitor << interface >> {
+   collisionBox: CollisionBox
 }
 entity WorldBoard << record >> {
   + WorldBoard(int, int): 
 }
 class WorldBoardTest {
-  ~ WorldBoardTest(): 
+  + WorldBoardTest(): 
 }
 class WorldModel {
   + WorldModel(int, int): 
-  + LEVEL_WIDTH: int
-  ~ countDown: int
-  ~ isJumping: boolean
-  ~ gameState: GameState
-  - infoMode: boolean
   ~ isMovingLeft: boolean
-  - totalScore: Integer
-  ~ objectList: List<GameObject>
-  - coinCounter: Integer
+  ~ isJumping: boolean
+  ~ countDown: int
   ~ isMovingRight: boolean
+  - levelCounter: int
+  - currentLevel: Level
+  - gameState: GameState
+  - enemies: List<Enemy>
+  - infoMode: boolean
+  + LEVEL_WIDTH: int
+   isJumping: boolean
+   levelCounter: int
    movementDirection: int
-   LEVEL_WIDTH: int
-   movementSpeed: int
    totalScore: int
-   playerLives: int
-   countDown: int
-   coinCounter: int
+   currentLevel: Level
+   LEVEL_WIDTH: int
+   enemies: List<Enemy>
+   isMovingLeft: boolean
+   boardWidth: int
    objectList: List<ViewableObject>
    viewablePlayer: ViewableObject
-   infoMode: boolean
+   playerLives: int
    isMovingRight: boolean
-   touchingGround: boolean
+   infoMode: boolean
    gameState: GameState
-   boardWidth: int
-   isMovingLeft: boolean
-   isJumping: boolean
+   coinCounter: int
+   countDown: int
 }
 class WorldModelTest {
   + WorldModelTest(): 
 }
 class WorldView {
   + WorldView(ViewableWorldModel, int, int): 
-  - font: BitmapFont
-  - textures: HashMap<String, Texture>
   - parallaxBackground: ParallaxBackground
+  - textures: HashMap<String, Texture>
   - layout: GlyphLayout
+  - font: BitmapFont
   - playerAnimation: PlayerAnimation
   - batch: SpriteBatch
    parallaxBackground: ParallaxBackground
@@ -260,58 +324,128 @@ class WorldView {
 class WorldViewTest {
   + WorldViewTest(): 
 }
-interface node26 as "package-info" << interface >>
-interface node33 as "package-info" << interface >>
-interface node43 as "package-info" << interface >>
 
-Actor                   -[#000082,plain]-^  MobileObject           
-Banana                  -[#000082,plain]-^  Item                   
-Coin                    -[#000082,plain]-^  Item                   
-Coin                    -[#008200,dashed]-^  Scorable               
-CollisionBoxTest       "1" *-[#595959,plain]-> "player\n1" Player                 
-CollisionHandler       "1" *-[#595959,plain]-> "soundHandler\n1" SoundHandler           
-CollisionHandlerTest   "1" *-[#595959,plain]-> "handler\n1" CollisionHandler       
-Controller             "1" *-[#595959,plain]-> "controllableModel\n1" ControllableWorldModel 
-ControllerTest         "1" *-[#595959,plain]-> "controllableModel\n1" ControllableWorldModel 
-ControllerTest         "1" *-[#595959,plain]-> "controller\n1" Controller             
-Enemy                   -[#000082,plain]-^  Actor                  
-Enemy                   -[#008200,dashed]-^  Scorable               
-FixedObject             -[#000082,plain]-^  GameObject             
-GameObject             "1" *-[#595959,plain]-> "collisionBox\n1" CollisionBox           
-GameObject             "1" *-[#595959,plain]-> "transform\n1" Transform              
-GameObject              -[#008200,dashed]-^  ViewableObject         
-Item                    -[#000082,plain]-^  FixedObject            
-Leopard                 -[#000082,plain]-^  Enemy                  
-MobileObject            -[#000082,plain]-^  GameObject             
-MobileObject            -[#008200,dashed]-^  Movable                
-MobileObjectTest       "1" *-[#595959,plain]-> "player\n1" Player                 
-MobileObjectTest       "1" *-[#595959,plain]-> "transform\n1" Transform              
-ParallaxBackgroundTest "1" *-[#595959,plain]-> "background\n1" ParallaxBackground     
-Player                  -[#000082,plain]-^  Actor                  
-PlayerTest             "1" *-[#595959,plain]-> "player\n1" Player                 
-PlayerTest             "1" *-[#595959,plain]-> "transform\n1" Transform              
-Snail                   -[#000082,plain]-^  Enemy                  
-Star                    -[#000082,plain]-^  Item                   
-TransformTest          "1" *-[#595959,plain]-> "transform\n1" Transform              
-WorldModel             "1" *-[#595959,plain]-> "collisionHandler\n1" CollisionHandler       
-WorldModel              -[#008200,dashed]-^  ControllableWorldModel 
-WorldModel             "1" *-[#595959,plain]-> "controller\n1" Controller             
-WorldModel             "1" *-[#595959,plain]-> "objectList\n*" GameObject             
-WorldModel             "1" *-[#595959,plain]-> "gameState\n1" GameState              
-WorldModel             "1" *-[#595959,plain]-> "player\n1" Player                 
-WorldModel              -[#008200,dashed]-^  ViewableWorldModel     
-WorldModel             "1" *-[#595959,plain]-> "board\n1" WorldBoard             
-WorldModel             "1" *-[#595959,plain]-> "worldView\n1" WorldView              
-WorldModelTest         "1" *-[#595959,plain]-> "transform\n1" Transform              
-WorldModelTest         "1" *-[#595959,plain]-> "worldModel\n1" WorldModel             
-WorldView              "1" *-[#595959,plain]-> "gameState\n1" GameState              
-WorldView              "1" *-[#595959,plain]-> "parallaxBackground\n1" ParallaxBackground     
-WorldView              "1" *-[#595959,plain]-> "playerAnimation\n1" PlayerAnimation        
-WorldView              "1" *-[#595959,plain]-> "model\n1" ViewableWorldModel     
-WorldViewTest          "1" *-[#595959,plain]-> "mockBackground\n1" ParallaxBackground     
-WorldViewTest          "1" *-[#595959,plain]-> "mockPlayer\n1" Player                 
-WorldViewTest          "1" *-[#595959,plain]-> "mockPlayerAnimation\n1" PlayerAnimation        
-WorldViewTest          "1" *-[#595959,plain]-> "mockTransform\n1" Transform              
-WorldViewTest          "1" *-[#595959,plain]-> "mockModel\n1" ViewableWorldModel     
-WorldViewTest          "1" *-[#595959,plain]-> "worldView\n1" WorldView              
+Actor                        -[#000082,plain]-^  MobileObject                
+Banana                       -[#008200,dashed]-^  Collidable                  
+Banana                       -[#000082,plain]-^  Item                        
+BananaTest                   -[#595959,dashed]->  Banana                      : "«create»"
+BananaTest                  "1" *-[#595959,plain]-> "banana\n1" Banana                      
+BananaTest                   -[#595959,dashed]->  Transform                   : "«create»"
+Coin                         -[#008200,dashed]-^  Collidable                  
+Coin                         -[#000082,plain]-^  Item                        
+Coin                         -[#008200,dashed]-^  Scorable                    
+CoinTest                     -[#595959,dashed]->  Coin                        : "«create»"
+CoinTest                    "1" *-[#595959,plain]-> "coin\n1" Coin                        
+CoinTest                    "1" *-[#595959,plain]-> "transform\n1" Transform                   
+CoinTest                     -[#595959,dashed]->  Transform                   : "«create»"
+Collidable                   -[#008200,plain]-^  ViewableObject              
+CollisionBoxTest             -[#595959,dashed]->  CollisionBox                : "«create»"
+CollisionBoxTest             -[#595959,dashed]->  GameObject                  : "«create»"
+CollisionBoxTest            "1" *-[#595959,plain]-> "player\n1" Player                      
+CollisionBoxTest             -[#595959,dashed]->  Player                      : "«create»"
+Controller                  "1" *-[#595959,plain]-> "controllableModel\n1" ControllableWorldModel      
+ControllerTest              "1" *-[#595959,plain]-> "controllableModel\n1" ControllableWorldModel      
+ControllerTest              "1" *-[#595959,plain]-> "controller\n1" Controller                  
+ControllerTest               -[#595959,dashed]->  Controller                  : "«create»"
+Enemy                        -[#000082,plain]-^  Actor                       
+Enemy                        -[#008200,dashed]-^  Collidable                  
+Enemy                        -[#008200,dashed]-^  Scorable                    
+Enemy                        -[#008200,dashed]-^  Visitor                     
+EnemyTest                    -[#595959,dashed]->  Player                      : "«create»"
+EnemyTest                    -[#595959,dashed]->  Transform                   : "«create»"
+FixedObject                  -[#000082,plain]-^  GameObject                  
+GameObject                  "1" *-[#595959,plain]-> "collisionBox\n1" CollisionBox                
+GameObject                  "1" *-[#595959,plain]-> "transform\n1" Transform                   
+GameObject                   -[#008200,dashed]-^  ViewableObject              
+Ground                       -[#008200,dashed]-^  Collidable                  
+Ground                       -[#000082,plain]-^  FixedObject                 
+GroundTest                  "1" *-[#595959,plain]-> "ground\n1" Ground                      
+GroundTest                   -[#595959,dashed]->  Ground                      : "«create»"
+GroundTest                   -[#595959,dashed]->  Transform                   : "«create»"
+GroundTest                  "1" *-[#595959,plain]-> "transform\n1" Transform                   
+Item                         -[#000082,plain]-^  FixedObject                 
+Leopard                      -[#000082,plain]-^  Enemy                       
+LevelManagerTest            "1" *-[#595959,plain]-> "collidables\n*" Collidable                  
+LevelManagerTest            "1" *-[#595959,plain]-> "enemies\n*" Enemy                       
+MobileObject                 -[#000082,plain]-^  GameObject                  
+MobileObject                 -[#008200,dashed]-^  Movable                     
+MobileObjectTest             -[#595959,dashed]->  Player                      : "«create»"
+MobileObjectTest            "1" *-[#595959,plain]-> "player\n1" Player                      
+MobileObjectTest            "1" *-[#595959,plain]-> "transform\n1" Transform                   
+MobileObjectTest             -[#595959,dashed]->  Transform                   : "«create»"
+ModelablePlayer              -[#008200,plain]-^  Collidable                  
+ModelablePlayer              -[#008200,plain]-^  Visitor                     
+ParallaxBackgroundTest      "1" *-[#595959,plain]-> "background\n1" ParallaxBackground          
+ParallaxBackgroundTest       -[#595959,dashed]->  ParallaxBackground          : "«create»"
+Player                       -[#000082,plain]-^  Actor                       
+Player                      "1" *-[#595959,plain]-> "objectsToRemove\n*" Collidable                  
+Player                       -[#008200,dashed]-^  ModelablePlayer             
+PlayerAnimationTest          -[#595959,dashed]->  PlayerAnimation             : "«create»"
+PlayerTest                  "1" *-[#595959,plain]-> "banana\n1" Banana                      
+PlayerTest                   -[#595959,dashed]->  Banana                      : "«create»"
+PlayerTest                  "1" *-[#595959,plain]-> "coin\n1" Coin                        
+PlayerTest                   -[#595959,dashed]->  Coin                        : "«create»"
+PlayerTest                   -[#595959,dashed]->  CollisionBox                : "«create»"
+PlayerTest                  "1" *-[#595959,plain]-> "enemy\n1" Enemy                       
+PlayerTest                   -[#595959,dashed]->  Ground                      : "«create»"
+PlayerTest                  "1" *-[#595959,plain]-> "ground\n1" Ground                      
+PlayerTest                  "1" *-[#595959,plain]-> "player\n1" Player                      
+PlayerTest                   -[#595959,dashed]->  Player                      : "«create»"
+PlayerTest                  "1" *-[#595959,plain]-> "transform\n1" Transform                   
+PlayerTest                   -[#595959,dashed]->  Transform                   : "«create»"
+Snail                        -[#000082,plain]-^  Enemy                       
+SoundHandlerTest             -[#595959,dashed]->  SoundHandler                : "«create»"
+Star                         -[#008200,dashed]-^  Collidable                  
+Star                         -[#000082,plain]-^  Item                        
+StarTest                     -[#595959,dashed]->  Star                        : "«create»"
+StarTest                    "1" *-[#595959,plain]-> "star\n1" Star                        
+StarTest                    "1" *-[#595959,plain]-> "transform\n1" Transform                   
+StarTest                     -[#595959,dashed]->  Transform                   : "«create»"
+TransformTest                -[#595959,dashed]->  GameObject                  : "«create»"
+TransformTest               "1" *-[#595959,plain]-> "transform\n1" Transform                   
+TransformTest                -[#595959,dashed]->  Transform                   : "«create»"
+TripleTest                  "1" *-[#595959,plain]-> "triple\n1" Triple                      
+TripleTest                   -[#595959,dashed]->  Triple                      : "«create»"
+WorldBoardTest               -[#595959,dashed]->  WorldBoard                  : "«create»"
+WorldModel                   -[#000082,plain]-^  AbstractApplicationListener 
+WorldModel                  "1" *-[#595959,plain]-> "collidables\n*" Collidable                  
+WorldModel                   -[#008200,dashed]-^  ControllableWorldModel      
+WorldModel                  "1" *-[#595959,plain]-> "controller\n1" Controller                  
+WorldModel                  "1" *-[#595959,plain]-> "enemies\n*" Enemy                       
+WorldModel                  "1" *-[#595959,plain]-> "gameState\n1" GameState                   
+WorldModel                  "1" *-[#595959,plain]-> "player\n1" ModelablePlayer             
+WorldModel                   -[#008200,dashed]-^  PositionValidator           
+WorldModel                   -[#008200,dashed]-^  ViewableWorldModel          
+WorldModel                  "1" *-[#595959,plain]-> "board\n1" WorldBoard                  
+WorldModel                  "1" *-[#595959,plain]-> "worldView\n1" WorldView                   
+WorldModelTest               -[#595959,dashed]->  Coin                        : "«create»"
+WorldModelTest              "1" *-[#595959,plain]-> "coin\n1" Coin                        
+WorldModelTest               -[#595959,dashed]->  CollisionBox                : "«create»"
+WorldModelTest              "1" *-[#595959,plain]-> "enemies\n*" Enemy                       
+WorldModelTest              "1" *-[#595959,plain]-> "gameState\n1" GameState                   
+WorldModelTest               -[#595959,dashed]->  Player                      : "«create»"
+WorldModelTest               -[#595959,dashed]->  Transform                   : "«create»"
+WorldModelTest              "1" *-[#595959,plain]-> "transform\n1" Transform                   
+WorldModelTest               -[#595959,dashed]->  WorldModel                  : "«create»"
+WorldModelTest              "1" *-[#595959,plain]-> "worldModel\n1" WorldModel                  
+WorldView                    -[#000082,plain]-^  AbstractScreen              
+WorldView                   "1" *-[#595959,plain]-> "gameState\n1" GameState                   
+WorldView                   "1" *-[#595959,plain]-> "parallaxBackground\n1" ParallaxBackground          
+WorldView                   "1" *-[#595959,plain]-> "playerAnimation\n1" PlayerAnimation             
+WorldView                   "1" *-[#595959,plain]-> "soundHandler\n1" SoundHandler                
+WorldView                   "1" *-[#595959,plain]-> "model\n1" ViewableWorldModel          
+WorldViewTest                -[#595959,dashed]->  Banana                      : "«create»"
+WorldViewTest                -[#595959,dashed]->  Coin                        : "«create»"
+WorldViewTest                -[#595959,dashed]->  Ground                      : "«create»"
+WorldViewTest                -[#595959,dashed]->  Leopard                     : "«create»"
+WorldViewTest               "1" *-[#595959,plain]-> "mockBackground\n1" ParallaxBackground          
+WorldViewTest               "1" *-[#595959,plain]-> "mockPlayer\n1" Player                      
+WorldViewTest               "1" *-[#595959,plain]-> "mockPlayerAnimation\n1" PlayerAnimation             
+WorldViewTest                -[#595959,dashed]->  Snail                       : "«create»"
+WorldViewTest                -[#595959,dashed]->  Star                        : "«create»"
+WorldViewTest                -[#595959,dashed]->  Transform                   : "«create»"
+WorldViewTest               "1" *-[#595959,plain]-> "mockTransform\n1" Transform                   
+WorldViewTest               "1" *-[#595959,plain]-> "mockModel\n1" ViewableWorldModel          
+WorldViewTest               "1" *-[#595959,plain]-> "worldView\n1" WorldView                   
+WorldViewTest                -[#595959,dashed]->  WorldView                   : "«create»"
 @enduml
