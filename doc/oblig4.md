@@ -157,11 +157,11 @@
 1. **Oppdater hvilke krav dere har prioritert, hvor langt dere har kommet og hva dere har gjort siden forrige gang.** Er dere
    kommet forbi MVP? Forklar hvordan dere prioriterer ny funksjonalitet.
 - Som nevnt i oblig 3, er vi forbi MVP. Vårt forrige fokus var å få 75% testcoverage og dette har vi oppnådd. Fra sist oblig
-har hovedfokuset vært å forbedre eksisterende kode og få grundig oversikt over hva som ikke har blitt gjort av arbeidskrav. Fra siste oblig ble levert
+har hovedfokuset vært å forbedre eksisterende kode og få grundig oversikt over hva som ikke har blitt gjort av arbeidskrav. Fra samme uken forrige oblig ble levert
 har vi hatt full fokus på å implementere visitor pattern med double dispatch siden vi ble oppmerksom på at den daværende implementasjonen ikke var ideell.
 Som et resultat av mye kode endring, for å få på plass visitor pattern, fikk vi en del bugs og innså feil i koden som vi ikke visste om før denne prossesen. Når visitor pattern
-endelig var på plass ble hovedfokuset hvilke oppgave krav vi ikke har oppfylt. Vi har blandt annet lagt til abstrakte objektfabrikker, og kontaktet noen som bruker linux for å 
-dobbelt sjekke at spillet kan kjøres på alle operativ systemer. Nå rett før oblig 4 skal inn har vi prøvd å finpusse koden med å feks fjerne dø kode, fjerne ubrukte imports,
+endelig var på plass ble hovedfokuset hvilke oppgavekrav vi ikke hadde oppfylt. Vi har blandt annet lagt til abstrakte objektfabrikker, og kontaktet noen som bruker linux for å 
+dobbelt sjekke at spillet kan kjøres på alle operativsystemer. Nå rett før oblig 4 skal inn har vi prøvd å finpusse koden med å feks fjerne dø kode, fjerne ubrukte imports,
 sjekke tilgangene til feltvariabler+ metoder osv.
 
 
@@ -176,21 +176,21 @@ sjekke tilgangene til feltvariabler+ metoder osv.
   * Nye brukerhistorier: ...
 
 3. **Dersom dere har oppgaver som dere skal til å starte med, hvor dere har oversikt over både brukerhistorie, akseptansekriterier og arbeidsoppgaver, kan dere ta med disse i innleveringen også.**
-  * Vi har oppnådd alle kravene våres for både MVP og post-MVP. Vi har derfor ingen planer om å legge til mer funksjonalitet som krever brukerhistorier.
+- Vi har oppnådd alle kravene våres for både MVP og post-MVP. Vi har derfor ingen planer om å legge til mer funksjonalitet som krever brukerhistorier.
 
 4. **Forklar kort hvordan dere har prioritert oppgavene fremover**
-   * Som nevnt i punkt 1 er fokuset siste tiden, før siste innlevering, finpussing av kode. Siden vi er ferdig med spillet har vi ikke noen oppgaver som skal prioriteres fremover.
+- Som nevnt i punkt 1 er fokuset siste tiden, før siste innlevering, finpussing av kode. Siden vi er ferdig med spillet har vi ikke noen oppgaver som skal prioriteres fremover.
 
 5. **Har dere gjort justeringer på kravene som er med i MVP?** Forklar i så fall hvorfor. Hvis det er gjort endringer i rekkefølge utfra hva som er gitt fra kunde, hvorfor er dette gjort?
 
-  - Vi har ikke endret på mvp krav siden sist innlevering.
+- Vi har ikke endret på mvp krav siden sist innlevering.
 
 6. **Oppdater hvilke krav dere har prioritert, hvor langt dere har kommet og hva dere har gjort siden forrige gang.**
-7. 
+
 - Se punkt 1
 
 
-7. Husk å skrive hvilke bugs som finnes i de kravene dere har utført (dersom det finnes bugs).
+7. **Husk å skrive hvilke bugs som finnes i de kravene dere har utført (dersom det finnes bugs).**
 - Vi har ikke bugs knyttet til de spesifike kravene vi har lagt til etter MVP. Generelle bugs er at bakgrunn beveger seg når player kolliderer med vegg, og at player kan hoppe forksjellig. Hoppingen 
 har vi tenkt er en feature istedenfor en bug. Det er jo til og med realistisk at man ikke hopper like høyt hver gang man hopper:)
 
