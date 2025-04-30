@@ -37,6 +37,12 @@ public class GameObject implements ViewableObject {
     public void setOnCollisionWithEnemy(Runnable callback) {}
 
     @Override
+    public void setOnCollisionWithEnemyDealDamage(Runnable callback) {}
+
+    @Override
+    public void setOnBananaCollected(Runnable callback) {}
+
+    @Override
     public int getDirection() {
         return 0;
     }

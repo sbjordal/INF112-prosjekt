@@ -38,6 +38,8 @@ final public class Player extends Actor implements ModelablePlayer {
     private List<Collidable> objectsToRemove;
     private Runnable coinCollected;
     private Runnable takingDamage;
+    private Runnable dealingDamage;
+    private Runnable eatingBanana;
     private int initialLives;
 
 
@@ -70,14 +72,18 @@ final public class Player extends Actor implements ModelablePlayer {
     }
 
     @Override
-    public void setOnCoinCollected(Runnable callback) {
-        coinCollected = callback;
-    }
+    public void setOnCoinCollected(Runnable callback) {coinCollected = callback;}
 
     @Override
     public void setOnCollisionWithEnemy(Runnable callback) {
         takingDamage = callback;
     }
+
+    @Override
+    public void setOnCollisionWithEnemyDealDamage(Runnable callback) {dealingDamage = callback;}
+
+    @Override
+    public void setOnBananaCollected(Runnable callback) {eatingBanana = callback;}
 
     @Override
     public void jump(boolean isGrounded) {
@@ -129,6 +135,9 @@ final public class Player extends Actor implements ModelablePlayer {
         move(-middleOfPlayer, 0);
         jumpForce = banana.getBigJumpForce();
         objectsToRemove.add(banana);
+        if (eatingBanana != null) {
+            eatingBanana.run();
+        }
     }
 
     @Override
@@ -158,6 +167,10 @@ final public class Player extends Actor implements ModelablePlayer {
         if (isOnTopOfEnemy && isReadyToBounce) {
             bounce();
             dealDamage(enemy, getDamage());
+
+            if (dealingDamage != null) {
+                dealingDamage.run();
+            }
 
             if (!enemy.getIsAlive()) {
                 totalScore += enemy.getObjectScore();
