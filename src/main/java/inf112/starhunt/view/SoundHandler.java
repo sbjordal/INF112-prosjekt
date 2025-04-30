@@ -33,7 +33,7 @@ public class SoundHandler {
         addSound("gameover", "sfx/gameover.wav", files, audio);
         addSound("newlevel", "sfx/newlevel.wav", files, audio);
         addMusic("menu", "sfx/menu_music.wav", files, audio);
-        addMusic("active", "sfx/active_game.wav", files, audio);
+        addMusic("active", "sfx/activeGame_music.wav", files, audio);
     }
 
     /**
