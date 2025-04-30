@@ -173,7 +173,7 @@ public class WorldViewTest {
         when(mockModel.getCountDown()).thenReturn(30);
 
         TextureRegion frame = mock(TextureRegion.class);
-        when(mockPlayerAnimation.getFrame(anyInt())).thenReturn(frame);
+        when(mockPlayerAnimation.getFrame(anyInt(), 0)).thenReturn(frame);
 
         WorldView spyView = spy(worldView);
         doNothing().when(spyView).updateViewportCamera();

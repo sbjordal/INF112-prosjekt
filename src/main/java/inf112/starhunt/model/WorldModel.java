@@ -320,6 +320,11 @@ public class WorldModel extends AbstractApplicationListener implements ViewableW
         viewportLeftX = leftX;
     }
 
+    @Override
+    public float getVerticalVelocity() {
+        return player.getVerticalVelocity();
+    }
+
     List<Enemy> getEnemies() {
         return Collections.unmodifiableList(enemies);
     }

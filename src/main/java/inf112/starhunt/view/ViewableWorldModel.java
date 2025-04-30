@@ -93,5 +93,11 @@ public interface ViewableWorldModel {
      * Updates where the left x of the viewport is
      */
     void updateViewportLeftX(float leftX);
+
+    /**
+     * Get the current player vertical velocity.
+     * @return float verticalVelocity
+     */
+    float getVerticalVelocity();
 }
 

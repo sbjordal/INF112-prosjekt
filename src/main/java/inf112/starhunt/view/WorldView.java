@@ -232,7 +232,7 @@ public class WorldView extends AbstractScreen implements EventListener {
         batch.end();
     }
 
-    private void drawPlayer(float deltaTime, int movementDirection, GameState gameState){
+    private void drawPlayer(float deltaTime, int movementDirection, float verticalVelocity, GameState gameState){
         // Player-data
         Transform playerTransform = model.getViewablePlayer().getTransform();
         float playerX = playerTransform.getPos().x;
@@ -240,7 +240,7 @@ public class WorldView extends AbstractScreen implements EventListener {
         float playerWidth = playerTransform.getSize().x;
         float playerHeight = playerTransform.getSize().y;
 
-        TextureRegion currentFrame = playerAnimation.getFrame(movementDirection);
+        TextureRegion currentFrame = playerAnimation.getFrame(movementDirection, verticalVelocity);
         boolean isPaused = !gameState.equals(GameState.GAME_ACTIVE);
         playerAnimation.update(deltaTime,  isPaused);
         batch.draw(currentFrame, playerX, playerY, playerWidth, playerHeight);
@@ -272,9 +272,10 @@ public class WorldView extends AbstractScreen implements EventListener {
         parallaxBackground.update(movementDirection, deltaTime, model.getGameState() != GameState.GAME_ACTIVE);
 
         // Drawing objects
+        float verticalVelocity = model.getVerticalVelocity();
         batch.begin();
         parallaxBackground.render(batch);
-        drawPlayer(deltaTime, movementDirection, currentGameState);
+        drawPlayer(deltaTime, movementDirection, verticalVelocity, currentGameState);
         drawObjects();
         font.draw(batch, lives, leftX + 80, screenHeight - 15);
         font.draw(batch, coinCount, leftX + 320, screenHeight - 15);
