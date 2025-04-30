@@ -18,6 +18,13 @@ public interface Movable {
     void applyGravity(float deltaTime, boolean isOnGround);
 
     /**
+     * A method for checking whether the mobile object is standing on the ground, or not
+     * @param objectList, the list of objects that the mobile object potentially is standing on.
+     * @return true if the MobileObject is touching the ground, false if not.
+     */
+    boolean isTouchingGround(List<Collidable> objectList);
+
+    /**
      * Filters object's position to be valid.
      * A valid position is a position that does not overlap with any other {@link GameObject} types.
      * The filter-algorithm will favor the desired distances.
