@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import inf112.starhunt.model.GameState;
-import inf112.starhunt.model.LevelManager;
 
 /**
  * A class that handles keyboard input and manipulates the model accordingly.
