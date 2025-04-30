@@ -309,7 +309,7 @@ public class WorldView extends AbstractScreen implements EventListener {
         textures.put("snail", new Texture("assets/snail.png"));
         textures.put("coin", new Texture("assets/coin.png"));
         textures.put("powerup", new Texture("assets/banana.png"));
-        textures.put("ground", new Texture("obstacles/castleCenter.png"));
+        textures.put("ground", new Texture("obstacles/ground.png"));
         textures.put("star", new Texture("assets/star.png"));
     }
 
