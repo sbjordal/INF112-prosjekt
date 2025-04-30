@@ -5,7 +5,7 @@
 <html id="htmlId">
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
-  <title>Coverage Report > ViewableObject</title>
+  <title>Coverage Report > Visitor</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -22,7 +22,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     <a href="../index.html">inf112.starhunt.model.gameobject</a>
 </div>
 
-<h1>Coverage Summary for Class: ViewableObject (inf112.starhunt.model.gameobject)</h1>
+<h1>Coverage Summary for Class: Visitor (inf112.starhunt.model.gameobject)</h1>
 
 <table class="coverageStats">
 
@@ -30,13 +30,13 @@ Current scope:     <a href="../../index.html">all classes</a>
   <th class="name">Class</th>
 </tr>
   <tr>
-    <td class="name">ViewableObject$MockitoMock$XzUkCkHf</td>
+    <td class="name">Visitor$MockitoMock$v2gST1WU</td>
   </tr>
   <tr>
-    <td class="name">ViewableObject$MockitoMock$XzUkCkHf$auxiliary$gdLVOGlW</td>
+    <td class="name">Visitor$MockitoMock$v2gST1WU$auxiliary$CSkuFmPF</td>
   </tr>
   <tr>
-    <td class="name">ViewableObject$MockitoMock$XzUkCkHf$auxiliary$SawQf5Mv</td>
+    <td class="name">Visitor$MockitoMock$v2gST1WU$auxiliary$IlqCJxg8</td>
   </tr>
 <tr>
   <td class="name"><strong>Total</strong></td>
@@ -50,17 +50,58 @@ Current scope:     <a href="../../index.html">all classes</a>
 <pre>
 <code class="sourceCode" id="sourceCode">&nbsp;package inf112.starhunt.model.gameobject;
 &nbsp;
+&nbsp;import inf112.starhunt.model.gameobject.fixedobject.Ground;
+&nbsp;import inf112.starhunt.model.gameobject.fixedobject.item.Banana;
+&nbsp;import inf112.starhunt.model.gameobject.fixedobject.item.Coin;
+&nbsp;import inf112.starhunt.model.gameobject.fixedobject.item.Star;
+&nbsp;import inf112.starhunt.model.gameobject.mobileobject.MobileObject;
+&nbsp;import inf112.starhunt.model.gameobject.mobileobject.actor.Player;
+&nbsp;import inf112.starhunt.model.gameobject.mobileobject.actor.enemy.Enemy;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
 &nbsp;/**
-&nbsp; * An interface to be implemented by all objects in the game that should be visible.
+&nbsp; * An interface to be used for objects that is {@link MobileObject}
+&nbsp; * and that can collide with other {@link Collidable} {@link GameObject}s.
+&nbsp; *
 &nbsp; */
-&nbsp;public interface ViewableObject {
+&nbsp;public interface Visitor {
 &nbsp;
 &nbsp;    /**
-&nbsp;     * Returns the objects position and size
 &nbsp;     *
-&nbsp;     * @return Transform of Position and Size
+&nbsp;     * @param coin
 &nbsp;     */
-&nbsp;    Transform getTransform();
+&nbsp;    void visitCoin(Coin coin);
+&nbsp;
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     * @param star
+&nbsp;     */
+&nbsp;    void visitStar(Star star);
+&nbsp;
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     * @param banana
+&nbsp;     */
+&nbsp;    void visitBanana(Banana banana);
+&nbsp;
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     * @param ground
+&nbsp;     */
+&nbsp;    void visitGround(Ground ground);
+&nbsp;
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     * @param enemy
+&nbsp;     */
+&nbsp;    void visitEnemy(Enemy enemy);
+&nbsp;
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     * @param player
+&nbsp;     */
+&nbsp;    void visitPlayer(Player player);
 &nbsp;
 &nbsp;    /**
 &nbsp;     * A getter for CollisionBox. CollisionBox is the bounding box of an object, used to
@@ -70,21 +111,9 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    CollisionBox getCollisionBox();
 &nbsp;
 &nbsp;    /**
-&nbsp;     * TODO
-&nbsp;     * @param callback
+&nbsp;     *
 &nbsp;     */
-&nbsp;    void setOnCoinCollected(Runnable callback);
-&nbsp;
-&nbsp;    /**
-&nbsp;     * TODO
-&nbsp;     * @param callback
-&nbsp;     */
-&nbsp;    void setOnCollisionWithEnemy(Runnable callback);
-&nbsp;
-&nbsp;    /**
-&nbsp;     * TODO
-&nbsp;     */
-&nbsp;    int getDirection();
+&nbsp;    boolean isColliding(List&lt;Collidable&gt; collidables, CollisionBox collisionBox);
 &nbsp;}
 </code>
 </pre>
@@ -109,7 +138,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2025-04-27 23:09</div>
+    <div style="float:right;">generated on 2025-04-30 10:42</div>
 </div>
 </body>
 </html>

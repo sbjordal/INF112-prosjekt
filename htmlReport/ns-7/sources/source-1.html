@@ -72,10 +72,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    83,3%
+    83%
   </span>
   <span class="absValue">
-    (40/48)
+    (39/47)
   </span>
 </td>
 </tr>
@@ -103,10 +103,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp; * A variable position can be altered once instantiated.
 &nbsp; */
 &nbsp;public abstract class MobileObject extends GameObject implements Movable {
+&nbsp;    private final static int GRAVITY_FORCE = -3200;
 &nbsp;    private final int movementSpeed;
 &nbsp;    private int verticalVelocity;
 &nbsp;    private int movementDirection;
-&nbsp;    private int gravityForce;
 &nbsp;
 &nbsp;    /**
 &nbsp;     * Creates a new MobileObject with the specified movement speed.
@@ -120,7 +120,6 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;        this.movementSpeed = movementSpeed;</b>
 <b class="fc">&nbsp;        this.verticalVelocity = 0;</b>
 <b class="fc">&nbsp;        this.movementDirection = 0;</b>
-<b class="fc">&nbsp;        this.gravityForce = -3200;</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    @Override
@@ -155,7 +154,9 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     *
 &nbsp;     * @return The movement speed as an integer.
 &nbsp;     */
-<b class="fc">&nbsp;    public int getMovementSpeed() { return movementSpeed; }</b>
+&nbsp;    public int getMovementSpeed() {
+<b class="fc">&nbsp;        return movementSpeed;</b>
+&nbsp;    }
 &nbsp;
 &nbsp;    public int getVerticalVelocity() {
 <b class="fc">&nbsp;        return verticalVelocity;</b>
@@ -178,10 +179,9 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="pc">&nbsp;        if (isOnGround &amp;&amp; verticalVelocity &lt;= 0) {</b>
 <b class="fc">&nbsp;            verticalVelocity = 0;</b>
 &nbsp;        } else {
-<b class="fc">&nbsp;            verticalVelocity += (int)(gravityForce * deltaTime);</b>
+<b class="fc">&nbsp;            verticalVelocity += (int)(GRAVITY_FORCE * deltaTime);</b>
 &nbsp;        }
 &nbsp;    }
-&nbsp;
 &nbsp;
 &nbsp;    @Override
 &nbsp;    public boolean isTouchingGround(List&lt;Collidable&gt; objectList) {
@@ -198,7 +198,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;    @Override
 &nbsp;    public Vector2 filterPosition(float deltaX, float deltaY, PositionValidator validator, Visitor visitor){
-<b class="fc">&nbsp;        Transform transform = this.getTransform();</b>
+<b class="fc">&nbsp;        Transform transform = getTransform();</b>
 <b class="fc">&nbsp;        Vector2 position = transform.getPos();</b>
 <b class="fc">&nbsp;        Vector2 size = transform.getSize();</b>
 <b class="fc">&nbsp;        float filteredX = binarySearch(position.x, position.y, deltaX, size, true, validator, visitor);</b>
@@ -211,7 +211,6 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;        int low = 0;</b>
 <b class="fc">&nbsp;        int high = (int) Math.abs(delta);</b>
 <b class="fc">&nbsp;        boolean isNegative = delta &lt; 0;</b>
-&nbsp;
 &nbsp;
 <b class="fc">&nbsp;        while (low &lt; high) {</b>
 <b class="fc">&nbsp;            int mid = (low + high + 1) / 2;</b>
@@ -232,11 +231,11 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 <b class="fc">&nbsp;        return startCoordinate + endCoordinate;</b>
 &nbsp;    }
+&nbsp;
 &nbsp;    @Override
 &nbsp;    public int getDirection(){
 <b class="nc">&nbsp;        return movementDirection;</b>
 &nbsp;    }
-&nbsp;
 &nbsp;}
 </code>
 </pre>
@@ -261,7 +260,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2025-04-27 23:09</div>
+    <div style="float:right;">generated on 2025-04-30 10:42</div>
 </div>
 </body>
 </html>

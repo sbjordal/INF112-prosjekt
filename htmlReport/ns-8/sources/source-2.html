@@ -72,10 +72,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    76,1%
+    75,7%
   </span>
   <span class="absValue">
-    (86/113)
+    (84/111)
   </span>
 </td>
 </tr>
@@ -109,12 +109,12 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp; * that responds to user-input.
 &nbsp; */
 &nbsp;final public class Player extends Actor implements Visitor, Collidable {
-&nbsp;    private static final int NORMAL_BOUNCE_FORCE = 35000;
-&nbsp;    private static final int SMALL_BOUNCE_FORCE = 27000;
-&nbsp;    private static final int NORMAL_JUMP_FORCE = 63000;
-<b class="fc">&nbsp;    private final int ATTACK_COOLDOWN = 800;</b>
-<b class="fc">&nbsp;    private final int BOUNCE_COOLDOWN = 64;</b>
-<b class="fc">&nbsp;    private static final Vector2 STANDARD_PLAYER_SIZE = new Vector2(40, 80);</b>
+&nbsp;    private final static int NORMAL_BOUNCE_FORCE = 35000;
+&nbsp;    private final static int SMALL_BOUNCE_FORCE = 27000;
+&nbsp;    private final static int NORMAL_JUMP_FORCE = 63000;
+&nbsp;    private final static int ATTACK_COOLDOWN = 800;
+&nbsp;    private final static int BOUNCE_COOLDOWN = 64;
+<b class="fc">&nbsp;    private final static Vector2 STANDARD_PLAYER_SIZE = new Vector2(40, 80);</b>
 &nbsp;    private int jumpForce;
 &nbsp;    private boolean isJustRespawned;
 &nbsp;    private boolean hasPowerUp;
@@ -147,24 +147,24 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;        this.jumpForce = NORMAL_JUMP_FORCE;</b>
 <b class="fc">&nbsp;        this.coinCounter = 0;</b>
 <b class="fc">&nbsp;        this.totalScore = 0;</b>
-<b class="fc">&nbsp;        objectsToRemove = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        this.objectsToRemove = new ArrayList&lt;&gt;();</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    /**
 &nbsp;     * Constructor for LevelManager
 &nbsp;     */
 &nbsp;    public Player() {
-<b class="fc">&nbsp;        super(1,0,new Transform(new Vector2(0, 0), new Vector2(0, 0)));</b>
+<b class="fc">&nbsp;        super(1,0,TransformUtils.createTransformForObjects(0, 0, 0,0));</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    @Override
 &nbsp;    public void setOnCoinCollected(Runnable callback) {
-<b class="fc">&nbsp;        this.coinCollected = callback;</b>
+<b class="fc">&nbsp;        coinCollected = callback;</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    @Override
 &nbsp;    public void setOnCollisionWithEnemy(Runnable callback) {
-<b class="nc">&nbsp;        this.takingDamage = callback;</b>
+<b class="nc">&nbsp;        takingDamage = callback;</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    public void jump(boolean isGrounded) {
@@ -172,10 +172,12 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;            jump(jumpForce);</b>
 &nbsp;        }
 &nbsp;    }
+&nbsp;
 &nbsp;    public void jump(int force){
 <b class="fc">&nbsp;        int velocity = (int)(force * Gdx.graphics.getDeltaTime());</b>
 <b class="fc">&nbsp;        setVerticalVelocity(velocity);</b>
 &nbsp;    }
+&nbsp;
 &nbsp;    public void bounce(){
 <b class="fc">&nbsp;        int bounceForce = hasPowerUp ? SMALL_BOUNCE_FORCE : NORMAL_BOUNCE_FORCE;</b>
 <b class="fc">&nbsp;        jump(bounceForce);</b>
@@ -183,11 +185,11 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;    @Override
 &nbsp;    public void accept(Visitor visitor) {
-<b class="fc">&nbsp;        visitor.visit(this);</b>
+<b class="fc">&nbsp;        visitor.visitPlayer(this);</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    @Override
-&nbsp;    public void visit(Coin coin) {
+&nbsp;    public void visitCoin(Coin coin) {
 <b class="pc">&nbsp;        if (!coin.isCollected()) {</b>
 <b class="fc">&nbsp;            coin.collect();</b>
 <b class="fc">&nbsp;            coinCounter++;</b>
@@ -200,13 +202,13 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    }
 &nbsp;
 &nbsp;    @Override
-&nbsp;    public void visit(Star star) {
+&nbsp;    public void visitStar(Star star) {
 <b class="fc">&nbsp;        goToNextLevel = true; // TODO, husk å sette til false i modellen etter denne er gettet</b>
 <b class="fc">&nbsp;        objectsToRemove.add(star);</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    @Override
-&nbsp;    public void visit(Banana banana) {
+&nbsp;    public void visitBanana(Banana banana) {
 <b class="fc">&nbsp;        final int middleOfPlayer = (int) (getTransform().getSize().x / 2);</b>
 <b class="fc">&nbsp;        hasPowerUp = true;</b>
 <b class="fc">&nbsp;        setSize(banana.getLargePlayerSize());</b>
@@ -216,7 +218,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    }
 &nbsp;
 &nbsp;    @Override
-&nbsp;    public void visit(Ground ground) {
+&nbsp;    public void visitGround(Ground ground) {
 <b class="nc">&nbsp;        boolean isBumpingHead = getCollisionBox().isCollidingFromTop(ground.getCollisionBox());</b>
 &nbsp;
 <b class="nc">&nbsp;        if (isBumpingHead &amp;&amp; getVerticalVelocity() &gt; 0) {</b>
@@ -227,7 +229,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    }
 &nbsp;
 &nbsp;    @Override
-&nbsp;    public void visit(Enemy enemy) {
+&nbsp;    public void visitEnemy(Enemy enemy) {
 <b class="nc">&nbsp;        final long currentTime = System.currentTimeMillis();</b>
 <b class="nc">&nbsp;        final boolean isReadyToBounce = currentTime - getLastBounceTime() &gt;= BOUNCE_COOLDOWN;</b>
 <b class="nc">&nbsp;        final boolean isOnTopOfEnemy = getCollisionBox().isCollidingFromBottom(enemy.getCollisionBox());</b>
@@ -253,7 +255,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    }
 &nbsp;
 &nbsp;    @Override
-<b class="nc">&nbsp;    public void visit(Player player) {}</b>
+<b class="nc">&nbsp;    public void visitPlayer(Player player) {}</b>
 &nbsp;
 &nbsp;    @Override
 &nbsp;    public boolean isColliding(List&lt;Collidable&gt; collidables, CollisionBox collisionBox) {
@@ -349,7 +351,9 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;        this.lastBounceTime = lastBounceTime;</b>
 &nbsp;    }
 &nbsp;
-<b class="fc">&nbsp;    public int getJumpForce() { return jumpForce; }</b>
+&nbsp;    public int getJumpForce() {
+<b class="fc">&nbsp;        return jumpForce;</b>
+&nbsp;    }
 &nbsp;
 &nbsp;    public void takeDamage(int damage){
 <b class="fc">&nbsp;        final long currentTime = System.currentTimeMillis();</b>
@@ -391,8 +395,6 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;        setSize(STANDARD_PLAYER_SIZE);</b>
 <b class="fc">&nbsp;        move(middleOfPlayer, 0);</b>
 &nbsp;    }
-&nbsp;
-&nbsp;
 &nbsp;}
 </code>
 </pre>
@@ -417,7 +419,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2025-04-27 23:09</div>
+    <div style="float:right;">generated on 2025-04-30 10:42</div>
 </div>
 </body>
 </html>
