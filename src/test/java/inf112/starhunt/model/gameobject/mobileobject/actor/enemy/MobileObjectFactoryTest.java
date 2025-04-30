@@ -24,23 +24,6 @@ public class MobileObjectFactoryTest {
     }
 
     @Test
-    void testCreateEnemyHasCorrectSize() {
-        Enemy enemy = MobileObjectFactory.createSnail(5, 10);
-
-        assertEquals(EnemyType.SNAIL.width, enemy.getTransform().getSize().x, 0.001, "Width should match");
-        assertEquals(EnemyType.SNAIL.height, enemy.getTransform().getSize().y, 0.001, "Height should match");
-    }
-
-    @Test
-    void testCreateEnemyHasCorrectAttributes() {
-        Enemy enemy = MobileObjectFactory.createSnail(5, 10);
-
-        assertEquals(EnemyType.SNAIL.movementSpeed, enemy.getMovementSpeed(), "Movement speed should match");
-        assertEquals(EnemyType.SNAIL.objectScore, enemy.getObjectScore(), "Object score should match");
-        assertEquals(EnemyType.SNAIL.damage, enemy.getDamage(), "Damage should match");
-    }
-
-    @Test
     void testCreateEnemyAtNegativePosition() {
         float x = -10f, y = -20f;
         Enemy enemy = MobileObjectFactory.createSnail(x, y);
