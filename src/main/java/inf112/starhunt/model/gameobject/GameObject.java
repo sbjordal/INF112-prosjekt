@@ -1,7 +1,6 @@
 package inf112.starhunt.model.gameobject;
 import com.badlogic.gdx.math.Vector2;
 
-import java.io.InvalidClassException;
 
 /**
  * Represents every object that is visualized on the screen.

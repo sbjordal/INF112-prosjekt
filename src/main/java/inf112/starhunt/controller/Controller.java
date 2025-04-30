@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import inf112.starhunt.model.GameState;
-import inf112.starhunt.model.LevelManager;
 
 /**
  * A class that handles keyboard input and manipulates the model accordingly.
@@ -44,7 +43,7 @@ public class Controller extends InputAdapter {
         if (keyCode == Input.Keys.ESCAPE) {
             Gdx.app.exit();
         } else if (isGameState(GameState.GAME_MENU) && keyCode == Input.Keys.ENTER) {
-            controllableModel.startLevel(LevelManager.Level.LEVEL_1); // TODO: denne bør bruke WorldModel sin currentLevel variabel.
+            controllableModel.startLevel(controllableModel.getCurrentLevel());
         } else if (isGameState(GameState.GAME_ACTIVE)) {
             handleMovement(keyCode, true);
         } else if (isGameState(GameState.GAME_OVER) && keyCode == Input.Keys.ENTER) {

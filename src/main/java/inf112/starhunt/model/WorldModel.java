@@ -1,6 +1,5 @@
 package inf112.starhunt.model;
 
-import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import inf112.starhunt.controller.ControllableWorldModel;
 import inf112.starhunt.controller.Controller;
@@ -14,7 +13,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * TODO
+ *
  */
 public class WorldModel extends AbstractApplicationListener implements ViewableWorldModel, ControllableWorldModel, PositionValidator {
     public static final int LEVEL_WIDTH = 4500;
@@ -52,7 +51,7 @@ public class WorldModel extends AbstractApplicationListener implements ViewableW
     }
 
     /**
-     * TODO
+     *
      */
     public void setUpModel() {
         viewportLeftX = 0;
@@ -213,6 +212,7 @@ public class WorldModel extends AbstractApplicationListener implements ViewableW
         player.resetScores();
         infoMode = false;
         gameState = GameState.GAME_MENU;
+        currentLevel= LevelManager.Level.LEVEL_1;
         levelCounter = 1;
     }
 
@@ -258,7 +258,6 @@ public class WorldModel extends AbstractApplicationListener implements ViewableW
     }
 
 
-
     @Override
     public GameState getGameState() {
         return gameState;
@@ -275,6 +274,11 @@ public class WorldModel extends AbstractApplicationListener implements ViewableW
 
     public void setEnemies(List<Enemy> enemies) {
         this.enemies = enemies;
+    }
+
+    @Override
+    public LevelManager.Level getCurrentLevel() {
+        return currentLevel;
     }
 
     @Override

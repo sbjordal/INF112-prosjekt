@@ -87,7 +87,6 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp; * Represents an object that increases the total score when picked up by {@link Player}.
 &nbsp; */
 &nbsp;public class Coin extends Item implements Scorable, Collidable {
-&nbsp;
 &nbsp;    private final static int COIN_VALUE = 5;
 &nbsp;    private final int objectScore;
 &nbsp;
@@ -103,18 +102,13 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;    @Override
 &nbsp;    public void accept(Visitor visitor) {
-<b class="fc">&nbsp;        visitor.visit(this);</b>
+<b class="fc">&nbsp;        visitor.visitCoin(this);</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    @Override
 &nbsp;    public int getObjectScore() {
 <b class="fc">&nbsp;        return objectScore;</b>
 &nbsp;    }
-&nbsp;
-&nbsp;//    @Override
-&nbsp;//    public void onCollide(Collidable gameObject) {
-&nbsp;//
-&nbsp;//    }
 &nbsp;}
 </code>
 </pre>
@@ -139,7 +133,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2025-04-27 23:09</div>
+    <div style="float:right;">generated on 2025-04-30 10:42</div>
 </div>
 </body>
 </html>

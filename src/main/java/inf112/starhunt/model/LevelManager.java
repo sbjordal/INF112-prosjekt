@@ -2,17 +2,12 @@ package inf112.starhunt.model;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.math.Vector2;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import inf112.starhunt.model.gameobject.Collidable;
 import inf112.starhunt.model.gameobject.GameObject;
 import inf112.starhunt.model.gameobject.GameObjectFactory;
-import inf112.starhunt.model.gameobject.Transform;
-import inf112.starhunt.model.gameobject.fixedobject.Ground;
-import inf112.starhunt.model.gameobject.fixedobject.FixedObjectFactory;
 import inf112.starhunt.model.gameobject.fixedobject.item.Star;
-import inf112.starhunt.model.gameobject.mobileobject.MobileObjectFactory;
 import inf112.starhunt.model.gameobject.mobileobject.actor.Player;
 import inf112.starhunt.model.gameobject.mobileobject.actor.enemy.*;
 
@@ -131,7 +126,7 @@ public class LevelManager {
     }
 
     /**
-     * TODO comment
+     *
      *
      * @param level
      * @return

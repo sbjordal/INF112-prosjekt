@@ -85,8 +85,8 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp; * Represents every fixed object that can be picked up by {@link Player}.
 &nbsp; */
 &nbsp;public class Item extends FixedObject {
+&nbsp;    private boolean isCollected;
 &nbsp;
-<b class="fc">&nbsp;    private boolean isCollected = false;</b>
 &nbsp;    /**
 &nbsp;     * Creates a new Item with the specified transform.
 &nbsp;     *
@@ -94,6 +94,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     */
 &nbsp;    public Item(Transform transform) {
 <b class="fc">&nbsp;        super(transform);</b>
+<b class="fc">&nbsp;        isCollected = false;</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    public boolean isCollected() {
@@ -101,7 +102,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    }
 &nbsp;
 &nbsp;    public void collect() {
-<b class="fc">&nbsp;        this.isCollected = true;</b>
+<b class="fc">&nbsp;        isCollected = true;</b>
 &nbsp;    }
 &nbsp;}
 </code>
@@ -127,7 +128,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2025-04-27 23:09</div>
+    <div style="float:right;">generated on 2025-04-30 10:42</div>
 </div>
 </body>
 </html>

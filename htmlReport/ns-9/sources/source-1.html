@@ -107,8 +107,8 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp; * An enemy type is any {@link GameObject} that inflicts damage on the player.
 &nbsp; */
 &nbsp;public abstract class Enemy extends Actor implements Scorable, Visitor, Collidable {
-&nbsp;    final private static long COLLISION_COOLDOWN = 48;
-&nbsp;    final private int objectScore;
+&nbsp;    private final static long COLLISION_COOLDOWN = 48;
+&nbsp;    private final int objectScore;
 &nbsp;    private long lastCollisionTime;
 &nbsp;
 &nbsp;    /**
@@ -185,33 +185,32 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;    @Override
 &nbsp;    public void accept(Visitor visitor) {
-<b class="fc">&nbsp;        visitor.visit(this);</b>
+<b class="fc">&nbsp;        visitor.visitEnemy(this);</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    @Override
-<b class="fc">&nbsp;    public void visit(Coin coin) {}</b>
+<b class="fc">&nbsp;    public void visitCoin(Coin coin) {}</b>
 &nbsp;
 &nbsp;    @Override
-<b class="fc">&nbsp;    public void visit(Star star) {}</b>
+<b class="fc">&nbsp;    public void visitStar(Star star) {}</b>
 &nbsp;
 &nbsp;    @Override
-<b class="fc">&nbsp;    public void visit(Banana banana) {}</b>
+<b class="fc">&nbsp;    public void visitBanana(Banana banana) {}</b>
 &nbsp;
 &nbsp;    @Override
-&nbsp;    public void visit(Ground ground) {
-&nbsp;        //TODO, har tatt snarvei her, fordi enemy ikk er på bakken, så all kollisjon vil være i vegg
+&nbsp;    public void visitGround(Ground ground) {
 <b class="fc">&nbsp;        switchDirection();</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    @Override
-&nbsp;    public void visit(Enemy enemy) {
+&nbsp;    public void visitEnemy(Enemy enemy) {
 <b class="fc">&nbsp;        if (!this.equals(enemy)) {</b>
 <b class="fc">&nbsp;            switchDirection();</b>
 &nbsp;        }
 &nbsp;    }
 &nbsp;
 &nbsp;    @Override
-&nbsp;    public void visit(Player player) {
+&nbsp;    public void visitPlayer(Player player) {
 <b class="fc">&nbsp;        attack(player);</b>
 <b class="fc">&nbsp;        switchDirection();</b>
 &nbsp;    }
@@ -244,7 +243,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2025-04-27 23:09</div>
+    <div style="float:right;">generated on 2025-04-30 10:42</div>
 </div>
 </body>
 </html>

@@ -26,11 +26,12 @@ public class ControllerTest {
     @Test
     void testKeyDownEnterStartsLevelInMenu() {
         when(controllableModel.getGameState()).thenReturn(GameState.GAME_MENU);
+        when(controllableModel.getCurrentLevel()).thenReturn(LevelManager.Level.LEVEL_1);//endret her
 
         Controller controller = new Controller(controllableModel);
         boolean result = controller.keyDown(Input.Keys.ENTER);
 
-        verify(controllableModel).startLevel(LevelManager.Level.LEVEL_1);
+        verify(controllableModel).startLevel(controllableModel.getCurrentLevel());//endret her
         assertTrue(result);
     }
 
@@ -130,11 +131,13 @@ public class ControllerTest {
 
         // Set the game state to GAME_MENU
         when(controllableModel.getGameState()).thenReturn(GameState.GAME_MENU);
+        when(controllableModel.getCurrentLevel()).thenReturn(LevelManager.Level.LEVEL_1);//endret her
 
         // Simulate key press of enter key
         boolean result = controller.keyDown(Input.Keys.ENTER);
 
-        Mockito.verify(controllableModel).startLevel(LevelManager.Level.LEVEL_1);
+        Mockito.verify(controllableModel).startLevel(controllableModel.getCurrentLevel());//endret her
+
         assertTrue(result); // Check that the return value is true
     }
 
@@ -184,11 +187,12 @@ public class ControllerTest {
     void testKeyEnterToStartGame() {
         // Set the game state to GAME_MENU
         when(controllableModel.getGameState()).thenReturn(GameState.GAME_MENU);
+        when(controllableModel.getCurrentLevel()).thenReturn(LevelManager.Level.LEVEL_1);//endret her
 
         // Simulate start game
          controller.keyDown(Input.Keys.ENTER);
 
-        Mockito.verify(controllableModel, Mockito.times(1)).startLevel(LevelManager.Level.LEVEL_1);
+        Mockito.verify(controllableModel, Mockito.times(1)).startLevel(controllableModel.getCurrentLevel());//endret her
     }
 
 }

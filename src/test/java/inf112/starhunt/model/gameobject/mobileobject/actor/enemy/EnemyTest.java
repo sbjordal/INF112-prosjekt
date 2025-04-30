@@ -104,15 +104,6 @@ public class EnemyTest {
 
         enemy.attack(player);
         assertEquals(2, player.getLives());
-
-        //TODO: Får ikke attacke to ganger på rad, antakelig pga cooldown.
-        // Forsøkt Thread.sleep(60) uten hell
-//        enemy.attack(player);
-//        assertEquals(1, player.getLives());
-
-//        enemy.attack(player);
-//        assertEquals(0, player.getLives());
-//        assertFalse(player.isAlive());
     }
 
     @Test
@@ -141,9 +132,6 @@ public class EnemyTest {
         assertTrue(player.isAlive());
         assertEquals(3, player.getLives());
 
-        //TODO: Får ikke attacke to ganger på rad, antakelig pga cooldown. Forsøkt Thread.sleep(60) uten hell
-//        enemy.attack(player);
-//        assertEquals(2, player.getLives());
     }
 
     @Test

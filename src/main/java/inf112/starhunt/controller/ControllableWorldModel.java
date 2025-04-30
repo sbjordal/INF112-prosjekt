@@ -74,5 +74,7 @@ public interface ControllableWorldModel {
      * @param level The level to start
      */
     void startLevel(LevelManager.Level level);
+
+    LevelManager.Level getCurrentLevel();
 }
 

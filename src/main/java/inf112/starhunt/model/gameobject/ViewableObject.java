@@ -20,19 +20,19 @@ public interface ViewableObject {
     CollisionBox getCollisionBox();
 
     /**
-     * TODO
+     *
      * @param callback
      */
     void setOnCoinCollected(Runnable callback);
 
     /**
-     * TODO
+     *
      * @param callback
      */
     void setOnCollisionWithEnemy(Runnable callback);
 
     /**
-     * TODO
+     *
      */
     int getDirection();
 }

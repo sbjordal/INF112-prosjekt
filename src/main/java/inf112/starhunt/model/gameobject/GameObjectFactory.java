@@ -1,8 +1,6 @@
 package inf112.starhunt.model.gameobject;
 
-import com.badlogic.gdx.math.Vector2;
 import inf112.starhunt.model.gameobject.fixedobject.FixedObjectFactory;
-import inf112.starhunt.model.gameobject.fixedobject.item.*;
 import inf112.starhunt.model.gameobject.mobileobject.MobileObjectFactory;
 
 import java.util.HashMap;
