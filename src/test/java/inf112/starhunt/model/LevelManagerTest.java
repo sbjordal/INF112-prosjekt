@@ -11,7 +11,6 @@ import inf112.starhunt.model.gameobject.fixedobject.item.Banana;
 import inf112.starhunt.model.gameobject.fixedobject.item.Coin;
 import inf112.starhunt.model.gameobject.fixedobject.item.Star;
 import inf112.starhunt.model.gameobject.mobileobject.actor.ModelablePlayer;
-import inf112.starhunt.model.gameobject.mobileobject.actor.Player;
 import inf112.starhunt.model.gameobject.mobileobject.actor.enemy.Enemy;
 import inf112.starhunt.model.gameobject.mobileobject.actor.enemy.Leopard;
 import inf112.starhunt.model.gameobject.mobileobject.actor.enemy.Snail;
