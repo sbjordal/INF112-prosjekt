@@ -123,7 +123,7 @@ public class WorldView extends AbstractScreen implements EventListener {
     }
 
     private void handleGameStateSounds() {
-        if(currentGameState != previousGameState){
+        if(currentGameState != previousGameState ){
             switch (currentGameState) {
                 case GAME_MENU -> {
                     gameOverSoundHasPlayed = false;
@@ -136,7 +136,7 @@ public class WorldView extends AbstractScreen implements EventListener {
                     }
                 }
                 case GAME_ACTIVE -> {
-                    if(menuMusic != null&& menuMusic.isPlaying()){
+                    if(menuMusic != null && menuMusic.isPlaying()){
                         menuMusic.setLooping(false);
                         menuMusic.stop();
                     }
