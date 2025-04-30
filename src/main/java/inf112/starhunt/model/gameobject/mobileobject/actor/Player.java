@@ -114,7 +114,7 @@ final public class Player extends Actor implements Visitor, Collidable {
 
     @Override
     public void visitStar(Star star) {
-        goToNextLevel = true; // TODO, husk å sette til false i modellen etter denne er gettet
+        goToNextLevel = true;
         objectsToRemove.add(star);
     }
 

@@ -1,6 +1,5 @@
 package inf112.starhunt.model;
 
-import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import inf112.starhunt.controller.ControllableWorldModel;
 import inf112.starhunt.controller.Controller;
