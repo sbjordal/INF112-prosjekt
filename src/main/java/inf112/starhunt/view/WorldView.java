@@ -216,13 +216,13 @@ public class WorldView extends AbstractScreen implements EventListener {
         // Drawing objects
         batch.begin();
         parallaxBackground.render(batch);
+        drawPlayer(deltaTime, movementDirection, gameState);
+        drawObjects();
         font.draw(batch, lives, leftX + 80, screenHeight - 15);
         font.draw(batch, coinCount, leftX + 320, screenHeight - 15);
         font.draw(batch, totalScore, leftX + 550, screenHeight - 15);
         font.draw(batch, countDown, leftX + 930, screenHeight - 15);
         font.draw(batch, levelCount, leftX + 1300, screenHeight - 15);
-        drawPlayer(deltaTime, movementDirection, gameState);
-        drawObjects();
         batch.end();
     }
 
