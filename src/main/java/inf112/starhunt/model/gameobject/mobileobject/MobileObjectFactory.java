@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.function.BiFunction;
 
 /**
- * A factory class responsible for creating {@link Enemy} objects.
+ * A factory class responsible for creating {@link MobileObject} objects.
  */
 public class MobileObjectFactory {
     static Map<String, BiFunction<Float, Float, MobileObject>> registry = new HashMap<>();

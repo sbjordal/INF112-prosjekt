@@ -30,11 +30,11 @@ public class SoundHandler {
         addSound("ouch", "sfx/characterouch.wav", files, audio);
         addSound("bounce", "sfx/bounce.wav", files, audio);
         addSound("powerup", "sfx/powerup.wav", files, audio);
+        addSound("gameover", "sfx/gameover.wav", files, audio);
+        addSound("newlevel", "sfx/newlevel.mp3", files, audio);
         addMusic("menu", "sfx/menu_music.wav", files, audio);
         addMusic("active", "sfx/active_game.wav", files, audio);
     }
-
-
 
     /**
      * Overloaded method for easier testing.
@@ -64,7 +64,7 @@ public class SoundHandler {
     public void playSound(String name) {
         Sound sound = sounds.get(name);
         if (sound != null) {
-            sound.play(0.10f);
+            sound.play(0.25f);
         } else {
             System.err.println("Sound not found: " + name);
         }

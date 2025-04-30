@@ -7,6 +7,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiFunction;
 
+/**
+ * A Factory that can create all types of {@link GameObject}s.
+ */
 public class GameObjectFactory {
         static Map<String, BiFunction<Float, Float, GameObject>> registry = new HashMap<>();
         static {

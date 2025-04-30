@@ -70,7 +70,11 @@
 - [Damage taken / ouch-sound](https://pixabay.com/sound-effects/characterouch2-163912/)
   - Lydeffekt av [Nykoda Caston](https://pixabay.com/users/kodasworldproductions-27998106/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=163912)
   - Fra [Pixabay](https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=163912)  (Royalty-free)
-- [PowerUp](https://pixabay.com/sound-effects/game-bonus-144751/)
+- [PowerUp / eatBanana](https://pixabay.com/sound-effects/game-bonus-144751/) 
   - Fra [Pixabay](https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=230517) (Royalty-free)
 - [BounceOnEnemy](https://pixabay.com/sound-effects/boing-6222/)
+  - Fra [Pixabay](https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=230517) (Royalty-free
+- [NewLevel / collideWithStar](https://pixabay.com/sound-effects/level-up-5-326133/)
+  - Fra [Pixabay](https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=230517) (Royalty-free)
+- [GameOver](https://pixabay.com/sound-effects/brass-fail-8-a-207130/)
   - Fra [Pixabay](https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=230517) (Royalty-free)

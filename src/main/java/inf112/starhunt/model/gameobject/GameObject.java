@@ -43,6 +43,9 @@ public class GameObject implements ViewableObject {
     public void setOnBananaCollected(Runnable callback) {}
 
     @Override
+    public void setOnCollisionWithStar(Runnable callback) {}
+
+    @Override
     public int getDirection() {
         return 0;
     }

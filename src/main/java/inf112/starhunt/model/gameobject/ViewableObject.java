@@ -45,6 +45,12 @@ public interface ViewableObject {
 
     /**
      *
+     * @param callback
+     */
+    void setOnCollisionWithStar(Runnable callback);
+
+    /**
+     *
      */
     int getDirection();
 }
