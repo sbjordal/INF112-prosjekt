@@ -1,3 +1,5 @@
+# OBLIG 3
+
 ## Team:
 * Gruppe 6 - *"Sjette_Etasje"*
 - Medlemmer og roller:
@@ -20,6 +22,7 @@
 2. **Trenger dere andre roller?** Skriv ned noen linjer om hva de ulike rollene faktisk innebærer for dere.
 - Vi ser fremdeles ikke behov for flere roller enn de vi har. Vi ser at alle rollene har kommet mer frem i denne delen 
   av prosjektet.
+
 - **Hva rollene innebærer for oss:**
   - Teamlead: (Endre)
     - Teamlead skal lede teamet på best mulig måte. Vedkommende sørger for å distribuere viktig informasjon ang prosjektet, 
