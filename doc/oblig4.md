@@ -161,7 +161,7 @@ har hovedfokuset vært å forbedre eksisterende kode og få grundig oversikt ove
 har vi hatt full fokus på å implementere visitor pattern med double dispatch siden vi ble oppmerksom på at den daværende implementasjonen ikke var ideell.
 Som et resultat av mye kode endring, for å få på plass visitor pattern, fikk vi en del bugs og innså feil i koden som vi ikke visste om før denne prossesen. Når visitor pattern
 endelig var på plass ble hovedfokuset hvilke oppgave krav vi ikke har oppfylt. Vi har blandt annet lagt til abstrakte objektfabrikker, og kontaktet noen som bruker linux for å 
-dobbelt sjekke at spillet kan kjøres på alle operativ systemer. Nå rett før oblig 4 skal inn har vi prøvd å finpusse koden med å feks fjerne dø kode, fjerne ubrukte imports
+dobbelt sjekke at spillet kan kjøres på alle operativ systemer. Nå rett før oblig 4 skal inn har vi prøvd å finpusse koden med å feks fjerne dø kode, fjerne ubrukte imports,
 sjekke tilgangene til feltvariabler+ metoder osv.
 
 
@@ -179,13 +179,14 @@ sjekke tilgangene til feltvariabler+ metoder osv.
   * Vi har oppnådd alle kravene våres for både MVP og post-MVP. Vi har derfor ingen planer om å legge til mer funksjonalitet som krever brukerhistorier.
 
 4. **Forklar kort hvordan dere har prioritert oppgavene fremover**
-   * Som nevnt i punkt 1 er fokuset siste tiden finpussing av kode. Siden vi er ferdig med spillet har vi ikke noen oppgaver som skal prioriteres fremover.
+   * Som nevnt i punkt 1 er fokuset siste tiden, før siste innlevering, finpussing av kode. Siden vi er ferdig med spillet har vi ikke noen oppgaver som skal prioriteres fremover.
 
 5. **Har dere gjort justeringer på kravene som er med i MVP?** Forklar i så fall hvorfor. Hvis det er gjort endringer i rekkefølge utfra hva som er gitt fra kunde, hvorfor er dette gjort?
 
   - Vi har ikke endret på mvp krav siden sist innlevering.
 
 6. **Oppdater hvilke krav dere har prioritert, hvor langt dere har kommet og hva dere har gjort siden forrige gang.**
+7. 
 - Se punkt 1
 
 
