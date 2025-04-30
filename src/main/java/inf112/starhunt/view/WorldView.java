@@ -111,13 +111,13 @@ public class WorldView extends AbstractScreen implements EventListener {
         float headerWidth = 800f;
         float headerHeight = 400f;
         float margin = 50f;
-        float headerX = (Gdx.graphics.getWidth() - headerWidth) / 2f;
         float headerY = Gdx.graphics.getHeight() - headerHeight - margin;
+        float centerX = viewport.getCamera().position.x;
 
         batch.begin();
         parallaxBackground.render(batch);
         if (gameState.equals(GameState.GAME_MENU) && !model.getInfoMode()) {
-            batch.draw(headerTexture, headerX, headerY, headerWidth, headerHeight);
+            batch.draw(headerTexture, centerX - headerWidth/2, headerY, headerWidth, headerHeight);
         }
         batch.end();
 
