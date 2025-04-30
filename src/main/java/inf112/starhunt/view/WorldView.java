@@ -1,6 +1,7 @@
 package inf112.starhunt.view;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -32,6 +33,7 @@ public class WorldView extends AbstractScreen implements EventListener {
     private GameState gameState;
     private SoundHandler soundHandler;
     private final Viewport viewport;
+    private Music menuMusic;
 
     public WorldView(ViewableWorldModel model, int width, int height) {
         this.viewport = new ExtendViewport(width, height);
@@ -72,6 +74,10 @@ public class WorldView extends AbstractScreen implements EventListener {
         headerTexture = new Texture("background/header.png");
         soundHandler = new SoundHandler();
         font = loadFont("font/VT323-Regular.ttf");
+        if (gameState == GameState.GAME_MENU) {
+            menuMusic = soundHandler.playMusic("menu");
+        }
+
         model.getViewablePlayer().setOnCoinCollected(() -> soundHandler.playSound("coin"));
         model.getViewablePlayer().setOnCollisionWithEnemy(() -> soundHandler.playSound("ouch"));
         model.getViewablePlayer().setOnCollisionWithEnemyDealDamage(() -> soundHandler.playSound("bounce"));

@@ -38,8 +38,8 @@ public class SoundHandlerTest {
         Sound mockOuchSound = mock(Sound.class);
 
         // Configure mock behavior
-        when(mockFiles.internal("sfx/coinrecieved.mp3")).thenReturn(mockCoinFileHandle);
-        when(mockFiles.internal("sfx/characterouch.mp3")).thenReturn(mockOuchFileHandle);
+        when(mockFiles.internal("sfx/coinrecieved.wav")).thenReturn(mockCoinFileHandle);
+        when(mockFiles.internal("sfx/characterouch.wav")).thenReturn(mockOuchFileHandle);
         when(mockAudio.newSound(mockCoinFileHandle)).thenReturn(mockCoinSound);
         when(mockAudio.newSound(mockOuchFileHandle)).thenReturn(mockOuchSound);
 
@@ -77,7 +77,7 @@ public class SoundHandlerTest {
         Sound mockCoinSound = mock(Sound.class);
 
         // Configure mock behaviors
-        when(mockFiles.internal("sfx/coinrecieved.mp3")).thenReturn(mockCoinFileHandle);
+        when(mockFiles.internal("sfx/coinrecieved.wav")).thenReturn(mockCoinFileHandle);
         when(mockAudio.newSound(mockCoinFileHandle)).thenReturn(mockCoinSound);
 
         // Initialize SoundHandler with mocks

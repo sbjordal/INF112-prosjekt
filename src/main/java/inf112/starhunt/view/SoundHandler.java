@@ -1,6 +1,7 @@
 package inf112.starhunt.view;
 import com.badlogic.gdx.Audio;
 import com.badlogic.gdx.Files;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
@@ -14,6 +15,7 @@ import java.util.Map;
  */
 public class SoundHandler {
     private final Map<String, Sound> sounds = new HashMap<>();
+    private final Map<String, Music> songs = new HashMap<>();
 
     /**
      * Default constructor, adds sounds by getting from the sfx directory.
@@ -28,7 +30,11 @@ public class SoundHandler {
         addSound("ouch", "sfx/characterouch.wav", files, audio);
         addSound("bounce", "sfx/bounce.wav", files, audio);
         addSound("powerup", "sfx/powerup.wav", files, audio);
+        addMusic("menu", "sfx/menu_music.wav", files, audio);
+        addMusic("active", "sfx/active_game.wav", files, audio);
     }
+
+
 
     /**
      * Overloaded method for easier testing.
@@ -43,6 +49,13 @@ public class SoundHandler {
         sounds.put(name, sound);
     }
 
+    //TODO javadoc
+    public void addMusic(String name, String filePath, Files files, Audio audio) {
+        FileHandle fileHandle = files.internal(filePath);
+        Music music = audio.newMusic(fileHandle);
+        songs.put(name, music);
+    }
+
     /**
      * Plays a sound based on sound name defined in {@link SoundHandler} constructor
      * @param name sound (nick)name for easier access
@@ -51,9 +64,23 @@ public class SoundHandler {
     public void playSound(String name) {
         Sound sound = sounds.get(name);
         if (sound != null) {
-            sound.play(0.25f);
+            sound.play(0.10f);
         } else {
             System.err.println("Sound not found: " + name);
+        }
+    }
+
+    //TODO javadoc
+    public Music playMusic(String name) {
+        Music music = songs.get(name);
+        if (music != null) {
+            music.setVolume(0.20f);
+            music.setLooping(true);
+            music.play();
+            return music;
+        } else {
+            System.err.println("Music not found: " + name);
+            return null;
         }
     }
 
