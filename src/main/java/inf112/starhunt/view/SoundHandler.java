@@ -28,6 +28,8 @@ public class SoundHandler {
         addSound("ouch", "sfx/characterouch.wav", files, audio);
         addSound("bounce", "sfx/bounce.wav", files, audio);
         addSound("powerup", "sfx/powerup.wav", files, audio);
+        addSound("gameover", "sfx/gameover.wav", files, audio);
+        addSound("newlevel", "sfx/newlevel.mp3", files, audio);
     }
 
     /**

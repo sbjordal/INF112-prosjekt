@@ -40,6 +40,7 @@ final public class Player extends Actor implements ModelablePlayer {
     private Runnable takingDamage;
     private Runnable dealingDamage;
     private Runnable eatingBanana;
+    private Runnable goingIntoNewLevel;
     private int initialLives;
 
 
@@ -86,6 +87,11 @@ final public class Player extends Actor implements ModelablePlayer {
     public void setOnBananaCollected(Runnable callback) {eatingBanana = callback;}
 
     @Override
+    public void setOnCollisionWithStar(Runnable callback) {
+        goingIntoNewLevel = callback;
+    }
+
+    @Override
     public void jump(boolean isGrounded) {
         if (isGrounded) {
             applyJumpForce(jumpForce);
@@ -125,6 +131,9 @@ final public class Player extends Actor implements ModelablePlayer {
     public void visitStar(Star star) {
         goToNextLevel = true;
         objectsToRemove.add(star);
+        if (goingIntoNewLevel != null) {
+            goingIntoNewLevel.run();
+        }
     }
 
     @Override
@@ -329,4 +338,5 @@ final public class Player extends Actor implements ModelablePlayer {
         setSize(STANDARD_PLAYER_SIZE);
         move(middleOfPlayer, 0);
     }
+
 }

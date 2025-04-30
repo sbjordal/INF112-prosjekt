@@ -10,6 +10,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiFunction;
 
+/**
+ * Factory that creates {@link FixedObject}s so that only x, y position is needed as argument for creating these objects.
+ */
 public class FixedObjectFactory {
     static Map<String, BiFunction<Float, Float, FixedObject>> registry = new HashMap<>();
     static {

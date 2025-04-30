@@ -126,12 +126,6 @@ public class LevelManager {
         return Gdx.files.classpath(levelPath);
     }
 
-    /**
-     *
-     *
-     * @param level
-     * @return
-     */
     static Level getNextLevel(Level level) {
         switch (level) {
             case LEVEL_1:
@@ -143,6 +137,5 @@ public class LevelManager {
             default: throw new IllegalArgumentException("No such level exists: " + level);
         }
     }
-
 
 }

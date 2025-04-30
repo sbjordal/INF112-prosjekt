@@ -76,6 +76,7 @@ public class WorldView extends AbstractScreen implements EventListener {
         model.getViewablePlayer().setOnCollisionWithEnemy(() -> soundHandler.playSound("ouch"));
         model.getViewablePlayer().setOnCollisionWithEnemyDealDamage(() -> soundHandler.playSound("bounce"));
         model.getViewablePlayer().setOnBananaCollected(() -> soundHandler.playSound("powerup"));
+        model.getViewablePlayer().setOnCollisionWithStar(() -> soundHandler.playSound("newlevel"));
     }
 
     private BitmapFont loadFont(String fontFilePath) {
@@ -97,7 +98,10 @@ public class WorldView extends AbstractScreen implements EventListener {
             case GAME_MENU -> drawGameMenu();
             case GAME_ACTIVE -> drawGameActive();
             case GAME_PAUSED -> drawGamePaused();
-            case GAME_OVER -> drawGameOver();
+            case GAME_OVER -> {
+                drawGameOver();
+                soundHandler.playSound("gameover");
+            }
         }
 
         if (!model.getInfoMode() && (gameState == GameState.GAME_MENU || gameState == GameState.GAME_PAUSED)) {
@@ -135,7 +139,7 @@ public class WorldView extends AbstractScreen implements EventListener {
             font.setColor(Color.WHITE);
         }
         drawCenteredText("Press 'i' to remove game info", 3,-400);
-        drawCenteredText("To jump press 'w', 'space' or up-arrow\n" +
+        drawCenteredText("To jump press 'w', 'space' or up arrow\n" +
                 "To move right press 'd' or right arrow\n" +
                 "To move left press 'a' or left arrow\n" +
                 "To pause the game when playing press 'p'\n" +
@@ -297,4 +301,5 @@ public class WorldView extends AbstractScreen implements EventListener {
     public void resize(int width, int height) {
         viewport.update(width, height, true);
     }
+
 }
