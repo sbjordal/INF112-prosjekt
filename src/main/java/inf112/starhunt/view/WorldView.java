@@ -2,6 +2,7 @@ package inf112.starhunt.view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -30,17 +31,21 @@ public class WorldView extends AbstractScreen implements EventListener {
     private GlyphLayout layout;
     private HashMap<String, Texture> textures;
     private PlayerAnimation playerAnimation;
-    private GameState gameState;
+    private GameState currentGameState;
+    private GameState previousGameState = null;
     private SoundHandler soundHandler;
     private final Viewport viewport;
     private Music menuMusic;
+    private Music activeGameMusic;
+    private Sound gameOverSound;
+    private boolean gameOverSoundHasPlayed;
 
     public WorldView(ViewableWorldModel model, int width, int height) {
         this.viewport = new ExtendViewport(width, height);
         this.model = model;
         this.layout = new GlyphLayout();
         this.textures = new HashMap<>();
-        this.gameState = model.getGameState();
+        this.currentGameState = model.getGameState();
     }
 
     /**
@@ -74,9 +79,10 @@ public class WorldView extends AbstractScreen implements EventListener {
         headerTexture = new Texture("background/header.png");
         soundHandler = new SoundHandler();
         font = loadFont("font/VT323-Regular.ttf");
-        if (gameState == GameState.GAME_MENU) {
-            menuMusic = soundHandler.playMusic("menu");
-        }
+        menuMusic = soundHandler.getMusic("menu");
+        activeGameMusic = soundHandler.getMusic("active");
+        gameOverSound = soundHandler.getSound("gameover");
+        gameOverSoundHasPlayed = false;
 
         model.getViewablePlayer().setOnCoinCollected(() -> soundHandler.playSound("coin"));
         model.getViewablePlayer().setOnCollisionWithEnemy(() -> soundHandler.playSound("ouch"));
@@ -99,20 +105,58 @@ public class WorldView extends AbstractScreen implements EventListener {
 
     @Override
     public void render(float v) {
-        gameState = model.getGameState();
-        switch (model.getGameState()) {
+        currentGameState = model.getGameState();
+
+        if(currentGameState != previousGameState){
+            switch (currentGameState) {
+                case GAME_MENU -> {
+                    gameOverSoundHasPlayed = false;
+                    if (activeGameMusic != null){
+                        activeGameMusic.setLooping(false);
+                        activeGameMusic.stop();
+                    }
+                    if (menuMusic != null && !menuMusic.isPlaying()) {
+                        soundHandler.playMusic(menuMusic);
+                    }
+                }
+                case GAME_ACTIVE -> {
+                    if(menuMusic != null&& menuMusic.isPlaying()){
+                        menuMusic.setLooping(false);
+                        menuMusic.stop();
+                    }
+                    if (activeGameMusic != null && !activeGameMusic.isPlaying()) {
+                        soundHandler.playMusic(activeGameMusic);
+                    }
+                }
+                case GAME_PAUSED -> {
+                    if (activeGameMusic != null) {
+                        activeGameMusic.pause();
+                    }
+                }
+                case GAME_OVER -> {
+                    if (activeGameMusic != null) {
+                        activeGameMusic.setLooping(false);
+                        activeGameMusic.stop();
+                    }
+                    if (gameOverSound != null && !gameOverSoundHasPlayed) {
+                        gameOverSound.play();
+                        gameOverSoundHasPlayed = true;
+                    }
+                }
+            }
+            previousGameState = currentGameState;
+        }
+
+        switch (currentGameState) {
             case GAME_MENU -> drawGameMenu();
             case GAME_ACTIVE -> drawGameActive();
             case GAME_PAUSED -> drawGamePaused();
-            case GAME_OVER -> {
-                drawGameOver();
-                soundHandler.playSound("gameover");
-            }
+            case GAME_OVER -> drawGameOver();
         }
 
-        if (!model.getInfoMode() && (gameState == GameState.GAME_MENU || gameState == GameState.GAME_PAUSED)) {
+        if (!model.getInfoMode() && (currentGameState == GameState.GAME_MENU || currentGameState == GameState.GAME_PAUSED)) {
             drawCenteredText("Press 'i' for game info",2, 300);
-        } else if (model.getInfoMode() && (gameState == GameState.GAME_MENU || gameState == GameState.GAME_PAUSED)) {
+        } else if (model.getInfoMode() && (currentGameState == GameState.GAME_MENU || currentGameState == GameState.GAME_PAUSED)) {
             drawGameInfo();
         }
     }
@@ -127,7 +171,7 @@ public class WorldView extends AbstractScreen implements EventListener {
 
         batch.begin();
         parallaxBackground.render(batch);
-        if (gameState.equals(GameState.GAME_MENU) && !model.getInfoMode()) {
+        if (currentGameState.equals(GameState.GAME_MENU) && !model.getInfoMode()) {
             batch.draw(headerTexture, centerX - headerWidth/2, headerY, headerWidth, headerHeight);
         }
         batch.end();
@@ -136,7 +180,7 @@ public class WorldView extends AbstractScreen implements EventListener {
     }
 
     private void drawGameInfo() {
-        if (gameState.equals(GameState.GAME_MENU)) {
+        if (currentGameState.equals(GameState.GAME_MENU)) {
             font.setColor(Color.GOLD);
             drawCenteredText("Race to catch the star and grab as many coins as you can! Watch out for enemies — a single fall\n" +
                     "or hit could cost you everything. Jump on enemies to knock them out, and munch on bananas to grow\n" +
@@ -227,7 +271,7 @@ public class WorldView extends AbstractScreen implements EventListener {
         // Drawing objects
         batch.begin();
         parallaxBackground.render(batch);
-        drawPlayer(deltaTime, movementDirection, gameState);
+        drawPlayer(deltaTime, movementDirection, currentGameState);
         drawObjects();
         font.draw(batch, lives, leftX + 80, screenHeight - 15);
         font.draw(batch, coinCount, leftX + 320, screenHeight - 15);

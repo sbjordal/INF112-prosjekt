@@ -49,7 +49,13 @@ public class SoundHandler {
         sounds.put(name, sound);
     }
 
-    //TODO javadoc
+    /**
+     * TODO
+     * @param name
+     * @param filePath
+     * @param files dependency needed for testing
+     * @param audio dependency needed for testing
+     */
     public void addMusic(String name, String filePath, Files files, Audio audio) {
         FileHandle fileHandle = files.internal(filePath);
         Music music = audio.newMusic(fileHandle);
@@ -70,24 +76,19 @@ public class SoundHandler {
         }
     }
 
-    //TODO javadoc
-    public Music playMusic(String name) {
-        Music music = songs.get(name);
-        if (music != null) {
-            music.setVolume(0.20f);
-            music.setLooping(true);
-            music.play();
-            return music;
-        } else {
-            System.err.println("Music not found: " + name);
-            return null;
-        }
+    /**
+     * Starts playing the song on loop
+     * @param music song to play
+     */
+    public void playMusic(Music music) {
+        music.setVolume(0.20f);
+        music.setLooping(true);
+        music.play();
     }
 
-    /**
-     * Gets sound, mainly used for testing
-     */
     public Sound getSound(String name) {
         return sounds.get(name);
     }
+
+    public Music getMusic(String name) {return songs.get(name);}
 }
