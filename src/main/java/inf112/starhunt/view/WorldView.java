@@ -74,6 +74,8 @@ public class WorldView extends AbstractScreen implements EventListener {
         font = loadFont("font/VT323-Regular.ttf");
         model.getViewablePlayer().setOnCoinCollected(() -> soundHandler.playSound("coin"));
         model.getViewablePlayer().setOnCollisionWithEnemy(() -> soundHandler.playSound("ouch"));
+        model.getViewablePlayer().setOnCollisionWithEnemyDealDamage(() -> soundHandler.playSound("bounce"));
+        model.getViewablePlayer().setOnBananaCollected(() -> soundHandler.playSound("powerup"));
     }
 
     private BitmapFont loadFont(String fontFilePath) {
