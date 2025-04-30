@@ -18,14 +18,15 @@ import java.util.List;
 public class WorldModel extends AbstractApplicationListener implements ViewableWorldModel, ControllableWorldModel, PositionValidator {
     public static final int LEVEL_WIDTH = 4500;
 
-    int countDown;
-    long lastScoreUpdate;
-    boolean isMovingRight;
-    boolean isMovingLeft;
-    boolean isJumping;
-    List<Collidable> collidables; //TODO private?
-    ModelablePlayer player; //TODO private?
+    ModelablePlayer player;
 
+    private int countDown;
+    private long lastScoreUpdate;
+    private boolean isMovingRight;
+    private boolean isMovingLeft;
+    private boolean isJumping;
+
+    private List<Collidable> collidables;
     private GameState gameState;
     private WorldBoard board;
     private WorldView worldView;
@@ -115,10 +116,10 @@ public class WorldModel extends AbstractApplicationListener implements ViewableW
     // TODO, skiv javadoc på denne, beskriv hva som skjer
     private boolean positionIsOnBoard(CollisionBox collisionBox) {
         final int belowLevel = -200;
-        boolean isWithinWidthBound = collisionBox.botLeft.x >= 0 &&
-                collisionBox.botLeft.x > viewportLeftX &&
-                collisionBox.topRight.x < board.width();
-        boolean isWithinHeightBound = collisionBox.botLeft.y >= belowLevel;
+        boolean isWithinWidthBound = collisionBox.getBotLeft().x >= 0 &&
+                collisionBox.getBotLeft().x > viewportLeftX &&
+                collisionBox.getTopRight().x < board.width();
+        boolean isWithinHeightBound = collisionBox.getBotLeft().y >= belowLevel;
 
         return isWithinWidthBound && isWithinHeightBound;
     }
@@ -268,14 +269,6 @@ public class WorldModel extends AbstractApplicationListener implements ViewableW
         this.gameState = gameState;
     }
 
-    public List<Enemy> getEnemies() {
-        return Collections.unmodifiableList(enemies);
-    }
-
-    public void setEnemies(List<Enemy> enemies) {
-        this.enemies = enemies;
-    }
-
     @Override
     public LevelManager.Level getCurrentLevel() {
         return currentLevel;
@@ -324,5 +317,37 @@ public class WorldModel extends AbstractApplicationListener implements ViewableW
     @Override
     public void updateViewportLeftX(float leftX) {
         viewportLeftX = leftX;
+    }
+
+    List<Enemy> getEnemies() {
+        return Collections.unmodifiableList(enemies);
+    }
+
+    void setEnemies(List<Enemy> enemies) {
+        this.enemies = enemies;
+    }
+
+    void setCollidables(List<Collidable> collidables) {
+        this.collidables = collidables;
+    }
+
+    void setCountDown(int countDown) {
+        this.countDown = countDown;
+    }
+
+    void setLastScoreUpdate(long lastScoreUpdate) {
+        this.lastScoreUpdate = lastScoreUpdate;
+    }
+
+    boolean getIsMovingRight() {
+        return isMovingRight;
+    }
+
+    boolean getIsMovingLeft() {
+        return isMovingLeft;
+    }
+
+    boolean getIsJumping() {
+        return isJumping;
     }
 }

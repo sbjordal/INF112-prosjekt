@@ -9,7 +9,7 @@ import com.badlogic.gdx.math.Vector2;
  */
 public class Transform{
     private Vector2 position;
-    Vector2 size; // TODO: kan den være privat?
+    private Vector2 size;
 
     /**
      * Creates a new Transform object with the specified position and size.
