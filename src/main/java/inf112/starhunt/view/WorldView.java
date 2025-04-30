@@ -110,13 +110,13 @@ public class WorldView extends AbstractScreen implements EventListener {
         float headerWidth = 800f;
         float headerHeight = 400f;
         float margin = 50f;
-        float headerX = (Gdx.graphics.getWidth() - headerWidth) / 2f;
         float headerY = Gdx.graphics.getHeight() - headerHeight - margin;
+        float centerX = viewport.getCamera().position.x;
 
         batch.begin();
         parallaxBackground.render(batch);
         if (gameState.equals(GameState.GAME_MENU) && !model.getInfoMode()) {
-            batch.draw(headerTexture, headerX, headerY, headerWidth, headerHeight);
+            batch.draw(headerTexture, centerX - headerWidth/2, headerY, headerWidth, headerHeight);
         }
         batch.end();
 
@@ -215,13 +215,13 @@ public class WorldView extends AbstractScreen implements EventListener {
         // Drawing objects
         batch.begin();
         parallaxBackground.render(batch);
+        drawPlayer(deltaTime, movementDirection, gameState);
+        drawObjects();
         font.draw(batch, lives, leftX + 80, screenHeight - 15);
         font.draw(batch, coinCount, leftX + 320, screenHeight - 15);
         font.draw(batch, totalScore, leftX + 550, screenHeight - 15);
         font.draw(batch, countDown, leftX + 930, screenHeight - 15);
         font.draw(batch, levelCount, leftX + 1300, screenHeight - 15);
-        drawPlayer(deltaTime, movementDirection, gameState);
-        drawObjects();
         batch.end();
     }
 

@@ -8,6 +8,7 @@ import inf112.starhunt.model.gameobject.Collidable;
 import inf112.starhunt.model.gameobject.GameObject;
 import inf112.starhunt.model.gameobject.GameObjectFactory;
 import inf112.starhunt.model.gameobject.fixedobject.item.Star;
+import inf112.starhunt.model.gameobject.mobileobject.actor.ModelablePlayer;
 import inf112.starhunt.model.gameobject.mobileobject.actor.Player;
 import inf112.starhunt.model.gameobject.mobileobject.actor.enemy.*;
 
@@ -41,7 +42,7 @@ public class LevelManager {
      * @return The extracted game objects as a list.
      * @throws IllegalStateException If anything other than exactly one player or exactly one star was found.
      */
-    public static Triple<List<Enemy>, List<Collidable>, Player> loadLevel(Level level) {
+    public static Triple<List<Enemy>, List<Collidable>, ModelablePlayer> loadLevel(Level level) {
         FileHandle levelFile = getLevelFile(level);
         ObjectMapper objectMapper = new ObjectMapper();
         String levelContent;

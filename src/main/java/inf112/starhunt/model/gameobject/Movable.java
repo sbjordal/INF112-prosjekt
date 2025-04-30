@@ -8,13 +8,6 @@ import java.util.List;
 public interface Movable {
 
     /**
-     * A method for checking whether a Gameobject is standing on the ground, or not
-     * @param objectList, the list of objects that the object potentially is standing on.
-     * @return true if the Gameobject is touching the ground, false if not.
-     */
-    boolean isTouchingGround(List<Collidable> objectList);
-
-    /**
      * Applies gravity to the object's vertical velocity.
      * If the object is on the ground and not moving upward, vertical velocity is set to 0.
      * Otherwise, gravity is applied based on the elapsed time since the last frame.
@@ -53,5 +46,13 @@ public interface Movable {
      */
     void move(Vector2 newPos);
 
+    /**
+     * Resolves a proposed movement of the movable object.
+     * It filters the movement based on the provided validator.
+     *
+     * @param deltaX      The proposed change in the x-coordinate.
+     * @param deltaY      The proposed change in the y-coordinate.
+     * @param validator   The {@link PositionValidator} used to filter the movement.
+     */
     void resolveMovement(float deltaX, float deltaY, PositionValidator validator);
 }

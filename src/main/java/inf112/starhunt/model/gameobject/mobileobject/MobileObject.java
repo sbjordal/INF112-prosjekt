@@ -94,8 +94,12 @@ public abstract class MobileObject extends GameObject implements Movable {
         }
     }
 
-    @Override
-    public boolean isTouchingGround(List<Collidable> objectList) {
+    /**
+     * A method for checking whether the mobile object is standing on the ground, or not
+     * @param objectList, the list of objects that the mobile object potentially is standing on.
+     * @return true if the MobileObject is touching the ground, false if not.
+     */
+    protected boolean isTouchingGround(List<Collidable> objectList) {
         for (Collidable object : objectList) {
             if (object instanceof Ground) {
                 CollisionBox objectCollisionBox = object.getCollisionBox();
