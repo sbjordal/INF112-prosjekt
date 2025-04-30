@@ -32,7 +32,7 @@ public class PlayerAnimationTest {
         try (MockedConstruction<Texture> mocked = mockConstruction(Texture.class)) {
             PlayerAnimation anim = new PlayerAnimation();
 
-            assertEquals(20, mocked.constructed().size());
+            assertEquals(22, mocked.constructed().size());
 
             assertNotNull(anim.getFrame(0, 0));
             assertNotNull(anim.getFrame(1, 0));

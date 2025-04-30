@@ -331,6 +331,11 @@ public class WorldModel extends AbstractApplicationListener implements ViewableW
         return player.getVerticalVelocity();
     }
 
+    @Override
+    public boolean getPlayerMovement() {
+        return player.getIsMovingHorizontally();
+    }
+
     List<Enemy> getEnemies() {
         return Collections.unmodifiableList(enemies);
     }

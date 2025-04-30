@@ -270,8 +270,7 @@ public class WorldView extends AbstractScreen implements EventListener {
 
         // Parallax background
         int movementDirection = model.getMovementDirection();
-        ModelablePlayer player = (ModelablePlayer) model.getViewablePlayer(); //TODO FY
-        boolean actualMovement = player.getIsMovingHorizontally();
+        boolean actualMovement = model.getPlayerMovement();
         parallaxBackground.update(movementDirection, deltaTime, model.getGameState() != GameState.GAME_ACTIVE || !actualMovement);
 
         // Drawing objects

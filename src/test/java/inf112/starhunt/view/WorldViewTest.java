@@ -171,9 +171,10 @@ public class WorldViewTest {
         when(mockModel.getCoinCounter()).thenReturn(5);
         when(mockModel.getPlayerLives()).thenReturn(3);
         when(mockModel.getCountDown()).thenReturn(30);
+        when(mockModel.getVerticalVelocity()).thenReturn(0f);
 
         TextureRegion frame = mock(TextureRegion.class);
-        when(mockPlayerAnimation.getFrame(anyInt(), 0)).thenReturn(frame);
+        when(mockPlayerAnimation.getFrame(anyInt(), anyFloat())).thenReturn(frame);
 
         WorldView spyView = spy(worldView);
         doNothing().when(spyView).updateViewportCamera();

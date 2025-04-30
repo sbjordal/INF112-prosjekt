@@ -99,5 +99,11 @@ public interface ViewableWorldModel {
      * @return float verticalVelocity
      */
     float getVerticalVelocity();
+
+    /**
+     * Getter for finding out whether the player has moved since the last frame.
+     * @return true if movement has happened, false otherwise
+     */
+    boolean getPlayerMovement();
 }
 
