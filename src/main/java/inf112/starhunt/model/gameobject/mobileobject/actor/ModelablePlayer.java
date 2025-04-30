@@ -98,4 +98,8 @@ public interface ModelablePlayer extends Visitor, Collidable {
     void setMovementDirection(int movementDirection);
 
     void setRespawned(boolean bool);
+
+    void setIsMovingHorizontally(boolean movedHorizontally);
+
+    boolean getIsMovingHorizontally();
 }

@@ -178,12 +178,18 @@ public class WorldModel extends AbstractApplicationListener implements ViewableW
         player.resolveMovement(0, deltaY, this);
 
         final boolean isMoving = isMovingRight ^ isMovingLeft;
+        boolean actuallyMovedHorizontally = false;
         if (isMoving) {
             int direction = isMovingRight ? 1 : -1;
             player.setMovementDirection(direction);
             float deltaX = (player.getMovementSpeed() * deltaTime) * direction;
+            float beforeX = player.getTransform().getPos().x;
             player.resolveMovement(deltaX, 0, this);
+            float afterX = player.getTransform().getPos().x;
+            actuallyMovedHorizontally = (beforeX != afterX);
+            player.setIsMovingHorizontally(actuallyMovedHorizontally);
         }
+
 
         final boolean isStandingStill = !(isMovingRight || isMovingLeft);
         if (isStandingStill) {

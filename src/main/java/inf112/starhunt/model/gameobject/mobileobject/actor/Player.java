@@ -42,6 +42,7 @@ final public class Player extends Actor implements ModelablePlayer {
     private Runnable eatingBanana;
     private Runnable goingIntoNewLevel;
     private int initialLives;
+    private boolean isMovingHorizontally;
 
 
     /**
@@ -63,6 +64,7 @@ final public class Player extends Actor implements ModelablePlayer {
         this.coinCounter = 0;
         this.totalScore = 0;
         this.objectsToRemove = new ArrayList<>();
+        this.isMovingHorizontally = false;
     }
 
     /**
@@ -271,6 +273,16 @@ final public class Player extends Actor implements ModelablePlayer {
     @Override
     public void setRespawned(boolean bool){
         isJustRespawned = bool;
+    }
+
+    @Override
+    public void setIsMovingHorizontally(boolean movedHorizontally) {
+        isMovingHorizontally = movedHorizontally;
+    }
+
+    @Override
+    public boolean getIsMovingHorizontally() {
+        return isMovingHorizontally;
     }
 
     public boolean getRespawned(){

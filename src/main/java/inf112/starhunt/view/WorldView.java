@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import inf112.starhunt.model.GameState;
 import inf112.starhunt.model.gameobject.Transform;
 import inf112.starhunt.model.gameobject.ViewableObject;
+import inf112.starhunt.model.gameobject.mobileobject.actor.ModelablePlayer;
 import inf112.starhunt.model.gameobject.mobileobject.actor.Player;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
@@ -269,7 +270,9 @@ public class WorldView extends AbstractScreen implements EventListener {
 
         // Parallax background
         int movementDirection = model.getMovementDirection();
-        parallaxBackground.update(movementDirection, deltaTime, model.getGameState() != GameState.GAME_ACTIVE);
+        ModelablePlayer player = (ModelablePlayer) model.getViewablePlayer(); //TODO FY
+        boolean actualMovement = player.getIsMovingHorizontally();
+        parallaxBackground.update(movementDirection, deltaTime, model.getGameState() != GameState.GAME_ACTIVE || !actualMovement);
 
         // Drawing objects
         float verticalVelocity = model.getVerticalVelocity();
