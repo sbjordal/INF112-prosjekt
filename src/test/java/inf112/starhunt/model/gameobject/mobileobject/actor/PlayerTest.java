@@ -57,7 +57,7 @@ class PlayerTest {
     void testPlayerInitialization() {
         assertNotNull(player);
         assertEquals(3, player.getLives());
-        assertTrue(player.isAlive());
+        assertTrue(player.getIsAlive());
 
         assertFalse(player.getHasPowerUp(), "Player should not have a power-up initially.");
         assertFalse(player.getRespawned(), "Player should not be respawned initially.");
@@ -72,7 +72,7 @@ class PlayerTest {
     void testReceiveDamageReducesLives() {
         player.receiveDamage(1);
         assertEquals(2, player.getLives());
-        assertTrue(player.isAlive());
+        assertTrue(player.getIsAlive());
     }
 
     @Test
@@ -83,7 +83,7 @@ class PlayerTest {
         // player loses 3 lives and should die
         player.receiveDamage(3);
         assertEquals(0, player.getLives());
-        assertFalse(player.isAlive());
+        assertFalse(player.getIsAlive());
     }
 
     @Test
@@ -225,7 +225,7 @@ class PlayerTest {
 
         // Etter bevegelsen, sjekk at spilleren har 0 liv
         assertEquals(0, player.getLives(), "Player should lose all lives if they fall below the level.");
-        assertFalse(player.isAlive(), "Player should not be alive if they fall below the level.");
+        assertFalse(player.getIsAlive(), "Player should not be alive if they fall below the level.");
     }
 
 

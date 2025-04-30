@@ -4,8 +4,8 @@ import com.badlogic.gdx.Gdx;
 import inf112.starhunt.controller.ControllableWorldModel;
 import inf112.starhunt.controller.Controller;
 import inf112.starhunt.model.gameobject.*;
+import inf112.starhunt.model.gameobject.mobileobject.actor.ModelablePlayer;
 import inf112.starhunt.model.gameobject.mobileobject.actor.enemy.*;
-import inf112.starhunt.model.gameobject.mobileobject.actor.Player;
 import inf112.starhunt.view.ViewableWorldModel;
 import inf112.starhunt.view.WorldView;
 import java.util.ArrayList;
@@ -18,13 +18,13 @@ import java.util.List;
 public class WorldModel extends AbstractApplicationListener implements ViewableWorldModel, ControllableWorldModel, PositionValidator {
     public static final int LEVEL_WIDTH = 4500;
 
-    Player player;
     int countDown;
     long lastScoreUpdate;
     boolean isMovingRight;
     boolean isMovingLeft;
     boolean isJumping;
     List<Collidable> collidables;
+    ModelablePlayer player;
 
     private GameState gameState;
     private WorldBoard board;
@@ -70,7 +70,7 @@ public class WorldModel extends AbstractApplicationListener implements ViewableW
     }
 
     private void setupGameObjects() {
-        Triple<List<Enemy>, List<Collidable>, Player> triple = LevelManager.loadLevel(currentLevel);
+        Triple<List<Enemy>, List<Collidable>, ModelablePlayer> triple = LevelManager.loadLevel(currentLevel);
         enemies = triple.first;
         collidables = triple.second;
 
@@ -197,7 +197,7 @@ public class WorldModel extends AbstractApplicationListener implements ViewableW
     }
 
     void checkForGameOver() {
-        if (!player.isAlive()){
+        if (!player.getIsAlive()){
             gameState = GameState.GAME_OVER;
         }
     }
