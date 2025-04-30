@@ -159,7 +159,7 @@
 
 
 - **Oppsummert hva som er gjort siden sist:**
-  - ouch lyd, level counter, abstract factory, fiender visuell skifting av retning
+  - 
 
 
 2. **For hvert krav dere jobber med, må dere lage 1) ordentlige brukerhistorier, 2) akseptansekriterier og 3) arbeidsoppgaver.**
@@ -195,6 +195,12 @@
     - Vi har fjernet ubrukte imports.
     - Vi har endret tilgangsmodifikator på enkelte variabler og metoder, slik at de har den strengeste de kan ha, og dermed ivaretatt enkapsulering.
     - Vi har finskrevet javadocs for alle klasser, metoder, konstruktører, feltvariabler. Vi har fulgt stilguiden fra inf101. (https://inf101v23.stromme.me/notat/stil/)
+    - Vi har lagt til en lyd som spilles av når spilleren tar skade.
+    - Vi har lagt til en level counter som tydeliggjør spillets progresjon.
+    - Vi har gjort slik at teksturen til fiender flippes ved skifting av retning.
+    - Vi har laget to nye hjelpe-klasser, nemlig AbstractScreen og AbstractApplicationListener for å abstrahere vekk unødvendige metoder (Interface Segregation Principle).
+    - Vi har refaktorert typen Player til ModelablePlayer i WorldModel for å beholde avhengigheter basert på abstraksjoner og ikke konkretiseringer (Dependency Inversion Principle).
+    - Vi har oppdatert UML-diagrammet.
 
 * Bugs:
 
