@@ -70,3 +70,7 @@
 - [Damage taken / ouch-sound](https://pixabay.com/sound-effects/characterouch2-163912/)
   - Lydeffekt av [Nykoda Caston](https://pixabay.com/users/kodasworldproductions-27998106/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=163912)
   - Fra [Pixabay](https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=163912)  (Royalty-free)
+- [PowerUp](https://pixabay.com/sound-effects/game-bonus-144751/)
+  - Fra [Pixabay](https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=230517) (Royalty-free)
+- [BounceOnEnemy](https://pixabay.com/sound-effects/boing-6222/)
+  - Fra [Pixabay](https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=230517) (Royalty-free)
