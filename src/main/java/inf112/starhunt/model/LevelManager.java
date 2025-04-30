@@ -2,17 +2,13 @@ package inf112.starhunt.model;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.math.Vector2;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import inf112.starhunt.model.gameobject.Collidable;
 import inf112.starhunt.model.gameobject.GameObject;
 import inf112.starhunt.model.gameobject.GameObjectFactory;
-import inf112.starhunt.model.gameobject.Transform;
-import inf112.starhunt.model.gameobject.fixedobject.Ground;
-import inf112.starhunt.model.gameobject.fixedobject.FixedObjectFactory;
 import inf112.starhunt.model.gameobject.fixedobject.item.Star;
-import inf112.starhunt.model.gameobject.mobileobject.MobileObjectFactory;
+import inf112.starhunt.model.gameobject.mobileobject.actor.ModelablePlayer;
 import inf112.starhunt.model.gameobject.mobileobject.actor.Player;
 import inf112.starhunt.model.gameobject.mobileobject.actor.enemy.*;
 
@@ -46,7 +42,7 @@ public class LevelManager {
      * @return The extracted game objects as a list.
      * @throws IllegalStateException If anything other than exactly one player or exactly one star was found.
      */
-    public static Triple<List<Enemy>, List<Collidable>, Player> loadLevel(Level level) {
+    public static Triple<List<Enemy>, List<Collidable>, ModelablePlayer> loadLevel(Level level) {
         FileHandle levelFile = getLevelFile(level);
         ObjectMapper objectMapper = new ObjectMapper();
         String levelContent;
@@ -126,11 +122,12 @@ public class LevelManager {
             default: throw new IllegalStateException("No level file found for: " + level);
         };
 
+
         return Gdx.files.classpath(levelPath);
     }
 
     /**
-     * TODO comment
+     *
      *
      * @param level
      * @return
@@ -143,7 +140,7 @@ public class LevelManager {
                 return (LEVEL_3);
             case LEVEL_3:
                 return (LEVEL_1);
-            default: throw new IllegalArgumentException("No such level exists");
+            default: throw new IllegalArgumentException("No such level exists: " + level);
         }
     }
 

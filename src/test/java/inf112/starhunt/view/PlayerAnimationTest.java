@@ -44,7 +44,7 @@ public class PlayerAnimationTest {
     void testUpdateIncreasesStateTimeWhenNotPaused() {
         try (MockedConstruction<Texture> mocked = mockConstruction(Texture.class)) {
             PlayerAnimation animation = new PlayerAnimation();
-            animation.update(0.5f, false);
+            animation.update(0.5f,false);
             assertNotNull(animation.getFrame(0));
         }
     }

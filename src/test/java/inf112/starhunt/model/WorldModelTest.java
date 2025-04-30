@@ -14,13 +14,13 @@ import inf112.starhunt.model.gameobject.fixedobject.item.Coin;
 import inf112.starhunt.model.gameobject.mobileobject.actor.Player;
 import inf112.starhunt.model.gameobject.mobileobject.actor.enemy.Enemy;
 import inf112.starhunt.model.gameobject.mobileobject.MobileObjectFactory;
-import inf112.starhunt.model.gameobject.mobileobject.actor.enemy.EnemyType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -34,6 +34,8 @@ public class WorldModelTest {
     private WorldModel worldModel;
     private Transform transform;
     private Coin coin;
+    private List<Enemy> enemies;
+    private GameState gameState;
 
     @BeforeAll
     static void setUpBeforeALl() {
@@ -54,7 +56,8 @@ public class WorldModelTest {
         transform = new Transform(new Vector2(0, 0), new Vector2(50, 100));
         worldModel.player = new Player(3, 5, transform);
         worldModel.collidables = new ArrayList<>();
-        worldModel.enemies = new ArrayList<>();
+        this.enemies = new ArrayList<>();
+
 
         Transform coinTransform = new Transform(new Vector2(10, 20), new Vector2(30, 30));
         coin = new Coin(coinTransform);
@@ -100,28 +103,6 @@ public class WorldModelTest {
         assertFalse(worldModel.isJumping);
     }
 
-    // TODO: kommentert ut for å kompilere
-//    @Test
-//    public void testLegalMove_validMove() {
-//        CollisionBox validMove = new CollisionBox(new Transform(new Vector2(10, 10), new Vector2(50, 50)));
-//        assertTrue(worldModel.isLegalMove(validMove));
-//    }
-//
-//    @Test
-//    public void testLegalMove_invalidMove_outOfBounds() {
-//        CollisionBox invalidMove = new CollisionBox(new Transform(new Vector2(-10, -10), new Vector2(50, 50)));
-//        assertFalse(worldModel.isLegalMove(invalidMove));
-//    }
-//
-//    @Test
-//    public void testLegalMove_invalidMove_collision() {
-//        CollisionBox collisionMove = new CollisionBox(new Transform(new Vector2(40, 40), new Vector2(50, 50)));
-//        Collidable obstacle = new Ground(new Transform(new Vector2(40, 40), new Vector2(50, 50)));
-//        worldModel.collidables.add(obstacle);
-//
-//        assertFalse(worldModel.isLegalMove(collisionMove));
-//    }
-
     @Test
     void testInfoMode () {
         assertFalse(worldModel.getInfoMode());
@@ -132,22 +113,22 @@ public class WorldModelTest {
     @Test
     void testGamestate(){
         //Upon starting the game, the state should be GAME_MENU
-        assertTrue(worldModel.gameState.equals(GameState.GAME_MENU));
+        assertTrue(worldModel.getGameState().equals(GameState.GAME_MENU));
         worldModel.resume();
-        assertTrue(worldModel.gameState.equals(GameState.GAME_ACTIVE));
+        assertTrue(worldModel.getGameState().equals(GameState.GAME_ACTIVE));
         worldModel.pause();
-        worldModel.gameState.equals(GameState.GAME_PAUSED);
+        worldModel.getGameState().equals(GameState.GAME_PAUSED);
         worldModel.backToGameMenu();
-        worldModel.gameState.equals(GameState.GAME_MENU);
+        worldModel.getGameState().equals(GameState.GAME_MENU);
         worldModel.resume();
     }
 
     @Test
     void testCheckForGameOver(){
-        worldModel.gameState = GameState.GAME_ACTIVE;
+        worldModel.setGameState(GameState.GAME_ACTIVE);
         worldModel.player.receiveDamage(3);
         worldModel.checkForGameOver();
-        assertTrue(worldModel.gameState == (GameState.GAME_OVER));
+        assertTrue(worldModel.getGameState() == (GameState.GAME_OVER));
     }
 
     @Test
@@ -171,11 +152,13 @@ public class WorldModelTest {
     void testEnemiesMovable(){
         Enemy en1 = MobileObjectFactory.createSnail(10, 10);
         Enemy en2 = MobileObjectFactory.createLeopard(15, 10);
-        worldModel.enemies.add(en1);
-        worldModel.enemies.add(en2);
+        enemies.add(en1);
+        enemies.add(en2);
+
+        worldModel.setEnemies(enemies);
         worldModel.moveEnemies(1 / 60f);
-        assertTrue(worldModel.enemies.get(0).getTransform().getPos().x == 11);
-        assertTrue(worldModel.enemies.get(1).getTransform().getPos().x == 13);
+        assertTrue(worldModel.getEnemies().get(0).getTransform().getPos().x == 11);
+        assertTrue(worldModel.getEnemies().get(1).getTransform().getPos().x == 13);
     }
 
     @Test
@@ -198,6 +181,15 @@ public class WorldModelTest {
     }
 
     @Test
+    void testLevelCounter() {
+        // Startverdi:
+        assertEquals(1, worldModel.getLevelCounter());
+
+        // Må endre oppsett av goToNextLevel-metode i modellen for å teste at vi går til riktig level.
+
+    }
+
+    @Test
     void testGetLevelWidthReturnsCorrectValue() {
         WorldModel worldModel = new WorldModel(4500, 900);
         assertEquals(4500, worldModel.getLevelWidth());
@@ -214,7 +206,7 @@ public class WorldModelTest {
     void testGetTotalScoreReturnsCorrectValue() {
         assertEquals(0, worldModel.player.getTotalScore());
 
-        worldModel.player.visit(coin);
+        worldModel.player.visitCoin(coin);
         assertEquals(5, worldModel.player.getTotalScore());
         assertEquals(5, worldModel.getTotalScore());
     }
@@ -223,7 +215,7 @@ public class WorldModelTest {
     void testGetCoinCounterReturnsCorrectValue() {
         assertEquals(0, worldModel.player.getCoinCounter());
 
-        worldModel.player.visit(coin);
+        worldModel.player.visitCoin(coin);
         assertEquals(1, worldModel.player.getCoinCounter());
         assertEquals(1, worldModel.getCoinCounter());
 

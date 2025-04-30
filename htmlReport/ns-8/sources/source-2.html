@@ -56,26 +56,26 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    90,3%
+    86,5%
   </span>
   <span class="absValue">
-    (28/31)
+    (32/37)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    50%
+    43,2%
   </span>
   <span class="absValue">
-    (14/28)
+    (19/44)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    72,2%
+    75,7%
   </span>
   <span class="absValue">
-    (65/90)
+    (84/111)
   </span>
 </td>
 </tr>
@@ -109,12 +109,12 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp; * that responds to user-input.
 &nbsp; */
 &nbsp;final public class Player extends Actor implements Visitor, Collidable {
-&nbsp;    private static final int NORMAL_BOUNCE_FORCE = 35000;
-&nbsp;    private static final int SMALL_BOUNCE_FORCE = 27000;
-&nbsp;    private static final int NORMAL_JUMP_FORCE = 63000;
-<b class="fc">&nbsp;    private final int ATTACK_COOLDOWN = 800;</b>
-<b class="fc">&nbsp;    private final int BOUNCE_COOLDOWN = 64;</b>
-<b class="fc">&nbsp;    private static final Vector2 STANDARD_PLAYER_SIZE = new Vector2(40, 80);</b>
+&nbsp;    private final static int NORMAL_BOUNCE_FORCE = 35000;
+&nbsp;    private final static int SMALL_BOUNCE_FORCE = 27000;
+&nbsp;    private final static int NORMAL_JUMP_FORCE = 63000;
+&nbsp;    private final static int ATTACK_COOLDOWN = 800;
+&nbsp;    private final static int BOUNCE_COOLDOWN = 64;
+<b class="fc">&nbsp;    private final static Vector2 STANDARD_PLAYER_SIZE = new Vector2(40, 80);</b>
 &nbsp;    private int jumpForce;
 &nbsp;    private boolean isJustRespawned;
 &nbsp;    private boolean hasPowerUp;
@@ -124,6 +124,9 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    private Integer coinCounter;
 &nbsp;    private Integer totalScore;
 &nbsp;    private List&lt;Collidable&gt; objectsToRemove;
+&nbsp;    private Runnable coinCollected;
+&nbsp;    private Runnable takingDamage;
+&nbsp;    private int initialLives;
 &nbsp;
 &nbsp;
 &nbsp;    /**
@@ -135,6 +138,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     */
 &nbsp;    public Player(int lives, int movementSpeed, Transform transform) {
 <b class="fc">&nbsp;        super(lives, movementSpeed, transform);</b>
+<b class="fc">&nbsp;        this.initialLives = lives;</b>
 <b class="fc">&nbsp;        this.hasPowerUp = false;</b>
 <b class="fc">&nbsp;        this.damage = 1;</b>
 <b class="fc">&nbsp;        this.lastAttackTime = 0;</b>
@@ -143,17 +147,37 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;        this.jumpForce = NORMAL_JUMP_FORCE;</b>
 <b class="fc">&nbsp;        this.coinCounter = 0;</b>
 <b class="fc">&nbsp;        this.totalScore = 0;</b>
-<b class="fc">&nbsp;        objectsToRemove = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        this.objectsToRemove = new ArrayList&lt;&gt;();</b>
 &nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor for LevelManager
+&nbsp;     */
+&nbsp;    public Player() {
+<b class="fc">&nbsp;        super(1,0,TransformUtils.createTransformForObjects(0, 0, 0,0));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void setOnCoinCollected(Runnable callback) {
+<b class="fc">&nbsp;        coinCollected = callback;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void setOnCollisionWithEnemy(Runnable callback) {
+<b class="nc">&nbsp;        takingDamage = callback;</b>
+&nbsp;    }
+&nbsp;
 &nbsp;    public void jump(boolean isGrounded) {
 <b class="fc">&nbsp;        if (isGrounded) {</b>
 <b class="fc">&nbsp;            jump(jumpForce);</b>
 &nbsp;        }
 &nbsp;    }
+&nbsp;
 &nbsp;    public void jump(int force){
 <b class="fc">&nbsp;        int velocity = (int)(force * Gdx.graphics.getDeltaTime());</b>
 <b class="fc">&nbsp;        setVerticalVelocity(velocity);</b>
 &nbsp;    }
+&nbsp;
 &nbsp;    public void bounce(){
 <b class="fc">&nbsp;        int bounceForce = hasPowerUp ? SMALL_BOUNCE_FORCE : NORMAL_BOUNCE_FORCE;</b>
 <b class="fc">&nbsp;        jump(bounceForce);</b>
@@ -161,96 +185,84 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;    @Override
 &nbsp;    public void accept(Visitor visitor) {
-<b class="fc">&nbsp;        visitor.visit(this);</b>
+<b class="fc">&nbsp;        visitor.visitPlayer(this);</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    @Override
-&nbsp;    public void visit(Coin coin) {
-<b class="fc">&nbsp;        coinCounter++;</b>
-<b class="fc">&nbsp;        totalScore += coin.getObjectScore();</b>
-<b class="fc">&nbsp;        objectsToRemove.add(coin);</b>
+&nbsp;    public void visitCoin(Coin coin) {
+<b class="pc">&nbsp;        if (!coin.isCollected()) {</b>
+<b class="fc">&nbsp;            coin.collect();</b>
+<b class="fc">&nbsp;            coinCounter++;</b>
+<b class="fc">&nbsp;            totalScore += coin.getObjectScore();</b>
+<b class="fc">&nbsp;            objectsToRemove.add(coin);</b>
+<b class="fc">&nbsp;            if (coinCollected != null) {</b>
+<b class="fc">&nbsp;                coinCollected.run();</b>
+&nbsp;            }
+&nbsp;        }
 &nbsp;    }
 &nbsp;
 &nbsp;    @Override
-&nbsp;    public void visit(Star star) {
+&nbsp;    public void visitStar(Star star) {
 <b class="fc">&nbsp;        goToNextLevel = true; // TODO, husk å sette til false i modellen etter denne er gettet</b>
 <b class="fc">&nbsp;        objectsToRemove.add(star);</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    @Override
-&nbsp;    public void visit(Banana banana) {
-<b class="nc">&nbsp;        hasPowerUp = true;</b>
-<b class="nc">&nbsp;        setSize(banana.getLargePlayerSize());</b>
-<b class="nc">&nbsp;        int middleOfPlayer = (int) (getTransform().getSize().x / 2);</b>
-<b class="nc">&nbsp;        move(-middleOfPlayer, 0);</b>
-<b class="nc">&nbsp;        jumpForce = banana.getBigJumpForce();</b>
-<b class="nc">&nbsp;        objectsToRemove.add(banana);</b>
+&nbsp;    public void visitBanana(Banana banana) {
+<b class="fc">&nbsp;        final int middleOfPlayer = (int) (getTransform().getSize().x / 2);</b>
+<b class="fc">&nbsp;        hasPowerUp = true;</b>
+<b class="fc">&nbsp;        setSize(banana.getLargePlayerSize());</b>
+<b class="fc">&nbsp;        move(-middleOfPlayer, 0);</b>
+<b class="fc">&nbsp;        jumpForce = banana.getBigJumpForce();</b>
+<b class="fc">&nbsp;        objectsToRemove.add(banana);</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    @Override
-&nbsp;    public void visit(Ground ground) {
-<b class="fc">&nbsp;        boolean isOnTopCollision = getCollisionBox().isCollidingFromTop(ground.getCollisionBox());</b>
+&nbsp;    public void visitGround(Ground ground) {
+<b class="nc">&nbsp;        boolean isBumpingHead = getCollisionBox().isCollidingFromTop(ground.getCollisionBox());</b>
 &nbsp;
-<b class="pc">&nbsp;        if (isOnTopCollision &amp;&amp; getVerticalVelocity() &gt; 0) {</b>
+<b class="nc">&nbsp;        if (isBumpingHead &amp;&amp; getVerticalVelocity() &gt; 0) {</b>
 <b class="nc">&nbsp;            float bumpForceLoss = 0.1f;</b>
 <b class="nc">&nbsp;            int bumpSpeed = (int) (-getVerticalVelocity() * bumpForceLoss);</b>
 <b class="nc">&nbsp;            setVerticalVelocity(bumpSpeed);</b>
 &nbsp;        }
-&nbsp;
-&nbsp;        //TODO, implement me
 &nbsp;    }
 &nbsp;
 &nbsp;    @Override
-&nbsp;    public void visit(Enemy enemy) {
-&nbsp;        //TODO, nmå bli fikset med hva som kom fra CollisionHandler (kopiert derfa)
-&nbsp;        // Originale metode parameter fra CollisionHandler:
-<b class="nc">&nbsp;        long currentTime = System.currentTimeMillis();</b>
+&nbsp;    public void visitEnemy(Enemy enemy) {
+<b class="nc">&nbsp;        final long currentTime = System.currentTimeMillis();</b>
+<b class="nc">&nbsp;        final boolean isReadyToBounce = currentTime - getLastBounceTime() &gt;= BOUNCE_COOLDOWN;</b>
+<b class="nc">&nbsp;        final boolean isOnTopOfEnemy = getCollisionBox().isCollidingFromBottom(enemy.getCollisionBox());</b>
+<b class="nc">&nbsp;        final boolean isCollidingFromLeft = getCollisionBox().isCollidingFromLeft(enemy.getCollisionBox());</b>
+<b class="nc">&nbsp;        final boolean isCollidingFromRight = getCollisionBox().isCollidingFromRight(enemy.getCollisionBox());</b>
+<b class="nc">&nbsp;        final boolean isWalkingIntoEnemy = enemy.getMovementDirection() == this.getMovementDirection() &amp;&amp; (isCollidingFromLeft || isCollidingFromRight);</b>
 &nbsp;
-<b class="nc">&nbsp;        if (getCollisionBox().isCollidingFromBottom(enemy.getCollisionBox())) {</b>
+<b class="nc">&nbsp;        if(isWalkingIntoEnemy) {</b>
+<b class="nc">&nbsp;            takeDamage(enemy.getDamage());</b>
+&nbsp;        }
 &nbsp;
-<b class="nc">&nbsp;            if (currentTime - getLastBounceTime() &gt;= BOUNCE_COOLDOWN) {</b>
+<b class="nc">&nbsp;        if (isOnTopOfEnemy &amp;&amp; isReadyToBounce) {</b>
+<b class="nc">&nbsp;            bounce();</b>
+<b class="nc">&nbsp;            dealDamage(enemy, getDamage());</b>
 &nbsp;
-<b class="nc">&nbsp;                bounce();</b>
-<b class="nc">&nbsp;                dealDamage(enemy, getDamage());</b>
-&nbsp;
-<b class="nc">&nbsp;                if (!enemy.isAlive()) {</b>
-<b class="nc">&nbsp;                    totalScore += enemy.getObjectScore();</b>
-<b class="nc">&nbsp;                    objectsToRemove.add(enemy);</b>
-&nbsp;                }
-&nbsp;
-<b class="nc">&nbsp;                setLastBounceTime(currentTime);</b>
+<b class="nc">&nbsp;            if (!enemy.isAlive()) {</b>
+<b class="nc">&nbsp;                totalScore += enemy.getObjectScore();</b>
+<b class="nc">&nbsp;                objectsToRemove.add(enemy);</b>
 &nbsp;            }
-&nbsp;        } else {
-<b class="nc">&nbsp;            System.out.println(&quot;Jeg kolliderer med enemy fra siden :)&quot;);</b>
-<b class="nc">&nbsp;            if (currentTime - getLastAttackTime() &gt;= ATTACK_COOLDOWN) {</b>
 &nbsp;
-<b class="nc">&nbsp;                takeDamage(enemy.getDamage());</b>
-&nbsp;
-&nbsp;                // TODO...
-&nbsp;                // Enemy dealing damage to the player is moved into Enemy.moveEnemy()
-&nbsp;                // - This is to make sure that the enemy doesn&#39;t deal damage twice.
-&nbsp;                // - The logic needs to be inside Enemy class. If not, the enemy won&#39;t deal damage
-&nbsp;                //   when it collides with the player.
-&nbsp;                // - As of right now, ATTACK_COOLDOWN only affects totalScore. It does NOT affect the frequency of attacks.
-&nbsp;
-&nbsp;                // Reduce total score
-<b class="nc">&nbsp;                final int scorePenalty = 4;</b>
-<b class="nc">&nbsp;                totalScore = Math.max(0, totalScore - scorePenalty);</b>
-&nbsp;
-<b class="nc">&nbsp;                setLastAttackTime(currentTime);</b>
-&nbsp;            }
+<b class="nc">&nbsp;            setLastBounceTime(currentTime);</b>
 &nbsp;        }
 &nbsp;    }
 &nbsp;
 &nbsp;    @Override
-<b class="nc">&nbsp;    public void visit(Player player) {}</b>
+<b class="nc">&nbsp;    public void visitPlayer(Player player) {}</b>
 &nbsp;
 &nbsp;    @Override
 &nbsp;    public boolean isColliding(List&lt;Collidable&gt; collidables, CollisionBox collisionBox) {
 <b class="fc">&nbsp;        for (Collidable collided : collidables) {</b>
-<b class="fc">&nbsp;            if (collisionBox.isCollidingWith(collided.getCollisionBox())) {</b>
+<b class="pc">&nbsp;            if (collisionBox.isCollidingWith(collided.getCollisionBox())) {</b>
 &nbsp;
-<b class="pc">&nbsp;                if (collided instanceof Player) {</b>
+<b class="fc">&nbsp;                if (collided instanceof Player) {</b>
 &nbsp;                    continue;
 &nbsp;                }
 &nbsp;
@@ -266,14 +278,16 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;        return objectsToRemove;</b>
 &nbsp;    }
 &nbsp;
-&nbsp;    public void resolvePlayerMovement(int deltaX, int deltaY, PositionValidator validator) {
-<b class="fc">&nbsp;        Vector2 newPlayerPosition = filterPosition(deltaX, deltaY, validator);</b>
+&nbsp;    @Override
+&nbsp;    public void resolveMovement(float deltaX, float deltaY, PositionValidator validator) {
+<b class="fc">&nbsp;        Vector2 newActorPosition = filterPosition(deltaX, deltaY, validator, this);</b>
 <b class="pc">&nbsp;        if (!getRespawned()) {</b>
-<b class="fc">&nbsp;            move(newPlayerPosition);</b>
+<b class="fc">&nbsp;            move(newActorPosition);</b>
 &nbsp;        }
+&nbsp;
 <b class="fc">&nbsp;        setRespawned(false);</b>
 <b class="fc">&nbsp;        final int belowLevel = -200;</b>
-<b class="pc">&nbsp;        if (newPlayerPosition.y &lt;= belowLevel) {</b>
+<b class="pc">&nbsp;        if (newActorPosition.y &lt;= belowLevel) {</b>
 <b class="fc">&nbsp;            receiveDamage(getLives());</b>
 &nbsp;        }
 &nbsp;    }
@@ -337,20 +351,50 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;        this.lastBounceTime = lastBounceTime;</b>
 &nbsp;    }
 &nbsp;
-<b class="fc">&nbsp;    public int getJumpForce() { return jumpForce; }</b>
+&nbsp;    public int getJumpForce() {
+<b class="fc">&nbsp;        return jumpForce;</b>
+&nbsp;    }
 &nbsp;
 &nbsp;    public void takeDamage(int damage){
-<b class="fc">&nbsp;        if (hasPowerUp) {</b>
-<b class="fc">&nbsp;            hasPowerUp = false;</b>
-<b class="fc">&nbsp;            setSize(STANDARD_PLAYER_SIZE);</b>
-<b class="fc">&nbsp;            int middleOfPlayer = (int) (getTransform().getSize().x / 2);</b>
-<b class="fc">&nbsp;            move(middleOfPlayer, 0);</b>
+<b class="fc">&nbsp;        final long currentTime = System.currentTimeMillis();</b>
+<b class="pc">&nbsp;        final boolean playerReadyToTakeDamage = currentTime - getLastAttackTime() &gt;= ATTACK_COOLDOWN;</b>
+<b class="fc">&nbsp;        final int scorePenalty = 4;</b>
 &nbsp;
-&nbsp;        } else {
-<b class="fc">&nbsp;            receiveDamage(damage);</b>
+<b class="pc">&nbsp;        if (playerReadyToTakeDamage) {</b>
+<b class="fc">&nbsp;            reduceTotalScore(scorePenalty);</b>
+&nbsp;
+<b class="fc">&nbsp;            if (hasPowerUp) {</b>
+<b class="fc">&nbsp;                losePowerUp();</b>
+&nbsp;            } else {
+<b class="fc">&nbsp;                receiveDamage(damage);</b>
+&nbsp;            }
+&nbsp;
+<b class="pc">&nbsp;            if (takingDamage != null) {</b>
+<b class="nc">&nbsp;                takingDamage.run();</b>
+&nbsp;            }
+&nbsp;
+<b class="fc">&nbsp;            setLastAttackTime(currentTime);</b>
 &nbsp;        }
 &nbsp;    }
 &nbsp;
+&nbsp;    public void resetForNewLevel(Vector2 spawnPoint) {
+<b class="nc">&nbsp;        move(spawnPoint);</b>
+<b class="nc">&nbsp;        setLives(initialLives);</b>
+<b class="nc">&nbsp;        setVerticalVelocity(0);</b>
+<b class="nc">&nbsp;        setRespawned(true);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void reduceTotalScore(int scorePenalty) {
+<b class="fc">&nbsp;        totalScore = Math.max(0, totalScore - scorePenalty);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void losePowerUp() {
+<b class="fc">&nbsp;        final int middleOfPlayer = (int) (STANDARD_PLAYER_SIZE.x / 2);</b>
+<b class="fc">&nbsp;        hasPowerUp = false;</b>
+<b class="fc">&nbsp;        jumpForce = NORMAL_JUMP_FORCE;</b>
+<b class="fc">&nbsp;        setSize(STANDARD_PLAYER_SIZE);</b>
+<b class="fc">&nbsp;        move(middleOfPlayer, 0);</b>
+&nbsp;    }
 &nbsp;}
 </code>
 </pre>
@@ -375,7 +419,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2025-04-22 20:02</div>
+    <div style="float:right;">generated on 2025-04-30 10:42</div>
 </div>
 </body>
 </html>

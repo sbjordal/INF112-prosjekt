@@ -55,7 +55,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     100%
   </span>
   <span class="absValue">
-    (1/1)
+    (3/3)
   </span>
 </td>
 <td class="coverageStat">
@@ -63,7 +63,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     100%
   </span>
   <span class="absValue">
-    (1/1)
+    (4/4)
   </span>
 </td>
 </tr>
@@ -85,6 +85,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp; * Represents every fixed object that can be picked up by {@link Player}.
 &nbsp; */
 &nbsp;public class Item extends FixedObject {
+&nbsp;    private boolean isCollected;
 &nbsp;
 &nbsp;    /**
 &nbsp;     * Creates a new Item with the specified transform.
@@ -93,6 +94,15 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     */
 &nbsp;    public Item(Transform transform) {
 <b class="fc">&nbsp;        super(transform);</b>
+<b class="fc">&nbsp;        isCollected = false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public boolean isCollected() {
+<b class="fc">&nbsp;        return isCollected;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void collect() {
+<b class="fc">&nbsp;        isCollected = true;</b>
 &nbsp;    }
 &nbsp;}
 </code>
@@ -118,7 +128,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2025-04-22 20:02</div>
+    <div style="float:right;">generated on 2025-04-30 10:42</div>
 </div>
 </body>
 </html>

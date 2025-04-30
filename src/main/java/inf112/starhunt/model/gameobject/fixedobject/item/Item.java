@@ -8,8 +8,8 @@ import inf112.starhunt.model.gameobject.mobileobject.actor.Player;
  * Represents every fixed object that can be picked up by {@link Player}.
  */
 public class Item extends FixedObject {
+    private boolean isCollected;
 
-    private boolean isCollected = false;
     /**
      * Creates a new Item with the specified transform.
      *
@@ -17,6 +17,7 @@ public class Item extends FixedObject {
      */
     public Item(Transform transform) {
         super(transform);
+        isCollected = false;
     }
 
     public boolean isCollected() {
@@ -24,6 +25,6 @@ public class Item extends FixedObject {
     }
 
     public void collect() {
-        this.isCollected = true;
+        isCollected = true;
     }
 }

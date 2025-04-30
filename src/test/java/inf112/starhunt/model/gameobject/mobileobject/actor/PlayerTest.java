@@ -4,13 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.math.Vector2;
 import inf112.starhunt.model.PositionValidator;
-import inf112.starhunt.model.gameobject.Collidable;
-import inf112.starhunt.model.gameobject.CollisionBox;
-import inf112.starhunt.model.gameobject.Transform;
-import inf112.starhunt.model.gameobject.Visitor;
+import inf112.starhunt.model.gameobject.*;
+import inf112.starhunt.model.gameobject.fixedobject.Ground;
 import inf112.starhunt.model.gameobject.fixedobject.item.Banana;
 import inf112.starhunt.model.gameobject.fixedobject.item.Coin;
 import inf112.starhunt.model.gameobject.fixedobject.item.Star;
+import inf112.starhunt.model.gameobject.mobileobject.MobileObjectFactory;
+import inf112.starhunt.model.gameobject.mobileobject.actor.enemy.Enemy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -27,6 +27,8 @@ class PlayerTest {
     private Transform transform;
     private Banana banana;
     private Coin coin;
+    private Ground ground;
+    private Enemy enemy;
 
     @BeforeEach
     void setUp() {
@@ -35,21 +37,27 @@ class PlayerTest {
         Gdx.graphics = mockGraphics;
         when(Gdx.graphics.getDeltaTime()).thenReturn(1 / 60f); // 60 FPS som eksempel
 
-        transform = new Transform(new Vector2(0, 0), new Vector2(50, 100));
+        transform = TransformUtils.createTransformForObjects(0,0,50,100);
         player = new Player(3, 5, transform);
 
-        Transform bananaTransform = new Transform(new Vector2(0, 0), new Vector2(1, 1));
+        Transform bananaTransform = TransformUtils.createTransformForObjects(0,0,1,1);
         banana = new Banana(bananaTransform);
 
-        Transform coinTransform = new Transform(new Vector2(0, 0), new Vector2(1, 1));
+        Transform coinTransform = TransformUtils.createTransformForObjects(0,0,1,1);
         coin = new Coin(coinTransform);
+
+        Transform groundTransform = TransformUtils.createTransformForObjects(0,-10,10,10);
+        ground = new Ground(groundTransform);
+
+        Transform snailTransform = TransformUtils.createTransformForObjects(0,0,1,1);
+        enemy = MobileObjectFactory.createSnail(10, 0);
     }
 
     @Test
     void testPlayerInitialization() {
         assertNotNull(player);
         assertEquals(3, player.getLives());
-        assertTrue(player.isAlive());
+        assertTrue(player.getIsAlive());
 
         assertFalse(player.getHasPowerUp(), "Player should not have a power-up initially.");
         assertFalse(player.getRespawned(), "Player should not be respawned initially.");
@@ -64,7 +72,7 @@ class PlayerTest {
     void testReceiveDamageReducesLives() {
         player.receiveDamage(1);
         assertEquals(2, player.getLives());
-        assertTrue(player.isAlive());
+        assertTrue(player.getIsAlive());
     }
 
     @Test
@@ -75,7 +83,7 @@ class PlayerTest {
         // player loses 3 lives and should die
         player.receiveDamage(3);
         assertEquals(0, player.getLives());
-        assertFalse(player.isAlive());
+        assertFalse(player.getIsAlive());
     }
 
     @Test
@@ -105,7 +113,7 @@ class PlayerTest {
     void testVisitStarSetsNextLevel() {
         Star star = mock(Star.class);
 
-        player.visit(star);
+        player.visitStar(star);
         assertTrue(player.getGoToNextLevel());
         assertFalse(player.getGoToNextLevel()); // reset
     }
@@ -217,14 +225,14 @@ class PlayerTest {
 
         // Etter bevegelsen, sjekk at spilleren har 0 liv
         assertEquals(0, player.getLives(), "Player should lose all lives if they fall below the level.");
-        assertFalse(player.isAlive(), "Player should not be alive if they fall below the level.");
+        assertFalse(player.getIsAlive(), "Player should not be alive if they fall below the level.");
     }
 
 
     @Test
     void testIsCollidingSkipsPlayer() {
         // Opprett et spy-objekt for player, så vi kan spore 'accept' metoden
-        Player otherPlayer = spy(new Player(3, 5, new Transform(new Vector2(0, 0), new Vector2(50, 100))));
+        Player otherPlayer = spy(new Player(3, 5, TransformUtils.createTransformForObjects(0,0,50,100)));
 
         // Legg til 'otherPlayer' i listen over kolliderbare objekter
         List<Collidable> collidables = new ArrayList<>();
@@ -259,7 +267,7 @@ class PlayerTest {
     void testAcceptCallsVisitor() {
         Visitor visitor = mock(Visitor.class);
         player.accept(visitor);
-        verify(visitor, times(1)).visit(player);
+        verify(visitor, times(1)).visitPlayer(player);
     }
 
     @Test
@@ -270,7 +278,7 @@ class PlayerTest {
         when(mockCoin.getObjectScore()).thenReturn(mockScore);
 
         // Simuler besøk
-        player.visit(mockCoin);
+        player.visitCoin(mockCoin);
 
         // Sjekk at coinCounter har økt med 1
         assertEquals(1, player.getCoinCounter());
@@ -287,7 +295,7 @@ class PlayerTest {
 
         int oldJumpForce = player.getJumpForce();
 
-        player.visit(banana);
+        player.visitBanana(banana);
 
         assertTrue(player.getHasPowerUp(), "Player should have power-up after visiting Banana.");
         assertTrue(oldJumpForce < player.getJumpForce(), "Player's jump force should be updated.");
@@ -314,6 +322,20 @@ class PlayerTest {
         assertTrue(result, "Player should have collided with the coin.");
     }
 
+    @Test
+    void testSetOnCoinCollected() {
+        // Lag en enkel mock for Runnable
+        Runnable coinCollectedCallback = mock(Runnable.class);
+
+        // Sett callback-en via metoden
+        player.setOnCoinCollected(coinCollectedCallback);
+
+        // Kall på callbacken ved å simulere at en mynt blir samlet
+        player.visitCoin(coin);
+
+        // Verifiser at callbacken ble kalt
+        verify(coinCollectedCallback, times(1)).run();
+    }
 
 
 

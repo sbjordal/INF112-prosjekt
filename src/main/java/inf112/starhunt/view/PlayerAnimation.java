@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import java.util.HashMap;
 
 public class PlayerAnimation {
-    private HashMap<String, Animation<TextureRegion>> animations;
+    private final HashMap<String, Animation<TextureRegion>> animations;
     private float stateTime;
 
     public PlayerAnimation() {
@@ -57,6 +57,7 @@ public class PlayerAnimation {
             return animations.get("runLeft").getKeyFrame(stateTime, true);
         }
     }
+
     public void dispose() {
         for (Animation<TextureRegion> animation : animations.values()){
             for (TextureRegion frame : animation.getKeyFrames()){

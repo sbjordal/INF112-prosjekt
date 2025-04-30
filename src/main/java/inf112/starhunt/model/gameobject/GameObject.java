@@ -1,14 +1,14 @@
 package inf112.starhunt.model.gameobject;
 import com.badlogic.gdx.math.Vector2;
 
+
 /**
  * Represents every object that is visualized on the screen.
  * To visualize the object a {@link Transform} is required.
  */
 public class GameObject implements ViewableObject {
-    private Transform transform;
+    private final Transform transform;
     private CollisionBox collisionBox;
-//    private Rectangle rectangle;
 
     /**
      * Creates a new GameObject with the specified transform and texture.
@@ -31,13 +31,10 @@ public class GameObject implements ViewableObject {
     }
 
     @Override
-    public void setOnCoinCollected(Runnable callback) {
-    }
+    public void setOnCoinCollected(Runnable callback) {}
 
     @Override
-    public void setOnCollisionWithEnemy(Runnable callback) {
-
-    }
+    public void setOnCollisionWithEnemy(Runnable callback) {}
 
     @Override
     public int getDirection() {
@@ -51,5 +48,4 @@ public class GameObject implements ViewableObject {
     public void setSize(Vector2 size) {
         transform.size = size;
     }
-
 }

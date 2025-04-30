@@ -5,7 +5,7 @@
 <html id="htmlId">
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
-  <title>Coverage Report > ItemFactory</title>
+  <title>Coverage Report > Star</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -22,7 +22,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     <a href="../index.html">inf112.starhunt.model.gameobject.fixedobject.item</a>
 </div>
 
-<h1>Coverage Summary for Class: ItemFactory (inf112.starhunt.model.gameobject.fixedobject.item)</h1>
+<h1>Coverage Summary for Class: Star (inf112.starhunt.model.gameobject.fixedobject.item)</h1>
 
 <table class="coverageStats">
 <tr>
@@ -41,7 +41,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">ItemFactory</td>
+  <td class="name">Star</td>
 <td class="coverageStat">
   <span class="percent">
     100%
@@ -52,18 +52,18 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    75%
+    100%
   </span>
   <span class="absValue">
-    (3/4)
+    (2/2)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    94,4%
+    100%
   </span>
   <span class="absValue">
-    (17/18)
+    (2/2)
   </span>
 </td>
 </tr>
@@ -77,43 +77,26 @@ Current scope:     <a href="../../index.html">all classes</a>
 <pre>
 <code class="sourceCode" id="sourceCode">&nbsp;package inf112.starhunt.model.gameobject.fixedobject.item;
 &nbsp;
-&nbsp;import com.badlogic.gdx.math.Vector2;
+&nbsp;import inf112.starhunt.model.gameobject.Collidable;
 &nbsp;import inf112.starhunt.model.gameobject.Transform;
+&nbsp;import inf112.starhunt.model.gameobject.Visitor;
 &nbsp;
-<b class="nc">&nbsp;public class ItemFactory {</b>
-&nbsp;    public static Coin createCoin(float x, float y){
+&nbsp;public class Star extends Item implements Collidable {
 &nbsp;
-<b class="fc">&nbsp;        int DIAMETER = 30;</b>
-<b class="fc">&nbsp;        Vector2 pos = new Vector2(x, y);</b>
-<b class="fc">&nbsp;        Vector2 size = new Vector2(DIAMETER, DIAMETER);</b>
-<b class="fc">&nbsp;        Transform transform = new Transform(pos, size);</b>
-&nbsp;
-<b class="fc">&nbsp;        return new Coin(transform);</b>
+&nbsp;    /**
+&nbsp;     * Creates a new Star with the specified transform.
+&nbsp;     *
+&nbsp;     * @param transform The fixed position and size of the Item.
+&nbsp;     */
+&nbsp;    public Star(Transform transform) {
+<b class="fc">&nbsp;        super(transform);</b>
 &nbsp;    }
 &nbsp;
-&nbsp;    public static Banana createBanana(float x, float y){
-&nbsp;
-<b class="fc">&nbsp;        int width = 50;</b>
-<b class="fc">&nbsp;        int height = 53;</b>
-<b class="fc">&nbsp;        Vector2 pos = new Vector2(x, y);</b>
-<b class="fc">&nbsp;        Vector2 size = new Vector2(width, height);</b>
-<b class="fc">&nbsp;        Transform transform = new Transform(pos, size);</b>
-&nbsp;
-<b class="fc">&nbsp;        return new Banana(transform);</b>
-&nbsp;    }
-&nbsp;
-&nbsp;    public static Star createStar(float x, float y){
-&nbsp;
-<b class="fc">&nbsp;        int width = 72;</b>
-<b class="fc">&nbsp;        int height = 69;</b>
-<b class="fc">&nbsp;        Vector2 pos = new Vector2(x, y);</b>
-<b class="fc">&nbsp;        Vector2 size = new Vector2(width, height);</b>
-<b class="fc">&nbsp;        Transform transform = new Transform(pos, size);</b>
-&nbsp;
-<b class="fc">&nbsp;        return new Star(transform);</b>
+&nbsp;    @Override
+&nbsp;    public void accept(Visitor visitor) {
+<b class="fc">&nbsp;        visitor.visitStar(this);</b>
 &nbsp;    }
 &nbsp;}
-&nbsp;
 </code>
 </pre>
 </div>
@@ -137,7 +120,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2025-04-22 20:02</div>
+    <div style="float:right;">generated on 2025-04-30 10:42</div>
 </div>
 </body>
 </html>

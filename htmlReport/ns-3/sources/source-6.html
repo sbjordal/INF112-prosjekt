@@ -5,7 +5,7 @@
 <html id="htmlId">
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
-  <title>Coverage Report > WorldBoard</title>
+  <title>Coverage Report > WorldModel</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -22,7 +22,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     <a href="../index.html">inf112.starhunt.model</a>
 </div>
 
-<h1>Coverage Summary for Class: WorldBoard (inf112.starhunt.model)</h1>
+<h1>Coverage Summary for Class: WorldModel (inf112.starhunt.model)</h1>
 
 <table class="coverageStats">
 <tr>
@@ -37,11 +37,15 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 <th class="coverageStat 
 ">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
   Line, %
 </th>
 </tr>
 <tr>
-  <td class="name">WorldBoard</td>
+  <td class="name">WorldModel</td>
 <td class="coverageStat">
   <span class="percent">
     100%
@@ -52,18 +56,26 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    100%
+    70%
   </span>
   <span class="absValue">
-    (1/1)
+    (28/40)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    100%
+    42,9%
   </span>
   <span class="absValue">
-    (1/1)
+    (18/42)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    49,1%
+  </span>
+  <span class="absValue">
+    (57/116)
   </span>
 </td>
 </tr>
@@ -77,18 +89,333 @@ Current scope:     <a href="../../index.html">all classes</a>
 <pre>
 <code class="sourceCode" id="sourceCode">&nbsp;package inf112.starhunt.model;
 &nbsp;
-&nbsp;import inf112.starhunt.model.gameobject.GameObject;
+&nbsp;import com.badlogic.gdx.ApplicationListener;
+&nbsp;import com.badlogic.gdx.Gdx;
+&nbsp;import inf112.starhunt.controller.ControllableWorldModel;
+&nbsp;import inf112.starhunt.controller.Controller;
+&nbsp;import inf112.starhunt.model.gameobject.*;
+&nbsp;import inf112.starhunt.model.gameobject.mobileobject.actor.enemy.*;
+&nbsp;import inf112.starhunt.model.gameobject.mobileobject.actor.Player;
+&nbsp;import inf112.starhunt.view.ViewableWorldModel;
+&nbsp;import inf112.starhunt.view.WorldView;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Collections;
+&nbsp;import java.util.List;
 &nbsp;
-&nbsp;// TODO, revisjon, denne klassen trengs ikke lengre, er erstattet av en instans av Rectangle i worldModel.setUpmodel
 &nbsp;/**
-&nbsp; * Represents the dimensions of the world board.
-&nbsp; * The world board defines the confinements of the playable area.
-&nbsp; * The playable area is wherever {@link GameObject} types are allowed to be positioned.
 &nbsp; *
-&nbsp; * @param width     The horizontal length of the world board.
-&nbsp; * @param height    The vertical length of the world board.
 &nbsp; */
-<b class="fc">&nbsp;public record WorldBoard(int width, int height) { }</b>
+&nbsp;public class WorldModel extends AbstractApplicationListener implements ViewableWorldModel, ControllableWorldModel, PositionValidator {
+&nbsp;    public static final int LEVEL_WIDTH = 4500;
+&nbsp;
+&nbsp;    Player player;
+&nbsp;    int countDown;
+&nbsp;    long lastScoreUpdate;
+&nbsp;    boolean isMovingRight;
+&nbsp;    boolean isMovingLeft;
+&nbsp;    boolean isJumping;
+&nbsp;    List&lt;Collidable&gt; collidables;
+&nbsp;
+&nbsp;    private GameState gameState;
+&nbsp;    private WorldBoard board;
+&nbsp;    private WorldView worldView;
+&nbsp;    private Controller controller;
+&nbsp;    private List&lt;Enemy&gt; enemies;
+&nbsp;    private List&lt;Collidable&gt; toRemove;
+&nbsp;    private LevelManager.Level currentLevel;
+&nbsp;    private final int height;
+&nbsp;    private float viewportLeftX;
+&nbsp;    private boolean infoMode;
+&nbsp;    private int levelCounter;
+&nbsp;
+<b class="fc">&nbsp;    public WorldModel(int width, int height) {</b>
+<b class="fc">&nbsp;        this.height = height;</b>
+<b class="fc">&nbsp;        this.worldView = new WorldView(this, width, height);</b>
+<b class="fc">&nbsp;        this.lastScoreUpdate = System.currentTimeMillis();</b>
+<b class="fc">&nbsp;        this.gameState = GameState.GAME_MENU;</b>
+<b class="fc">&nbsp;        this.currentLevel = LevelManager.Level.LEVEL_1;</b>
+<b class="fc">&nbsp;        this.toRemove = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        setUpModel();</b>
+&nbsp;
+<b class="fc">&nbsp;        this.levelCounter = 1;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     */
+&nbsp;    public void setUpModel() {
+<b class="fc">&nbsp;        viewportLeftX = 0;</b>
+<b class="fc">&nbsp;        countDown = 150;</b>
+<b class="fc">&nbsp;        isMovingRight = false;</b>
+<b class="fc">&nbsp;        isMovingLeft = false;</b>
+<b class="fc">&nbsp;        isJumping = false;</b>
+<b class="fc">&nbsp;        board = new WorldBoard(LEVEL_WIDTH, height);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void create() {
+<b class="nc">&nbsp;        setupGameObjects();</b>
+<b class="nc">&nbsp;        setupGraphics();</b>
+<b class="nc">&nbsp;        setupInput();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void setupGameObjects() {
+<b class="nc">&nbsp;        Triple&lt;List&lt;Enemy&gt;, List&lt;Collidable&gt;, Player&gt; triple = LevelManager.loadLevel(currentLevel);</b>
+<b class="nc">&nbsp;        enemies = triple.first;</b>
+<b class="nc">&nbsp;        collidables = triple.second;</b>
+&nbsp;
+<b class="nc">&nbsp;        if (levelCounter == 1) {</b>
+<b class="nc">&nbsp;            player = triple.third;</b>
+<b class="nc">&nbsp;            player.setRespawned(true);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            player.resetForNewLevel(triple.third.getTransform().getPos());</b>
+<b class="nc">&nbsp;            collidables.remove(triple.third);</b>
+<b class="nc">&nbsp;            collidables.add(player);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    private void setupGraphics() {
+<b class="nc">&nbsp;        Gdx.graphics.setForegroundFPS(60);</b>
+<b class="nc">&nbsp;        worldView.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());</b>
+<b class="nc">&nbsp;        worldView.show();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void setupInput() {
+<b class="nc">&nbsp;        controller = new Controller(this);</b>
+<b class="nc">&nbsp;        Gdx.input.setInputProcessor(controller);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Start the specified level.
+&nbsp;     *
+&nbsp;     * @param level The level to start
+&nbsp;     */
+&nbsp;    public void startLevel(LevelManager.Level level) {
+<b class="nc">&nbsp;        currentLevel = level;</b>
+<b class="nc">&nbsp;        setUpModel();</b>
+<b class="nc">&nbsp;        create();</b>
+<b class="nc">&nbsp;        resume();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean isLegalMove(Visitor visitor, CollisionBox collisionBox) {
+<b class="fc">&nbsp;        return positionIsOnBoard(collisionBox) &amp;&amp; !visitor.isColliding(collidables, collisionBox);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // TODO, skiv javadoc på denne, beskriv hva som skjer
+&nbsp;    private boolean positionIsOnBoard(CollisionBox collisionBox) {
+<b class="fc">&nbsp;        final int belowLevel = -200;</b>
+<b class="pc">&nbsp;        boolean isWithinWidthBound = collisionBox.botLeft.x &gt;= 0 &amp;&amp;</b>
+&nbsp;                collisionBox.botLeft.x &gt; viewportLeftX &amp;&amp;
+<b class="pc">&nbsp;                collisionBox.topRight.x &lt; board.width();</b>
+<b class="pc">&nbsp;        boolean isWithinHeightBound = collisionBox.botLeft.y &gt;= belowLevel;</b>
+&nbsp;
+<b class="fc">&nbsp;        return isWithinWidthBound &amp;&amp; isWithinHeightBound;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void goToNextLevel() {
+<b class="nc">&nbsp;        boolean gotNextLevel = player.getGoToNextLevel();</b>
+<b class="nc">&nbsp;        if (gotNextLevel) {</b>
+<b class="nc">&nbsp;            LevelManager.Level nextLevel = LevelManager.getNextLevel(currentLevel);</b>
+<b class="nc">&nbsp;            currentLevel = nextLevel;</b>
+<b class="nc">&nbsp;            startLevel(nextLevel);</b>
+<b class="nc">&nbsp;            levelCounter++;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void render() {
+<b class="nc">&nbsp;        final float deltaTime = Gdx.graphics.getDeltaTime();</b>
+<b class="nc">&nbsp;        if (gameState.equals(GameState.GAME_ACTIVE)) {</b>
+<b class="nc">&nbsp;            updateScore(shouldUpdateCountDown());</b>
+<b class="nc">&nbsp;            updatePlayerMovement(deltaTime);</b>
+<b class="nc">&nbsp;            goToNextLevel();</b>
+<b class="nc">&nbsp;            moveEnemies(deltaTime);</b>
+<b class="nc">&nbsp;            checkForGameOver();</b>
+<b class="nc">&nbsp;            toRemove = player.getObjectsToRemove();</b>
+<b class="nc">&nbsp;            collidables.removeAll(toRemove);</b>
+<b class="nc">&nbsp;            enemies.removeAll(toRemove);</b>
+<b class="nc">&nbsp;            toRemove.clear();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        worldView.render(deltaTime);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    void updateScore(boolean countingDown) {
+<b class="fc">&nbsp;        if (countingDown) {</b>
+<b class="fc">&nbsp;            countDown--;</b>
+<b class="fc">&nbsp;            lastScoreUpdate = System.currentTimeMillis();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    boolean shouldUpdateCountDown() {
+<b class="fc">&nbsp;        long currentTime = System.currentTimeMillis();</b>
+<b class="pc">&nbsp;        if (countDown == 0) {</b>
+<b class="nc">&nbsp;            gameState = GameState.GAME_OVER;</b>
+&nbsp;        }
+<b class="pc">&nbsp;        return (currentTime - lastScoreUpdate) &gt;= 1000 &amp;&amp; countDown &gt; 0 &amp;&amp; gameState == GameState.GAME_ACTIVE;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void updatePlayerMovement(float deltaTime) {
+<b class="nc">&nbsp;        boolean isGrounded = player.isTouchingGround(Collections.unmodifiableList(collidables));</b>
+<b class="nc">&nbsp;        if (isJumping) {</b>
+<b class="nc">&nbsp;            player.jump(isGrounded);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        player.applyGravity(deltaTime, isGrounded);</b>
+<b class="nc">&nbsp;        float deltaY = player.getVerticalVelocity() * deltaTime;</b>
+<b class="nc">&nbsp;        player.resolveMovement(0, deltaY, this);</b>
+&nbsp;
+<b class="nc">&nbsp;        final boolean isMoving = isMovingRight ^ isMovingLeft;</b>
+<b class="nc">&nbsp;        if (isMoving) {</b>
+<b class="nc">&nbsp;            int direction = isMovingRight ? 1 : -1;</b>
+<b class="nc">&nbsp;            player.setMovementDirection(direction);</b>
+<b class="nc">&nbsp;            float deltaX = (player.getMovementSpeed() * deltaTime) * direction;</b>
+<b class="nc">&nbsp;            player.resolveMovement(deltaX, 0, this);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        final boolean isStandingStill = !(isMovingRight || isMovingLeft);</b>
+<b class="nc">&nbsp;        if (isStandingStill) {</b>
+<b class="nc">&nbsp;            player.setMovementDirection(0);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    void moveEnemies(float deltaTime) {
+<b class="fc">&nbsp;        for (Enemy enemy : enemies) {</b>
+<b class="fc">&nbsp;            float deltaX = (enemy.getMovementSpeed() * deltaTime) * enemy.getMovementDirection();</b>
+<b class="fc">&nbsp;            enemy.resolveMovement(deltaX, 0, this);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    void checkForGameOver() {
+<b class="pc">&nbsp;        if (!player.isAlive()){</b>
+<b class="fc">&nbsp;            gameState = GameState.GAME_OVER;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void setInfoMode(boolean infoMode) {
+<b class="fc">&nbsp;        this.infoMode = infoMode;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void backToGameMenu() {
+<b class="fc">&nbsp;        player.resetScores();</b>
+<b class="fc">&nbsp;        infoMode = false;</b>
+<b class="fc">&nbsp;        gameState = GameState.GAME_MENU;</b>
+<b class="fc">&nbsp;        currentLevel= LevelManager.Level.LEVEL_1;</b>
+<b class="fc">&nbsp;        levelCounter = 1;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void pause() {
+<b class="fc">&nbsp;        gameState = GameState.GAME_PAUSED;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void resume() {
+<b class="fc">&nbsp;        infoMode = false;</b>
+<b class="fc">&nbsp;        gameState = GameState.GAME_ACTIVE;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public int getBoardWidth() {
+<b class="fc">&nbsp;        return board.width();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public ViewableObject getViewablePlayer() {
+<b class="nc">&nbsp;        return player;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public List&lt;ViewableObject&gt; getObjectList() {
+<b class="nc">&nbsp;        return Collections.unmodifiableList(collidables);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void setMovingRight(boolean movingRight) {
+<b class="fc">&nbsp;        isMovingRight = movingRight;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void setMovingLeft(boolean movingLeft) {
+<b class="fc">&nbsp;        isMovingLeft = movingLeft;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void setJumping(boolean isJumping) {
+<b class="fc">&nbsp;        this.isJumping = isJumping;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public GameState getGameState() {
+<b class="fc">&nbsp;        return gameState;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void setGameState(GameState gameState) {
+<b class="fc">&nbsp;        this.gameState = gameState;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public List&lt;Enemy&gt; getEnemies() {
+<b class="fc">&nbsp;        return Collections.unmodifiableList(enemies);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setEnemies(List&lt;Enemy&gt; enemies) {
+<b class="fc">&nbsp;        this.enemies = enemies;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public LevelManager.Level getCurrentLevel() {
+<b class="nc">&nbsp;        return currentLevel;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public int getTotalScore() {
+<b class="fc">&nbsp;        return player.getTotalScore();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public int getCoinCounter() {
+<b class="fc">&nbsp;        return player.getCoinCounter();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public int getPlayerLives() {
+<b class="fc">&nbsp;        return player.getLives();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public int getCountDown() {
+<b class="fc">&nbsp;        return countDown;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public int getMovementDirection() {
+<b class="fc">&nbsp;        return player.getMovementDirection();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public int getLevelWidth() {
+<b class="fc">&nbsp;        return LEVEL_WIDTH;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean getInfoMode() {
+<b class="fc">&nbsp;        return infoMode;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public int getLevelCounter() {
+<b class="fc">&nbsp;        return levelCounter;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void updateViewportLeftX(float leftX) {
+<b class="nc">&nbsp;        viewportLeftX = leftX;</b>
+&nbsp;    }
+&nbsp;}
 </code>
 </pre>
 </div>
@@ -112,7 +439,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2025-04-22 20:02</div>
+    <div style="float:right;">generated on 2025-04-30 10:42</div>
 </div>
 </body>
 </html>

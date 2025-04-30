@@ -1,7 +1,6 @@
 package inf112.starhunt.view;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -16,18 +15,15 @@ import inf112.starhunt.model.GameState;
 import inf112.starhunt.model.gameobject.Transform;
 import inf112.starhunt.model.gameobject.ViewableObject;
 import inf112.starhunt.model.gameobject.mobileobject.actor.Player;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
 import java.util.EventListener;
 import java.util.HashMap;
 
-
-public class WorldView implements Screen, EventListener {
-
-    private ViewableWorldModel model;
+public class WorldView extends AbstractScreen implements EventListener {
+    private final ViewableWorldModel model;
     private SpriteBatch batch;
-    private Viewport viewport;
-//    private Texture menuBackgroundTexture;
-    private Texture menuTexture;
+    private Texture headerTexture;
     private ParallaxBackground parallaxBackground;
     private BitmapFont font;
     private GlyphLayout layout;
@@ -35,6 +31,7 @@ public class WorldView implements Screen, EventListener {
     private PlayerAnimation playerAnimation;
     private GameState gameState;
     private SoundHandler soundHandler;
+    private final Viewport viewport;
 
     public WorldView(ViewableWorldModel model, int width, int height) {
         this.viewport = new ExtendViewport(width, height);
@@ -71,14 +68,24 @@ public class WorldView implements Screen, EventListener {
         parallaxBackground = new ParallaxBackground(model.getLevelWidth());
         playerAnimation = new PlayerAnimation();
         loadTextures();
-        font = new BitmapFont(); //new BitmapFont(Gdx.files.internal("skeleton.fnt")); Lag fil med font
-        font.setColor(Color.WHITE);
         batch = new SpriteBatch();
-//        menuBackgroundTexture = new Texture("background/plx-1.png");
-        menuTexture = new Texture(Gdx.files.internal("background/gamemenu.png"));
+        headerTexture = new Texture("background/header.png");
         soundHandler = new SoundHandler();
+        font = loadFont("font/VT323-Regular.ttf");
         model.getViewablePlayer().setOnCoinCollected(() -> soundHandler.playSound("coin"));
         model.getViewablePlayer().setOnCollisionWithEnemy(() -> soundHandler.playSound("ouch"));
+    }
+
+    private BitmapFont loadFont(String fontFilePath) {
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(fontFilePath));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = 24;
+        parameter.color = Color.WHITE;
+        parameter.borderWidth = 1f;
+        parameter.borderColor = Color.BLACK;
+        BitmapFont font = generator.generateFont(parameter);
+        generator.dispose();
+        return font;
     }
 
     @Override
@@ -90,35 +97,47 @@ public class WorldView implements Screen, EventListener {
             case GAME_PAUSED -> drawGamePaused();
             case GAME_OVER -> drawGameOver();
         }
-//        if (!model.getInfoMode() && (gameState == GameState.GAME_MENU || gameState == GameState.GAME_PAUSED)) {
-////            drawCenteredText("Press 'i' for game info",2, 100);
-//        }
 
-        // else
-        if (model.getInfoMode() && (gameState == GameState.GAME_MENU || gameState == GameState.GAME_PAUSED)) {
+        if (!model.getInfoMode() && (gameState == GameState.GAME_MENU || gameState == GameState.GAME_PAUSED)) {
+            drawCenteredText("Press 'i' for game info",2, 300);
+        } else if (model.getInfoMode() && (gameState == GameState.GAME_MENU || gameState == GameState.GAME_PAUSED)) {
             drawGameInfo();
         }
-
     }
-
 
     private void drawGameMenu() {
         ScreenUtils.clear(Color.CLEAR);
-        float leftX = getViewportLeftX();
-        float bottomY = viewport.getCamera().position.y - viewport.getWorldHeight() / 2;
+        float headerWidth = 800f;
+        float headerHeight = 400f;
+        float margin = 50f;
+        float headerY = Gdx.graphics.getHeight() - headerHeight - margin;
+        float centerX = viewport.getCamera().position.x;
+
         batch.begin();
-        batch.draw(menuTexture, leftX, bottomY, viewport.getWorldWidth(), viewport.getWorldHeight());
+        parallaxBackground.render(batch);
+        if (gameState.equals(GameState.GAME_MENU) && !model.getInfoMode()) {
+            batch.draw(headerTexture, centerX - headerWidth/2, headerY, headerWidth, headerHeight);
+        }
         batch.end();
-//        drawCenteredText("Press ENTER to start the game", 3,0);
+
+        drawCenteredText("Press ENTER to start the game", 3,100);
     }
 
     private void drawGameInfo() {
+        if (gameState.equals(GameState.GAME_MENU)) {
+            font.setColor(Color.GOLD);
+            drawCenteredText("Race to catch the star and grab as many coins as you can! Watch out for enemies — a single fall\n" +
+                    "or hit could cost you everything. Jump on enemies to knock them out, and munch on bananas to grow\n" +
+                    "bigger and tougher! Time's ticking... complete your mission before it's too late!", 1.3f, 200);
+            drawCenteredText("Ready? GO!", 1.5f, 350);
+            font.setColor(Color.WHITE);
+        }
         drawCenteredText("Press 'i' to remove game info", 3,-400);
-        drawCenteredText("To jump press 'w', 'space' or up arrow\n" +
+        drawCenteredText("To jump press 'w', 'space' or up-arrow\n" +
                 "To move right press 'd' or right arrow\n" +
                 "To move left press 'a' or left arrow\n" +
                 "To pause the game when playing press 'p'\n" +
-                "To exit the game at any time press ESC", 2,-300);
+                "To exit the game at any time press ESC", 2,-350);
     }
 
 
@@ -130,17 +149,17 @@ public class WorldView implements Screen, EventListener {
         drawLevel();
         drawCenteredText("PAUSED", 3, 0);
         drawCenteredText("Press 'r' to return to the game menu", 3, 330);
-
     }
 
     private void drawGameOver() {
         ScreenUtils.clear(Color.CLEAR);
-        drawCenteredText("GAME OVER", 3, 0);
+        drawCenteredText("GAME OVER", 4.5f, 0);
         font.getData().setScale(1);
-        drawCenteredText("Press ENTER to return to the game menu", 2, 100);
+        drawCenteredText("Press ENTER to return to the game menu", 2, -200);
+        drawCenteredText("Score: " + model.getTotalScore() + "   Level: " + model.getLevelCounter(), 2, 200);
     }
 
-    void drawCenteredText(String text, int textScale, float lowerTextBy) {
+    void drawCenteredText(String text, float textScale, float lowerTextBy) {
         font.getData().setScale(textScale);
         layout.setText(font, text);
 
@@ -154,17 +173,24 @@ public class WorldView implements Screen, EventListener {
         batch.end();
     }
 
-    void drawLevel() {
-
-        // Map-data
-        float deltaTime = Gdx.graphics.getDeltaTime();
-
+    private void drawPlayer(float deltaTime, int movementDirection, GameState gameState){
         // Player-data
         Transform playerTransform = model.getViewablePlayer().getTransform();
         float playerX = playerTransform.getPos().x;
         float playerY = playerTransform.getPos().y;
         float playerWidth = playerTransform.getSize().x;
         float playerHeight = playerTransform.getSize().y;
+
+        TextureRegion currentFrame = playerAnimation.getFrame(movementDirection);
+        boolean isPaused = !gameState.equals(GameState.GAME_ACTIVE);
+        playerAnimation.update(deltaTime,  isPaused);
+        batch.draw(currentFrame, playerX, playerY, playerWidth, playerHeight);
+    }
+
+    void drawLevel() {
+
+        // Map-data
+        float deltaTime = Gdx.graphics.getDeltaTime();
 
         // Camera
         ScreenUtils.clear(Color.CLEAR);
@@ -176,12 +202,11 @@ public class WorldView implements Screen, EventListener {
         String coinCount = "Coins: " + model.getCoinCounter();
         String lives = "Lives: " + model.getPlayerLives();
         String countDown = "CountDown: " + model.getCountDown();
+        String levelCount = "Level: " + model.getLevelCounter();
         font.getData().setScale(2);
-
 
         float screenHeight = viewport.getWorldHeight();
         float leftX = getViewportLeftX();
-
 
         // Parallax background
         int movementDirection = model.getMovementDirection();
@@ -190,16 +215,14 @@ public class WorldView implements Screen, EventListener {
         // Drawing objects
         batch.begin();
         parallaxBackground.render(batch);
-        font.draw(batch, totalScore, leftX, screenHeight-10);
-        font.draw(batch, coinCount, leftX + 300, screenHeight-10);
-        font.draw(batch, lives, leftX + 500, screenHeight - 10);
-        TextureRegion currentFrame = playerAnimation.getFrame(movementDirection);
-        playerAnimation.update(deltaTime,  model.getGameState() != GameState.GAME_ACTIVE);
-        batch.draw(currentFrame, playerX, playerY, playerWidth, playerHeight);
-        font.draw(batch, countDown, leftX + 700, screenHeight - 10);
+        drawPlayer(deltaTime, movementDirection, gameState);
         drawObjects();
+        font.draw(batch, lives, leftX + 80, screenHeight - 15);
+        font.draw(batch, coinCount, leftX + 320, screenHeight - 15);
+        font.draw(batch, totalScore, leftX + 550, screenHeight - 15);
+        font.draw(batch, countDown, leftX + 930, screenHeight - 15);
+        font.draw(batch, levelCount, leftX + 1300, screenHeight - 15);
         batch.end();
-
     }
 
     void updateViewportCamera() {
@@ -271,17 +294,5 @@ public class WorldView implements Screen, EventListener {
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height, true);
-    }
-
-    @Override
-    public void pause() {
-    }
-
-    @Override
-    public void resume() {
-    }
-
-    @Override
-    public void hide() {
     }
 }

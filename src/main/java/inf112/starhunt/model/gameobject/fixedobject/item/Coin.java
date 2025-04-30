@@ -10,7 +10,6 @@ import inf112.starhunt.model.gameobject.mobileobject.actor.Player;
  * Represents an object that increases the total score when picked up by {@link Player}.
  */
 public class Coin extends Item implements Scorable, Collidable {
-
     private final static int COIN_VALUE = 5;
     private final int objectScore;
 
@@ -26,16 +25,11 @@ public class Coin extends Item implements Scorable, Collidable {
 
     @Override
     public void accept(Visitor visitor) {
-        visitor.visit(this);
+        visitor.visitCoin(this);
     }
 
     @Override
     public int getObjectScore() {
         return objectScore;
     }
-
-//    @Override
-//    public void onCollide(Collidable gameObject) {
-//
-//    }
 }

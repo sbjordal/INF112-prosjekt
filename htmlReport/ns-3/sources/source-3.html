@@ -45,26 +45,26 @@ Current scope:     <a href="../../index.html">all classes</a>
   <td class="name">LevelManager</td>
 <td class="coverageStat">
   <span class="percent">
-    50%
+    75%
   </span>
   <span class="absValue">
-    (2/4)
+    (3/4)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    51,9%
+    96,2%
   </span>
   <span class="absValue">
-    (14/27)
+    (25/26)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    59,7%
+    93,6%
   </span>
   <span class="absValue">
-    (37/62)
+    (44/47)
   </span>
 </td>
 </tr>
@@ -91,26 +91,26 @@ Current scope:     <a href="../../index.html">all classes</a>
   <td class="name"><strong>Total</strong></td>
 <td class="coverageStat">
   <span class="percent">
-    66,7%
+    83,3%
   </span>
   <span class="absValue">
-    (4/6)
+    (5/6)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    51,9%
+    96,2%
   </span>
   <span class="absValue">
-    (14/27)
+    (25/26)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    62,1%
+    94,1%
   </span>
   <span class="absValue">
-    (41/66)
+    (48/51)
   </span>
 </td>
 </tr>
@@ -130,14 +130,14 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;import com.fasterxml.jackson.databind.ObjectMapper;
 &nbsp;import inf112.starhunt.model.gameobject.Collidable;
 &nbsp;import inf112.starhunt.model.gameobject.GameObject;
+&nbsp;import inf112.starhunt.model.gameobject.GameObjectFactory;
 &nbsp;import inf112.starhunt.model.gameobject.Transform;
-&nbsp;import inf112.starhunt.model.gameobject.Visitor;
 &nbsp;import inf112.starhunt.model.gameobject.fixedobject.Ground;
 &nbsp;import inf112.starhunt.model.gameobject.fixedobject.FixedObjectFactory;
-&nbsp;import inf112.starhunt.model.gameobject.mobileobject.actor.Player;
-&nbsp;import inf112.starhunt.model.gameobject.mobileobject.actor.enemy.Enemy;
+&nbsp;import inf112.starhunt.model.gameobject.fixedobject.item.Star;
 &nbsp;import inf112.starhunt.model.gameobject.mobileobject.MobileObjectFactory;
-&nbsp;import inf112.starhunt.model.gameobject.mobileobject.actor.enemy.EnemyType;
+&nbsp;import inf112.starhunt.model.gameobject.mobileobject.actor.Player;
+&nbsp;import inf112.starhunt.model.gameobject.mobileobject.actor.enemy.*;
 &nbsp;
 &nbsp;import java.io.IOException;
 &nbsp;import java.util.ArrayList;
@@ -174,7 +174,6 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;        ObjectMapper objectMapper = new ObjectMapper();</b>
 &nbsp;        String levelContent;
 &nbsp;        JsonNode jsonRoot;
-&nbsp;        Player player;
 &nbsp;
 &nbsp;        try {
 <b class="fc">&nbsp;            levelContent = levelFile.readString();</b>
@@ -183,14 +182,13 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;            throw new RuntimeException(&quot;Failed to load level: &quot; + level);</b>
 &nbsp;        }
 &nbsp;
-&nbsp;        //List&lt;GameObject&gt; objects = new ArrayList&lt;&gt;();
 <b class="fc">&nbsp;        List&lt;Enemy&gt; enemies = new ArrayList&lt;&gt;();</b>
 <b class="fc">&nbsp;        List&lt;Collidable&gt; collidables = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        Player player = new Player();</b>
 &nbsp;
 <b class="fc">&nbsp;        int mapHeight = jsonRoot.get(&quot;height&quot;).asInt() * jsonRoot.get(&quot;tileheight&quot;).asInt();</b>
 <b class="fc">&nbsp;        int playerCount = 0;</b>
 <b class="fc">&nbsp;        int starCount = 0;</b>
-<b class="fc">&nbsp;        int playeridx = 0;</b>
 &nbsp;
 <b class="fc">&nbsp;        for (JsonNode layer : jsonRoot.get(&quot;layers&quot;)) {</b>
 <b class="pc">&nbsp;            if (!layer.get(&quot;type&quot;).asText().equals(&quot;objectgroup&quot;)) continue;</b>
@@ -200,52 +198,33 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;                int x = obj.get(&quot;x&quot;).asInt();</b>
 <b class="fc">&nbsp;                int y = mapHeight - obj.get(&quot;y&quot;).asInt() - obj.get(&quot;height&quot;).asInt();</b>
 &nbsp;
-<b class="pc">&nbsp;                switch (layerName) {</b>
-&nbsp;                    case &quot;ground&quot; -&gt; {
-<b class="nc">&nbsp;                        Vector2 size = new Vector2(50, 50);</b>
-<b class="nc">&nbsp;                        Vector2 position = new Vector2(x, y);</b>
-<b class="nc">&nbsp;                        Transform transform = new Transform(position, size);</b>
-<b class="nc">&nbsp;                        Ground ground = new Ground(transform);</b>
-<b class="nc">&nbsp;                        collidables.add(ground);</b>
-&nbsp;                    }
-&nbsp;                    case &quot;player&quot; -&gt; {
-<b class="fc">&nbsp;                        Vector2 size = new Vector2(40, 80);</b>
-<b class="fc">&nbsp;                        Vector2 position = new Vector2(x, y);</b>
-<b class="fc">&nbsp;                        Transform transform = new Transform(position, size);</b>
-<b class="fc">&nbsp;                        player = new Player(3, 350, transform);</b>
-<b class="fc">&nbsp;                        playeridx = collidables.size();</b>
-<b class="fc">&nbsp;                        collidables.add(player);</b>
-<b class="fc">&nbsp;                        playerCount++;</b>
-&nbsp;                    }
-&nbsp;                    case &quot;star&quot; -&gt; {
-<b class="nc">&nbsp;                        collidables.add(ItemFactory.createStar(x, y));</b>
-<b class="nc">&nbsp;                        starCount++;</b>
-&nbsp;                    }
-<b class="nc">&nbsp;                    case &quot;coin&quot; -&gt; collidables.add(ItemFactory.createCoin(x, y));</b>
-<b class="nc">&nbsp;                    case &quot;banana&quot; -&gt; collidables.add(ItemFactory.createBanana(x, y));</b>
-&nbsp;                    case &quot;snail&quot; -&gt; {
-<b class="nc">&nbsp;                        collidables.add(EnemyFactory.createSnail(x, y, EnemyType.SNAIL));</b>
-<b class="nc">&nbsp;                        enemies.add(EnemyFactory.createSnail(x, y, EnemyType.SNAIL));</b>
-&nbsp;                    }
-&nbsp;                    case &quot;leopard&quot; -&gt; {
-<b class="nc">&nbsp;                        collidables.add(EnemyFactory.createLeopard(x, y, EnemyType.LEOPARD));</b>
-<b class="nc">&nbsp;                        enemies.add(EnemyFactory.createLeopard(x, y, EnemyType.LEOPARD));</b>
-&nbsp;                    }
-<b class="nc">&nbsp;                    default -&gt; System.out.println(&quot;Unknown layer: &quot; + layerName + &quot;. Case sensitivity maybe?&quot;);</b>
+<b class="fc">&nbsp;                GameObject gameObject = GameObjectFactory.createGameObject(layerName, x, y);</b>
+<b class="fc">&nbsp;                collidables.add((Collidable) gameObject);</b>
+&nbsp;
+<b class="fc">&nbsp;                if (gameObject instanceof Enemy) {</b>
+<b class="fc">&nbsp;                    enemies.add((Enemy) gameObject);</b>
 &nbsp;                }
 &nbsp;            }
 &nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        for (Collidable collidable : collidables) {</b>
+<b class="fc">&nbsp;            if (collidable instanceof Star) {</b>
+<b class="fc">&nbsp;                starCount++;</b>
+&nbsp;            }
+<b class="fc">&nbsp;            if (collidable instanceof Player) {</b>
+<b class="fc">&nbsp;                playerCount++;</b>
+<b class="fc">&nbsp;                player = (Player) collidable;</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;
 <b class="fc">&nbsp;        if (playerCount != 1) {</b>
 <b class="fc">&nbsp;            throw new IllegalStateException(&quot;Level must have exactly one Player, but found: &quot; + playerCount);</b>
 &nbsp;        }
-<b class="pc">&nbsp;        if (starCount != 1) {</b>
+<b class="fc">&nbsp;        if (starCount != 1) {</b>
 <b class="fc">&nbsp;            throw new IllegalStateException(&quot;Level must have exactly one Star, but found: &quot; + starCount);</b>
 &nbsp;        }
-<b class="nc">&nbsp;        GameObject obj = (GameObject) collidables.get(playeridx);</b>
-<b class="nc">&nbsp;        if (!(obj instanceof Player)){</b>
-<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;object not instance of PLayer&quot;);</b>
-&nbsp;        }
-<b class="nc">&nbsp;        return new Triple&lt;&gt;(enemies, collidables, (Player) collidables.get(playeridx));</b>
+&nbsp;
+<b class="fc">&nbsp;        return new Triple&lt;&gt;(enemies, collidables, player);</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    /**
@@ -270,26 +249,29 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;            default: throw new IllegalStateException(&quot;No level file found for: &quot; + level);</b>
 &nbsp;        };
 &nbsp;
+&nbsp;
 <b class="fc">&nbsp;        return Gdx.files.classpath(levelPath);</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    /**
-&nbsp;     * TODO comment
+&nbsp;     *
 &nbsp;     *
 &nbsp;     * @param level
 &nbsp;     * @return
 &nbsp;     */
 &nbsp;    static Level getNextLevel(Level level) {
-<b class="nc">&nbsp;        switch (level) {</b>
+<b class="pc">&nbsp;        switch (level) {</b>
 &nbsp;            case LEVEL_1:
-<b class="nc">&nbsp;                return (LEVEL_2);</b>
+<b class="fc">&nbsp;                return (LEVEL_2);</b>
 &nbsp;            case LEVEL_2:
-<b class="nc">&nbsp;                return (LEVEL_3);</b>
+<b class="fc">&nbsp;                return (LEVEL_3);</b>
 &nbsp;            case LEVEL_3:
-<b class="nc">&nbsp;                return (LEVEL_1);</b>
-<b class="nc">&nbsp;            default: throw new IllegalArgumentException(&quot;No such level exists&quot;);</b>
+<b class="fc">&nbsp;                return (LEVEL_1);</b>
+<b class="nc">&nbsp;            default: throw new IllegalArgumentException(&quot;No such level exists: &quot; + level);</b>
 &nbsp;        }
 &nbsp;    }
+&nbsp;
+&nbsp;
 &nbsp;}
 </code>
 </pre>
@@ -314,7 +296,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2025-04-22 20:02</div>
+    <div style="float:right;">generated on 2025-04-30 10:42</div>
 </div>
 </body>
 </html>

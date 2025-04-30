@@ -5,7 +5,7 @@
 <html id="htmlId">
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
-  <title>Coverage Report > EnemyFactory</title>
+  <title>Coverage Report > EnemyType</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -22,7 +22,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     <a href="../index.html">inf112.starhunt.model.gameobject.mobileobject.actor.enemy</a>
 </div>
 
-<h1>Coverage Summary for Class: EnemyFactory (inf112.starhunt.model.gameobject.mobileobject.actor.enemy)</h1>
+<h1>Coverage Summary for Class: EnemyType (inf112.starhunt.model.gameobject.mobileobject.actor.enemy)</h1>
 
 <table class="coverageStats">
 <tr>
@@ -41,7 +41,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">EnemyFactory</td>
+  <td class="name">EnemyType</td>
 <td class="coverageStat">
   <span class="percent">
     100%
@@ -52,18 +52,18 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    66,7%
+    100%
   </span>
   <span class="absValue">
-    (2/3)
+    (3/3)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    88,9%
+    100%
   </span>
   <span class="absValue">
-    (8/9)
+    (10/10)
   </span>
 </td>
 </tr>
@@ -77,48 +77,24 @@ Current scope:     <a href="../../index.html">all classes</a>
 <pre>
 <code class="sourceCode" id="sourceCode">&nbsp;package inf112.starhunt.model.gameobject.mobileobject.actor.enemy;
 &nbsp;
-&nbsp;import com.badlogic.gdx.math.Vector2;
-&nbsp;import inf112.starhunt.model.gameobject.Transform;
+<b class="fc">&nbsp;public enum EnemyType {</b>
+<b class="fc">&nbsp;    SNAIL(1, 70, 10, 1, 40, 40),</b>
+<b class="fc">&nbsp;    LEOPARD(2, 140, 30, 1, 70, 70 );</b>
 &nbsp;
-&nbsp;/**
-&nbsp; * A factory class responsible for creating {@link Enemy} objects.
-&nbsp; */
-<b class="nc">&nbsp;public class EnemyFactory {</b>
+&nbsp;    public final int health;
+&nbsp;    public final int movementSpeed;
+&nbsp;    public final int objectScore;
+&nbsp;    public final int damage;
+&nbsp;    public final float width;
+&nbsp;    public final float height;
 &nbsp;
-&nbsp;    /**
-&nbsp;     * Creates a new Snail with the specific arguments defined by its enemy type.
-&nbsp;     *
-&nbsp;     * @param x             X-position of the enemy
-&nbsp;     * @param y             Y-position of the enemy
-&nbsp;     * @param enemyType     the specific enemy type
-&nbsp;     * @return A new instance of Snail
-&nbsp;     */
-&nbsp;    public static Snail createSnail(float x, float y, EnemyType enemyType) {
-&nbsp;
-<b class="fc">&nbsp;        Vector2 pos = new Vector2(x, y);</b>
-<b class="fc">&nbsp;        Vector2 size = new Vector2(enemyType.width, enemyType.height);</b>
-<b class="fc">&nbsp;        Transform transform = new Transform(pos, size);</b>
-&nbsp;
-<b class="fc">&nbsp;        return new Snail(enemyType.health, enemyType.movementSpeed, enemyType.objectScore,</b>
-&nbsp;                enemyType.damage, transform);
-&nbsp;    }
-&nbsp;
-&nbsp;    /**
-&nbsp;     * Creates a new Leopard with the specific arguments defined by its enemy type.
-&nbsp;     *
-&nbsp;     * @param x             X-position of the enemy
-&nbsp;     * @param y             Y-position of the enemy
-&nbsp;     * @param enemyType     the specific enemy type
-&nbsp;     * @return A new instance of Leopard
-&nbsp;     */
-&nbsp;    public static Leopard createLeopard(float x, float y, EnemyType enemyType) {
-&nbsp;
-<b class="fc">&nbsp;        Vector2 pos = new Vector2(x, y);</b>
-<b class="fc">&nbsp;        Vector2 size = new Vector2(enemyType.width, enemyType.height);</b>
-<b class="fc">&nbsp;        Transform transform = new Transform(pos, size);</b>
-&nbsp;
-<b class="fc">&nbsp;        return new Leopard(enemyType.health, enemyType.movementSpeed, enemyType.objectScore,</b>
-&nbsp;                enemyType.damage, transform);
+<b class="fc">&nbsp;    EnemyType(int health, int movementSpeed, int objectScore, int damage, float width, float height) {</b>
+<b class="fc">&nbsp;        this.health = health;</b>
+<b class="fc">&nbsp;        this.movementSpeed = movementSpeed;</b>
+<b class="fc">&nbsp;        this.objectScore = objectScore;</b>
+<b class="fc">&nbsp;        this.damage = damage;</b>
+<b class="fc">&nbsp;        this.width = width;</b>
+<b class="fc">&nbsp;        this.height = height;</b>
 &nbsp;    }
 &nbsp;}
 </code>
@@ -144,7 +120,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2025-04-22 20:02</div>
+    <div style="float:right;">generated on 2025-04-30 10:42</div>
 </div>
 </body>
 </html>

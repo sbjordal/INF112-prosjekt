@@ -10,6 +10,7 @@ import inf112.starhunt.model.gameobject.fixedobject.Ground;
 import inf112.starhunt.model.gameobject.fixedobject.item.Banana;
 import inf112.starhunt.model.gameobject.fixedobject.item.Coin;
 import inf112.starhunt.model.gameobject.fixedobject.item.Star;
+import inf112.starhunt.model.gameobject.mobileobject.actor.ModelablePlayer;
 import inf112.starhunt.model.gameobject.mobileobject.actor.Player;
 import inf112.starhunt.model.gameobject.mobileobject.actor.enemy.Enemy;
 import inf112.starhunt.model.gameobject.mobileobject.actor.enemy.Leopard;
@@ -47,8 +48,6 @@ public class LevelManagerTest {
         when(Gdx.files.classpath(anyString())).thenReturn(fileHandle);
     }
 
-    //TODO: Kommentert ut, må tilpasses oppdatert kode, ser ut som at
-    // jsonfilen ikke lagres med riktige objekter etter vi laget ground?
 
     @Test
     void loadLevel_missingPlayer_throwsException() {
@@ -171,13 +170,13 @@ public class LevelManagerTest {
         when(Gdx.files.classpath(anyString())).thenReturn(fileHandle);
 
         // Kall loadLevel og sjekk resultatet
-        Triple<List<Enemy>, List<Collidable>, Player> result = LevelManager.loadLevel(LevelManager.Level.LEVEL_1);
+        Triple<List<Enemy>, List<Collidable>, ModelablePlayer> result = LevelManager.loadLevel(LevelManager.Level.LEVEL_1);
 
         // Verifiser at collidables-listen har syv objekter (Player, Star, Ground, Coin, Banana, Snail, Leopard)
         assertNotNull(result.getSecond());
         assertEquals(7, result.getSecond().size(), "There should be exactly seven objects in collidables.");
 
-        assertTrue(result.getSecond().get(0) instanceof Player, "The first object in collidables should be a Player.");
+        assertTrue(result.getSecond().get(0) instanceof ModelablePlayer, "The first object in collidables should be a Player.");
         assertTrue(result.getSecond().get(1) instanceof Star, "The second object in collidables should be a Star.");
         assertTrue(result.getSecond().get(2) instanceof Ground, "The third object in collidables should be a Ground.");
         assertTrue(result.getSecond().get(3) instanceof Coin, "The fourth object in collidables should be a Coin.");
@@ -216,14 +215,15 @@ public class LevelManagerTest {
         when(Gdx.files.classpath(anyString())).thenReturn(fileHandle);
 
         // Kall loadLevel og sjekk resultatet
-        Triple<List<Enemy>, List<Collidable>, Player> result = LevelManager.loadLevel(level);
+        Triple<List<Enemy>, List<Collidable>, ModelablePlayer> result = LevelManager.loadLevel(level);
 
         // Sjekk at player, star og collidables er riktig
         assertNotNull(result);
         assertNotNull(result.getSecond());  // Collidables
-        assertTrue(result.getSecond().get(0) instanceof Player, "Collidables should contain a player.");
+        assertTrue(result.getSecond().get(0) instanceof ModelablePlayer, "Collidables should contain a player.");
         assertTrue(result.getSecond().stream().anyMatch(o -> o instanceof Star), "Collidables should contain a star.");
     }
+
 
 
 

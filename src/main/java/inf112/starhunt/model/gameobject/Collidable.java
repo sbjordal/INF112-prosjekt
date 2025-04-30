@@ -4,9 +4,8 @@ package inf112.starhunt.model.gameobject;
  * All classes that are Collidable is able to collide into.
  */
 public interface Collidable extends ViewableObject {
-
     /**
-     * TODO
+     *
      * @param visitor
      */
     void accept(Visitor visitor);

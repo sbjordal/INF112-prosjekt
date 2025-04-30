@@ -17,6 +17,6 @@ public class Star extends Item implements Collidable {
 
     @Override
     public void accept(Visitor visitor) {
-        visitor.visit(this);
+        visitor.visitStar(this);
     }
 }

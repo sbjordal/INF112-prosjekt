@@ -5,7 +5,7 @@
 <html id="htmlId">
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
-  <title>Coverage Report > Transform</title>
+  <title>Coverage Report > GameObjectFactory</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -22,7 +22,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     <a href="../index.html">inf112.starhunt.model.gameobject</a>
 </div>
 
-<h1>Coverage Summary for Class: Transform (inf112.starhunt.model.gameobject)</h1>
+<h1>Coverage Summary for Class: GameObjectFactory (inf112.starhunt.model.gameobject)</h1>
 
 <table class="coverageStats">
 <tr>
@@ -37,11 +37,15 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 <th class="coverageStat 
 ">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
   Line, %
 </th>
 </tr>
 <tr>
-  <td class="name">Transform</td>
+  <td class="name">GameObjectFactory</td>
 <td class="coverageStat">
   <span class="percent">
     100%
@@ -52,18 +56,26 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    100%
+    66,7%
   </span>
   <span class="absValue">
-    (6/6)
+    (2/3)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    100%
+    50%
   </span>
   <span class="absValue">
-    (8/8)
+    (1/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    84,6%
+  </span>
+  <span class="absValue">
+    (11/13)
   </span>
 </td>
 </tr>
@@ -78,61 +90,36 @@ Current scope:     <a href="../../index.html">all classes</a>
 <code class="sourceCode" id="sourceCode">&nbsp;package inf112.starhunt.model.gameobject;
 &nbsp;
 &nbsp;import com.badlogic.gdx.math.Vector2;
+&nbsp;import inf112.starhunt.model.gameobject.fixedobject.FixedObjectFactory;
+&nbsp;import inf112.starhunt.model.gameobject.fixedobject.item.*;
+&nbsp;import inf112.starhunt.model.gameobject.mobileobject.MobileObjectFactory;
 &nbsp;
-&nbsp;/**
-&nbsp; * Defines the position and size of a {@link GameObject}.
-&nbsp; * The position is represented by a {@link Vector2} object.
-&nbsp; * The size is represented by a {@link Vector2} object.
-&nbsp; */
-&nbsp;public class Transform{
-&nbsp;    Vector2 position;
-&nbsp;    Vector2 size;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.function.BiFunction;
 &nbsp;
-&nbsp;    /**
-&nbsp;     * Creates a new Transform object with the specified position and size.
-&nbsp;     *
-&nbsp;     * @param position  The initial position of the transform.
-&nbsp;     * @param size      The initial size of the transform.
-&nbsp;     */
-<b class="fc">&nbsp;    public Transform(Vector2 position, Vector2 size) {</b>
-<b class="fc">&nbsp;        this.position = position;</b>
-<b class="fc">&nbsp;        this.size = size;</b>
-&nbsp;    }
+<b class="nc">&nbsp;public class GameObjectFactory {</b>
+<b class="fc">&nbsp;        static Map&lt;String, BiFunction&lt;Float, Float, GameObject&gt;&gt; registry = new HashMap&lt;&gt;();</b>
+&nbsp;        static {
+<b class="fc">&nbsp;            registry.put(&quot;banana&quot;, FixedObjectFactory::createBanana);</b>
+<b class="fc">&nbsp;            registry.put(&quot;star&quot;, FixedObjectFactory::createStar);</b>
+<b class="fc">&nbsp;            registry.put(&quot;coin&quot;, FixedObjectFactory::createCoin);</b>
+<b class="fc">&nbsp;            registry.put(&quot;ground&quot;, FixedObjectFactory::createGround);</b>
+<b class="fc">&nbsp;            registry.put(&quot;player&quot;, MobileObjectFactory::createPlayer);</b>
+<b class="fc">&nbsp;            registry.put(&quot;snail&quot;, MobileObjectFactory::createSnail);</b>
+<b class="fc">&nbsp;            registry.put(&quot;leopard&quot;, MobileObjectFactory::createLeopard);</b>
+&nbsp;        }
 &nbsp;
-<b class="fc">&nbsp;    public Vector2 getPos() { return position; }</b>
-<b class="fc">&nbsp;    public Vector2 getSize() { return size; }</b>
+&nbsp;        public static GameObject createGameObject(String gameObject, float x, float y) {
+<b class="fc">&nbsp;            GameObject object = registry.get(gameObject).apply(x, y);</b>
 &nbsp;
-&nbsp;    /**
-&nbsp;     * Sets the transform&#39;s position based on offset values.
-&nbsp;     * Offset values are relative differences added to already existing values.
-&nbsp;     *
-&nbsp;     * @param deltaX    The horizontal offset value.
-&nbsp;     * @param deltaY    The vertical offset value.
-&nbsp;     */
-&nbsp;    public void alterPosition(int deltaX, int deltaY) {
-<b class="fc">&nbsp;        position = new Vector2(position.x + deltaX, position.y + deltaY);</b>
-&nbsp;    }
+<b class="pc">&nbsp;            if (object == null) {</b>
+<b class="nc">&nbsp;                throw new IllegalArgumentException(&quot;Unknown GameObject type: &quot; + gameObject);</b>
+&nbsp;            }
 &nbsp;
-&nbsp;    /**
-&nbsp;     * Sets the transform&#39;s position based on absolute values.
-&nbsp;     * Absolute values are values that overwrite already existing values.
-&nbsp;     *
-&nbsp;     * @param newPosition   A {@link Vector2} containing the absolute values of the new position.
-&nbsp;     */
-&nbsp;    public void alterPosition(Vector2 newPosition) {
-<b class="fc">&nbsp;        position = newPosition;</b>
-&nbsp;    }
+<b class="fc">&nbsp;            return object;</b>
+&nbsp;        }
 &nbsp;
-&nbsp;    /**
-&nbsp;     * Sets the transform&#39;s size based on absolute values.
-&nbsp;     * Absolute values are values that overwrite already existing values.
-&nbsp;     *
-&nbsp;     * @param width     The absolute value of the size&#39;s horizontal length.
-&nbsp;     * @param height    The absolute value of the size&#39;s vertical length.
-&nbsp;     */
-&nbsp;    public void alterSize(int width, int height) {
-<b class="fc">&nbsp;        size = new Vector2(width, height);</b>
-&nbsp;    }
 &nbsp;}
 </code>
 </pre>
@@ -157,7 +144,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2025-04-22 20:02</div>
+    <div style="float:right;">generated on 2025-04-30 10:42</div>
 </div>
 </body>
 </html>

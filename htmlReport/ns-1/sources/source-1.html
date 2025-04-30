@@ -37,6 +37,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 <th class="coverageStat 
 ">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
   Line, %
 </th>
 </tr>
@@ -63,7 +67,15 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/6)
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
   </span>
 </td>
 </tr>
@@ -77,8 +89,13 @@ Current scope:     <a href="../../index.html">all classes</a>
 <pre>
 <code class="sourceCode" id="sourceCode">&nbsp;package inf112.starhunt.app;
 &nbsp;
+&nbsp;import org.lwjgl.system.Configuration;
+&nbsp;
 &nbsp;import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 &nbsp;import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
+&nbsp;import com.badlogic.gdx.utils.Os;
+&nbsp;import com.badlogic.gdx.utils.SharedLibraryLoader;
+&nbsp;
 &nbsp;import inf112.starhunt.model.WorldModel;
 &nbsp;
 <b class="nc">&nbsp;public class Main {</b>
@@ -86,9 +103,13 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    private final static int WINDOW_HEIGHT = 920;
 &nbsp;
 &nbsp;    public static void main(String[] args) {
-<b class="nc">&nbsp;        Lwjgl3ApplicationConfiguration cfg = new Lwjgl3ApplicationConfiguration();</b>
+<b class="nc">&nbsp;		if (SharedLibraryLoader.os == Os.MacOsX) {</b>
+<b class="nc">&nbsp;			Configuration.GLFW_LIBRARY_NAME.set(&quot;glfw_async&quot;);</b>
+&nbsp;		}
+&nbsp;		
+<b class="nc">&nbsp;		Lwjgl3ApplicationConfiguration cfg = new Lwjgl3ApplicationConfiguration();</b>
 <b class="nc">&nbsp;        cfg.setResizable(false);</b>
-<b class="nc">&nbsp;        cfg.setTitle(&quot;Mario 2&quot;);</b>
+<b class="nc">&nbsp;        cfg.setTitle(&quot;Star Hunt&quot;);</b>
 <b class="nc">&nbsp;        cfg.setWindowedMode(WINDOW_WIDTH, WINDOW_HEIGHT);</b>
 &nbsp;
 <b class="nc">&nbsp;        new Lwjgl3Application(new WorldModel(WINDOW_WIDTH, WINDOW_HEIGHT), cfg);</b>
@@ -117,7 +138,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2025-04-22 20:02</div>
+    <div style="float:right;">generated on 2025-04-30 10:42</div>
 </div>
 </body>
 </html>

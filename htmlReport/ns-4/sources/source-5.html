@@ -5,7 +5,7 @@
 <html id="htmlId">
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
-  <title>Coverage Report > Collidable</title>
+  <title>Coverage Report > TransformUtils</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -22,14 +22,50 @@ Current scope:     <a href="../../index.html">all classes</a>
     <a href="../index.html">inf112.starhunt.model.gameobject</a>
 </div>
 
-<h1>Coverage Summary for Class: Collidable (inf112.starhunt.model.gameobject)</h1>
+<h1>Coverage Summary for Class: TransformUtils (inf112.starhunt.model.gameobject)</h1>
 
 <table class="coverageStats">
 <tr>
   <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
 </tr>
 <tr>
-  <td class="name">Collidable</td>
+  <td class="name">TransformUtils</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (1/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (3/4)
+  </span>
+</td>
 </tr>
 
 </table>
@@ -41,20 +77,14 @@ Current scope:     <a href="../../index.html">all classes</a>
 <pre>
 <code class="sourceCode" id="sourceCode">&nbsp;package inf112.starhunt.model.gameobject;
 &nbsp;
-&nbsp;public interface Collidable extends ViewableObject {
+&nbsp;import com.badlogic.gdx.math.Vector2;
 &nbsp;
-&nbsp;    /**
-&nbsp;     * TODO
-&nbsp;     * @param visitor
-&nbsp;     */
-&nbsp;    void accept(Visitor visitor);
-&nbsp;
-&nbsp;    /**
-&nbsp;     * A getter for CollisionBox. CollisionBox is the bounding box of an object, used to
-&nbsp;     * detect collisions.
-&nbsp;     * @return the collisionBox of the GameObject
-&nbsp;     */
-&nbsp;    CollisionBox getCollisionBox();
+<b class="nc">&nbsp;public class TransformUtils {</b>
+&nbsp;    public static Transform createTransformForObjects(float xPos, float yPos, float width, float height) {
+<b class="fc">&nbsp;        Vector2 size = new Vector2(width, height);</b>
+<b class="fc">&nbsp;        Vector2 position = new Vector2(xPos, yPos);</b>
+<b class="fc">&nbsp;        return new Transform(position, size);</b>
+&nbsp;    }
 &nbsp;}
 </code>
 </pre>
@@ -79,7 +109,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2025-04-22 20:02</div>
+    <div style="float:right;">generated on 2025-04-30 10:42</div>
 </div>
 </body>
 </html>

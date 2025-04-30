@@ -56,26 +56,26 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    85,7%
+    100%
   </span>
   <span class="absValue">
-    (6/7)
+    (10/10)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    76,2%
+    71,7%
   </span>
   <span class="absValue">
-    (32/42)
+    (33/46)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    85,7%
+    100%
   </span>
   <span class="absValue">
-    (12/14)
+    (16/16)
   </span>
 </td>
 </tr>
@@ -96,10 +96,11 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp; * The collision area is squared and defined by two points: {@code botLeft} and {@code topRight}.
 &nbsp; */
 &nbsp;public class CollisionBox {
+&nbsp;    private final static float ACCEPTANCE_RANGE = 3.0f;
 &nbsp;    public Vector2 botLeft;
 &nbsp;    public Vector2 topRight;
-&nbsp;    private final int width;
-&nbsp;    private final int height;
+&nbsp;    private final float width;
+&nbsp;    private final float height;
 &nbsp;
 &nbsp;    /**
 &nbsp;     * Creates a new collision box with the given transform.
@@ -108,8 +109,8 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * @param transform The position and size of the collision box.
 &nbsp;     */
 <b class="fc">&nbsp;    public CollisionBox(Transform transform) {</b>
-<b class="fc">&nbsp;        this.width = (int) transform.getSize().x;</b>
-<b class="fc">&nbsp;        this.height = (int) transform.getSize().y;</b>
+<b class="fc">&nbsp;        this.width = transform.getSize().x;</b>
+<b class="fc">&nbsp;        this.height = transform.getSize().y;</b>
 <b class="fc">&nbsp;        this.botLeft = transform.getPos();</b>
 <b class="fc">&nbsp;        this.topRight = new Vector2(this.botLeft.x + width, this.botLeft.y + height);</b>
 &nbsp;    }
@@ -121,8 +122,8 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * @param worldPosition A {@link Vector2} containing the absolute values of the new position.
 &nbsp;     */
 &nbsp;    public void setPosition(Vector2 worldPosition) {
-<b class="nc">&nbsp;        botLeft = worldPosition;</b>
-<b class="nc">&nbsp;        topRight = new Vector2(botLeft.x + width, botLeft.y + height);</b>
+<b class="fc">&nbsp;        botLeft = worldPosition;</b>
+<b class="fc">&nbsp;        topRight = new Vector2(botLeft.x + width, botLeft.y + height);</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    /**
@@ -132,7 +133,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * @return          True if the collision box is colliding, else false.
 &nbsp;     */
 &nbsp;    public boolean isCollidingWith(CollisionBox other) {
-<b class="fc">&nbsp;        return botLeft.x &lt; other.topRight.x &amp;&amp;</b>
+<b class="pc">&nbsp;        return botLeft.x &lt; other.topRight.x &amp;&amp;</b>
 &nbsp;                topRight.x &gt; other.botLeft.x &amp;&amp;
 &nbsp;                botLeft.y &lt; other.topRight.y &amp;&amp;
 &nbsp;                topRight.y &gt; other.botLeft.y;
@@ -145,12 +146,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * @return          True if the collision box is on top, else false.
 &nbsp;     */
 &nbsp;    public boolean isCollidingFromBottom(CollisionBox other) {
-<b class="fc">&nbsp;        final int acceptanceRange = 5;</b>
-&nbsp;
 <b class="pc">&nbsp;        return botLeft.y &lt;= other.topRight.y &amp;&amp;</b>
 &nbsp;                topRight.y &gt; other.botLeft.y &amp;&amp;
-&nbsp;                botLeft.x &lt; other.topRight.x - acceptanceRange &amp;&amp;
-&nbsp;                topRight.x &gt; other.botLeft.x + acceptanceRange;
+&nbsp;                botLeft.x &lt; other.topRight.x - ACCEPTANCE_RANGE &amp;&amp;
+&nbsp;                topRight.x &gt; other.botLeft.x + ACCEPTANCE_RANGE;
 &nbsp;    }
 &nbsp;
 &nbsp;    /**
@@ -160,26 +159,58 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * @return          True if the collision box is on the bottom, else false.
 &nbsp;     */
 &nbsp;    public boolean isCollidingFromTop(CollisionBox other) {
-<b class="fc">&nbsp;        final int acceptanceRange = (int) (other.height * 0.9f);</b>
+<b class="fc">&nbsp;        final float acceptanceRange = other.height * 0.9f;</b>
 &nbsp;
-<b class="pc">&nbsp;        return isCollidingWith(other) &amp;&amp;</b>
+<b class="pc">&nbsp;        return isWithinBounds(other) &amp;&amp;</b>
 &nbsp;                botLeft.y &lt; other.topRight.y &amp;&amp;
 &nbsp;                topRight.y &lt; other.topRight.y - acceptanceRange;
 &nbsp;    }
 &nbsp;
+&nbsp;    /**
+&nbsp;     * Checks if the collision box is to the right of an external collision box.
+&nbsp;     *
+&nbsp;     * @param other     The external collision box.
+&nbsp;     * @return          True if the collision box is to the left, else false.
+&nbsp;     */
 &nbsp;    public boolean isCollidingFromLeft(CollisionBox other) {
-<b class="pc">&nbsp;        return isCollidingWith(other) &amp;&amp;</b>
-&nbsp;                topRight.x &gt; other.botLeft.x &amp;&amp;
+<b class="pc">&nbsp;        return botLeft.x &lt; other.topRight.x + ACCEPTANCE_RANGE &amp;&amp;</b>
+&nbsp;                topRight.x &gt; other.topRight.x &amp;&amp;
+&nbsp;                botLeft.y &lt; other.topRight.y &amp;&amp;
+&nbsp;                topRight.y &gt; other.botLeft.y;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Checks if the collision box is to the left of an external collision box.
+&nbsp;     *
+&nbsp;     * @param other     The external collision box.
+&nbsp;     * @return          True if the collision box is to the right, else false.
+&nbsp;     */
+&nbsp;    public boolean isCollidingFromRight(CollisionBox other) {
+<b class="pc">&nbsp;        return topRight.x &gt; other.botLeft.x - ACCEPTANCE_RANGE &amp;&amp;</b>
 &nbsp;                botLeft.x &lt; other.botLeft.x &amp;&amp;
 &nbsp;                botLeft.y &lt; other.topRight.y &amp;&amp;
 &nbsp;                topRight.y &gt; other.botLeft.y;
 &nbsp;    }
-&nbsp;    public boolean isCollidingFromRight(CollisionBox other) {
-<b class="pc">&nbsp;        return isCollidingWith(other) &amp;&amp;</b>
-&nbsp;                botLeft.x &lt; other.topRight.x &amp;&amp;
-&nbsp;                topRight.x &gt; other.topRight.x &amp;&amp;
-&nbsp;                botLeft.y &lt; other.topRight.y &amp;&amp;
-&nbsp;                topRight.y &gt; other.botLeft.y;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Checks if the collision box is located inside an external collision box.
+&nbsp;     *
+&nbsp;     * @param other     The external collision box.
+&nbsp;     * @return          True if the collision box is inside, else false.
+&nbsp;     */
+&nbsp;    private boolean isWithinBounds(CollisionBox other) {
+<b class="pc">&nbsp;        return botLeft.x &lt;= other.topRight.x &amp;&amp;</b>
+&nbsp;                topRight.x &gt;= other.botLeft.x &amp;&amp;
+&nbsp;                botLeft.y &lt;= other.topRight.y &amp;&amp;
+&nbsp;                topRight.y &gt;= other.botLeft.y;
+&nbsp;    }
+&nbsp;
+&nbsp;    public Vector2 getBotLeft(){
+<b class="fc">&nbsp;        return botLeft;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Vector2 getTopRight(){
+<b class="fc">&nbsp;        return topRight;</b>
 &nbsp;    }
 &nbsp;}
 </code>
@@ -205,7 +236,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2025-04-22 20:02</div>
+    <div style="float:right;">generated on 2025-04-30 10:42</div>
 </div>
 </body>
 </html>

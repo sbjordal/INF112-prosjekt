@@ -18,8 +18,8 @@ import java.util.List;
  * An enemy type is any {@link GameObject} that inflicts damage on the player.
  */
 public abstract class Enemy extends Actor implements Scorable, Visitor, Collidable {
-    final private static long COLLISION_COOLDOWN = 48;
-    final private int objectScore;
+    private final static long COLLISION_COOLDOWN = 48;
+    private final int objectScore;
     private long lastCollisionTime;
 
     /**
@@ -96,33 +96,32 @@ public abstract class Enemy extends Actor implements Scorable, Visitor, Collidab
 
     @Override
     public void accept(Visitor visitor) {
-        visitor.visit(this);
+        visitor.visitEnemy(this);
     }
 
     @Override
-    public void visit(Coin coin) {}
+    public void visitCoin(Coin coin) {}
 
     @Override
-    public void visit(Star star) {}
+    public void visitStar(Star star) {}
 
     @Override
-    public void visit(Banana banana) {}
+    public void visitBanana(Banana banana) {}
 
     @Override
-    public void visit(Ground ground) {
-        //TODO, har tatt snarvei her, fordi enemy ikk er på bakken, så all kollisjon vil være i vegg
+    public void visitGround(Ground ground) {
         switchDirection();
     }
 
     @Override
-    public void visit(Enemy enemy) {
+    public void visitEnemy(Enemy enemy) {
         if (!this.equals(enemy)) {
             switchDirection();
         }
     }
 
     @Override
-    public void visit(Player player) {
+    public void visitPlayer(Player player) {
         attack(player);
         switchDirection();
     }

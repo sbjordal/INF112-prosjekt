@@ -115,4 +115,12 @@ public class CollisionBox {
                 botLeft.y <= other.topRight.y &&
                 topRight.y >= other.botLeft.y;
     }
+
+    public Vector2 getBotLeft(){
+        return botLeft;
+    }
+
+    public Vector2 getTopRight(){
+        return topRight;
+    }
 }

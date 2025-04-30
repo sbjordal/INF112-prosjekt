@@ -72,10 +72,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    93,8%
+    93,9%
   </span>
   <span class="absValue">
-    (30/32)
+    (31/33)
   </span>
 </td>
 </tr>
@@ -97,9 +97,6 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;/**
 &nbsp; * A class that handles keyboard input and manipulates the model accordingly.
-&nbsp; *
-&nbsp; * Reading material on event handling for use of LigGDX:
-&nbsp; * https://libgdx.com/wiki/input/event-handling
 &nbsp; */
 &nbsp;public class Controller extends InputAdapter {
 &nbsp;
@@ -136,7 +133,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;        if (keyCode == Input.Keys.ESCAPE) {</b>
 <b class="fc">&nbsp;            Gdx.app.exit();</b>
 <b class="pc">&nbsp;        } else if (isGameState(GameState.GAME_MENU) &amp;&amp; keyCode == Input.Keys.ENTER) {</b>
-<b class="fc">&nbsp;            controllableModel.startLevel(LevelManager.Level.LEVEL_1);</b>
+<b class="fc">&nbsp;            controllableModel.startLevel(controllableModel.getCurrentLevel());</b>
 <b class="fc">&nbsp;        } else if (isGameState(GameState.GAME_ACTIVE)) {</b>
 <b class="fc">&nbsp;            handleMovement(keyCode, true);</b>
 <b class="pc">&nbsp;        } else if (isGameState(GameState.GAME_OVER) &amp;&amp; keyCode == Input.Keys.ENTER) {</b>
@@ -160,6 +157,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="pc">&nbsp;        } else if (isGameState(GameState.GAME_ACTIVE) &amp;&amp; c == &#39;p&#39;) {</b>
 <b class="fc">&nbsp;            controllableModel.setMovingLeft(false);</b>
 <b class="fc">&nbsp;            controllableModel.setMovingRight(false);</b>
+<b class="fc">&nbsp;            controllableModel.setJumping(false);</b>
 <b class="fc">&nbsp;            controllableModel.pause();</b>
 <b class="pc">&nbsp;        } else if (isGameState(GameState.GAME_PAUSED)) {</b>
 <b class="pc">&nbsp;            switch (c) {</b>
@@ -195,7 +193,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2025-04-22 20:02</div>
+    <div style="float:right;">generated on 2025-04-30 10:42</div>
 </div>
 </body>
 </html>

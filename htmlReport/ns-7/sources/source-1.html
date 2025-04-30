@@ -56,26 +56,26 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    92,9%
+    87,5%
   </span>
   <span class="absValue">
-    (13/14)
+    (14/16)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    37,5%
+    62,5%
   </span>
   <span class="absValue">
-    (12/32)
+    (15/24)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    75%
+    83%
   </span>
   <span class="absValue">
-    (42/56)
+    (39/47)
   </span>
 </td>
 </tr>
@@ -92,9 +92,8 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;import com.badlogic.gdx.math.Vector2;
 &nbsp;import inf112.starhunt.model.PositionValidator;
 &nbsp;import inf112.starhunt.model.gameobject.*;
-&nbsp;import inf112.starhunt.model.gameobject.fixedobject.item.Item;
+&nbsp;import inf112.starhunt.model.gameobject.fixedobject.Ground;
 &nbsp;import inf112.starhunt.model.gameobject.mobileobject.actor.Player;
-&nbsp;import inf112.starhunt.model.gameobject.mobileobject.actor.enemy.Enemy;
 &nbsp;
 &nbsp;import java.util.List;
 &nbsp;
@@ -104,10 +103,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp; * A variable position can be altered once instantiated.
 &nbsp; */
 &nbsp;public abstract class MobileObject extends GameObject implements Movable {
+&nbsp;    private final static int GRAVITY_FORCE = -3200;
 &nbsp;    private final int movementSpeed;
 &nbsp;    private int verticalVelocity;
 &nbsp;    private int movementDirection;
-&nbsp;    private int gravityForce;
 &nbsp;
 &nbsp;    /**
 &nbsp;     * Creates a new MobileObject with the specified movement speed.
@@ -121,38 +120,26 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;        this.movementSpeed = movementSpeed;</b>
 <b class="fc">&nbsp;        this.verticalVelocity = 0;</b>
 <b class="fc">&nbsp;        this.movementDirection = 0;</b>
-<b class="fc">&nbsp;        this.gravityForce = -3200;</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    @Override
-&nbsp;    public void move(Vector2 newPosition) {
-<b class="fc">&nbsp;        Vector2 oldPos = getTransform().getPos();</b>
-<b class="fc">&nbsp;        setMovementDirection(oldPos, newPosition);</b>
-<b class="fc">&nbsp;        getTransform().alterPosition(newPosition);</b>
+&nbsp;    public void move(Vector2 newPos) {
+<b class="fc">&nbsp;        getTransform().alterPosition(newPos);</b>
 <b class="fc">&nbsp;        updateCollisionBox();</b>
 &nbsp;    }
 &nbsp;
-&nbsp;    void setMovementDirection(Vector2 oldPos, Vector2 newPos){
-<b class="fc">&nbsp;        float deltaX = newPos.x - oldPos.x;</b>
-<b class="fc">&nbsp;        if (deltaX &gt; 0){</b>
-<b class="fc">&nbsp;            movementDirection = 1;</b>
-&nbsp;        }
-<b class="fc">&nbsp;        else if (deltaX &lt; 0){</b>
-<b class="fc">&nbsp;            movementDirection = -1;</b>
-&nbsp;        }
-&nbsp;        else {
-<b class="fc">&nbsp;            movementDirection = 0;</b>
-&nbsp;        }
-&nbsp;    }
-&nbsp;
 &nbsp;    @Override
-&nbsp;    public void move(int deltaX, int deltaY) {
-<b class="fc">&nbsp;        Vector2 oldPos = getTransform().getPos();</b>
-<b class="fc">&nbsp;        Vector2 newPos = new Vector2(oldPos.x + deltaX, oldPos.y + deltaY);</b>
-<b class="fc">&nbsp;        setMovementDirection(oldPos, newPos);</b>
+&nbsp;    public void move(float deltaX, float deltaY) {
 <b class="fc">&nbsp;        getTransform().alterPosition(deltaX, deltaY);</b>
 <b class="fc">&nbsp;        updateCollisionBox();</b>
+&nbsp;    }
 &nbsp;
+&nbsp;    public void setMovementDirection(int movementDirection) {
+<b class="fc">&nbsp;        this.movementDirection = movementDirection;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void switchDirection() {
+<b class="fc">&nbsp;        movementDirection *= -1;</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    /**
@@ -167,7 +154,9 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     *
 &nbsp;     * @return The movement speed as an integer.
 &nbsp;     */
-<b class="fc">&nbsp;    public int getMovementSpeed() { return movementSpeed; }</b>
+&nbsp;    public int getMovementSpeed() {
+<b class="fc">&nbsp;        return movementSpeed;</b>
+&nbsp;    }
 &nbsp;
 &nbsp;    public int getVerticalVelocity() {
 <b class="fc">&nbsp;        return verticalVelocity;</b>
@@ -190,15 +179,14 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="pc">&nbsp;        if (isOnGround &amp;&amp; verticalVelocity &lt;= 0) {</b>
 <b class="fc">&nbsp;            verticalVelocity = 0;</b>
 &nbsp;        } else {
-<b class="fc">&nbsp;            verticalVelocity += (int)(gravityForce * deltaTime);</b>
+<b class="fc">&nbsp;            verticalVelocity += (int)(GRAVITY_FORCE * deltaTime);</b>
 &nbsp;        }
 &nbsp;    }
-&nbsp;
 &nbsp;
 &nbsp;    @Override
 &nbsp;    public boolean isTouchingGround(List&lt;Collidable&gt; objectList) {
 <b class="nc">&nbsp;        for (Collidable object : objectList) {</b>
-<b class="nc">&nbsp;            if (!(object instanceof Enemy || object instanceof Item || object instanceof Player)) {</b>
+<b class="nc">&nbsp;            if (object instanceof Ground) {</b>
 <b class="nc">&nbsp;                CollisionBox objectCollisionBox = object.getCollisionBox();</b>
 <b class="nc">&nbsp;                if (this.getCollisionBox().isCollidingFromBottom(objectCollisionBox)) {</b>
 <b class="nc">&nbsp;                    return true;</b>
@@ -209,41 +197,45 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    }
 &nbsp;
 &nbsp;    @Override
-&nbsp;    public Vector2 filterPosition(int deltaX, int deltaY, PositionValidator validator){
-<b class="fc">&nbsp;        Transform transform = this.getTransform();</b>
+&nbsp;    public Vector2 filterPosition(float deltaX, float deltaY, PositionValidator validator, Visitor visitor){
+<b class="fc">&nbsp;        Transform transform = getTransform();</b>
 <b class="fc">&nbsp;        Vector2 position = transform.getPos();</b>
 <b class="fc">&nbsp;        Vector2 size = transform.getSize();</b>
-<b class="fc">&nbsp;        float filteredX = binarySearch(position.x, position.y, deltaX, size, true, validator);</b>
-<b class="fc">&nbsp;        float filteredY = binarySearch(filteredX, position.y, deltaY, size, false, validator);</b>
+<b class="fc">&nbsp;        float filteredX = binarySearch(position.x, position.y, deltaX, size, true, validator, visitor);</b>
+<b class="fc">&nbsp;        float filteredY = binarySearch(filteredX, position.y, deltaY, size, false, validator, visitor);</b>
 &nbsp;
 <b class="fc">&nbsp;        return new Vector2(filteredX, filteredY);</b>
 &nbsp;    }
 &nbsp;
-&nbsp;    private float binarySearch(float startX, float startY, int delta, Vector2 size, boolean isX, PositionValidator validator) {
+&nbsp;    private float binarySearch(float startX, float startY, float delta, Vector2 size, boolean isX, PositionValidator validator, Visitor visitor) {
 <b class="fc">&nbsp;        int low = 0;</b>
-<b class="fc">&nbsp;        int high = Math.abs(delta);</b>
-<b class="pc">&nbsp;        boolean isNegative = delta &lt; 0;</b>
+<b class="fc">&nbsp;        int high = (int) Math.abs(delta);</b>
+<b class="fc">&nbsp;        boolean isNegative = delta &lt; 0;</b>
 &nbsp;
-<b class="pc">&nbsp;        while (low &lt; high) {</b>
-<b class="nc">&nbsp;            int mid = (low + high + 1) / 2;</b>
-<b class="nc">&nbsp;            int testDelta = isNegative ? -mid : mid;</b>
+<b class="fc">&nbsp;        while (low &lt; high) {</b>
+<b class="fc">&nbsp;            int mid = (low + high + 1) / 2;</b>
+<b class="fc">&nbsp;            int testDelta = isNegative ? -mid : mid;</b>
 &nbsp;
-<b class="nc">&nbsp;            Vector2 newPosition = isX ? new Vector2(startX + testDelta, startY) : new Vector2(startX, startY + testDelta);</b>
-<b class="nc">&nbsp;            Transform newTransform = new Transform(newPosition, size);</b>
-<b class="nc">&nbsp;            CollisionBox newCollisionBox = new CollisionBox(newTransform);</b>
+<b class="pc">&nbsp;            Vector2 newPosition = isX ? new Vector2(startX + testDelta, startY) : new Vector2(startX, startY + testDelta);</b>
+<b class="fc">&nbsp;            Transform newTransform = new Transform(newPosition, size);</b>
+<b class="fc">&nbsp;            CollisionBox newCollisionBox = new CollisionBox(newTransform);</b>
 &nbsp;
-<b class="nc">&nbsp;            if (validator.isLegalMove(newCollisionBox)) {</b>
-<b class="nc">&nbsp;                low = mid;</b>
+<b class="pc">&nbsp;            if (validator.isLegalMove(visitor, newCollisionBox)) {</b>
+<b class="fc">&nbsp;                low = mid;</b>
 &nbsp;            } else {
 <b class="nc">&nbsp;                high = mid - 1;</b>
 &nbsp;            }
 &nbsp;        }
 <b class="fc">&nbsp;        final float startCoordinate = isX ? startX : startY;</b>
-<b class="pc">&nbsp;        final float endCoordinate = isNegative ? -low : low;</b>
+<b class="fc">&nbsp;        final float endCoordinate = isNegative ? -low : low;</b>
 &nbsp;
 <b class="fc">&nbsp;        return startCoordinate + endCoordinate;</b>
 &nbsp;    }
 &nbsp;
+&nbsp;    @Override
+&nbsp;    public int getDirection(){
+<b class="nc">&nbsp;        return movementDirection;</b>
+&nbsp;    }
 &nbsp;}
 </code>
 </pre>
@@ -268,7 +260,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2025-04-22 20:02</div>
+    <div style="float:right;">generated on 2025-04-30 10:42</div>
 </div>
 </body>
 </html>

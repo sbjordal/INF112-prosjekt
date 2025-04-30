@@ -18,40 +18,40 @@ import java.util.List;
 public interface Visitor {
 
     /**
-     * TODO
+     *
      * @param coin
      */
-    void visit(Coin coin);
+    void visitCoin(Coin coin);
 
     /**
-     * TODO
+     *
      * @param star
      */
-    void visit(Star star);
+    void visitStar(Star star);
 
     /**
-     * TODO
+     *
      * @param banana
      */
-    void visit(Banana banana);
+    void visitBanana(Banana banana);
 
     /**
-     * TODO
+     *
      * @param ground
      */
-    void visit(Ground ground);
+    void visitGround(Ground ground);
 
     /**
-     * TODO
+     *
      * @param enemy
      */
-    void visit(Enemy enemy);
+    void visitEnemy(Enemy enemy);
 
     /**
-     * TODO
+     *
      * @param player
      */
-    void visit(Player player);
+    void visitPlayer(Player player);
 
     /**
      * A getter for CollisionBox. CollisionBox is the bounding box of an object, used to
@@ -61,7 +61,7 @@ public interface Visitor {
     CollisionBox getCollisionBox();
 
     /**
-     * TODO
+     *
      */
     boolean isColliding(List<Collidable> collidables, CollisionBox collisionBox);
 }

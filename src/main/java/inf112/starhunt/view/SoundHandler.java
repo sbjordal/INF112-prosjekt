@@ -13,7 +13,7 @@ import java.util.Map;
  * Class for handling sound effects, these are used when colliding or if player is losing a life.
  */
 public class SoundHandler {
-    private Map<String, Sound> sounds = new HashMap<>();
+    private final Map<String, Sound> sounds = new HashMap<>();
 
     /**
      * Default constructor, adds sounds by getting from the sfx directory.
@@ -29,17 +29,6 @@ public class SoundHandler {
     }
 
     /**
-     * Default method for adding a sound to the soundHandler map
-     * @param name
-     * @param filePath
-     */
-    public void addSound(String name, String filePath) {
-        FileHandle fileHandle = Gdx.files.internal(filePath);
-        Sound sound = Gdx.audio.newSound(fileHandle);
-        sounds.put(name, sound);
-    }
-
-    /**
      * Overloaded method for easier testing.
      * @param name
      * @param filePath
@@ -51,7 +40,6 @@ public class SoundHandler {
         Sound sound = audio.newSound(fileHandle);
         sounds.put(name, sound);
     }
-
 
     /**
      * Plays a sound based on sound name defined in {@link SoundHandler} constructor
@@ -73,5 +61,4 @@ public class SoundHandler {
     public Sound getSound(String name) {
         return sounds.get(name);
     }
-
 }
