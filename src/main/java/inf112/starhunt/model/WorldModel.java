@@ -129,8 +129,9 @@ public class WorldModel extends AbstractApplicationListener implements ViewableW
         if (gotNextLevel) {
             LevelManager.Level nextLevel = LevelManager.getNextLevel(currentLevel);
             currentLevel = nextLevel;
-            startLevel(nextLevel);
             levelCounter++;
+            startLevel(nextLevel);
+
         }
     }
 
