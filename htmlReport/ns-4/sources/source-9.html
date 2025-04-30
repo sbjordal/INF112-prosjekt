@@ -5,7 +5,7 @@
 <html id="htmlId">
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
-  <title>Coverage Report > Visitor</title>
+  <title>Coverage Report > Collidable</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -22,25 +22,16 @@ Current scope:     <a href="../../index.html">all classes</a>
     <a href="../index.html">inf112.starhunt.model.gameobject</a>
 </div>
 
-<h1>Coverage Summary for Class: Visitor (inf112.starhunt.model.gameobject)</h1>
+<h1>Coverage Summary for Class: Collidable (inf112.starhunt.model.gameobject)</h1>
 
 <table class="coverageStats">
-
 <tr>
   <th class="name">Class</th>
 </tr>
-  <tr>
-    <td class="name">Visitor$MockitoMock$mz9Z8ZE5</td>
-  </tr>
-  <tr>
-    <td class="name">Visitor$MockitoMock$mz9Z8ZE5$auxiliary$27TpM4zK</td>
-  </tr>
-  <tr>
-    <td class="name">Visitor$MockitoMock$mz9Z8ZE5$auxiliary$KkiHiuJe</td>
-  </tr>
 <tr>
-  <td class="name"><strong>Total</strong></td>
+  <td class="name">Collidable</td>
 </tr>
+
 </table>
 
 <br/>
@@ -50,58 +41,15 @@ Current scope:     <a href="../../index.html">all classes</a>
 <pre>
 <code class="sourceCode" id="sourceCode">&nbsp;package inf112.starhunt.model.gameobject;
 &nbsp;
-&nbsp;import inf112.starhunt.model.gameobject.fixedobject.Ground;
-&nbsp;import inf112.starhunt.model.gameobject.fixedobject.item.Banana;
-&nbsp;import inf112.starhunt.model.gameobject.fixedobject.item.Coin;
-&nbsp;import inf112.starhunt.model.gameobject.fixedobject.item.Star;
-&nbsp;import inf112.starhunt.model.gameobject.mobileobject.MobileObject;
-&nbsp;import inf112.starhunt.model.gameobject.mobileobject.actor.Player;
-&nbsp;import inf112.starhunt.model.gameobject.mobileobject.actor.enemy.Enemy;
-&nbsp;
-&nbsp;import java.util.List;
-&nbsp;
 &nbsp;/**
-&nbsp; * An interface to be used for objects that is {@link MobileObject}
-&nbsp; * and that can collide with other {@link Collidable} {@link GameObject}s.
-&nbsp; *
+&nbsp; * All classes that are Collidable is able to collide into.
 &nbsp; */
-&nbsp;public interface Visitor {
-&nbsp;
+&nbsp;public interface Collidable extends ViewableObject {
 &nbsp;    /**
-&nbsp;     * TODO
-&nbsp;     * @param coin
+&nbsp;     *
+&nbsp;     * @param visitor
 &nbsp;     */
-&nbsp;    void visit(Coin coin);
-&nbsp;
-&nbsp;    /**
-&nbsp;     * TODO
-&nbsp;     * @param star
-&nbsp;     */
-&nbsp;    void visit(Star star);
-&nbsp;
-&nbsp;    /**
-&nbsp;     * TODO
-&nbsp;     * @param banana
-&nbsp;     */
-&nbsp;    void visit(Banana banana);
-&nbsp;
-&nbsp;    /**
-&nbsp;     * TODO
-&nbsp;     * @param ground
-&nbsp;     */
-&nbsp;    void visit(Ground ground);
-&nbsp;
-&nbsp;    /**
-&nbsp;     * TODO
-&nbsp;     * @param enemy
-&nbsp;     */
-&nbsp;    void visit(Enemy enemy);
-&nbsp;
-&nbsp;    /**
-&nbsp;     * TODO
-&nbsp;     * @param player
-&nbsp;     */
-&nbsp;    void visit(Player player);
+&nbsp;    void accept(Visitor visitor);
 &nbsp;
 &nbsp;    /**
 &nbsp;     * A getter for CollisionBox. CollisionBox is the bounding box of an object, used to
@@ -109,11 +57,6 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * @return the collisionBox of the GameObject
 &nbsp;     */
 &nbsp;    CollisionBox getCollisionBox();
-&nbsp;
-&nbsp;    /**
-&nbsp;     * TODO
-&nbsp;     */
-&nbsp;    boolean isColliding(List&lt;Collidable&gt; collidables, CollisionBox collisionBox);
 &nbsp;}
 </code>
 </pre>
@@ -138,7 +81,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2025-04-27 23:09</div>
+    <div style="float:right;">generated on 2025-04-30 10:42</div>
 </div>
 </body>
 </html>
