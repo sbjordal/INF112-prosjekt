@@ -11,7 +11,6 @@ import inf112.starhunt.model.gameobject.CollisionBox;
 import inf112.starhunt.model.gameobject.Transform;
 import inf112.starhunt.model.gameobject.Visitor;
 import inf112.starhunt.model.gameobject.fixedobject.item.Coin;
-import inf112.starhunt.model.gameobject.mobileobject.MobileObject;
 import inf112.starhunt.model.gameobject.mobileobject.actor.Player;
 import inf112.starhunt.model.gameobject.mobileobject.actor.enemy.Enemy;
 import inf112.starhunt.model.gameobject.mobileobject.MobileObjectFactory;
