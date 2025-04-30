@@ -33,6 +33,18 @@ public interface ViewableObject {
 
     /**
      *
+     * @param callback
+     */
+    void setOnCollisionWithEnemyDealDamage(Runnable callback);
+
+    /**
+     *
+     * @param callback
+     */
+    void setOnBananaCollected(Runnable callback);
+
+    /**
+     *
      */
     int getDirection();
 }

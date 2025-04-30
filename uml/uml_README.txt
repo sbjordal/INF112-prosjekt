@@ -5,6 +5,7 @@ Metadata
 
 
 Files
-- diagram.plantuml 	= regularly generated source code and updated manually via IntelliJ.
-- layout.plantuml 	= manually defined custom layout options.
-- uml_img.png 		= manually exported result as an image.
+- diagram.plantuml 	        = regularly generated source code and updated manually via IntelliJ.
+- layout.plantuml 	        = manually defined custom layout options.
+- simple_uml_diagram.png 	= manually exported simplified diagram as an image.
+- full_uml_diagram.png      = manually exported full diagram as an image.

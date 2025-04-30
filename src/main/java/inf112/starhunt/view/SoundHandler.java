@@ -26,6 +26,8 @@ public class SoundHandler {
     public SoundHandler(Files files, Audio audio) {
         addSound("coin", "sfx/coinrecieved.mp3", files, audio);
         addSound("ouch", "sfx/characterouch.mp3", files, audio);
+        addSound("bounce", "sfx/bounce.mp3", files, audio);
+        addSound("powerup", "sfx/powerup.mp3", files, audio);
     }
 
     /**
