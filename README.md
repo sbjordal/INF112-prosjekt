@@ -1,21 +1,21 @@
 <img align="right" width=200 src=".\src\main\resources\assets\gameicon.png">
 
-# INF112 Project – *Star Hunt*
+# INF112 Project – **Star Hunt**
 
 ## Team:
 * Gruppe 6 - *"Sjette_Etasje"*
 
 ### Medlemmer og roller:
-* Endre H. Aspøy: Teamleder, utvikler
-* Thale Marie Bjerkreim: Dokumentasjonsansvarlig, utvikler
-* Aurora Bjørnerud: Kundekontakt, ansvar for user Interface, utvikler
-* Stine Bjordal: Testansvarlig, utvikler
-* Julie Sandanger: Designansvarlig, utvikler
-* Eivind H. Naasen: Arkitekt, utvikler
+* **E** * Endre H. Aspøy: Teamleder, utvikler
+* **T** * Thale Marie Bjerkreim: Dokumentasjonsansvarlig, utvikler
+* **A** * Aurora Bjørnerud: Kundekontakt, ansvar for user Interface, utvikler
+* **S** * Stine Bjordal: Testansvarlig, utvikler
+* **J** * Julie Sandanger: Designansvarlig, utvikler
+* **E** * Eivind H. Naasen: Arkitekt, utvikler
 
 ### Lenker:
-* Lenke til GitLab: https://git.app.uib.no/inf112/25v/proj/sjette-etasje
-* Lenke til Jira (krever invitert tilgang): https://endre-aspoy.atlassian.net/jira/core/projects/IS/board
+* [GitLab](https://git.app.uib.no/inf112/25v/proj/sjette-etasje)
+* [Jira](https://endre-aspoy.atlassian.net/jira/core/projects/IS/board) (krever invitert tilgang)
 
 
 ## Om spillet 
@@ -45,12 +45,12 @@
   Har forsøkt å gjenskape bugen med tester og brukertesting uten hell.
 - Hvis du holder inne "piltast opp" for hopp mens du pauser, vil player hoppe konstant selv om du har sluppet knappen.
 
-## Credits 
+### Credits 
 
-### Konsept
+#### Konsept
 - Super Mario Bros (1984) for inspirasjon.
 
-### Grafikk
+#### Grafikk
 - Bakgrunn 
   * [Jessie M.] (https://jesse-m.itch.io/jungle-pack)
 - Hindringer/bakke 
@@ -63,11 +63,10 @@
   * [Noto emoji by Google] (https://emoji.aranja.com/)
   - Under Apache License 2.0
 
-### Lyder
+#### Lyder
 
-- Coin / scoreUp
-  - https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=230517
-  - https://pixabay.com/sound-effects/coin-recieved-230517/
-- Ouch / damage taken
-  - Sound Effect by <a href="https://pixabay.com/users/kodasworldproductions-27998106/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=163912">Nykoda Caston</a> from <a href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=163912">Pixabay</a>
-  - https://pixabay.com/sound-effects/characterouch2-163912/
+- [Coin recieved / scoreUp](https://pixabay.com/sound-effects/coin-recieved-230517/)
+  - Fra [Pixabay](https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=230517) (Royalty-free)
+- [Damage taken / ouch-sound](https://pixabay.com/sound-effects/characterouch2-163912/)
+  - Lydeffekt av [Nykoda Caston](https://pixabay.com/users/kodasworldproductions-27998106/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=163912)
+  - Fra [Pixabay](https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=163912)  (Royalty-free)

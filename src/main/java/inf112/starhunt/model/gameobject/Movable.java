@@ -53,6 +53,5 @@ public interface Movable {
      */
     void move(Vector2 newPos);
 
-    // TODO: comment
     void resolveMovement(float deltaX, float deltaY, PositionValidator validator);
 }

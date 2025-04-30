@@ -5,7 +5,7 @@ package inf112.starhunt.model.gameobject;
  */
 public interface Collidable extends ViewableObject {
     /**
-     * TODO
+     *
      * @param visitor
      */
     void accept(Visitor visitor);

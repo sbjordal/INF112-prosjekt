@@ -18,37 +18,37 @@ import java.util.List;
 public interface Visitor {
 
     /**
-     * TODO
+     *
      * @param coin
      */
     void visitCoin(Coin coin);
 
     /**
-     * TODO
+     *
      * @param star
      */
     void visitStar(Star star);
 
     /**
-     * TODO
+     *
      * @param banana
      */
     void visitBanana(Banana banana);
 
     /**
-     * TODO
+     *
      * @param ground
      */
     void visitGround(Ground ground);
 
     /**
-     * TODO
+     *
      * @param enemy
      */
     void visitEnemy(Enemy enemy);
 
     /**
-     * TODO
+     *
      * @param player
      */
     void visitPlayer(Player player);
@@ -61,7 +61,7 @@ public interface Visitor {
     CollisionBox getCollisionBox();
 
     /**
-     * TODO
+     *
      */
     boolean isColliding(List<Collidable> collidables, CollisionBox collisionBox);
 }
