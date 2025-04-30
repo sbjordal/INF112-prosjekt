@@ -31,7 +31,7 @@ public class SoundHandler {
         addSound("bounce", "sfx/bounce.wav", files, audio);
         addSound("powerup", "sfx/powerup.wav", files, audio);
         addSound("gameover", "sfx/gameover.wav", files, audio);
-        addSound("newlevel", "sfx/newlevel.mp3", files, audio);
+        addSound("newlevel", "sfx/newlevel.wav", files, audio);
         addMusic("menu", "sfx/menu_music.wav", files, audio);
         addMusic("active", "sfx/active_game.wav", files, audio);
     }
