@@ -71,15 +71,15 @@ public class WorldModel extends AbstractApplicationListener implements ViewableW
 
     private void setupGameObjects() {
         Triple<List<Enemy>, List<Collidable>, Player> triple = LevelManager.loadLevel(currentLevel);
-        enemies = triple.first;
-        collidables = triple.second;
+        enemies = triple.getFirst();
+        collidables = triple.getSecond();
 
         if (levelCounter == 1) {
-            player = triple.third;
+            player = triple.getThird();
             player.setRespawned(true);
         } else {
-            player.resetForNewLevel(triple.third.getTransform().getPos());
-            collidables.remove(triple.third);
+            player.resetForNewLevel(triple.getThird().getTransform().getPos());
+            collidables.remove(triple.getThird());
             collidables.add(player);
         }
     }
