@@ -55,7 +55,7 @@ public class WorldModelTest {
 
         transform = new Transform(new Vector2(0, 0), new Vector2(50, 100));
         worldModel.player = new Player(3, 5, transform);
-        worldModel.collidables = new ArrayList<>();
+        worldModel.setCollidables(new ArrayList<>());
         this.enemies = new ArrayList<>();
 
 
@@ -76,31 +76,31 @@ public class WorldModelTest {
 
     @Test
     public void testSetMovement_rightDirection() {
-        assertFalse(worldModel.isMovingRight);
+        assertFalse(worldModel.getIsMovingRight());
         worldModel.setMovingRight(true);
-        assertTrue(worldModel.isMovingRight);
+        assertTrue(worldModel.getIsMovingRight());
 
         worldModel.setMovingRight(false);
-        assertFalse(worldModel.isMovingRight);
+        assertFalse(worldModel.getIsMovingRight());
     }
 
     @Test
     public void testSetMovement_leftDirection() {
-        assertFalse(worldModel.isMovingLeft);
+        assertFalse(worldModel.getIsMovingLeft());
         worldModel.setMovingLeft(true);
-        assertTrue(worldModel.isMovingLeft);
+        assertTrue(worldModel.getIsMovingLeft());
 
         worldModel.setMovingLeft(false);
-        assertFalse(worldModel.isMovingLeft);
+        assertFalse(worldModel.getIsMovingLeft());
     }
 
     @Test void testIsJumping(){
-        assertFalse(worldModel.isJumping);
+        assertFalse(worldModel.getIsJumping());
         worldModel.setJumping(true);
-        assertTrue(worldModel.isJumping);
+        assertTrue(worldModel.getIsJumping());
 
         worldModel.setJumping(false);
-        assertFalse(worldModel.isJumping);
+        assertFalse(worldModel.getIsJumping());
     }
 
     @Test
@@ -133,19 +133,19 @@ public class WorldModelTest {
 
     @Test
     void testShouldUpdateCountDownReturnsTrueWhenValid() {
-        worldModel.countDown = 10;
-        worldModel.lastScoreUpdate = System.currentTimeMillis() - 1500;
+        worldModel.setCountDown(10);
+        worldModel.setLastScoreUpdate(System.currentTimeMillis() - 1500);
         worldModel.resume();
         assertTrue(worldModel.shouldUpdateCountDown());
     }
 
     @Test
     void testScoreUpdate(){
-        worldModel.countDown = 10;
+        worldModel.setCountDown(10);
         worldModel.updateScore(true);
-        assertTrue(worldModel.countDown == 9);
+        assertTrue(worldModel.getCountDown() == 9);
         worldModel.updateScore(false);
-        assertTrue(worldModel.countDown == 9);
+        assertTrue(worldModel.getCountDown() == 9);
     }
 
     @Test

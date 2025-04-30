@@ -10,7 +10,7 @@ import inf112.starhunt.model.gameobject.mobileobject.MobileObject;
 public abstract class Actor extends MobileObject {
     protected int damage;
     private boolean isAlive;
-    private int lives;
+    protected int lives;
 
     /**
      * Creates a new Actor with the specified lives, movement speed, transform and texture.

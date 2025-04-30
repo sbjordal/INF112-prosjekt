@@ -135,8 +135,8 @@ public class WorldViewTest {
 
         Transform transform = new Transform(new Vector2(), new Vector2());
         List<ViewableObject> objects = List.of(
-                new Leopard(1, 0, 0, 1, new Transform(new Vector2(), new Vector2())),
-                new Snail(1, 0, 0, 1, new Transform(new Vector2(), new Vector2())),
+                new Leopard(new Vector2()),
+                new Snail(new Vector2()),
                 new Coin(transform),
                 new Banana(transform),
                 new Ground(transform),

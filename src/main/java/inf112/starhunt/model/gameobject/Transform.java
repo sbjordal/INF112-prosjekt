@@ -8,8 +8,8 @@ import com.badlogic.gdx.math.Vector2;
  * The size is represented by a {@link Vector2} object.
  */
 public class Transform{
-    Vector2 position;
-    Vector2 size;
+    private Vector2 position;
+    private Vector2 size;
 
     /**
      * Creates a new Transform object with the specified position and size.
