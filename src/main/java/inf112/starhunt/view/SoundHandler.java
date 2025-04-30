@@ -24,10 +24,10 @@ public class SoundHandler {
 
     // Dependency-injected constructor for easier testing
     public SoundHandler(Files files, Audio audio) {
-        addSound("coin", "sfx/coinrecieved.mp3", files, audio);
-        addSound("ouch", "sfx/characterouch.mp3", files, audio);
-        addSound("bounce", "sfx/bounce.mp3", files, audio);
-        addSound("powerup", "sfx/powerup.mp3", files, audio);
+        addSound("coin", "sfx/coinrecieved.wav", files, audio);
+        addSound("ouch", "sfx/characterouch.wav", files, audio);
+        addSound("bounce", "sfx/bounce.wav", files, audio);
+        addSound("powerup", "sfx/powerup.wav", files, audio);
     }
 
     /**
