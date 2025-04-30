@@ -106,7 +106,23 @@ public class WorldView extends AbstractScreen implements EventListener {
     @Override
     public void render(float v) {
         currentGameState = model.getGameState();
+        handleGameStateSounds();
 
+        switch (currentGameState) {
+            case GAME_MENU -> drawGameMenu();
+            case GAME_ACTIVE -> drawGameActive();
+            case GAME_PAUSED -> drawGamePaused();
+            case GAME_OVER -> drawGameOver();
+        }
+
+        if (!model.getInfoMode() && (currentGameState == GameState.GAME_MENU || currentGameState == GameState.GAME_PAUSED)) {
+            drawCenteredText("Press 'i' for game info",2, 300);
+        } else if (model.getInfoMode() && (currentGameState == GameState.GAME_MENU || currentGameState == GameState.GAME_PAUSED)) {
+            drawGameInfo();
+        }
+    }
+
+    private void handleGameStateSounds() {
         if(currentGameState != previousGameState){
             switch (currentGameState) {
                 case GAME_MENU -> {
@@ -145,19 +161,6 @@ public class WorldView extends AbstractScreen implements EventListener {
                 }
             }
             previousGameState = currentGameState;
-        }
-
-        switch (currentGameState) {
-            case GAME_MENU -> drawGameMenu();
-            case GAME_ACTIVE -> drawGameActive();
-            case GAME_PAUSED -> drawGamePaused();
-            case GAME_OVER -> drawGameOver();
-        }
-
-        if (!model.getInfoMode() && (currentGameState == GameState.GAME_MENU || currentGameState == GameState.GAME_PAUSED)) {
-            drawCenteredText("Press 'i' for game info",2, 300);
-        } else if (model.getInfoMode() && (currentGameState == GameState.GAME_MENU || currentGameState == GameState.GAME_PAUSED)) {
-            drawGameInfo();
         }
     }
 
