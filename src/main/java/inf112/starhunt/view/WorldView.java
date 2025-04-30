@@ -131,15 +131,15 @@ public class WorldView extends AbstractScreen implements EventListener {
                         activeGameMusic.setLooping(false);
                         activeGameMusic.stop();
                     }
-                    if (menuMusic != null && !menuMusic.isPlaying()) {
-                        soundHandler.playMusic(menuMusic);
-                    }
+//                    if (menuMusic != null && !menuMusic.isPlaying()) {
+//                        soundHandler.playMusic(menuMusic);
+//                    }
                 }
                 case GAME_ACTIVE -> {
-                    if(menuMusic != null && menuMusic.isPlaying()){
-                        menuMusic.setLooping(false);
-                        menuMusic.stop();
-                    }
+//                    if(menuMusic != null && menuMusic.isPlaying()){
+//                        menuMusic.setLooping(false);
+//                        menuMusic.stop();
+//                    }
                     if (activeGameMusic != null && !activeGameMusic.isPlaying()) {
                         soundHandler.playMusic(activeGameMusic);
                     }
