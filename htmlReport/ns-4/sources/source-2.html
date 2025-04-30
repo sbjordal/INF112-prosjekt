@@ -78,14 +78,15 @@ Current scope:     <a href="../../index.html">all classes</a>
 <code class="sourceCode" id="sourceCode">&nbsp;package inf112.starhunt.model.gameobject;
 &nbsp;import com.badlogic.gdx.math.Vector2;
 &nbsp;
+&nbsp;import java.io.InvalidClassException;
+&nbsp;
 &nbsp;/**
 &nbsp; * Represents every object that is visualized on the screen.
 &nbsp; * To visualize the object a {@link Transform} is required.
 &nbsp; */
 &nbsp;public class GameObject implements ViewableObject {
-&nbsp;    private Transform transform;
+&nbsp;    private final Transform transform;
 &nbsp;    private CollisionBox collisionBox;
-&nbsp;//    private Rectangle rectangle;
 &nbsp;
 &nbsp;    /**
 &nbsp;     * Creates a new GameObject with the specified transform and texture.
@@ -108,13 +109,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    }
 &nbsp;
 &nbsp;    @Override
-&nbsp;    public void setOnCoinCollected(Runnable callback) {
-<b class="nc">&nbsp;    }</b>
+<b class="nc">&nbsp;    public void setOnCoinCollected(Runnable callback) {}</b>
 &nbsp;
 &nbsp;    @Override
-&nbsp;    public void setOnCollisionWithEnemy(Runnable callback) {
-&nbsp;
-<b class="nc">&nbsp;    }</b>
+<b class="nc">&nbsp;    public void setOnCollisionWithEnemy(Runnable callback) {}</b>
 &nbsp;
 &nbsp;    @Override
 &nbsp;    public int getDirection() {
@@ -128,7 +126,6 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    public void setSize(Vector2 size) {
 <b class="fc">&nbsp;        transform.size = size;</b>
 &nbsp;    }
-&nbsp;
 &nbsp;}
 </code>
 </pre>
@@ -153,7 +150,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2025-04-27 23:09</div>
+    <div style="float:right;">generated on 2025-04-30 10:42</div>
 </div>
 </body>
 </html>

@@ -37,9 +37,9 @@ import static org.junit.jupiter.api.Assertions.*;
         @Test
         void testAllValuesCorrect() {
             assertAll(
-                    () -> assertEquals("Test", triple.first),
-                    () -> assertEquals(42, triple.second),
-                    () -> assertEquals(true, triple.third)
+                    () -> assertEquals("Test", triple.getFirst()),
+                    () -> assertEquals(42, triple.getSecond()),
+                    () -> assertEquals(true, triple.getThird())
             );
         }
     }

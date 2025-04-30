@@ -82,7 +82,6 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;import inf112.starhunt.model.gameobject.Visitor;
 &nbsp;
 &nbsp;
-&nbsp;//TODO, javadoc
 &nbsp;public class Ground extends FixedObject implements Collidable {
 &nbsp;    public Ground(Transform transform) {
 <b class="fc">&nbsp;        super(transform);</b>
@@ -90,7 +89,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;    @Override
 &nbsp;    public void accept(Visitor visitor) {
-<b class="fc">&nbsp;        visitor.visit(this);</b>
+<b class="fc">&nbsp;        visitor.visitGround(this);</b>
 &nbsp;    }
 &nbsp;}
 </code>
@@ -116,7 +115,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2025-04-27 23:09</div>
+    <div style="float:right;">generated on 2025-04-30 10:42</div>
 </div>
 </body>
 </html>

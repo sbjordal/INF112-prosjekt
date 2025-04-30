@@ -5,8 +5,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class ParallaxBackground {
-    Texture[] layers;
-    float[] layerX;
+    private Texture[] layers;
+    private float[] layerX;
     private float screenWidth;
     private float screenHeight;
     private final float[] scrollSpeeds;
@@ -20,7 +20,7 @@ public class ParallaxBackground {
         loadTextures();
     }
 
-    public void loadTextures(){
+    void loadTextures(){
        for (int i = 0; i < 5; i++) {
            String file = "background/plx-" + (i + 1) + ".png";
            layers[i] = new Texture(Gdx.files.internal(file));
@@ -29,7 +29,7 @@ public class ParallaxBackground {
         screenHeight = Gdx.graphics.getHeight();
     }
 
-    public void update(int movementDirection, float deltaTime, boolean isPaused) {
+    void update(int movementDirection, float deltaTime, boolean isPaused) {
         if (!isPaused) {
             for (int i = 0; i < layers.length; i++) {
                 layerX[i] -= movementDirection * scrollSpeeds[i] * deltaTime;
@@ -43,7 +43,7 @@ public class ParallaxBackground {
         }
     }
 
-    public void render(SpriteBatch batch) {
+    void render(SpriteBatch batch) {
         float parallaxSpacing = 3.0f;
         for (int i = 0; i < layers.length; i++) {
             float textureWidth = layers[i].getWidth();
@@ -54,10 +54,22 @@ public class ParallaxBackground {
         }
     }
 
-    public void dispose() {
+    void dispose() {
         for (Texture texture : layers) {
             texture.dispose();
         }
+    }
+
+    float[] getLayerX() {
+        return layerX;
+    }
+
+    Texture[] getLayers() {
+        return layers;
+    }
+
+    void setLayers(Texture texture, int i) {
+        layers[i] = texture;
     }
 }
 

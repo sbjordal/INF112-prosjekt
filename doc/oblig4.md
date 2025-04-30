@@ -71,7 +71,9 @@
      besvarer oppgavekravene. Det har dessuten vært svært lærerikt for alle i  gruppen.
 
 4. **Hvordan er gruppedynamikken? Er det uenigheter som bør løses?**
-   - Gruppedynamikken har vært god hele veien. Vi har ikke opplevd uenigheter, og forsøker å ha åpen dialog i gruppen.
+   - Gruppedynamikken har vært god hele veien. Vi har ikke opplevd konflikter, og forsøker å ha åpen dialog i gruppen.
+   - Der vi har vært uenig om løsninger, har vi diskutert oss frem til en løsning eller hatt demokratisk avstemming
+     som har fungert veldig bra
    - For å beholde harmonien i gruppen har vi jobbet med å tydeliggjøre forventningene vi har til hverandre, forsøke 
      å motivere hverandre og beholde god stemning.
 
@@ -130,7 +132,7 @@
       sett for oss underveis. Pensum og forelesningene har lært oss mye om hvordan koden må bygges opp for å være SOLID og 
       testbar underveis i kurset, som har gjort at vi har måttet skrive om koden for å ta hensyn til dette.
     - Vi har også erfart at ting vi har drevet med har vært vanskelig, som å skrive tester for libgdx-elementer. Det har 
-      vært frustrerende å stå fast og innse at gruppelederne heller ikke har svar på hvordan vi skulle løse utfordringene.
+      vært utfordrende å stå fast og oppleve at gruppelederne heller ikke har svar på hvordan vi skulle løse utfordringene.
       Det har vært mye mestring i å løse utfordringene som et team og oppnå et ferdig produkt vi er stolte av.
 
     **- Hva har vi gjort bra?**
@@ -139,14 +141,16 @@
         avgjørelser på vegne av gruppen der det har vært mulig og nødvendig. Der alle ikke har vært med i avgjørelsene, har vi
         skrevet kommentarer, TODO's, beskrivende commits og oppdatert om store endringer i Discord og/eller på møter.
       - Oppdatert UML-diagram underveis
+      - Vi har arbeidet jevnt og trutt, og unngått skippertak.
       - Skrevet mange tester, og jobbet med å dekke alle de forskjellige klassene, selv om vi fikk beskjed om at det ville 
         bli vanskelig å dekke Model og View spesielt. 
       - Vi har fulgt med på Test coverage både i Coverage og Pit underveis, for å se at ny kode også blir dekket.
 
-    **- Hva vi ville gjort annerledes om vi skulle startet på nytt:**
+    **- Hva ville vi gjort annerledes om vi skulle startet på nytt:**
       - Vi skulle ha lest oss mer opp på libgdx og spilldesign i Java før vi startet å programmere. Vi forsøkte å bruke litt
-        tid på dette i starten før vi satt igang, men å bruke enda mer tid på dette før vi satt igang ville spart oss mye tid
-        på refaktorering senere. Det har dog vært veldig lærerikt å måtte gjøre om på strukturen underveis.
+        tid på dette i starten, men å bruke enda mer tid på dette før vi satt igang ville spart oss mye tid på refaktorering 
+        senere. Vi hadde også kunnet benytte flere av de innebygde funksjonene i f eks libgdx i stedet for å bruke mye tid 
+        på å lage det selv (Eks: Kollisjonsdeteksjon). Det har dog vært veldig lærerikt å måtte gjøre om på strukturen underveis.
       - Vi burde ha prioritert å skrive flere tester tidligere i prosjektet. Vi avventet å teste flere av klassene til logikken
         var på plass for å slippe å måtte gjøre om på alt vi hadde skrevet i etterkant. Vi burde hatt noen enkle tester for 
         å se at logikken ble riktig mens vi prøvde oss frem på hvordan koden måtte være for å få korrekt funksjonalitet.

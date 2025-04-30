@@ -64,19 +64,19 @@ public class ParallaxBackgroundTest {
 
     @Test
     public void testUpdateMovesLayersWhenNotPaused() {
-        float[] originalX = background.layerX.clone();
+        float[] originalX = background.getLayerX().clone();
         background.update(1, 1.0f, false);
         for (int i = 0; i < 5; i++) {
-            assertNotEquals(originalX[i], background.layerX[i]);
+            assertNotEquals(originalX[i], background.getLayerX()[i]);
         }
     }
 
     @Test
     public void testUpdateDoesNotMoveLayersWhenPaused() {
-        float[] originalX = background.layerX.clone();
+        float[] originalX = background.getLayerX().clone();
         background.update(1, 1.0f, true);
         for (int i = 0; i < 5; i++) {
-            assertEquals(originalX[i], background.layerX[i]);
+            assertEquals(originalX[i], background.getLayerX()[i]);
         }
     }
 
@@ -84,7 +84,7 @@ public class ParallaxBackgroundTest {
     public void testDisposeDisposesTextures() {
         Texture mockTexture = mock(Texture.class);
         for (int i = 0; i < 5; i++) {
-            background.layers[i] = mockTexture;
+            background.setLayers(mockTexture, i);
         }
         background.dispose();
         verify(mockTexture, times(5)).dispose();
@@ -97,7 +97,7 @@ public class ParallaxBackgroundTest {
         when(mockTexture.getWidth()).thenReturn(100);
 
         for (int i = 0; i < 5; i++) {
-            background.layers[i] = mockTexture;
+            background.setLayers(mockTexture, i);
         }
         background.render(mockBatch);
         verify(mockBatch, atLeastOnce()).draw(any(Texture.class), anyFloat(), anyFloat(), anyFloat(), anyFloat());

@@ -4,7 +4,6 @@ import com.badlogic.gdx.math.Vector2;
 import inf112.starhunt.model.PositionValidator;
 import inf112.starhunt.model.gameobject.*;
 import inf112.starhunt.model.gameobject.fixedobject.Ground;
-import inf112.starhunt.model.gameobject.mobileobject.actor.Player;
 
 import java.util.List;
 

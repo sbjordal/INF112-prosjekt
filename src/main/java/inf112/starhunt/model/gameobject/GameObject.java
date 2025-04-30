@@ -46,6 +46,6 @@ public class GameObject implements ViewableObject {
     }
 
     public void setSize(Vector2 size) {
-        transform.size = size;
+        transform.alterSize((int) size.x, (int) size.y);
     }
 }

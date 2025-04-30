@@ -14,7 +14,6 @@ import inf112.starhunt.model.gameobject.mobileobject.actor.Player;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 public class EnemyTest {
@@ -22,19 +21,19 @@ public class EnemyTest {
     @Test
     void testEnemyDeathSnail() {
         Enemy enemy = MobileObjectFactory.createSnail(0, 0);
-        assertTrue(enemy.isAlive());
+        assertTrue(enemy.getIsAlive());
         enemy.receiveDamage(1);
-        assertFalse( enemy.isAlive());
+        assertFalse( enemy.getIsAlive());
     }
 
     @Test
     void testEnemyDeathLeopard() {
         Enemy enemy = MobileObjectFactory.createLeopard(0, 0);
-        assertTrue(enemy.isAlive());
+        assertTrue(enemy.getIsAlive());
         enemy.receiveDamage(1);
-        assertTrue(enemy.isAlive());
+        assertTrue(enemy.getIsAlive());
         enemy.receiveDamage(1);
-        assertFalse(enemy.isAlive());
+        assertFalse(enemy.getIsAlive());
     }
 
     @Test
@@ -99,7 +98,7 @@ public class EnemyTest {
     }
 
     void testAttack(Enemy enemy, Player player) {
-        assertTrue(player.isAlive());
+        assertTrue(player.getIsAlive());
         assertEquals(3, player.getLives());
 
         enemy.attack(player);
@@ -124,12 +123,12 @@ public class EnemyTest {
         player.setHasPowerUp(true);
 
         assertTrue(player.getHasPowerUp());
-        assertTrue(player.isAlive());
+        assertTrue(player.getIsAlive());
         assertEquals(3, player.getLives());
 
         enemy.attack(player);
         assertFalse(player.getHasPowerUp());
-        assertTrue(player.isAlive());
+        assertTrue(player.getIsAlive());
         assertEquals(3, player.getLives());
 
     }

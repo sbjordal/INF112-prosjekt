@@ -7,17 +7,22 @@ import inf112.starhunt.model.gameobject.Transform;
  * Represents the Leopard enemy type.
  */
 public final class Leopard extends Enemy {
+    private final static int LIVES = 2;
+    private final static int MOVEMENT_SPEED = 140;
+    private final static int OBJECT_SCORE = 30;
+    private final static int DAMAGE = 1;
+    private final static float DIAMETER = 70;
+
+
     /**
      * Creates a new Enemy with the specified movement speed, object score, damage and transform.
      *
-     * @param movementSpeed The rate of which the Enemy moves horizontally.
-     * @param objectScore   The score points obtained by defeating the Enemy.
-     * @param damage        The amount of damage the Enemy will inflict.
-     * @param transform     The initial transform of the Enemy.
+     * @param position     The initial position of the Enemy.
      */
-    public Leopard(int lives, int movementSpeed, int objectScore, int damage, Transform transform) {
-        super(lives, movementSpeed, objectScore, damage, transform);
+    public Leopard(Vector2 position) {
+        super(LIVES, MOVEMENT_SPEED, OBJECT_SCORE, DAMAGE, new Transform(position, new Vector2(DIAMETER, DIAMETER)));
 
         setMovementDirection(-1);
     }
+
 }
