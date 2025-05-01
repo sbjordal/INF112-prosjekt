@@ -7,6 +7,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Vector2;
 import inf112.starhunt.model.GameState;
 import inf112.starhunt.model.gameobject.Transform;
@@ -65,6 +66,9 @@ public class WorldViewTest {
         when(mockTransform.getPos()).thenReturn(new com.badlogic.gdx.math.Vector2(100, 50));
         when(mockTransform.getSize()).thenReturn(new com.badlogic.gdx.math.Vector2(20, 40));
         when(mockFont.getData()).thenReturn(mockFontData);
+        Gdx.files = mock(Files.class);
+        FileHandle mockFileHandle = mock(FileHandle.class);
+        when(Gdx.files.internal("font/VT323-Regular.ttf")).thenReturn(mockFileHandle);
 
         worldView = new WorldView(mockModel, 800, 600);
 
@@ -207,5 +211,29 @@ public class WorldViewTest {
     public void testDrawCenteredTextWorks() {
         worldView.drawCenteredText("Test Message", 2, 50);
         verify(mockFont).draw(any(), eq("Test Message"), anyFloat(), anyFloat());
+    }
+
+    @Test
+    public void testDisposeCallsAllDisposeMethods() {
+        Texture texture1 = mock(Texture.class);
+        Texture texture2 = mock(Texture.class);
+
+        HashMap<String, Texture> textures = new HashMap<>();
+        textures.put("ground", texture1);
+        textures.put("coin", texture2);
+
+        worldView.setTextures(textures);
+        worldView.setBatch(mockBatch);
+        worldView.setFont(mockFont);
+        worldView.setParallaxBackground(mockBackground);
+        worldView.setPlayerAnimation(mockPlayerAnimation);
+        worldView.dispose();
+
+        verify(mockBatch).dispose();
+        verify(mockFont).dispose();
+        verify(mockBackground).dispose();
+        verify(mockPlayerAnimation).dispose();
+        verify(texture1).dispose();
+        verify(texture2).dispose();
     }
 }
