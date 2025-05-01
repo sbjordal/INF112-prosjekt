@@ -48,6 +48,11 @@ public abstract class Enemy extends Actor implements Scorable, Visitor, Collidab
         move(distance, 0);
     }
 
+    /**
+     * Makes the player take damage.
+     *
+     * @param player
+     */
     protected void attack(Player player) {
         player.takeDamage(getDamage());
     }

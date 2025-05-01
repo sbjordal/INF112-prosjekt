@@ -30,6 +30,10 @@ public abstract class Actor extends MobileObject {
         this.lives = lives;
     }
 
+    /**
+     * Returns true if the Actor is alive, false otherwise.
+     * @return boolean
+     */
     public boolean getIsAlive() {
         return isAlive;
     }
@@ -99,10 +103,16 @@ public abstract class Actor extends MobileObject {
      * @see #receiveDamage(int)
      */
     private void die() {
-        lives = 0;
+        setLives(0);
         isAlive = false;
     }
 
+    /**
+     * Sets the Actor's lives to given amount.
+     * @Throws Illegal ArgumentException if the amount of lives is negative.
+     *
+     * @param lives
+     */
     protected void setLives(int lives){
         if (lives < 0){ throw new IllegalArgumentException("Lives can not be negative");}
         this.lives = lives;

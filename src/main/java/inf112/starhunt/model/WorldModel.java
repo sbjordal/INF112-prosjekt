@@ -19,7 +19,6 @@ public class WorldModel extends AbstractApplicationListener implements ViewableW
     public static final int LEVEL_WIDTH = 4500;
 
     ModelablePlayer player;
-
     private int countDown;
     private long lastScoreUpdate;
     private boolean isMovingRight;
@@ -56,7 +55,7 @@ public class WorldModel extends AbstractApplicationListener implements ViewableW
      */
     public void setUpModel() {
         viewportLeftX = 0;
-        countDown = 150;
+        countDown = 45;
         isMovingRight = false;
         isMovingLeft = false;
         isJumping = false;
