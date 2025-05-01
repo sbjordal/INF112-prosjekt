@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="90" height="19" tilewidth="50" tileheight="50" infinite="0" nextlayerid="9" nextobjectid="364">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="90" height="19" tilewidth="50" tileheight="50" infinite="0" nextlayerid="25" nextobjectid="380">
  <editorsettings>
   <export target="../level_three.json" format="json"/>
  </editorsettings>
@@ -286,5 +286,53 @@
   <object id="358" x="4450" y="850" width="50" height="50"/>
   <object id="359" x="3050" y="600" width="50" height="50"/>
   <object id="360" x="3050" y="650" width="50" height="50"/>
+ </objectgroup>
+ <objectgroup color="#df8600" id="9" name="ground_1111">
+  <object id="364" x="100" y="150" width="50" height="50"/>
+ </objectgroup>
+ <objectgroup color="#df8600" id="10" name="ground_1110">
+  <object id="365" x="100" y="150" width="50" height="50"/>
+ </objectgroup>
+ <objectgroup color="#df8600" id="11" name="ground_1101">
+  <object id="366" x="100" y="150" width="50" height="50"/>
+ </objectgroup>
+ <objectgroup color="#df8600" id="12" name="ground_1100">
+  <object id="367" x="100" y="150" width="50" height="50"/>
+ </objectgroup>
+ <objectgroup color="#df8600" id="13" name="ground_1011">
+  <object id="368" x="100" y="150" width="50" height="50"/>
+ </objectgroup>
+ <objectgroup color="#df8600" id="14" name="ground_1010">
+  <object id="369" x="100" y="150" width="50" height="50"/>
+ </objectgroup>
+ <objectgroup color="#df8600" id="15" name="ground_1001">
+  <object id="370" x="100" y="150" width="50" height="50"/>
+ </objectgroup>
+ <objectgroup color="#df8600" id="16" name="ground_1000">
+  <object id="371" x="100" y="150" width="50" height="50"/>
+ </objectgroup>
+ <objectgroup color="#df8600" id="17" name="ground_0111">
+  <object id="372" x="100" y="150" width="50" height="50"/>
+ </objectgroup>
+ <objectgroup color="#df8600" id="18" name="ground_0110">
+  <object id="373" x="100" y="150" width="50" height="50"/>
+ </objectgroup>
+ <objectgroup color="#df8600" id="19" name="ground_0101">
+  <object id="374" x="100" y="150" width="50" height="50"/>
+ </objectgroup>
+ <objectgroup color="#df8600" id="20" name="ground_0100">
+  <object id="375" x="100" y="150" width="50" height="50"/>
+ </objectgroup>
+ <objectgroup color="#df8600" id="21" name="ground_0011">
+  <object id="376" x="100" y="150" width="50" height="50"/>
+ </objectgroup>
+ <objectgroup color="#df8600" id="22" name="ground_0010">
+  <object id="377" x="100" y="150" width="50" height="50"/>
+ </objectgroup>
+ <objectgroup color="#df8600" id="23" name="ground_0001">
+  <object id="378" x="100" y="150" width="50" height="50"/>
+ </objectgroup>
+ <objectgroup color="#df8600" id="24" name="ground_0000">
+  <object id="379" x="100" y="150" width="50" height="50"/>
  </objectgroup>
 </map>

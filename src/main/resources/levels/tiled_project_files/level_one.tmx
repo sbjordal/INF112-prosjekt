@@ -47,7 +47,6 @@
    <ellipse/>
   </object>
  </objectgroup>
- <objectgroup color="#915c06" id="2" name="ground"/>
  <objectgroup color="#df8600" id="9" name="ground_1111">
   <object id="425" x="28.7879" y="1037.88" width="50" height="50"/>
  </objectgroup>
