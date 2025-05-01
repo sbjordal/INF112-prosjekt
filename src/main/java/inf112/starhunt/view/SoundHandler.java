@@ -84,7 +84,6 @@ public class SoundHandler {
         music.setVolume(0.20f);
         music.setLooping(true);
         music.play();
-        music.stop();
     }
 
     public Sound getSound(String name) {
