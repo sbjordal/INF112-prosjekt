@@ -169,7 +169,6 @@ dobbelt sjekke at spillet kan kjøres på alle operativsystemer. Nå rett før o
 sjekke tilgangene til feltvariabler+ metoder osv.
 
 
-
 - **Oppsummert hva som er gjort siden sist:**
   - se produkt og kode punkt
 
@@ -177,7 +176,31 @@ sjekke tilgangene til feltvariabler+ metoder osv.
 2. **For hvert krav dere jobber med, må dere lage 1) ordentlige brukerhistorier, 2) akseptansekriterier og 3) arbeidsoppgaver.**
    Husk at akseptansekriterier ofte skrives mer eller mindre som tester
 
-  * Nye brukerhistorier: ...
+    1.  **Spillet har fått et navn**
+    * Brukerhistorie: Som spiller trenger jeg en måte for å vite hvilket spill jeg spiller.
+    * Akseptansekriterier: Alle steder hvor spillets navn oppstår er skiftet ut med det nye navnet.
+    * Arbeidsoppgaver: Bli enig i felleskap om hvilket navn spillet skal ha.
+
+    2.  **Den overordnede objekt-fabrikken består av flere fabrikker, og fabrikkene er gjort abstrakte**
+    * Brukerhistorie: Som utvikler ønsker jeg å kunne enkelt legge til nye objekter i fabrikken uten å måtte endre koden andre plasser (_Open-closed Principle_ og _Single Responsibility Principle_). 
+    * Akseptansekriterier: En abstrakt fabrikk bruker flere fabrikker til å opprette objekter. Nye typer kan legges til uten å måtte endre koden i _LevelManager_ klassen. _LevelManager_ er lukket for modifikasjoner samt åpen for utvidelser.
+    * Arbeidsoppgaver: Lag et hierarki av abstrakte fabrikker. Implementer den overordnede objekt-fabrikken til å bli brukt i _LevelManager_.
+	
+	3.  **Et visitor pattern for kollisjon mellom objekter er implementert**
+    * Brukerhistorie: Som utvikler trenger jeg å kunne modifisere kollisjons-logikk for spesifikke objekter uten å måtte endre koden andre plasser (_Open-closed Principle_ og _Single Responsibility Principle_).
+    * Akseptansekriterier: Kollisjons-logikk for hvert objekt defineres i selve objektet ved bruk av ulike _visit()_ metoder.
+    * Arbeidsoppgaver: Opprett et _Visitor_- og et _Collidable_ grensesnitt som håndterer _visit()_ og _accept()_ metoder respektivt.
+	
+	4.  **Laget hjelpe-klasser for å abstrahere vekk unødvendige metoder**
+    * Brukerhistorie: Som utvikler trenger jeg å kunne jobbe effektivt uten å bli forstyrret av unødvendige metoder _(Interface Segregation Principle)_.
+    * Akseptansekriterier: Ingen metoder er tomme og alle brukes minst en gang.
+    * Arbeidsoppgaver: Opprett en _AbstractScreen_- og en _AbstractApplicationListener_ klasse for å fjerne tomme metoder i _WorldView_ og _WorldModel_ respektivt.
+	
+	5.  **Avhengigheter i koden er basert på abstraksjoner og ikke konkretiseringer**
+    * Brukerhistorie: Som utvikler er det lurt å ivareta prosjektets innkaspling for å unngå å gjøre uforutsigbare endinger _(Dependency Inversion Principle)_.
+    * Akseptansekriterier: Typen til attributter består av grensesnitt og ikke klasser.
+    * Arbeidsoppgaver: Refaktorer attributten _WorldModel.player_ fra klassen _Player_ om til grensesnittet _ModelablePlayer_.
+     
 
 3. **Dersom dere har oppgaver som dere skal til å starte med, hvor dere har oversikt over både brukerhistorie, akseptansekriterier og arbeidsoppgaver, kan dere ta med disse i innleveringen også.**
 - Vi har oppnådd alle kravene våres for både MVP og post-MVP. Vi har derfor ingen planer om å legge til mer funksjonalitet som krever brukerhistorier.
@@ -195,15 +218,15 @@ sjekke tilgangene til feltvariabler+ metoder osv.
 
 
 7. **Husk å skrive hvilke bugs som finnes i de kravene dere har utført (dersom det finnes bugs).**
-- Vi har ikke bugs knyttet til de spesifike kravene vi har lagt til etter MVP. Generelle bugs er at bakgrunn beveger seg når player kolliderer med vegg, og at player kan hoppe forksjellig. Hoppingen 
-har vi tenkt er en feature istedenfor en bug. Det er jo til og med realistisk at man ikke hopper like høyt hver gang man hopper:)
+- Vi har ikke bugs knyttet til de spesifike kravene vi har lagt til etter MVP. En bug er at player noen ganger hopper forskjellige høyder. 
+Dette ser vi på som en feature istedenfor en bug. Det er mer realistisk at man ikke hopper like høyt hver gang man hopper.
 
 
 ## Produkt og kode
 #### "Dette har vi gjort siden sist:"
 * Siden sist har vi gjort en rekke endringer for å møte oppgave kravene, samt følge SOLID prinsipper.
-    - Vi har gitt spillet våres navnet "Star hunt", og endret i relevante filer og pakker.
-    - Vi har endret fabrikken vår til flere fabrikker, og gjort dem abstrakte. Disse oppretter nå samtlige objekter i spillet vårt.
+    - Vi har gitt spillet våres navnet "Star Hunt", og endret i relevante filer og pakker.
+    - Vi har endret fabrikken vår til å bestå av flere fabrikker, og gjort dem abstrakte. Disse oppretter nå samtlige objekter i spillet vårt.
     - Vi har implementert et visitor pattern for kollisjon mellom objekter, fremfor å gjøre omfattende instanceOf sjekker i modellen, og med dette gjort koden mer modulær.
     - Vi har flyttet lyder til view, og de spilles av ved bruk av event listener.
     - Vi har opprettet en utils klasse for å kunne gjenbruke kode.
@@ -218,6 +241,7 @@ har vi tenkt er en feature istedenfor en bug. Det er jo til og med realistisk at
     - Vi har laget to nye hjelpe-klasser, nemlig AbstractScreen og AbstractApplicationListener for å abstrahere vekk unødvendige metoder (Interface Segregation Principle).
     - Vi har refaktorert typen Player til ModelablePlayer i WorldModel for å beholde avhengigheter basert på abstraksjoner og ikke konkretiseringer (Dependency Inversion Principle).
     - Vi har oppdatert UML-diagrammet.
+
 
 * Bugs:
 
