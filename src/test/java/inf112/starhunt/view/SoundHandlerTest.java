@@ -3,6 +3,7 @@ package inf112.starhunt.view;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,26 +31,69 @@ public class SoundHandlerTest {
     }
 
     @Test
-    void testDependencyInjectedConstructor_AddsStandardSounds() {
-        // Mock dependencies
-        FileHandle mockCoinFileHandle = mock(FileHandle.class);
-        FileHandle mockOuchFileHandle = mock(FileHandle.class);
+    void testDependencyInjectedConstructor_AddsAllStandardSoundsAndMusic() {
+        // Mock FileHandles for sounds
+        FileHandle mockCoinFile = mock(FileHandle.class);
+        FileHandle mockOuchFile = mock(FileHandle.class);
+        FileHandle mockBounceFile = mock(FileHandle.class);
+        FileHandle mockPowerupFile = mock(FileHandle.class);
+        FileHandle mockGameoverFile = mock(FileHandle.class);
+        FileHandle mockNewlevelFile = mock(FileHandle.class);
+
+        // Mock FileHandles for music
+        FileHandle mockMenuMusicFile = mock(FileHandle.class);
+        FileHandle mockActiveMusicFile = mock(FileHandle.class);
+
+        // Mock Sounds
         Sound mockCoinSound = mock(Sound.class);
         Sound mockOuchSound = mock(Sound.class);
+        Sound mockBounceSound = mock(Sound.class);
+        Sound mockPowerupSound = mock(Sound.class);
+        Sound mockGameoverSound = mock(Sound.class);
+        Sound mockNewlevelSound = mock(Sound.class);
 
-        // Configure mock behavior
-        when(mockFiles.internal("sfx/coinrecieved.wav")).thenReturn(mockCoinFileHandle);
-        when(mockFiles.internal("sfx/characterouch.wav")).thenReturn(mockOuchFileHandle);
-        when(mockAudio.newSound(mockCoinFileHandle)).thenReturn(mockCoinSound);
-        when(mockAudio.newSound(mockOuchFileHandle)).thenReturn(mockOuchSound);
+        // Mock Music
+        Music mockMenuMusic = mock(Music.class);
+        Music mockActiveMusic = mock(Music.class);
 
-        // Initialize SoundHandler with mocks
+        // Configure sound behavior
+        when(mockFiles.internal("sfx/coinrecieved.wav")).thenReturn(mockCoinFile);
+        when(mockFiles.internal("sfx/characterouch.wav")).thenReturn(mockOuchFile);
+        when(mockFiles.internal("sfx/bounce.wav")).thenReturn(mockBounceFile);
+        when(mockFiles.internal("sfx/powerup.wav")).thenReturn(mockPowerupFile);
+        when(mockFiles.internal("sfx/gameover.wav")).thenReturn(mockGameoverFile);
+        when(mockFiles.internal("sfx/newlevel.wav")).thenReturn(mockNewlevelFile);
+
+        when(mockAudio.newSound(mockCoinFile)).thenReturn(mockCoinSound);
+        when(mockAudio.newSound(mockOuchFile)).thenReturn(mockOuchSound);
+        when(mockAudio.newSound(mockBounceFile)).thenReturn(mockBounceSound);
+        when(mockAudio.newSound(mockPowerupFile)).thenReturn(mockPowerupSound);
+        when(mockAudio.newSound(mockGameoverFile)).thenReturn(mockGameoverSound);
+        when(mockAudio.newSound(mockNewlevelFile)).thenReturn(mockNewlevelSound);
+
+        // Configure music behavior
+        when(mockFiles.internal("sfx/menu_music.wav")).thenReturn(mockMenuMusicFile);
+        when(mockFiles.internal("sfx/activeGame_music.wav")).thenReturn(mockActiveMusicFile);
+
+        when(mockAudio.newMusic(mockMenuMusicFile)).thenReturn(mockMenuMusic);
+        when(mockAudio.newMusic(mockActiveMusicFile)).thenReturn(mockActiveMusic);
+
+        // Initialize SoundHandler
         SoundHandler handler = new SoundHandler(mockFiles, mockAudio);
 
-        // Verify that the sounds were added correctly
+        // Verify all sounds are added
         assertEquals(mockCoinSound, handler.getSound("coin"));
         assertEquals(mockOuchSound, handler.getSound("ouch"));
+        assertEquals(mockBounceSound, handler.getSound("bounce"));
+        assertEquals(mockPowerupSound, handler.getSound("powerup"));
+        assertEquals(mockGameoverSound, handler.getSound("gameover"));
+        assertEquals(mockNewlevelSound, handler.getSound("newlevel"));
+
+        // Verify all music is added
+        assertEquals(mockMenuMusic, handler.getMusic("menu"));
+        assertEquals(mockActiveMusic, handler.getMusic("active"));
     }
+
 
 
     @Test
@@ -108,5 +152,32 @@ public class SoundHandlerTest {
         // Reset System.err
         System.setErr(System.err);
     }
+
+    @Test
+    void testAddAndGetMusic() {
+        FileHandle mockFileHandle = mock(FileHandle.class);
+        Music mockMusic = mock(Music.class);
+
+        when(mockFiles.internal("sfx/menu_music.wav")).thenReturn(mockFileHandle);
+        when(mockAudio.newMusic(mockFileHandle)).thenReturn(mockMusic);
+
+        SoundHandler handler = new SoundHandler(mockFiles, mockAudio);
+        handler.addMusic("menu", "sfx/menu_music.wav", mockFiles, mockAudio);
+
+        assertEquals(mockMusic, handler.getMusic("menu"), "Music should be retrievable after adding");
+    }
+
+    @Test
+    void testPlayMusicCallsCorrectMethods() {
+        Music mockMusic = mock(Music.class);
+
+        SoundHandler handler = new SoundHandler(mockFiles, mockAudio);
+        handler.playMusic(mockMusic);
+
+        verify(mockMusic).setVolume(0.20f);
+        verify(mockMusic).setLooping(true);
+        verify(mockMusic).play();
+    }
+
 
 }
