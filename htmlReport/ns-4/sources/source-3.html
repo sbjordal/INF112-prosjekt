@@ -89,15 +89,16 @@ Current scope:     <a href="../../index.html">all classes</a>
 <pre>
 <code class="sourceCode" id="sourceCode">&nbsp;package inf112.starhunt.model.gameobject;
 &nbsp;
-&nbsp;import com.badlogic.gdx.math.Vector2;
 &nbsp;import inf112.starhunt.model.gameobject.fixedobject.FixedObjectFactory;
-&nbsp;import inf112.starhunt.model.gameobject.fixedobject.item.*;
 &nbsp;import inf112.starhunt.model.gameobject.mobileobject.MobileObjectFactory;
 &nbsp;
 &nbsp;import java.util.HashMap;
 &nbsp;import java.util.Map;
 &nbsp;import java.util.function.BiFunction;
 &nbsp;
+&nbsp;/**
+&nbsp; * A Factory that can create all types of {@link GameObject}s.
+&nbsp; */
 <b class="nc">&nbsp;public class GameObjectFactory {</b>
 <b class="fc">&nbsp;        static Map&lt;String, BiFunction&lt;Float, Float, GameObject&gt;&gt; registry = new HashMap&lt;&gt;();</b>
 &nbsp;        static {
@@ -144,7 +145,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2025-04-30 10:42</div>
+    <div style="float:right;">generated on 2025-05-01 11:36</div>
 </div>
 </body>
 </html>

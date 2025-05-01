@@ -125,17 +125,13 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;import com.badlogic.gdx.Gdx;
 &nbsp;import com.badlogic.gdx.files.FileHandle;
-&nbsp;import com.badlogic.gdx.math.Vector2;
 &nbsp;import com.fasterxml.jackson.databind.JsonNode;
 &nbsp;import com.fasterxml.jackson.databind.ObjectMapper;
 &nbsp;import inf112.starhunt.model.gameobject.Collidable;
 &nbsp;import inf112.starhunt.model.gameobject.GameObject;
 &nbsp;import inf112.starhunt.model.gameobject.GameObjectFactory;
-&nbsp;import inf112.starhunt.model.gameobject.Transform;
-&nbsp;import inf112.starhunt.model.gameobject.fixedobject.Ground;
-&nbsp;import inf112.starhunt.model.gameobject.fixedobject.FixedObjectFactory;
 &nbsp;import inf112.starhunt.model.gameobject.fixedobject.item.Star;
-&nbsp;import inf112.starhunt.model.gameobject.mobileobject.MobileObjectFactory;
+&nbsp;import inf112.starhunt.model.gameobject.mobileobject.actor.ModelablePlayer;
 &nbsp;import inf112.starhunt.model.gameobject.mobileobject.actor.Player;
 &nbsp;import inf112.starhunt.model.gameobject.mobileobject.actor.enemy.*;
 &nbsp;
@@ -169,7 +165,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * @return The extracted game objects as a list.
 &nbsp;     * @throws IllegalStateException If anything other than exactly one player or exactly one star was found.
 &nbsp;     */
-&nbsp;    public static Triple&lt;List&lt;Enemy&gt;, List&lt;Collidable&gt;, Player&gt; loadLevel(Level level) {
+&nbsp;    public static Triple&lt;List&lt;Enemy&gt;, List&lt;Collidable&gt;, ModelablePlayer&gt; loadLevel(Level level) {
 <b class="fc">&nbsp;        FileHandle levelFile = getLevelFile(level);</b>
 <b class="fc">&nbsp;        ObjectMapper objectMapper = new ObjectMapper();</b>
 &nbsp;        String levelContent;
@@ -253,12 +249,6 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;        return Gdx.files.classpath(levelPath);</b>
 &nbsp;    }
 &nbsp;
-&nbsp;    /**
-&nbsp;     *
-&nbsp;     *
-&nbsp;     * @param level
-&nbsp;     * @return
-&nbsp;     */
 &nbsp;    static Level getNextLevel(Level level) {
 <b class="pc">&nbsp;        switch (level) {</b>
 &nbsp;            case LEVEL_1:
@@ -270,7 +260,6 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;            default: throw new IllegalArgumentException(&quot;No such level exists: &quot; + level);</b>
 &nbsp;        }
 &nbsp;    }
-&nbsp;
 &nbsp;
 &nbsp;}
 </code>
@@ -296,7 +285,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2025-04-30 10:42</div>
+    <div style="float:right;">generated on 2025-05-01 11:36</div>
 </div>
 </body>
 </html>

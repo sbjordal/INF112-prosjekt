@@ -56,26 +56,26 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    87,5%
+    100%
   </span>
   <span class="absValue">
-    (14/16)
+    (16/16)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    62,5%
+    83,3%
   </span>
   <span class="absValue">
-    (15/24)
+    (20/24)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    83%
+    97,9%
   </span>
   <span class="absValue">
-    (39/47)
+    (46/47)
   </span>
 </td>
 </tr>
@@ -93,7 +93,6 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;import inf112.starhunt.model.PositionValidator;
 &nbsp;import inf112.starhunt.model.gameobject.*;
 &nbsp;import inf112.starhunt.model.gameobject.fixedobject.Ground;
-&nbsp;import inf112.starhunt.model.gameobject.mobileobject.actor.Player;
 &nbsp;
 &nbsp;import java.util.List;
 &nbsp;
@@ -185,15 +184,15 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;    @Override
 &nbsp;    public boolean isTouchingGround(List&lt;Collidable&gt; objectList) {
-<b class="nc">&nbsp;        for (Collidable object : objectList) {</b>
-<b class="nc">&nbsp;            if (object instanceof Ground) {</b>
-<b class="nc">&nbsp;                CollisionBox objectCollisionBox = object.getCollisionBox();</b>
-<b class="nc">&nbsp;                if (this.getCollisionBox().isCollidingFromBottom(objectCollisionBox)) {</b>
-<b class="nc">&nbsp;                    return true;</b>
+<b class="fc">&nbsp;        for (Collidable object : objectList) {</b>
+<b class="pc">&nbsp;            if (object instanceof Ground) {</b>
+<b class="fc">&nbsp;                CollisionBox objectCollisionBox = object.getCollisionBox();</b>
+<b class="fc">&nbsp;                if (this.getCollisionBox().isCollidingFromBottom(objectCollisionBox)) {</b>
+<b class="fc">&nbsp;                    return true;</b>
 &nbsp;                }
 &nbsp;            }
 &nbsp;        }
-<b class="nc">&nbsp;        return false;</b>
+<b class="fc">&nbsp;        return false;</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    @Override
@@ -234,7 +233,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;    @Override
 &nbsp;    public int getDirection(){
-<b class="nc">&nbsp;        return movementDirection;</b>
+<b class="fc">&nbsp;        return movementDirection;</b>
 &nbsp;    }
 &nbsp;}
 </code>
@@ -260,7 +259,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2025-04-30 10:42</div>
+    <div style="float:right;">generated on 2025-05-01 11:36</div>
 </div>
 </body>
 </html>

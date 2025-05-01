@@ -5,7 +5,7 @@
 <html id="htmlId">
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
-  <title>Coverage Report > Leopard</title>
+  <title>Coverage Report > Snail</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -22,7 +22,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     <a href="../index.html">inf112.starhunt.model.gameobject.mobileobject.actor.enemy</a>
 </div>
 
-<h1>Coverage Summary for Class: Leopard (inf112.starhunt.model.gameobject.mobileobject.actor.enemy)</h1>
+<h1>Coverage Summary for Class: Snail (inf112.starhunt.model.gameobject.mobileobject.actor.enemy)</h1>
 
 <table class="coverageStats">
 <tr>
@@ -41,7 +41,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">Leopard</td>
+  <td class="name">Snail</td>
 <td class="coverageStat">
   <span class="percent">
     100%
@@ -81,21 +81,25 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;import inf112.starhunt.model.gameobject.Transform;
 &nbsp;
 &nbsp;/**
-&nbsp; * Represents the Leopard enemy type.
+&nbsp; * Represents the Snail enemy type.
 &nbsp; */
-&nbsp;public final class Leopard extends Enemy {
+&nbsp;public final class Snail extends Enemy {
+&nbsp;    private final static int LIVES = 1;
+&nbsp;    private final static int MOVEMENT_SPEED = 70;
+&nbsp;    private final static int OBJECT_SCORE = 10;
+&nbsp;    private final static int DAMAGE = 1;
+&nbsp;    private final static float DIAMETER = 40;
+&nbsp;
+&nbsp;
 &nbsp;    /**
 &nbsp;     * Creates a new Enemy with the specified movement speed, object score, damage and transform.
 &nbsp;     *
-&nbsp;     * @param movementSpeed The rate of which the Enemy moves horizontally.
-&nbsp;     * @param objectScore   The score points obtained by defeating the Enemy.
-&nbsp;     * @param damage        The amount of damage the Enemy will inflict.
-&nbsp;     * @param transform     The initial transform of the Enemy.
+&nbsp;     * @param position    The initial transform of the Enemy.
 &nbsp;     */
-&nbsp;    public Leopard(int lives, int movementSpeed, int objectScore, int damage, Transform transform) {
-<b class="fc">&nbsp;        super(lives, movementSpeed, objectScore, damage, transform);</b>
+&nbsp;    public Snail(Vector2 position) {
+<b class="fc">&nbsp;        super(LIVES, MOVEMENT_SPEED, OBJECT_SCORE, DAMAGE, new Transform(position, new Vector2(DIAMETER, DIAMETER)));</b>
 &nbsp;
-<b class="fc">&nbsp;        setMovementDirection(-1);</b>
+<b class="fc">&nbsp;        setMovementDirection(1);</b>
 &nbsp;    }
 &nbsp;}
 </code>
@@ -121,7 +125,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2025-04-30 10:42</div>
+    <div style="float:right;">generated on 2025-05-01 11:36</div>
 </div>
 </body>
 </html>

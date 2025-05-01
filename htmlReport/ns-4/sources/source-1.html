@@ -64,10 +64,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    71,7%
+    73,9%
   </span>
   <span class="absValue">
-    (33/46)
+    (34/46)
   </span>
 </td>
 <td class="coverageStat">
@@ -97,8 +97,8 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp; */
 &nbsp;public class CollisionBox {
 &nbsp;    private final static float ACCEPTANCE_RANGE = 3.0f;
-&nbsp;    public Vector2 botLeft;
-&nbsp;    public Vector2 topRight;
+&nbsp;    private Vector2 botLeft;
+&nbsp;    private Vector2 topRight;
 &nbsp;    private final float width;
 &nbsp;    private final float height;
 &nbsp;
@@ -146,7 +146,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * @return          True if the collision box is on top, else false.
 &nbsp;     */
 &nbsp;    public boolean isCollidingFromBottom(CollisionBox other) {
-<b class="pc">&nbsp;        return botLeft.y &lt;= other.topRight.y &amp;&amp;</b>
+<b class="fc">&nbsp;        return botLeft.y &lt;= other.topRight.y &amp;&amp;</b>
 &nbsp;                topRight.y &gt; other.botLeft.y &amp;&amp;
 &nbsp;                botLeft.x &lt; other.topRight.x - ACCEPTANCE_RANGE &amp;&amp;
 &nbsp;                topRight.x &gt; other.botLeft.x + ACCEPTANCE_RANGE;
@@ -236,7 +236,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2025-04-30 10:42</div>
+    <div style="float:right;">generated on 2025-05-01 11:36</div>
 </div>
 </body>
 </html>
