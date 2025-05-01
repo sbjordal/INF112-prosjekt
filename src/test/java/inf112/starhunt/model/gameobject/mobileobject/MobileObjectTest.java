@@ -3,10 +3,14 @@ package inf112.starhunt.model.gameobject.mobileobject;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.math.Vector2;
+import inf112.starhunt.model.PositionValidator;
 import inf112.starhunt.model.gameobject.Transform;
 import inf112.starhunt.model.gameobject.mobileobject.actor.Player;
+import inf112.starhunt.model.gameobject.fixedobject.Ground;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -77,6 +81,45 @@ public class MobileObjectTest {
     public void testGetMovementSpeed() {
         assertEquals(350, player.getMovementSpeed());
     }
+
+    @Test
+    public void testMoveUpdatesCollisionBox() {
+        Vector2 before = new Vector2(player.getCollisionBox().getBotLeft().x, player.getCollisionBox().getTopRight().y);
+        player.move(10, 15);
+        Vector2 after = new Vector2(player.getCollisionBox().getBotLeft().x, player.getCollisionBox().getTopRight().y);
+
+        assertTrue(before.x != after.x || before.y != after.y, "Collision box should update with movement.");
+    }
+
+    @Test
+    public void testSwitchDirection() {
+        player.setMovementDirection(1);
+        player.switchDirection();
+        assertEquals(-1, player.getMovementDirection());
+
+        player.switchDirection();
+        assertEquals(1, player.getMovementDirection());
+    }
+
+    @Test
+    public void testIsTouchingGroundTrue() {
+        Ground ground = new Ground(new Transform(new Vector2(100, -1), new Vector2(50, 1))); // Rett under
+        assertTrue(player.isTouchingGround(List.of(ground)), "Should be touching the ground.");
+    }
+
+    @Test
+    public void testIsTouchingGroundFalse() {
+        Ground ground = new Ground(new Transform(new Vector2(100, -100), new Vector2(50, 1))); // Langt under
+        assertTrue(!player.isTouchingGround(List.of(ground)), "Should not be touching the ground.");
+    }
+
+    @Test
+    public void testGetDirection() {
+        player.setMovementDirection(-1);
+        assertEquals(-1, player.getDirection());
+    }
+
+
 
 
 }
