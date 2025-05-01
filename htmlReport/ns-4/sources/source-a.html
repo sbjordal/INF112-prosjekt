@@ -1,0 +1,155 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > Visitor</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">inf112.starhunt.model.gameobject</a>
+</div>
+
+<h1>Coverage Summary for Class: Visitor (inf112.starhunt.model.gameobject)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+</tr>
+  <tr>
+    <td class="name">Visitor$MockitoMock$3J7NRezz</td>
+  </tr>
+  <tr>
+    <td class="name">Visitor$MockitoMock$3J7NRezz$auxiliary$FD9bit5k</td>
+  </tr>
+  <tr>
+    <td class="name">Visitor$MockitoMock$3J7NRezz$auxiliary$IijKzAxC</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package inf112.starhunt.model.gameobject;
+&nbsp;
+&nbsp;import inf112.starhunt.model.gameobject.fixedobject.Ground;
+&nbsp;import inf112.starhunt.model.gameobject.fixedobject.item.Banana;
+&nbsp;import inf112.starhunt.model.gameobject.fixedobject.item.Coin;
+&nbsp;import inf112.starhunt.model.gameobject.fixedobject.item.Star;
+&nbsp;import inf112.starhunt.model.gameobject.mobileobject.MobileObject;
+&nbsp;import inf112.starhunt.model.gameobject.mobileobject.actor.Player;
+&nbsp;import inf112.starhunt.model.gameobject.mobileobject.actor.enemy.Enemy;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;/**
+&nbsp; * An interface to be used for objects that is {@link MobileObject}
+&nbsp; * and that can collide with other {@link Collidable} {@link GameObject}s.
+&nbsp; *
+&nbsp; */
+&nbsp;public interface Visitor {
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Handles visiting a Coin object.
+&nbsp;     * Typically used for collecting or triggering coin-related effects.
+&nbsp;     *
+&nbsp;     * @param coin The Coin object being visited.
+&nbsp;     */
+&nbsp;    void visitCoin(Coin coin);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Handles colliding with a Star object.
+&nbsp;     * Is used for handling logic for getting into the next level.
+&nbsp;     *
+&nbsp;     * @param star The Star object being collided with.
+&nbsp;     */
+&nbsp;
+&nbsp;    void visitStar(Star star);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Handles collision with Banana.
+&nbsp;     *
+&nbsp;     * @param banana The {@link Banana} object being collided with.
+&nbsp;     */
+&nbsp;    void visitBanana(Banana banana);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Handles collision with Ground.
+&nbsp;     *
+&nbsp;     * @param ground The {@link Ground} object being collided with.
+&nbsp;     */
+&nbsp;    void visitGround(Ground ground);
+&nbsp;
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     * @param enemy
+&nbsp;     */
+&nbsp;    void visitEnemy(Enemy enemy);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Handles collision with player.
+&nbsp;     *
+&nbsp;     * @param player The {@link Player} object being collided with.
+&nbsp;     */
+&nbsp;    void visitPlayer(Player player);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * A getter for CollisionBox. CollisionBox is the bounding box of an object, used to
+&nbsp;     * detect collisions.
+&nbsp;     * @return the collisionBox of the GameObject
+&nbsp;     */
+&nbsp;    CollisionBox getCollisionBox();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Checks if the collisionBox of the current object is colliding with any other Collidable object.
+&nbsp;     * @param collidables &quot;all other GameObjects&quot;
+&nbsp;     * @param collisionBox collisionbox for the one object we want to check
+&nbsp;     * @return True if colliding, false otherwise.
+&nbsp;     */
+&nbsp;    boolean isColliding(List&lt;Collidable&gt; collidables, CollisionBox collisionBox);
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-05-01 11:36</div>
+</div>
+</body>
+</html>
