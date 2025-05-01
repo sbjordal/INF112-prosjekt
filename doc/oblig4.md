@@ -197,7 +197,7 @@ sjekke tilgangene til feltvariabler+ metoder osv.
     * Arbeidsoppgaver: Opprett en _AbstractScreen_- og en _AbstractApplicationListener_ klasse for å fjerne tomme metoder i _WorldView_ og _WorldModel_ respektivt.
 	
 	5.  **Avhengigheter i koden er basert på abstraksjoner og ikke konkretiseringer**
-    * Brukerhistorie: Som utvikler er det lurt å ivareta prosjektets innkaspling for å unngå å gjøre uforutsigbare endinger _(Dependency Inversion Principle)_.
+    * Brukerhistorie: Som utvikler er det lurt å ivareta prosjektets innkaspling for å unngå å gjøre uforutsigbare endringer _(Dependency Inversion Principle)_.
     * Akseptansekriterier: Typen til attributter består av grensesnitt og ikke klasser.
     * Arbeidsoppgaver: Refaktorer attributten _WorldModel.player_ fra klassen _Player_ om til grensesnittet _ModelablePlayer_.
      
