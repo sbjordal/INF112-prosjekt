@@ -179,7 +179,7 @@ sjekke tilgangene til feltvariabler+ metoder osv.
     1.  **Spillet har fått et navn**
     * Brukerhistorie: Som spiller trenger jeg en måte for å vite hvilket spill jeg spiller.
     * Akseptansekriterier: Alle steder hvor spillets navn oppstår er skiftet ut med det nye navnet.
-    * Arbeidsoppgaver: Bli enig i felleskap om hvilket navn spillet skal ha.
+    * Arbeidsoppgaver: Bli enig i felleskap om hvilket navn spillet skal ha. Oppdater prosjektfilene til å reflektere spillnavnet.
 
     2.  **Den overordnede objekt-fabrikken består av flere fabrikker, og fabrikkene er gjort abstrakte**
     * Brukerhistorie: Som utvikler ønsker jeg å kunne enkelt legge til nye objekter i fabrikken uten å måtte endre koden andre plasser (_Open-closed Principle_ og _Single Responsibility Principle_). 

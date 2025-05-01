@@ -25,7 +25,7 @@ public class MobileObjectFactory {
 
     public static MobileObject createPlayer(Float x, Float y) {
         Transform transform = TransformUtils.createTransformForObjects(x, y, 40, 80);
-        return new Player(3, 350, transform);
+        return new Player(3, 1200, transform);
     }
 
     /**
