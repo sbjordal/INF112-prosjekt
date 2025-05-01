@@ -211,7 +211,7 @@ har vi tenkt er en feature istedenfor en bug. Det er jo til og med realistisk at
     - Vi har fjernet død kode.
     - Vi har fjernet ubrukte imports.
     - Vi har endret tilgangsmodifikator på enkelte variabler og metoder, slik at de har den strengeste de kan ha, og dermed ivaretatt enkapsulering.
-    - Vi har finskrevet javadocs for alle klasser, metoder, konstruktører, feltvariabler. Vi har fulgt stilguiden fra inf101. (https://inf101v23.stromme.me/notat/stil/)
+    - Vi har finskrevet javadocs for alle klasser, metoder, konstruktører, feltvariabler. Vi har fulgt [stilguiden fra inf101](https://inf101v23.stromme.me/notat/stil/).
     - Vi har lagt til en lyd som spilles av når spilleren tar skade.
     - Vi har lagt til en level counter som tydeliggjør spillets progresjon.
     - Vi har gjort slik at teksturen til fiender flippes ved skifting av retning.
