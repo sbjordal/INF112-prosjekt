@@ -54,7 +54,7 @@ public class GameObject implements ViewableObject {
         collisionBox = new CollisionBox(transform);
     }
 
-    public void setSize(Vector2 size) {
+    protected void setSize(Vector2 size) {
         transform.alterSize((int) size.x, (int) size.y);
     }
 }
