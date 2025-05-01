@@ -55,7 +55,7 @@ public class WorldModel extends AbstractApplicationListener implements ViewableW
      */
     public void setUpModel() {
         viewportLeftX = 0;
-        countDown = 150;
+        countDown = 45;
         isMovingRight = false;
         isMovingLeft = false;
         isJumping = false;
