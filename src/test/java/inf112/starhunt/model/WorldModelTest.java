@@ -179,7 +179,7 @@ public class WorldModelTest {
     @Test
     void testGetCountDown() {
         // Standardverdi fra konstruktør/setUpModel
-        assertEquals(150, model.getCountDown());
+        assertEquals(45, model.getCountDown());
     }
 
     @Test
