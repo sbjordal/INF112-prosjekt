@@ -11,21 +11,27 @@ import java.util.Map;
 
 
 /**
- * Class for handling sound effects, these are used when colliding or if player is losing a life.
+ * Singleton class for handling all sound effects.
+ * Should only be initialized once for handling the sound effects correctly.
  */
 public class SoundHandler {
+    private static SoundHandler instance;
+
     private final Map<String, Sound> sounds = new HashMap<>();
     private final Map<String, Music> songs = new HashMap<>();
 
     /**
-     * Default constructor, adds sounds by getting from the sfx directory.
+     * Default constructor, needed to initialize libGDX from {@link inf112.starhunt.model.WorldModel}.
      */
-    public SoundHandler() {
+    private SoundHandler() {
         this(Gdx.files, Gdx.audio);
     }
 
-    // Dependency-injected constructor for easier testing
-    public SoundHandler(Files files, Audio audio) {
+    /**
+     * Package private for testing
+     * Dependency-injected constructor for easier testing
+     */
+    SoundHandler(Files files, Audio audio) {
         addSound("coin", "sfx/coinrecieved.wav", files, audio);
         addSound("ouch", "sfx/characterouch.wav", files, audio);
         addSound("bounce", "sfx/bounce.wav", files, audio);
@@ -37,26 +43,27 @@ public class SoundHandler {
     }
 
     /**
-     * Overloaded method for easier testing.
+     * Adds sounds to map
      * @param name
      * @param filePath
      * @param files dependency needed for testing
      * @param audio dependency needed for testing
      */
-    public void addSound(String name, String filePath, Files files, Audio audio) {
+    void addSound(String name, String filePath, Files files, Audio audio) {
         FileHandle fileHandle = files.internal(filePath);
         Sound sound = audio.newSound(fileHandle);
         sounds.put(name, sound);
     }
 
     /**
-     * TODO
-     * @param name
+     * Helper method for adding music to map,
+     * @param name Music name
      * @param filePath
      * @param files dependency needed for testing
      * @param audio dependency needed for testing
+     *
      */
-    public void addMusic(String name, String filePath, Files files, Audio audio) {
+    void addMusic(String name, String filePath, Files files, Audio audio) {
         FileHandle fileHandle = files.internal(filePath);
         Music music = audio.newMusic(fileHandle);
         songs.put(name, music);
@@ -86,9 +93,23 @@ public class SoundHandler {
         music.play();
     }
 
+    /**
+     * Gets the instance to be used.
+     * @return the Soundhandler instance to be used in {@link WorldView}
+     */
+    public static SoundHandler getInstance() {
+        if (instance == null) {
+            instance = new SoundHandler();
+        }
+        return instance;
+    }
+
     public Sound getSound(String name) {
         return sounds.get(name);
     }
 
-    public Music getMusic(String name) {return songs.get(name);}
+    public Music getMusic(String name) {
+        return songs.get(name);
+    }
+
 }

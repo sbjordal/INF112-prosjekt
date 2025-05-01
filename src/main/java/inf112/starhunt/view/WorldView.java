@@ -40,6 +40,8 @@ public class WorldView extends AbstractScreen implements EventListener {
     private Music activeGameMusic;
     private Sound gameOverSound;
     private boolean gameOverSoundHasPlayed;
+    private boolean isActiveGameMusicStarted = false;
+
 
     public WorldView(ViewableWorldModel model, int width, int height) {
         this.viewport = new ExtendViewport(width, height);
@@ -47,6 +49,7 @@ public class WorldView extends AbstractScreen implements EventListener {
         this.layout = new GlyphLayout();
         this.textures = new HashMap<>();
         this.currentGameState = model.getGameState();
+        this.previousGameState = currentGameState;
     }
 
     /**
@@ -78,7 +81,7 @@ public class WorldView extends AbstractScreen implements EventListener {
         loadTextures();
         batch = new SpriteBatch();
         headerTexture = new Texture("background/header.png");
-        soundHandler = new SoundHandler();
+        soundHandler = SoundHandler.getInstance();
         font = loadFont("font/VT323-Regular.ttf");
         menuMusic = soundHandler.getMusic("menu");
         activeGameMusic = soundHandler.getMusic("active");
@@ -132,15 +135,15 @@ public class WorldView extends AbstractScreen implements EventListener {
                         activeGameMusic.setLooping(false);
                         activeGameMusic.stop();
                     }
-//                    if (menuMusic != null && !menuMusic.isPlaying()) {
-//                        soundHandler.playMusic(menuMusic);
-//                    }
+                    if (menuMusic != null && !menuMusic.isPlaying()) {
+                        soundHandler.playMusic(menuMusic);
+                    }
                 }
                 case GAME_ACTIVE -> {
-//                    if(menuMusic != null && menuMusic.isPlaying()){
-//                        menuMusic.setLooping(false);
-//                        menuMusic.stop();
-//                    }
+                    if(menuMusic != null && menuMusic.isPlaying()){
+                        menuMusic.setLooping(false);
+                        menuMusic.stop();
+                    }
                     if (activeGameMusic != null && !activeGameMusic.isPlaying()) {
                         soundHandler.playMusic(activeGameMusic);
                     }
