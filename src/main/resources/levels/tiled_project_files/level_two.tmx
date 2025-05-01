@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="90" height="19" tilewidth="50" tileheight="50" infinite="0" nextlayerid="25" nextobjectid="1538">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="90" height="19" tilewidth="50" tileheight="50" infinite="0" nextlayerid="25" nextobjectid="1539">
  <editorsettings>
   <export target="../level_two.json" format="json"/>
  </editorsettings>
@@ -137,6 +137,7 @@
  </objectgroup>
  <objectgroup color="#df8600" id="17" name="ground_0111">
   <object id="939" x="42.3333" y="1048.33" width="50" height="50"/>
+  <object id="1538" x="4450" y="500" width="50" height="50"/>
  </objectgroup>
  <objectgroup color="#df8600" id="18" name="ground_0110">
   <object id="942" x="42.3333" y="1048.33" width="50" height="50"/>
@@ -153,7 +154,6 @@
  <objectgroup color="#df8600" id="19" name="ground_0101">
   <object id="945" x="42.3333" y="1048.33" width="50" height="50"/>
   <object id="1468" x="4400" y="500" width="50" height="50"/>
-  <object id="1469" x="4450" y="500" width="50" height="50"/>
  </objectgroup>
  <objectgroup color="#df8600" id="20" name="ground_0100">
   <object id="948" x="42.3333" y="1048.33" width="50" height="50"/>
