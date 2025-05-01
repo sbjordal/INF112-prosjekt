@@ -52,7 +52,7 @@
 
 #### Grafikk
 - Bakgrunn: [Jessie M.](https://jesse-m.itch.io/jungle-pack)
-- Hindringer/bakke: [Kenney.nl](https://opengameart.org/content/platformer-art-complete-pack-often-updated)
+- Hindringer/bakke: [Kenney.nl](https://kenney.nl/assets/roguelike-modern-city)
 - Spiller: [Jessie M.](https://jesse-m.itch.io/jungle-pack)
 - Mynt: [Pritishor](https://opengameart.org/content/simple-coin)
 - Snegl, leopard, banan og stjerne: [Noto emoji by Google](https://emoji.aranja.com/)

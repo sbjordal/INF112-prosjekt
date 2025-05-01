@@ -252,7 +252,7 @@ public class EnemyTest {
     @Test
     void testIsCollidingWithGround() {
         Enemy enemy1 = MobileObjectFactory.createSnail(0, 0);
-        Ground ground = FixedObjectFactory.createGround(0, 0);
+        Ground ground = FixedObjectFactory.createGround(0, 0, "0000");
 
         CollisionBox box = enemy1.getCollisionBox();
         CollisionBox groundbox = ground.getCollisionBox();
