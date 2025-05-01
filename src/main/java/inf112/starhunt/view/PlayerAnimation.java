@@ -66,13 +66,13 @@ public class PlayerAnimation {
         animations.put("landingLeft", new Animation<>(0.1f, landingFramesLeft));
     }
 
-    public void update(float deltaTime, boolean isPaused) {
+    void update(float deltaTime, boolean isPaused) {
         if (!isPaused) {
             stateTime += deltaTime;
         }
     }
 
-    public TextureRegion getFrame(int direction, float verticalVelocity) {
+    TextureRegion getFrame(int direction, float verticalVelocity) {
         final boolean isFalling = verticalVelocity < 0;
         final boolean isJumping = verticalVelocity > 0;
 
@@ -103,7 +103,7 @@ public class PlayerAnimation {
         }
     }
 
-    public void dispose() {
+    void dispose() {
         for (Animation<TextureRegion> animation : animations.values()){
             for (TextureRegion frame : animation.getKeyFrames()){
                 frame.getTexture().dispose();

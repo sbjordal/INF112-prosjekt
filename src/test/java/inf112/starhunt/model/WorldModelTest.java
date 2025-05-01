@@ -61,7 +61,6 @@ public class WorldModelTest {
         Transform coinTransform = new Transform(new Vector2(10, 20), new Vector2(30, 30));
         coin = new Coin(coinTransform);
 
-
     }
 
     @Test
@@ -70,6 +69,9 @@ public class WorldModelTest {
         assertEquals(0, model.getTotalScore());
         assertEquals(0, model.getCoinCounter());
         assertEquals(GameState.GAME_MENU, model.getGameState());
+        assertNotNull(model.getObjectList());
+        assertNotNull(model.getViewablePlayer());
+        assertEquals(1, model.getLevelCounter());
     }
 
 

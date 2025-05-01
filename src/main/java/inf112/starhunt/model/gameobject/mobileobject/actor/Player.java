@@ -56,7 +56,7 @@ final public class Player extends Actor implements ModelablePlayer {
         super(lives, movementSpeed, transform);
         this.initialLives = lives;
         this.hasPowerUp = false;
-        this.damage = 1;
+        this.setDamage(1);
         this.lastAttackTime = 0;
         this.lastBounceTime = 0;
         this.isJustRespawned = false;

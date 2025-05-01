@@ -34,7 +34,7 @@ public abstract class Enemy extends Actor implements Scorable, Visitor, Collidab
         super(lives, movementSpeed, transform);
 
         this.objectScore = objectScore;
-        this.damage = damage;
+        this.setDamage(damage);
         this.lastCollisionTime = 0;
     }
 

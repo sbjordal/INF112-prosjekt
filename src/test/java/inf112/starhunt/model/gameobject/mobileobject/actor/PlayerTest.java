@@ -398,6 +398,41 @@ class PlayerTest {
         assertFalse(player.getIsMovingHorizontally(), "Player should not be moving horizontally after set to false.");
     }
 
+    @Test
+    void testPlayerResetsForNewLevel(){
+        player.move(new Vector2(2f,2f));
+        player.setLives(1);
+        player.setVerticalVelocity(800);
+        player.setRespawned(false);
+        Vector2 newSpawnPoint =  new Vector2(100,100);
 
+        player.resetForNewLevel(newSpawnPoint);
+        assertTrue(player.getTransform().getPos().epsilonEquals(newSpawnPoint));
+        assertEquals(3, player.getLives());
+        assertEquals(0, player.getVerticalVelocity());
+        assertTrue(player.getRespawned());
+    }
+
+    @Test
+    void testNoNegativeTotalScore(){
+        int startScore = player.getTotalScore();
+        assertEquals(0, startScore);
+
+        player.takeDamage(1);
+        int newScore = player.getTotalScore();
+        assertEquals(0, newScore);
+    }
+
+    @Test
+    void playerGainsScoreWhenDefeatingEnemy() {
+        int initialScore = player.getTotalScore();
+        player.move(new Vector2(0,0));
+        enemy.move(new Vector2(0, 20));
+        player.visitEnemy(enemy);
+
+        int expectedScore = initialScore + enemy.getObjectScore();
+        assertEquals(expectedScore, player.getTotalScore(), "Player should gain score after defeating enemy");
+        assertTrue(player.getObjectsToRemove().contains(enemy), "Enemy should be marked for removal");
+    }
 
 }
