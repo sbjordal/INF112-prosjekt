@@ -3,8 +3,11 @@ package inf112.starhunt.model.gameobject.mobileobject.actor.enemy;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.math.Vector2;
+import inf112.starhunt.model.gameobject.Collidable;
+import inf112.starhunt.model.gameobject.CollisionBox;
 import inf112.starhunt.model.gameobject.Transform;
 import inf112.starhunt.model.gameobject.Visitor;
+import inf112.starhunt.model.gameobject.fixedobject.FixedObjectFactory;
 import inf112.starhunt.model.gameobject.fixedobject.Ground;
 import inf112.starhunt.model.gameobject.fixedobject.item.Banana;
 import inf112.starhunt.model.gameobject.fixedobject.item.Coin;
@@ -12,6 +15,8 @@ import inf112.starhunt.model.gameobject.fixedobject.item.Star;
 import inf112.starhunt.model.gameobject.mobileobject.MobileObjectFactory;
 import inf112.starhunt.model.gameobject.mobileobject.actor.Player;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -224,5 +229,58 @@ public class EnemyTest {
         snail.visitBanana(banana);
         assertEquals(initialDirection, snail.getMovementDirection());
     }
+    @Test
+    void testIsCollidingWithSelf() {
+        Enemy enemy = MobileObjectFactory.createSnail(0, 0);
+        CollisionBox collisionBox = enemy.getCollisionBox();
+        boolean isColliding = enemy.isColliding(List.of(enemy), collisionBox);  // Fienden bør ikke kollidere med seg selv
+
+        assertFalse(isColliding, "The enemy should not be able to collide with itself");
+    }
+
+    @Test
+    void testIsCollidingWithOtherEnemy() {
+        Enemy enemy1 = MobileObjectFactory.createSnail(0, 0);
+        Enemy enemy2 = MobileObjectFactory.createSnail(0, 0);
+
+        CollisionBox box1 = enemy1.getCollisionBox();
+        CollisionBox box2 = enemy2.getCollisionBox();
+
+        assertTrue(box1.isCollidingWith(box2), "The enemy should collide with other enemies");
+    }
+
+    @Test
+    void testIsCollidingWithGround() {
+        Enemy enemy1 = MobileObjectFactory.createSnail(0, 0);
+        Ground ground = FixedObjectFactory.createGround(0, 0);
+
+        CollisionBox box = enemy1.getCollisionBox();
+        CollisionBox groundbox = ground.getCollisionBox();
+
+        assertTrue(box.isCollidingWith(groundbox), "The enemy should collide with ground");
+    }
+
+    @Test
+    void testVisitItemsDoesNotChangeDirection() {
+        Enemy snail = MobileObjectFactory.createSnail(0, 0);
+        int initialDirection = snail.getMovementDirection();
+        snail.visitCoin(mock(Coin.class));
+        snail.visitStar(mock(Star.class));
+        snail.visitBanana(mock(Banana.class));
+
+        assertEquals(initialDirection, snail.getMovementDirection(), "Bevegelsesretningen skal ikke endres ved besøk på Coin, Star, eller Banana.");
+    }
+
+    @Test
+    void testSwitchDirectionOnCollisionWithGround() {
+        Enemy snail = MobileObjectFactory.createSnail(0, 0);
+        int initialDirection = snail.getMovementDirection();
+
+        snail.visitGround(mock(Ground.class));
+
+        assertEquals(-initialDirection, snail.getMovementDirection(), "Should switch direction when colliding with ground.");
+    }
+
+
 
 }

@@ -385,4 +385,19 @@ class PlayerTest {
     }
 
 
+    @Test
+    void testSetAndGetIsMovingHorizontally() {
+        player.setIsMovingHorizontally(false);
+
+        assertFalse(player.getIsMovingHorizontally(), "Player should not be moving horizontally initially.");
+
+        player.setIsMovingHorizontally(true);
+        assertTrue(player.getIsMovingHorizontally(), "Player should be moving horizontally after set to true.");
+
+        player.setIsMovingHorizontally(false);
+        assertFalse(player.getIsMovingHorizontally(), "Player should not be moving horizontally after set to false.");
+    }
+
+
+
 }
