@@ -8,9 +8,9 @@ import inf112.starhunt.model.gameobject.mobileobject.MobileObject;
  * A living mobile object is any {@link MobileObject} that has lives.
  */
 public abstract class Actor extends MobileObject {
-    protected int damage;
+    private int damage;
     private boolean isAlive;
-    protected int lives;
+    private int lives;
 
     /**
      * Creates a new Actor with the specified lives, movement speed, transform and texture.
@@ -83,6 +83,13 @@ public abstract class Actor extends MobileObject {
      */
     public int getDamage() {
         return damage;
+    }
+
+    /**
+     * Sets the amount of damage the actor can inflict.
+     */
+    public void setDamage(int damage){
+        this.damage = damage;
     }
 
     /**

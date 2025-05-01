@@ -398,6 +398,21 @@ class PlayerTest {
         assertFalse(player.getIsMovingHorizontally(), "Player should not be moving horizontally after set to false.");
     }
 
+    @Test
+    void testPlayerResetsForNewLevel(){
+        player.move(new Vector2(2f,2f));
+        player.setLives(1);
+        player.setVerticalVelocity(800);
+        player.setRespawned(false);
+        Vector2 newSpawnPoint =  new Vector2(100,100);
+
+        player.resetForNewLevel(newSpawnPoint);
+        assertTrue(player.getTransform().getPos().epsilonEquals(newSpawnPoint));
+        assertEquals(3, player.getLives());
+        assertEquals(0, player.getVerticalVelocity());
+        assertTrue(player.getRespawned());
+    }
+
 
 
 }
