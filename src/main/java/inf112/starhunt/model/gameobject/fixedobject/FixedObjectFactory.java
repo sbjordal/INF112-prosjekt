@@ -16,21 +16,18 @@ import java.util.function.BiFunction;
 public class FixedObjectFactory {
     static Map<String, BiFunction<Float, Float, FixedObject>> registry = new HashMap<>();
     static {
-        registry.put("ground", FixedObjectFactory::createGround);
         registry.put("banana", FixedObjectFactory::createBanana);
         registry.put("star", FixedObjectFactory::createStar);
         registry.put("coin", FixedObjectFactory::createCoin);
     }
 
-    public static Ground createGround(float x, float y){
-
+    public static Ground createGround(float x, float y, String alteration){
         Transform transform = TransformUtils.createTransformForObjects(x, y, 50, 50);
 
-        return new Ground(transform);
+        return new Ground(transform, alteration);
     }
 
     public static Coin createCoin(float x, float y){
-
         int DIAMETER = 30;
         Transform transform = TransformUtils.createTransformForObjects(x, y, DIAMETER, DIAMETER);
 
@@ -48,6 +45,5 @@ public class FixedObjectFactory {
 
         return new Star(transform);
     }
-
 }
 

@@ -299,7 +299,7 @@ public class WorldView extends AbstractScreen implements EventListener {
         if (playerCenterX > camX && camX < model.getBoardWidth() - screenWidth / 2) {
             camX = playerCenterX;
         }
-        camX = MathUtils.clamp(camX, screenWidth/2, 5000 - screenWidth/2); // bytt 5000 med bredden av brettet
+        camX = MathUtils.clamp(camX, screenWidth/2, 5000 - screenWidth/2);
 
         viewport.getCamera().position.set(camX, camY, 0);
         viewport.apply();
@@ -311,8 +311,15 @@ public class WorldView extends AbstractScreen implements EventListener {
         textures.put("snail", new Texture("assets/snail.png"));
         textures.put("coin", new Texture("assets/coin.png"));
         textures.put("powerup", new Texture("assets/banana.png"));
-        textures.put("ground", new Texture("obstacles/ground.png"));
         textures.put("star", new Texture("assets/star.png"));
+
+        for (int i = 0; i < 16; i++) {
+            StringBuilder alteration = new StringBuilder(Integer.toBinaryString(i));
+            while (alteration.length() < 4) {
+                alteration.insert(0, "0");
+            }
+            textures.put("ground_" + alteration, new Texture("obstacles/ground_" + alteration + ".png"));
+        }
     }
 
     Texture getTexture(ViewableObject obj){
@@ -322,15 +329,14 @@ public class WorldView extends AbstractScreen implements EventListener {
             case "Snail" -> textures.get("snail");
             case "Coin" -> textures.get("coin");
             case "Banana" -> textures.get("powerup");
-            case "Ground" -> textures.get("ground");
             case "Star" -> textures.get("star");
+            case "Ground" -> textures.get("ground_" + ((ViewableGround) obj).getAlteration());
             default -> throw new IllegalArgumentException("Unsupported class name for texture: " + className);
         };
     }
 
     void drawObjects() {
         for (ViewableObject object : model.getObjectList()) {
-
             if (object instanceof Player) continue;
             int direction = object.getDirection();
 
@@ -342,9 +348,9 @@ public class WorldView extends AbstractScreen implements EventListener {
             float objectHeight = object.getTransform().getSize().y;
 
             if (direction >= 0) {
-                batch.draw(objectTexture, objectX + objectWidth, objectY, -objectWidth, objectHeight);
-            } else {
                 batch.draw(objectTexture, objectX, objectY, objectWidth, objectHeight);
+            } else {
+                batch.draw(objectTexture, objectX + objectWidth, objectY, -objectWidth, objectHeight);
             }
         }
     }
@@ -357,5 +363,4 @@ public class WorldView extends AbstractScreen implements EventListener {
     public void resize(int width, int height) {
         viewport.update(width, height, true);
     }
-
 }
