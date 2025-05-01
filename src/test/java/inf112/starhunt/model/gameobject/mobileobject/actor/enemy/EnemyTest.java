@@ -249,17 +249,16 @@ public class EnemyTest {
         assertTrue(box1.isCollidingWith(box2), "The enemy should collide with other enemies");
     }
 
-   // TODO: Eivind fiks opp i rotet ditt!!!
-//    @Test
-//    void testIsCollidingWithGround() {
-//        Enemy enemy1 = MobileObjectFactory.createSnail(0, 0);
-//        Ground ground = FixedObjectFactory.createGround(0, 0);
-//
-//        CollisionBox box = enemy1.getCollisionBox();
-//        CollisionBox groundbox = ground.getCollisionBox();
-//
-//        assertTrue(box.isCollidingWith(groundbox), "The enemy should collide with ground");
-//    }
+    @Test
+    void testIsCollidingWithGround() {
+        Enemy enemy1 = MobileObjectFactory.createSnail(0, 0);
+        Ground ground = FixedObjectFactory.createGround(0, 0, "0000");
+
+        CollisionBox box = enemy1.getCollisionBox();
+        CollisionBox groundbox = ground.getCollisionBox();
+
+        assertTrue(box.isCollidingWith(groundbox), "The enemy should collide with ground");
+    }
 
     @Test
     void testVisitItemsDoesNotChangeDirection() {
