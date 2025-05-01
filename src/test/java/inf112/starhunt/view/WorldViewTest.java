@@ -82,6 +82,7 @@ public class WorldViewTest {
         }});
         worldView.setLayout(mockLayout);
     }
+
     @Test
     void testLoadTextures() {
         worldView.setTextures(new HashMap<>());
@@ -114,7 +115,9 @@ public class WorldViewTest {
         ViewableObject unknown = mock(ViewableObject.class);
 
         when(unknown.getClass()).thenAnswer(invocation -> new Object() {
-            public String getSimpleName() { return "Cactus"; }
+            public String getSimpleName() {
+                return "Cactus";
+            }
         }.getClass());
 
         assertThrows(IllegalArgumentException.class, () -> worldView.getTexture(unknown));
@@ -199,6 +202,7 @@ public class WorldViewTest {
 
         verify(mockBatch).draw(eq(mockTexture), anyFloat(), anyFloat(), anyFloat(), anyFloat());
     }
+
     @Test
     public void testDrawCenteredTextWorks() {
         worldView.drawCenteredText("Test Message", 2, 50);

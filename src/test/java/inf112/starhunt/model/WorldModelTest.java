@@ -58,7 +58,6 @@ public class WorldModelTest {
         model.setCollidables(new ArrayList<>());
         this.enemies = new ArrayList<>();
 
-
         Transform coinTransform = new Transform(new Vector2(10, 20), new Vector2(30, 30));
         coin = new Coin(coinTransform);
 
@@ -94,7 +93,8 @@ public class WorldModelTest {
         assertFalse(model.getIsMovingLeft());
     }
 
-    @Test void testIsJumping(){
+    @Test
+    void testIsJumping() {
         assertFalse(model.getIsJumping());
         model.setJumping(true);
         assertTrue(model.getIsJumping());
@@ -104,14 +104,14 @@ public class WorldModelTest {
     }
 
     @Test
-    void testInfoMode () {
+    void testInfoMode() {
         assertFalse(model.getInfoMode());
         model.setInfoMode(true);
         assertTrue(model.getInfoMode());
     }
 
     @Test
-    void testGamestate(){
+    void testGamestate() {
         //Upon starting the game, the state should be GAME_MENU
         assertTrue(model.getGameState().equals(GameState.GAME_MENU));
         model.resume();
@@ -124,7 +124,7 @@ public class WorldModelTest {
     }
 
     @Test
-    void testCheckForGameOver(){
+    void testCheckForGameOver() {
         model.setGameState(GameState.GAME_ACTIVE);
         model.player.receiveDamage(3);
         model.checkForGameOver();
@@ -140,7 +140,7 @@ public class WorldModelTest {
     }
 
     @Test
-    void testScoreUpdate(){
+    void testScoreUpdate() {
         model.setCountDown(10);
         model.updateScore(true);
         assertTrue(model.getCountDown() == 9);
@@ -149,7 +149,7 @@ public class WorldModelTest {
     }
 
     @Test
-    void testEnemiesMovable(){
+    void testEnemiesMovable() {
         Enemy en1 = MobileObjectFactory.createSnail(10, 10);
         Enemy en2 = MobileObjectFactory.createLeopard(15, 10);
         enemies.add(en1);
@@ -182,11 +182,7 @@ public class WorldModelTest {
 
     @Test
     void testLevelCounter() {
-        // Startverdi:
         assertEquals(1, model.getLevelCounter());
-
-        // Må endre oppsett av goToNextLevel-metode i modellen for å teste at vi går til riktig level.
-
     }
 
     @Test
@@ -249,7 +245,7 @@ public class WorldModelTest {
     }
 
     @Test
-    public void testGetMovementDirection(){
+    public void testGetMovementDirection() {
         assertEquals(0, model.getMovementDirection());
 
         model.player.setMovementDirection(1);
@@ -267,6 +263,4 @@ public class WorldModelTest {
 
         assertTrue(model.isLegalMove(mock(Visitor.class), box));
     }
-
-
 }

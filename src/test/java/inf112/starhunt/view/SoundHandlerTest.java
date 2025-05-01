@@ -15,7 +15,6 @@ import java.io.PrintStream;
 
 
 public class SoundHandlerTest {
-    // Where not able to properly test every line due to the dependency of libGDX.
     private Files mockFiles;
     private Audio mockAudio;
     private FileHandle mockFileHandle;
@@ -23,7 +22,6 @@ public class SoundHandlerTest {
 
     @BeforeEach
     void setup() {
-        // Initialize mocks
         mockFiles = mock(Files.class);
         mockAudio = mock(Audio.class);
         mockFileHandle = mock(FileHandle.class);
@@ -137,19 +135,15 @@ public class SoundHandlerTest {
         Files mockFiles = mock(Files.class);
         Audio mockAudio = mock(Audio.class);
 
-        // Initialize SoundHandler with mocks
         SoundHandler handler = new SoundHandler(mockFiles, mockAudio);
-        // Redirect System.err
         ByteArrayOutputStream errContent = new ByteArrayOutputStream();
         System.setErr(new PrintStream(errContent));
 
-        // Call playSound with null
         handler.playSound(null);
 
-        // Verify the error message
+
         assertTrue(errContent.toString().contains("Sound not found: null"));
 
-        // Reset System.err
         System.setErr(System.err);
     }
 
