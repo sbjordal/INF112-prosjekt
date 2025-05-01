@@ -93,6 +93,14 @@ class PlayerTest {
     }
 
     @Test
+    void testReceiveZeroDamage() {
+        int initialLives = player.getLives();
+        player.receiveDamage(0);
+        assertEquals(initialLives, player.getLives(), "Receiving 0 damage should not reduce lives.");
+    }
+
+
+    @Test
     void testSetAndGetHasPowerUp() {
         player.setHasPowerUp(true);
         assertTrue(player.getHasPowerUp());
@@ -337,6 +345,17 @@ class PlayerTest {
         verify(coinCollectedCallback, times(1)).run();
     }
 
+    @Test
+    void testSetLivesToValidValue() {
+        player.setLives(2);
+        assertEquals(2, player.getLives(), "Lives should be updated to the new valid value.");
+    }
+
+    @Test
+    void testSetLivesToInvalidValueThrowsException() {
+        assertThrows(IllegalArgumentException.class, () -> player.setLives(-1), "Setting lives to negative should throw exception.");
+        assertThrows(IllegalArgumentException.class, () -> player.setLives(-3), "Setting lives to negative should throw exception.");
+    }
 
 
 }

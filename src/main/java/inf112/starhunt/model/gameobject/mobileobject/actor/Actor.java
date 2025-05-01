@@ -97,6 +97,7 @@ public abstract class Actor extends MobileObject {
     }
 
     protected void setLives(int lives){
+        if (lives < 0){ throw new IllegalArgumentException("Lives can not be negative");}
         this.lives = lives;
     }
 }
