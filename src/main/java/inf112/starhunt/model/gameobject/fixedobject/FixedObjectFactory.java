@@ -21,12 +21,27 @@ public class FixedObjectFactory {
         registry.put("coin", FixedObjectFactory::createCoin);
     }
 
+    /**
+     * TODO: javadoc
+     *
+     * @param x
+     * @param y
+     * @param alteration
+     * @return
+     */
     public static Ground createGround(float x, float y, String alteration){
         Transform transform = TransformUtils.createTransformForObjects(x, y, 50, 50);
 
         return new Ground(transform, alteration);
     }
 
+    /**
+     * TODO: javadoc
+     *
+     * @param x
+     * @param y
+     * @return
+     */
     public static Coin createCoin(float x, float y){
         int DIAMETER = 30;
         Transform transform = TransformUtils.createTransformForObjects(x, y, DIAMETER, DIAMETER);
@@ -34,12 +49,26 @@ public class FixedObjectFactory {
         return new Coin(transform);
     }
 
+    /**
+     * TODO: javadoc
+     *
+     * @param x
+     * @param y
+     * @return
+     */
     public static Banana createBanana(float x, float y){
         Transform transform = TransformUtils.createTransformForObjects(x, y, 50, 53);
 
         return new Banana(transform);
     }
 
+    /**
+     * TODO: javadoc
+     *
+     * @param x
+     * @param y
+     * @return
+     */
     public static Star createStar(float x, float y){
         Transform transform = TransformUtils.createTransformForObjects(x, y, 72, 69);
 

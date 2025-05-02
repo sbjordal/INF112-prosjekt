@@ -4,6 +4,9 @@ import inf112.starhunt.model.gameobject.ViewableObject;
 
 import java.util.List;
 
+/**
+ * TODO: javadoc
+ */
 public interface ViewableWorldModel {
 
     /**

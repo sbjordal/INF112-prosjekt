@@ -4,6 +4,9 @@ import inf112.starhunt.model.gameobject.Collidable;
 import inf112.starhunt.model.gameobject.Transform;
 import inf112.starhunt.model.gameobject.Visitor;
 
+/**
+ * TODO: javadoc
+ */
 public class Star extends Item implements Collidable {
 
     /**
