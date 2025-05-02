@@ -144,7 +144,7 @@ public class WorldViewTest {
                 new Snail(new Vector2()),
                 new Coin(transform),
                 new Banana(transform),
-                new Ground(transform, "0000"),
+                new Ground(transform),
                 new Star(transform)
         );
 

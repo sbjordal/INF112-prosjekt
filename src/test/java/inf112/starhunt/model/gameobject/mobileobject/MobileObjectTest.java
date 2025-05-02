@@ -103,13 +103,13 @@ public class MobileObjectTest {
 
     @Test
     public void testIsTouchingGroundTrue() {
-        Ground ground = new Ground(new Transform(new Vector2(100, -1), new Vector2(50, 1)), "0000"); // Rett under
+        Ground ground = new Ground(new Transform(new Vector2(100, -1), new Vector2(50, 1))); // Rett under
         assertTrue(player.isTouchingGround(List.of(ground)), "Should be touching the ground.");
     }
 
     @Test
     public void testIsTouchingGroundFalse() {
-        Ground ground = new Ground(new Transform(new Vector2(100, -100), new Vector2(50, 1)), "0000"); // Langt under
+        Ground ground = new Ground(new Transform(new Vector2(100, -100), new Vector2(50, 1))); // Langt under
         assertTrue(!player.isTouchingGround(List.of(ground)), "Should not be touching the ground.");
     }
 
