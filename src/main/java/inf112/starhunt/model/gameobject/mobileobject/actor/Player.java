@@ -74,6 +74,33 @@ final public class Player extends Actor implements ModelablePlayer {
         super(1,0,TransformUtils.createTransformForObjects(0, 0, 0,0));
     }
 
+    /**
+     * TODO: javadoc
+     *
+     * @param damage
+     */
+    public void takeDamage(int damage){
+        final long currentTime = System.currentTimeMillis();
+        final boolean playerReadyToTakeDamage = currentTime - getLastAttackTime() >= ATTACK_COOLDOWN;
+        final int scorePenalty = 4;
+
+        if (playerReadyToTakeDamage) {
+            reduceTotalScore(scorePenalty);
+
+            if (hasPowerUp) {
+                losePowerUp();
+            } else {
+                receiveDamage(damage);
+            }
+
+            if (takingDamage != null) {
+                takingDamage.run();
+            }
+
+            setLastAttackTime(currentTime);
+        }
+    }
+
     @Override
     public void setOnCoinCollected(Runnable callback) {coinCollected = callback;}
 
@@ -262,14 +289,6 @@ final public class Player extends Actor implements ModelablePlayer {
         coinCounter = 0;
     }
 
-    public void setHasPowerUp(boolean hasPowerUp) {
-        this.hasPowerUp = hasPowerUp;
-    }
-
-    public boolean getHasPowerUp() {
-        return hasPowerUp;
-    }
-
     @Override
     public void setRespawned(boolean bool){
         isJustRespawned = bool;
@@ -283,6 +302,26 @@ final public class Player extends Actor implements ModelablePlayer {
     @Override
     public boolean getIsMovingHorizontally() {
         return isMovingHorizontally;
+    }
+
+    @Override
+    public void resetForNewLevel(Vector2 spawnPoint) {
+        move(spawnPoint);
+        setLives(initialLives);
+        setVerticalVelocity(0);
+        setRespawned(true);
+    }
+
+    private void reduceTotalScore(int scorePenalty) {
+        totalScore = Math.max(0, totalScore - scorePenalty);
+    }
+
+    private void losePowerUp() {
+        final int middleOfPlayer = (int) (STANDARD_PLAYER_SIZE.x / 2);
+        hasPowerUp = false;
+        jumpForce = NORMAL_JUMP_FORCE;
+        setSize(STANDARD_PLAYER_SIZE);
+        move(middleOfPlayer, 0);
     }
 
     public boolean getRespawned(){
@@ -309,46 +348,11 @@ final public class Player extends Actor implements ModelablePlayer {
         return jumpForce;
     }
 
-    public void takeDamage(int damage){
-        final long currentTime = System.currentTimeMillis();
-        final boolean playerReadyToTakeDamage = currentTime - getLastAttackTime() >= ATTACK_COOLDOWN;
-        final int scorePenalty = 4;
-
-        if (playerReadyToTakeDamage) {
-            reduceTotalScore(scorePenalty);
-
-            if (hasPowerUp) {
-                losePowerUp();
-            } else {
-                receiveDamage(damage);
-            }
-
-            if (takingDamage != null) {
-                takingDamage.run();
-            }
-
-            setLastAttackTime(currentTime);
-        }
+    public void setHasPowerUp(boolean hasPowerUp) {
+        this.hasPowerUp = hasPowerUp;
     }
 
-    @Override
-    public void resetForNewLevel(Vector2 spawnPoint) {
-        move(spawnPoint);
-        setLives(initialLives);
-        setVerticalVelocity(0);
-        setRespawned(true);
+    public boolean getHasPowerUp() {
+        return hasPowerUp;
     }
-
-    private void reduceTotalScore(int scorePenalty) {
-        totalScore = Math.max(0, totalScore - scorePenalty);
-    }
-
-    private void losePowerUp() {
-        final int middleOfPlayer = (int) (STANDARD_PLAYER_SIZE.x / 2);
-        hasPowerUp = false;
-        jumpForce = NORMAL_JUMP_FORCE;
-        setSize(STANDARD_PLAYER_SIZE);
-        move(middleOfPlayer, 0);
-    }
-
 }

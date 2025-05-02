@@ -24,5 +24,4 @@ public final class Leopard extends Enemy {
 
         setMovementDirection(-1);
     }
-
 }

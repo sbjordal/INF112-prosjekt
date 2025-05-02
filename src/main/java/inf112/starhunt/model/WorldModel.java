@@ -13,7 +13,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- *
+ * TODO: javadoc
  */
 public class WorldModel extends AbstractApplicationListener implements ViewableWorldModel, ControllableWorldModel, PositionValidator {
     public static final int LEVEL_WIDTH = 4500;
@@ -38,6 +38,12 @@ public class WorldModel extends AbstractApplicationListener implements ViewableW
     private boolean infoMode;
     private int levelCounter;
 
+    /**
+     * TODO: javadoc
+     *
+     * @param width
+     * @param height
+     */
     public WorldModel(int width, int height) {
         this.height = height;
         this.worldView = new WorldView(this, width, height);
@@ -51,7 +57,7 @@ public class WorldModel extends AbstractApplicationListener implements ViewableW
     }
 
     /**
-     *
+     * TODO: javadoc
      */
     public void setUpModel() {
         viewportLeftX = 0;
@@ -158,6 +164,11 @@ public class WorldModel extends AbstractApplicationListener implements ViewableW
         worldView.render(deltaTime);
     }
 
+    /**
+     * TODO: javadoc
+     *
+     * @param countingDown
+     */
     void updateScore(boolean countingDown) {
         if (countingDown) {
             countDown--;
@@ -165,6 +176,11 @@ public class WorldModel extends AbstractApplicationListener implements ViewableW
         }
     }
 
+    /**
+     * TODO: javadoc
+     *
+     * @return
+     */
     boolean shouldUpdateCountDown() {
         long currentTime = System.currentTimeMillis();
         if (countDown == 0) {
@@ -173,6 +189,11 @@ public class WorldModel extends AbstractApplicationListener implements ViewableW
         return (currentTime - lastScoreUpdate) >= 1000 && countDown > 0 && gameState == GameState.GAME_ACTIVE;
     }
 
+    /**
+     * TODO: javadoc
+     *
+     * @param deltaTime
+     */
     private void updatePlayerMovement(float deltaTime) {
         boolean isGrounded = player.isTouchingGround(Collections.unmodifiableList(collidables));
         if (isJumping) {
@@ -215,6 +236,9 @@ public class WorldModel extends AbstractApplicationListener implements ViewableW
         }
     }
 
+    /**
+     * TODO: javadoc
+     */
     void checkForGameOver() {
         if (!player.getIsAlive()){
             gameState = GameState.GAME_OVER;

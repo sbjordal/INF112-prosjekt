@@ -9,14 +9,15 @@ import com.badlogic.gdx.utils.SharedLibraryLoader;
 
 import inf112.starhunt.model.WorldModel;
 
+/**
+ * TODO: javadoc
+ */
 public class Main {
     private final static int WINDOW_WIDTH = 1500;
     private final static int WINDOW_HEIGHT = 920;
 
     public static void main(String[] args) {
 		if (SharedLibraryLoader.os == Os.MacOsX) {
-
-
 			Configuration.GLFW_LIBRARY_NAME.set("glfw_async");
 		}
 		

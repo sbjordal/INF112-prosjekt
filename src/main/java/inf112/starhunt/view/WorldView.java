@@ -20,6 +20,9 @@ import inf112.starhunt.model.gameobject.mobileobject.actor.Player;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import java.util.HashMap;
 
+/**
+ * TODO: javadoc
+ */
 public class WorldView extends AbstractScreen {
     private final ViewableWorldModel model;
     private SpriteBatch batch;
@@ -39,7 +42,13 @@ public class WorldView extends AbstractScreen {
     private boolean gameOverSoundHasPlayed;
     private boolean isActiveGameMusicStarted = false;
 
-
+    /**
+     * TODO: javadoc
+     *
+     * @param model
+     * @param width
+     * @param height
+     */
     public WorldView(ViewableWorldModel model, int width, int height) {
         this.viewport = new ExtendViewport(width, height);
         this.model = model;
@@ -219,6 +228,13 @@ public class WorldView extends AbstractScreen {
         drawCenteredText("Score: " + model.getTotalScore() + "   Level: " + model.getLevelCounter(), 2, 200);
     }
 
+    /**
+     * TODO: javadoc
+     *
+     * @param text
+     * @param textScale
+     * @param lowerTextBy
+     */
     void drawCenteredText(String text, float textScale, float lowerTextBy) {
         font.getData().setScale(textScale);
         layout.setText(font, text);
@@ -247,6 +263,9 @@ public class WorldView extends AbstractScreen {
         batch.draw(currentFrame, playerX, playerY, playerWidth, playerHeight);
     }
 
+    /**
+     * TODO: javadoc
+     */
     void drawLevel() {
 
         // Map-data
@@ -287,6 +306,9 @@ public class WorldView extends AbstractScreen {
         batch.end();
     }
 
+    /**
+     * TODO: javadoc
+     */
     void updateViewportCamera() {
         Transform playerTransform = model.getViewablePlayer().getTransform();
         float playerX = playerTransform.getPos().x;
@@ -306,6 +328,9 @@ public class WorldView extends AbstractScreen {
         model.updateViewportLeftX(getViewportLeftX());
     }
 
+    /**
+     * TODO: javadoc
+     */
     void loadTextures(){
         textures.put("leopard", new Texture("assets/leopard.png"));
         textures.put("snail", new Texture("assets/snail.png"));
@@ -335,6 +360,9 @@ public class WorldView extends AbstractScreen {
         };
     }
 
+    /**
+     * TODO: javadoc
+     */
     void drawObjects() {
         for (ViewableObject object : model.getObjectList()) {
             if (object instanceof Player) continue;

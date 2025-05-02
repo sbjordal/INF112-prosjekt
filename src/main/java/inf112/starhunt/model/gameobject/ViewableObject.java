@@ -68,5 +68,4 @@ public interface ViewableObject {
      * to determine how the textures should be displayed.
      */
     int getDirection();
-
 }

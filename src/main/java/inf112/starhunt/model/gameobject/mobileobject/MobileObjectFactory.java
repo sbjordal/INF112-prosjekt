@@ -15,8 +15,11 @@ import java.util.function.BiFunction;
 /**
  * A factory class responsible for creating {@link MobileObject} objects.
  */
-public class
-MobileObjectFactory {
+public class MobileObjectFactory {
+
+    /**
+     * TODO: javadoc
+     */
     static Map<String, BiFunction<Float, Float, MobileObject>> registry = new HashMap<>();
     static {
         registry.put("player", MobileObjectFactory::createPlayer);
@@ -24,6 +27,13 @@ MobileObjectFactory {
         registry.put("leopard", MobileObjectFactory::createLeopard);
     }
 
+    /**
+     * TODO: javadoc
+     *
+     * @param x
+     * @param y
+     * @return
+     */
     public static MobileObject createPlayer(Float x, Float y) {
         Transform transform = TransformUtils.createTransformForObjects(x, y, 40, 80);
         return new Player(3, 350, transform);

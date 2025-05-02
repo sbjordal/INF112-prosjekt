@@ -22,14 +22,6 @@ public class Transform{
         this.size = size;
     }
 
-    public Vector2 getPos() {
-        return position;
-    }
-
-    public Vector2 getSize() {
-        return size;
-    }
-
     /**
      * Sets the transform's position based on offset values.
      * Offset values are relative differences added to already existing values.
@@ -60,5 +52,13 @@ public class Transform{
      */
     public void alterSize(int width, int height) {
         size = new Vector2(width, height);
+    }
+
+    public Vector2 getPos() {
+        return position;
+    }
+
+    public Vector2 getSize() {
+        return size;
     }
 }
