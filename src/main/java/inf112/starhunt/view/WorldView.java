@@ -261,11 +261,11 @@ public class WorldView extends AbstractScreen implements EventListener {
         batch.setProjectionMatrix(viewport.getCamera().combined);
 
         // Text to be shown
-        String totalScore = "Total score: "+ model.getTotalScore();
-        String coinCount = "Coins: " + model.getCoinCounter();
-        String lives = "Lives: " + model.getPlayerLives();
-        String countDown = "CountDown: " + model.getCountDown();
-        String levelCount = "Level: " + model.getLevelCounter();
+        String totalScore = "Total score:"+ model.getTotalScore();
+        String coinCount = "Coins:" + model.getCoinCounter();
+        String lives = "Lives:" + model.getPlayerLives();
+        String countDown = "Time left:" + model.getCountDown();
+        String levelCount = "Level:" + model.getLevelCounter();
         font.getData().setScale(2);
 
         float screenHeight = viewport.getWorldHeight();
