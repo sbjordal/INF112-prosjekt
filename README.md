@@ -98,3 +98,7 @@ Platformer
   - Fra [Pixabay](https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=230517) (Royalty-free)
 - [ActiveGameMusic](https://pixabay.com/sound-effects/humorous-loop-275485/)
   - Fra [Pixabay](https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=230517) (Royalty-free)
+
+### MIT License
+
+Copyright (c) 2025 by Sjette Etasje
