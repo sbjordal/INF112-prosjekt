@@ -76,17 +76,6 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<!-- SLF4J logging framework: https://slf4j.org/-->
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>2.0.17</version>
-		</dependency>
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-			<version>1.5.15</version>
-		</dependency>
-		<dependency>
 			<groupId>com.badlogicgames.gdx</groupId>
 			<artifactId>gdx-freetype</artifactId>
 			<version>1.13.1</version>
@@ -94,17 +83,6 @@
 		<dependency>
 			<groupId>com.badlogicgames.gdx</groupId>
 			<artifactId>gdx-freetype-platform</artifactId>
-			<version>1.13.1</version>
-			<classifier>natives-desktop</classifier>
-		</dependency>
-		<dependency>
-			<groupId>com.badlogicgames.gdx</groupId>
-			<artifactId>gdx-box2d</artifactId>
-			<version>1.13.1</version>
-		</dependency>
-		<dependency>
-			<groupId>com.badlogicgames.gdx</groupId>
-			<artifactId>gdx-box2d-platform</artifactId>
 			<version>1.13.1</version>
 			<classifier>natives-desktop</classifier>
 		</dependency>

@@ -21,6 +21,11 @@
 ## Om spillet 
 
 ### Hvordan spille 
+
+#### Konsept:
+
+Platformer
+
 #### Mål:
 - Målet med spillet er å komme så langt som mulig med flest mulig poeng. 
 - For å komme til neste level må spilleren fange levelets stjerne. Underveis kan man samle mynter, spise bananer, 
