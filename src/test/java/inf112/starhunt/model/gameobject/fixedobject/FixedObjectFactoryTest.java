@@ -1,6 +1,8 @@
-package inf112.starhunt.model.gameobject.fixedobject.item;
+package inf112.starhunt.model.gameobject.fixedobject;
 
-import inf112.starhunt.model.gameobject.fixedobject.FixedObjectFactory;
+import inf112.starhunt.model.gameobject.fixedobject.item.Banana;
+import inf112.starhunt.model.gameobject.fixedobject.item.Coin;
+import inf112.starhunt.model.gameobject.fixedobject.item.Star;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
