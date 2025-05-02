@@ -24,7 +24,32 @@
 
 #### Konsept:
 
-Platformer
+- Basert på spillet Super Mario Bros
+- Spillfigur som kan styres: gå til høyre og venstre, og hoppe oppover (innenfor spillets ramme).
+- Todimensjonal verden:
+  * Plattform – horisontal flate spilleren kan stå eller gå på (inkludert «bakken»)
+  * Vegg – vertikal flate som spilleren ikke kan gå gjennom
+  * Spilleren beveger seg oppover ved å hoppe, og nedover ved å falle, hvor grafikk tilpasses hvert level
+  * Spillet foregår i levels med økende vanskelighetsgrad
+  * Spillet har tre forskjellige level design
+
+- Fiender som beveger seg og er skadelige ved berøring 
+- Spilleren kan samle poeng ved å plukke opp mynter, bekjempe fiender og fullføre levels
+- Spillets mål: Å komme lengst mulig og samle flest mulig poeng før spillkarakteren dør (game-over)
+- Utfordringer i spillet:
+  * Å bevege seg gjennom terrenget uten å falle utfor
+  * Å unngå å miste liv som følge av å bli skadet av fiender og/eller hindringer
+  * Å samle poeng
+  * Få ekstra poeng ved å fullføre levelet før 45 sekunder har gått
+  * Fiender har variende mengde liv
+
+- Scoresystem:
+  * Poenggjenstander: Mynter, snegler, leoparder
+  * Spilleren får 10 poeng ved å hoppe på en snegl(fiendetype)
+  * spilleren får 15 poeng ved å hoppe på en leopard(fiendetype)
+  * Spiller får 5 poeng ved kollidere med en mynt
+  * Poeng for å ha gjenværende tid ved fullført level
+
 
 #### Mål:
 - Målet med spillet er å komme så langt som mulig med flest mulig poeng. 
