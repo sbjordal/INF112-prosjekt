@@ -20,8 +20,6 @@
 
 ## Om spillet 
 
-### Hvordan spille 
-
 #### Konsept:
 
 - Basert på spillet Super Mario Bros
