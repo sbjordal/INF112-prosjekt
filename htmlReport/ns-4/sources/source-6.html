@@ -5,7 +5,7 @@
 <html id="htmlId">
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
-  <title>Coverage Report > Scorable</title>
+  <title>Coverage Report > Collidable</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -22,14 +22,14 @@ Current scope:     <a href="../../index.html">all classes</a>
     <a href="../index.html">inf112.starhunt.model.gameobject</a>
 </div>
 
-<h1>Coverage Summary for Class: Scorable (inf112.starhunt.model.gameobject)</h1>
+<h1>Coverage Summary for Class: Collidable (inf112.starhunt.model.gameobject)</h1>
 
 <table class="coverageStats">
 <tr>
   <th class="name">Class</th>
 </tr>
 <tr>
-  <td class="name">Scorable</td>
+  <td class="name">Collidable</td>
 </tr>
 
 </table>
@@ -42,17 +42,21 @@ Current scope:     <a href="../../index.html">all classes</a>
 <code class="sourceCode" id="sourceCode">&nbsp;package inf112.starhunt.model.gameobject;
 &nbsp;
 &nbsp;/**
-&nbsp; * This interface is for game objects that can contribute to increase the player&#39;s score.
-&nbsp; * Implemented in classes like {@code Enemy} or {@code Coin} where it is necessary to know
-&nbsp; * how many points they are worth when collected or interacted with.
+&nbsp; * All classes that are Collidable is able to collide into.
 &nbsp; */
-&nbsp;public interface Scorable {
+&nbsp;public interface Collidable extends ViewableObject {
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     * @param visitor
+&nbsp;     */
+&nbsp;    void accept(Visitor visitor);
 &nbsp;
 &nbsp;    /**
-&nbsp;     * Get the current score value
-&nbsp;     * @return score value
+&nbsp;     * A getter for CollisionBox. CollisionBox is the bounding box of an object, used to
+&nbsp;     * detect collisions.
+&nbsp;     * @return the collisionBox of the GameObject
 &nbsp;     */
-&nbsp;    int getObjectScore();
+&nbsp;    CollisionBox getCollisionBox();
 &nbsp;}
 </code>
 </pre>
@@ -77,7 +81,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2025-05-01 11:36</div>
+    <div style="float:right;">generated on 2025-05-02 11:57</div>
 </div>
 </body>
 </html>
