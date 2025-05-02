@@ -19,12 +19,14 @@ public class Item extends FixedObject {
         super(transform);
         isCollected = false;
     }
+    /**
+     * TODO: javadoc
+     */
+    public void collect() {
+        isCollected = true;
+    }
 
     public boolean isCollected() {
         return isCollected;
-    }
-
-    public void collect() {
-        isCollected = true;
     }
 }

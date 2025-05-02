@@ -9,9 +9,12 @@ import inf112.starhunt.model.GameState;
  * A class that handles keyboard input and manipulates the model accordingly.
  */
 public class Controller extends InputAdapter {
-
     private final ControllableWorldModel controllableModel;
 
+    /**
+     * TODO: javadoc
+     * @param controllableModel
+     */
     public Controller(ControllableWorldModel controllableModel) {
         this.controllableModel = controllableModel;
     }

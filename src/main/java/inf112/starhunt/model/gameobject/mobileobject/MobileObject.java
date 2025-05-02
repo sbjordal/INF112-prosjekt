@@ -44,46 +44,6 @@ public abstract class MobileObject extends GameObject implements Movable {
         updateCollisionBox();
     }
 
-    public void setMovementDirection(int movementDirection) {
-        this.movementDirection = movementDirection;
-    }
-
-    public void switchDirection() {
-        movementDirection *= -1;
-    }
-
-    /**
-     * Updates the transform of the collision box to match the current transform.
-     */
-    private void updateCollisionBox() {
-        setCollisionBox(getTransform());
-    }
-
-    /**
-     * Returns the MobileObject's movement speed.
-     *
-     * @return The movement speed as an integer.
-     */
-    public int getMovementSpeed() {
-        return movementSpeed;
-    }
-
-    public int getVerticalVelocity() {
-        return verticalVelocity;
-    }
-
-    public void addVerticalVelocity(int velocity) {
-        verticalVelocity += velocity;
-    }
-
-    public void setVerticalVelocity(int verticalVelocity) {
-        this.verticalVelocity = verticalVelocity;
-    }
-
-    public int getMovementDirection(){
-        return movementDirection;
-    }
-
     @Override
     public void applyGravity(float deltaTime, boolean isOnGround) {
         if (isOnGround && verticalVelocity <= 0) {
@@ -117,6 +77,18 @@ public abstract class MobileObject extends GameObject implements Movable {
         return new Vector2(filteredX, filteredY);
     }
 
+    /**
+     * TODO: javadoc
+     *
+     * @param startX
+     * @param startY
+     * @param delta
+     * @param size
+     * @param isX
+     * @param validator
+     * @param visitor
+     * @return
+     */
     private float binarySearch(float startX, float startY, float delta, Vector2 size, boolean isX, PositionValidator validator, Visitor visitor) {
         int low = 0;
         int high = (int) Math.abs(delta);
@@ -144,6 +116,46 @@ public abstract class MobileObject extends GameObject implements Movable {
 
     @Override
     public int getDirection(){
+        return movementDirection;
+    }
+
+    /**
+     * Updates the transform of the collision box to match the current transform.
+     */
+    private void updateCollisionBox() {
+        setCollisionBox(getTransform());
+    }
+
+    /**
+     * Returns the MobileObject's movement speed.
+     *
+     * @return The movement speed as an integer.
+     */
+    public int getMovementSpeed() {
+        return movementSpeed;
+    }
+
+    public void setMovementDirection(int movementDirection) {
+        this.movementDirection = movementDirection;
+    }
+
+    public void switchDirection() {
+        movementDirection *= -1;
+    }
+
+    public int getVerticalVelocity() {
+        return verticalVelocity;
+    }
+
+    public void addVerticalVelocity(int velocity) {
+        verticalVelocity += velocity;
+    }
+
+    public void setVerticalVelocity(int verticalVelocity) {
+        this.verticalVelocity = verticalVelocity;
+    }
+
+    public int getMovementDirection(){
         return movementDirection;
     }
 }

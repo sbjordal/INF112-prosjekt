@@ -5,6 +5,7 @@ package inf112.starhunt.model.gameobject;
  */
 public interface Collidable extends ViewableObject {
     /**
+     * TODO: javadoc
      *
      * @param visitor
      */

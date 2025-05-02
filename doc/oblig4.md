@@ -219,7 +219,9 @@ sjekke tilgangene til feltvariabler+ metoder osv.
 
 7. **Husk å skrive hvilke bugs som finnes i de kravene dere har utført (dersom det finnes bugs).**
 - Vi har en bug som ikke er knyttet til et spesifikt MVP/post MVP krav. Playeren hopper noen ganger litt høyere enn "vanlig". Hoppingen 
-har vi tenkt er en feature istedenfor en bug. Det er jo til og med realistisk at man ikke hopper like høyt hver gang man hopper:)
+har vi tenkt er en feature istedenfor en bug. Det er jo til og med realistisk at man ikke hopper like høyt hver gang man hopper:) 
+  - Dette er en bug som har med Deltatime i LibGDX å gjøre, og henger sammen med FPS.
+- En annen bug som vi vet om er at i grensetilfelle når Player treffer kant på plattform som kan gi ekstra høyt hopp.
 
 
 ## Produkt og kode
@@ -242,9 +244,6 @@ har vi tenkt er en feature istedenfor en bug. Det er jo til og med realistisk at
     - Vi har refaktorert typen Player til ModelablePlayer i WorldModel for å beholde avhengigheter basert på abstraksjoner og ikke konkretiseringer (Dependency Inversion Principle).
     - Vi har oppdatert UML-diagrammet.
     - Vi Har testet at prosjektet bygger og kjører på WSL (Windows Subsystem for Linux).
-
-
-* Bugs:
 
 
 ## Sjekkliste vurderingskriterier

@@ -5,6 +5,9 @@ import inf112.starhunt.model.PositionValidator;
 
 import java.util.List;
 
+/**
+ * TODO: javadoc
+ */
 public interface Movable {
 
     /**
