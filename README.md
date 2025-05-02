@@ -100,6 +100,12 @@
   * snail.png
   * star.png
   - Emoji-grafikk: Noto Emoji av Google, lisensiert under Apache License 2.0
+- VT323 font av [Peter Hull](https://fonts.google.com/specimen/VT323), inkluderer:
+  * VT323-Regular.ttf
+  - VT323 Regular (c) 2011 The VT323 Project Authors (peter.hull@oikoi.com), lisensiert under SIL Open Font License, versjon 1.1
+- Star Hunt Logo av Julie Sandanger (c) 2025. Alle rettigheter reservert.
+  * Bestående av Font VT323, av Peter Hull, samt stjerne av Google (se over).
+  
 
 
 
