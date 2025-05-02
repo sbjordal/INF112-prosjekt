@@ -40,10 +40,7 @@
 * Krever Java 17.0.14 eller nyere.
 
 ### Kjente feil / bugs
-- En snegl på siste level beveger seg innimellom bak/gjennom vegger. 
-  Det virker som at dette kun skjer dersom man har spilt gjennom alle levels en gang før. 
-  Har forsøkt å gjenskape bugen med tester og brukertesting uten hell.
-- Hvis du holder inne "piltast opp" for hopp mens du pauser, vil player hoppe konstant selv om du har sluppet knappen.
+-  
 
 ### Credits 
 

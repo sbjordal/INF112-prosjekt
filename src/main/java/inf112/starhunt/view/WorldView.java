@@ -16,14 +16,11 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import inf112.starhunt.model.GameState;
 import inf112.starhunt.model.gameobject.Transform;
 import inf112.starhunt.model.gameobject.ViewableObject;
-import inf112.starhunt.model.gameobject.mobileobject.actor.ModelablePlayer;
 import inf112.starhunt.model.gameobject.mobileobject.actor.Player;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-
-import java.util.EventListener;
 import java.util.HashMap;
 
-public class WorldView extends AbstractScreen implements EventListener {
+public class WorldView extends AbstractScreen {
     private final ViewableWorldModel model;
     private SpriteBatch batch;
     private Texture headerTexture;
