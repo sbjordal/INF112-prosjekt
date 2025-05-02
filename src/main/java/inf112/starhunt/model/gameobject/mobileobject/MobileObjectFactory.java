@@ -4,7 +4,6 @@ import com.badlogic.gdx.math.Vector2;
 import inf112.starhunt.model.gameobject.Transform;
 import inf112.starhunt.model.gameobject.TransformUtils;
 import inf112.starhunt.model.gameobject.mobileobject.actor.Player;
-import inf112.starhunt.model.gameobject.mobileobject.actor.enemy.Enemy;
 import inf112.starhunt.model.gameobject.mobileobject.actor.enemy.Leopard;
 import inf112.starhunt.model.gameobject.mobileobject.actor.enemy.Snail;
 
@@ -17,9 +16,7 @@ import java.util.function.BiFunction;
  */
 public class MobileObjectFactory {
 
-    /**
-     * TODO: javadoc
-     */
+
     static Map<String, BiFunction<Float, Float, MobileObject>> registry = new HashMap<>();
     static {
         registry.put("player", MobileObjectFactory::createPlayer);
@@ -28,11 +25,11 @@ public class MobileObjectFactory {
     }
 
     /**
-     * TODO: javadoc
+     * Creates a new {@link Player} object
      *
-     * @param x
-     * @param y
-     * @return
+     * @param x starting x position
+     * @param y starting y position
+     * @return a player as a {@link MobileObject}
      */
     public static MobileObject createPlayer(Float x, Float y) {
         Transform transform = TransformUtils.createTransformForObjects(x, y, 40, 80);
@@ -60,4 +57,5 @@ public class MobileObjectFactory {
     public static Leopard createLeopard(float x, float y) {
         return new Leopard(new Vector2(x,y));
     }
+
 }
