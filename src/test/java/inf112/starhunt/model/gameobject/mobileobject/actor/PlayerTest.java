@@ -45,7 +45,7 @@ class PlayerTest {
         coin = new Coin(coinTransform);
 
         Transform groundTransform = TransformUtils.createTransformForObjects(0,-10,10,10);
-        ground = new Ground(groundTransform);
+        ground = new Ground(groundTransform, "0000");
 
         Transform snailTransform = TransformUtils.createTransformForObjects(0,0,1,1);
         enemy = MobileObjectFactory.createSnail(10, 0);

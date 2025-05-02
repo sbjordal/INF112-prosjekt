@@ -18,7 +18,7 @@ public class GroundTest {
     @BeforeEach
     void setUp() {
         transform = new Transform(new Vector2(5, 5), new Vector2(10, 10));
-        ground = new Ground(transform);
+        ground = new Ground(transform, "0000");
     }
 
     @Test

@@ -7,7 +7,6 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Vector2;
 import inf112.starhunt.model.GameState;
 import inf112.starhunt.model.gameobject.Transform;
@@ -102,15 +101,14 @@ public class WorldViewTest {
 
             var textures = worldView.getTextures();
             assertNotNull(textures);
-            assertEquals(6, textures.size());
+            assertEquals(21, textures.size());
             assertTrue(textures.containsKey("leopard"));
             assertTrue(textures.containsKey("snail"));
             assertTrue(textures.containsKey("coin"));
             assertTrue(textures.containsKey("powerup"));
-            assertTrue(textures.containsKey("ground"));
             assertTrue(textures.containsKey("star"));
 
-            assertEquals(6, mocked.constructed().size());
+            assertEquals(21, mocked.constructed().size());
         }
     }
 
@@ -136,7 +134,7 @@ public class WorldViewTest {
         textures.put("snail", mockTexture);
         textures.put("coin", mockTexture);
         textures.put("powerup", mockTexture);
-        textures.put("ground", mockTexture);
+        textures.put("ground_0000", mockTexture);
         textures.put("star", mockTexture);
         worldView.setTextures(textures);
 
@@ -146,7 +144,7 @@ public class WorldViewTest {
                 new Snail(new Vector2()),
                 new Coin(transform),
                 new Banana(transform),
-                new Ground(transform),
+                new Ground(transform, "0000"),
                 new Star(transform)
         );
 
