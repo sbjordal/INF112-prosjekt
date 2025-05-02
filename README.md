@@ -45,7 +45,11 @@ Platformer
 * Krever Java 17.0.14 eller nyere.
 
 ### Kjente feil / bugs
--  
+- Vi har en bug som ikke er knyttet til et spesifikt MVP/post MVP krav. Playeren hopper noen ganger litt høyere enn "vanlig". Hoppingen
+  har vi tenkt er en feature istedenfor en bug. Det er jo til og med realistisk at man ikke hopper like høyt hver gang man hopper:)
+  - Dette er en bug som har med Deltatime i LibGDX å gjøre, og henger sammen med FPS.
+- En annen bug som vi vet om er at i grensetilfelle når Player treffer kant på plattform som kan gi ekstra høyt hopp.
+
 
 ### Credits 
 
