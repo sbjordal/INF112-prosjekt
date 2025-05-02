@@ -6,10 +6,16 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import java.util.HashMap;
 
+/**
+ * TODO: javadoc
+ */
 public class PlayerAnimation {
     private final HashMap<String, Animation<TextureRegion>> animations;
     private float stateTime;
 
+    /**
+     * TODO: javadoc
+     */
     public PlayerAnimation() {
         this.animations = new HashMap<>();
         this.stateTime = 0f;
@@ -66,12 +72,25 @@ public class PlayerAnimation {
         animations.put("landingLeft", new Animation<>(0.1f, landingFramesLeft));
     }
 
+    /**
+     * TODO: javadoc
+     *
+     * @param deltaTime
+     * @param isPaused
+     */
     void update(float deltaTime, boolean isPaused) {
         if (!isPaused) {
             stateTime += deltaTime;
         }
     }
 
+    /**
+     * TODO: javadoc
+     *
+     * @param direction
+     * @param verticalVelocity
+     * @return
+     */
     TextureRegion getFrame(int direction, float verticalVelocity) {
         final boolean isFalling = verticalVelocity < 0;
         final boolean isJumping = verticalVelocity > 0;
@@ -103,6 +122,9 @@ public class PlayerAnimation {
         }
     }
 
+    /**
+     * TODO: javadoc
+     */
     void dispose() {
         for (Animation<TextureRegion> animation : animations.values()){
             for (TextureRegion frame : animation.getKeyFrames()){

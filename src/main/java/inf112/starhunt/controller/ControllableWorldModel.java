@@ -3,6 +3,9 @@ package inf112.starhunt.controller;
 import inf112.starhunt.model.GameState;
 import inf112.starhunt.model.LevelManager;
 
+/**
+ * TODO: javadoc
+ */
 public interface ControllableWorldModel {
 
     /**
