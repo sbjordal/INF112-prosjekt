@@ -44,8 +44,8 @@ public class SoundHandler {
 
     /**
      * Adds sounds to map
-     * @param name
-     * @param filePath
+     * @param name of sound
+     * @param filePath placement
      * @param files dependency needed for testing
      * @param audio dependency needed for testing
      */
@@ -58,7 +58,7 @@ public class SoundHandler {
     /**
      * Helper method for adding music to map,
      * @param name Music name
-     * @param filePath
+     * @param filePath placement
      * @param files dependency needed for testing
      * @param audio dependency needed for testing
      *

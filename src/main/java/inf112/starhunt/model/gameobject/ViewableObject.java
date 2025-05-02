@@ -13,44 +13,59 @@ public interface ViewableObject {
     Transform getTransform();
 
     /**
-     * A getter for CollisionBox. CollisionBox is the bounding box of an object, used to
+     * A getter for {@link CollisionBox}. CollisionBox is the bounding box of an object, used to
      * detect collisions.
      * @return the collisionBox of the GameObject
      */
     CollisionBox getCollisionBox();
 
     /**
+     * Sets the action to run when the player collects a coin.
+     * Used for playing a specific sound effect.
      *
-     * @param callback
+     * @param onCoinCollected a {@link Runnable} that will be executed when a coin is collected.
+     *
      */
-    void setOnCoinCollected(Runnable callback);
+    void setOnCoinCollected(Runnable onCoinCollected);
 
     /**
+     * Sets the action to run when the player collides with an enemy and takes damage.
+     * Used for playing a specific sound effect.
      *
-     * @param callback
+     * @param onCollisionWithEnemy a {@link Runnable} that will be executed on enemy collision.
+     *
      */
-    void setOnCollisionWithEnemy(Runnable callback);
+    void setOnCollisionWithEnemy(Runnable onCollisionWithEnemy);
 
     /**
+     * Sets the action to run when the player collides with an enemy and deals damage. Plays a specific sound effect.
      *
-     * @param callback
+     * @param onCollisionWithEnemyDealDamage a {@link Runnable} that is triggered when the player damages an enemy.
      */
-    void setOnCollisionWithEnemyDealDamage(Runnable callback);
+    void setOnCollisionWithEnemyDealDamage(Runnable onCollisionWithEnemyDealDamage);
 
     /**
+     * Sets the action to run when the player collects a banana.
+     * Used for playing a specific sound effect.
      *
-     * @param callback
+     * @param onBananaCollected a {@link Runnable} that will be executed when a banana is collected.
+     *                          e.g., getting a powerUp.
+     *
      */
-    void setOnBananaCollected(Runnable callback);
+    void setOnBananaCollected(Runnable onBananaCollected);
 
     /**
+     * Sets the action to run when the player collides with a star.
+     * Used for playing a specific sound effect.
      *
-     * @param callback
+     * @param onCollisionWithStar a {@link Runnable} to execute on star collision,
+     *                            e.g., triggering level completion.
      */
-    void setOnCollisionWithStar(Runnable callback);
+    void setOnCollisionWithStar(Runnable onCollisionWithStar);
 
     /**
-     *
+     * TODO, javadoc, handler det om texture retning?
      */
     int getDirection();
+
 }

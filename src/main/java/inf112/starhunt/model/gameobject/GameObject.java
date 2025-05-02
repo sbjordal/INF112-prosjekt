@@ -11,7 +11,7 @@ public class GameObject implements ViewableObject {
     private CollisionBox collisionBox;
 
     /**
-     * Creates a new GameObject with the specified transform and texture.
+     * Creates a new {@link GameObject} with the specified transform and texture.
      *
      * @param transform The initial position and size of the GameObject.
      */
