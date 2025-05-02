@@ -7,13 +7,19 @@ import inf112.starhunt.model.GameState;
 
 /**
  * A class that handles keyboard input and manipulates the model accordingly.
+ *
+ * Extends {@link InputAdapter} that again implements {@link com.badlogic.gdx.InputProcessor} from LibGDX.
+ * This is done since we did not want to implement all methods from {@link com.badlogic.gdx.InputProcessor}.
  */
 public class Controller extends InputAdapter {
     private final ControllableWorldModel controllableModel;
 
     /**
-     * TODO: javadoc
-     * @param controllableModel
+     * Constructor for the {@link Controller} that handles user input and forwards relevant actions
+     * to the given controllable model.
+     *
+     * @param controllableModel the model that receives control input (e.g., movement, actions);
+     *                          must implement {@link ControllableWorldModel}
      */
     public Controller(ControllableWorldModel controllableModel) {
         this.controllableModel = controllableModel;

@@ -10,7 +10,7 @@ import com.badlogic.gdx.utils.SharedLibraryLoader;
 import inf112.starhunt.model.WorldModel;
 
 /**
- * TODO: javadoc
+ * Main class that initiates LibGDX and {@link WorldModel}, also sets title and windowsize.
  */
 public class Main {
     private final static int WINDOW_WIDTH = 1500;
@@ -28,4 +28,5 @@ public class Main {
 
         new Lwjgl3Application(new WorldModel(WINDOW_WIDTH, WINDOW_HEIGHT), cfg);
     }
+
 }

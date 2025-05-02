@@ -19,14 +19,23 @@ public class Item extends FixedObject {
         super(transform);
         isCollected = false;
     }
+
     /**
-     * TODO: javadoc
+     * Marks the item as collected.
+     * <p>
+     * This can be used by the game logic when the player picks up the item.
      */
     public void collect() {
         isCollected = true;
     }
 
+    /**
+     * Checks whether the item has been collected.
+     *
+     * @return {@code true} if the item has been collected; {@code false} otherwise.
+     */
     public boolean isCollected() {
         return isCollected;
     }
+
 }

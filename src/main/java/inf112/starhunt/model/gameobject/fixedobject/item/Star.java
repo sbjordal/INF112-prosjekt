@@ -5,7 +5,7 @@ import inf112.starhunt.model.gameobject.Transform;
 import inf112.starhunt.model.gameobject.Visitor;
 
 /**
- * TODO: javadoc
+ * {@link Item} that represents a Star, something a {@link inf112.starhunt.model.gameobject.mobileobject.actor.Player} can collect to continue to the next level.
  */
 public class Star extends Item implements Collidable {
 

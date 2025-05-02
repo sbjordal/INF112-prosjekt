@@ -4,7 +4,7 @@ import inf112.starhunt.model.GameState;
 import inf112.starhunt.model.LevelManager;
 
 /**
- * TODO: javadoc
+ * Interface that defines what can be controlled by the {@link Controller} in the {@link inf112.starhunt.model.WorldModel}.
  */
 public interface ControllableWorldModel {
 
@@ -79,5 +79,5 @@ public interface ControllableWorldModel {
     void startLevel(LevelManager.Level level);
 
     LevelManager.Level getCurrentLevel();
-}
 
+}

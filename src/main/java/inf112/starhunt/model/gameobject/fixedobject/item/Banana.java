@@ -5,7 +5,8 @@ import inf112.starhunt.model.gameobject.Transform;
 import inf112.starhunt.model.gameobject.Visitor;
 
 /**
- * TODO: javadoc
+ * Class for {@link inf112.starhunt.model.gameobject.mobileobject.actor.Player} powerup.
+ * An {@link Item} that can be collected by player, gets removed after collection.
  */
 public class Banana extends Item implements Collidable {
     private final static int BIG_JUMP_FORCE = 73000;
