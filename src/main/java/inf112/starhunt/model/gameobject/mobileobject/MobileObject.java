@@ -78,16 +78,17 @@ public abstract class MobileObject extends GameObject implements Movable {
     }
 
     /**
-     * TODO: javadoc
+     * Performs a binary search to find the farthest legal movement along one axis (X or Y)
+     * without triggering a collision or illegal move, as determined by the {@code validator}.
      *
-     * @param startX
-     * @param startY
-     * @param delta
-     * @param size
-     * @param isX
-     * @param validator
-     * @param visitor
-     * @return
+     * @param startX    the starting X position of the object
+     * @param startY    the starting Y position of the object
+     * @param delta     the desired movement distance (can be negative)
+     * @param size      the size of the object being moved (used for collision checking)
+     * @param isX       {@code true} to search along the X-axis, {@code false} for Y-axis
+     * @param validator the logic to check whether a new position is valid (i.e., collision-free)
+     * @param visitor   the object attempting to move; passed to the validator
+     * @return the furthest position (in the chosen axis) from the start position that is valid
      */
     private float binarySearch(float startX, float startY, float delta, Vector2 size, boolean isX, PositionValidator validator, Visitor visitor) {
         int low = 0;

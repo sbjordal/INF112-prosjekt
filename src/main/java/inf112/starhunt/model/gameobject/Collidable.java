@@ -1,7 +1,7 @@
 package inf112.starhunt.model.gameobject;
 
 /**
- * All classes that are Collidable is able to collide into.
+ * All classes that are Collidable is possible to collide into.
  */
 public interface Collidable extends ViewableObject {
     /**
@@ -17,4 +17,5 @@ public interface Collidable extends ViewableObject {
      * @return the collisionBox of the GameObject
      */
     CollisionBox getCollisionBox();
+
 }

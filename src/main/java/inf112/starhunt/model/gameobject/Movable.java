@@ -6,7 +6,13 @@ import inf112.starhunt.model.PositionValidator;
 import java.util.List;
 
 /**
- * TODO: javadoc
+ * Represents an object in the game world that can move and be affected by gravity and/or collisions.
+ * <p>
+ * This interface defines essential behavior for dynamic objects such as players or enemies,
+ * including movement handling, gravity simulation, collision validation, and ground detection.
+ * <p>
+ * Classes implementing {@code Movable} are expected to interact with physics and collision systems
+ * to ensure smooth and legal movement within the game world.
  */
 public interface Movable {
 
@@ -65,4 +71,5 @@ public interface Movable {
      * @param validator   The {@link PositionValidator} used to filter the movement.
      */
     void resolveMovement(float deltaX, float deltaY, PositionValidator validator);
+
 }

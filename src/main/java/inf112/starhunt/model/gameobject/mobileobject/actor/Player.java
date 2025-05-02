@@ -75,9 +75,12 @@ final public class Player extends Actor implements ModelablePlayer {
     }
 
     /**
-     * TODO: javadoc
+     * Applies damage to the player if enough time has passed since the last hit.
+     * <p>
+     * If the player is currently protected by a power-up, the power-up is lost instead of taking damage.
+     * A score penalty is applied regardless. Triggers a visual or sound effect if one is set.
      *
-     * @param damage
+     * @param damage the amount of health to deduct if the player is vulnerable and unprotected
      */
     public void takeDamage(int damage){
         final long currentTime = System.currentTimeMillis();

@@ -22,12 +22,12 @@ public class FixedObjectFactory {
     }
 
     /**
-     * TODO: javadoc
+     * Creates a new {@link Ground} object at the specified position with a given alteration type.
      *
-     * @param x
-     * @param y
-     * @param alteration
-     * @return
+     * @param x the X-coordinate of the ground object
+     * @param y the Y-coordinate of the ground object
+     * @param alteration a string representing a visual or functional variation of the ground (e.g., texture type)
+     * @return a new {@link Ground} instance positioned at (x, y)
      */
     public static Ground createGround(float x, float y, String alteration){
         Transform transform = TransformUtils.createTransformForObjects(x, y, 50, 50);
@@ -36,11 +36,11 @@ public class FixedObjectFactory {
     }
 
     /**
-     * TODO: javadoc
+     * Creates a new {@link Coin} object at the specified position.
      *
-     * @param x
-     * @param y
-     * @return
+     * @param x the X-coordinate of the coin
+     * @param y the Y-coordinate of the coin
+     * @return a new {@link Coin} instance positioned at (x, y)
      */
     public static Coin createCoin(float x, float y){
         int DIAMETER = 30;
@@ -50,11 +50,11 @@ public class FixedObjectFactory {
     }
 
     /**
-     * TODO: javadoc
+     * Creates a new {@link Banana} power-up object at the specified position.
      *
-     * @param x
-     * @param y
-     * @return
+     * @param x the X-coordinate of the banana
+     * @param y the Y-coordinate of the banana
+     * @return a new {@link Banana} instance positioned at (x, y)
      */
     public static Banana createBanana(float x, float y){
         Transform transform = TransformUtils.createTransformForObjects(x, y, 50, 53);
@@ -63,16 +63,16 @@ public class FixedObjectFactory {
     }
 
     /**
-     * TODO: javadoc
+     * Creates a new {@link Star} collectible or objective object at the specified position.
      *
-     * @param x
-     * @param y
-     * @return
+     * @param x the X-coordinate of the star
+     * @param y the Y-coordinate of the star
+     * @return a new {@link Star} instance positioned at (x, y)
      */
     public static Star createStar(float x, float y){
         Transform transform = TransformUtils.createTransformForObjects(x, y, 72, 69);
 
         return new Star(transform);
     }
-}
 
+}
