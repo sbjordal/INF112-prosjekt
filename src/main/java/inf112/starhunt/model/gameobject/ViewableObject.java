@@ -64,7 +64,8 @@ public interface ViewableObject {
     void setOnCollisionWithStar(Runnable onCollisionWithStar);
 
     /**
-     * TODO, javadoc, handler det om texture retning?
+     * Returns the direction the object is moving in. 1 for right, -1 for left or 0 if static. Used
+     * to determine how the textures should be displayed.
      */
     int getDirection();
 

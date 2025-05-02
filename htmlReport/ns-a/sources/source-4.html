@@ -56,26 +56,26 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    87,5%
+    77,8%
   </span>
   <span class="absValue">
-    (7/8)
+    (7/9)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    100%
+    50%
   </span>
   <span class="absValue">
-    (2/2)
+    (2/4)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    96,3%
+    86,7%
   </span>
   <span class="absValue">
-    (26/27)
+    (26/30)
   </span>
 </td>
 </tr>
@@ -100,21 +100,27 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;
 &nbsp;/**
-&nbsp; * Class for handling sound effects, these are used when colliding or if player is losing a life.
+&nbsp; * Singleton class for handling all sound effects.
+&nbsp; * Should only be initialized once for handling the sound effects correctly.
 &nbsp; */
 &nbsp;public class SoundHandler {
+&nbsp;    private static SoundHandler instance;
+&nbsp;
 <b class="fc">&nbsp;    private final Map&lt;String, Sound&gt; sounds = new HashMap&lt;&gt;();</b>
 <b class="fc">&nbsp;    private final Map&lt;String, Music&gt; songs = new HashMap&lt;&gt;();</b>
 &nbsp;
 &nbsp;    /**
-&nbsp;     * Default constructor, adds sounds by getting from the sfx directory.
+&nbsp;     * Default constructor, needed to initialize libGDX from {@link inf112.starhunt.model.WorldModel}.
 &nbsp;     */
-&nbsp;    public SoundHandler() {
+&nbsp;    private SoundHandler() {
 <b class="nc">&nbsp;        this(Gdx.files, Gdx.audio);</b>
 &nbsp;    }
 &nbsp;
-&nbsp;    // Dependency-injected constructor for easier testing
-<b class="fc">&nbsp;    public SoundHandler(Files files, Audio audio) {</b>
+&nbsp;    /**
+&nbsp;     * Package private for testing
+&nbsp;     * Dependency-injected constructor for easier testing
+&nbsp;     */
+<b class="fc">&nbsp;    SoundHandler(Files files, Audio audio) {</b>
 <b class="fc">&nbsp;        addSound(&quot;coin&quot;, &quot;sfx/coinrecieved.wav&quot;, files, audio);</b>
 <b class="fc">&nbsp;        addSound(&quot;ouch&quot;, &quot;sfx/characterouch.wav&quot;, files, audio);</b>
 <b class="fc">&nbsp;        addSound(&quot;bounce&quot;, &quot;sfx/bounce.wav&quot;, files, audio);</b>
@@ -126,26 +132,27 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    }
 &nbsp;
 &nbsp;    /**
-&nbsp;     * Overloaded method for easier testing.
-&nbsp;     * @param name
-&nbsp;     * @param filePath
+&nbsp;     * Adds sounds to map
+&nbsp;     * @param name of sound
+&nbsp;     * @param filePath placement
 &nbsp;     * @param files dependency needed for testing
 &nbsp;     * @param audio dependency needed for testing
 &nbsp;     */
-&nbsp;    public void addSound(String name, String filePath, Files files, Audio audio) {
+&nbsp;    void addSound(String name, String filePath, Files files, Audio audio) {
 <b class="fc">&nbsp;        FileHandle fileHandle = files.internal(filePath);</b>
 <b class="fc">&nbsp;        Sound sound = audio.newSound(fileHandle);</b>
 <b class="fc">&nbsp;        sounds.put(name, sound);</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    /**
-&nbsp;     * TODO
-&nbsp;     * @param name
-&nbsp;     * @param filePath
+&nbsp;     * Helper method for adding music to map,
+&nbsp;     * @param name Music name
+&nbsp;     * @param filePath placement
 &nbsp;     * @param files dependency needed for testing
 &nbsp;     * @param audio dependency needed for testing
+&nbsp;     *
 &nbsp;     */
-&nbsp;    public void addMusic(String name, String filePath, Files files, Audio audio) {
+&nbsp;    void addMusic(String name, String filePath, Files files, Audio audio) {
 <b class="fc">&nbsp;        FileHandle fileHandle = files.internal(filePath);</b>
 <b class="fc">&nbsp;        Music music = audio.newMusic(fileHandle);</b>
 <b class="fc">&nbsp;        songs.put(name, music);</b>
@@ -175,11 +182,25 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;        music.play();</b>
 &nbsp;    }
 &nbsp;
+&nbsp;    /**
+&nbsp;     * Gets the instance to be used.
+&nbsp;     * @return the Soundhandler instance to be used in {@link WorldView}
+&nbsp;     */
+&nbsp;    public static SoundHandler getInstance() {
+<b class="nc">&nbsp;        if (instance == null) {</b>
+<b class="nc">&nbsp;            instance = new SoundHandler();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return instance;</b>
+&nbsp;    }
+&nbsp;
 &nbsp;    public Sound getSound(String name) {
 <b class="fc">&nbsp;        return sounds.get(name);</b>
 &nbsp;    }
 &nbsp;
-<b class="fc">&nbsp;    public Music getMusic(String name) {return songs.get(name);}</b>
+&nbsp;    public Music getMusic(String name) {
+<b class="fc">&nbsp;        return songs.get(name);</b>
+&nbsp;    }
+&nbsp;
 &nbsp;}
 </code>
 </pre>
@@ -204,7 +225,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2025-05-01 11:36</div>
+    <div style="float:right;">generated on 2025-05-02 11:57</div>
 </div>
 </body>
 </html>

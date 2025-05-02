@@ -241,7 +241,128 @@ har vi tenkt er en feature istedenfor en bug. Det er jo til og med realistisk at
     - Vi har laget to nye hjelpe-klasser, nemlig AbstractScreen og AbstractApplicationListener for å abstrahere vekk unødvendige metoder (Interface Segregation Principle).
     - Vi har refaktorert typen Player til ModelablePlayer i WorldModel for å beholde avhengigheter basert på abstraksjoner og ikke konkretiseringer (Dependency Inversion Principle).
     - Vi har oppdatert UML-diagrammet.
+    - Vi Har testet at prosjektet bygger og kjører på WSL (Windows Subsystem for Linux).
 
 
 * Bugs:
 
+
+## Sjekkliste vurderingskriterier
+
+Formalia
+[ ] Prosjektets git-repositorium ligger under teamets gitlab-gruppe og har et relevant navn
+    - ja 
+[ ] README.md-fil, med navn på team-medlemmer, teamet og prosjektet, kort beskrivelse og brukerveiledning for spillet, teknisk info om hvordan koden kjøres, og informasjon om hvor grafikk/lyd er hentet fra (kilde/opphavsrett)
+    - ja, sjekk vår README.md
+[ ] doc/obligX.md-fil med oversiktlig svar på oppgaver
+    - ja, levert alle og fått tilbakemelding.
+[ ] Alt er oversiktlig og riktig format
+    - skal være det
+
+Team
+[ ] Møtereferater (i, eller lenket til fra oblig-filen)
+    - ja, se [wiki](https://git.app.uib.no/inf112/25v/proj/sjette-etasje/-/wikis/home)
+[ ] Teambeskrivelse og rollefordeling
+    - ja, er øverst i alle oblig filer og i README.md
+[ ] Beskrivelse av prosjektmetodikk
+    - Vi har benyttet KanBan med Jira som verktøy. Les mer om den i prosjektrapport i oblig filene, ligger også link til Jira i README.md
+[ ] Retrospektiv – hva var planlagt (av metodikk, etc), hva gjorde dere faktisk og hvorfor, hva vil dere evt. gjøre annerledes
+    - Se prosjektrapport
+[ ] Project board, issues etc. er oppdatert
+    -  Jira er oppdatert. 
+[ ] Gruppedynamikk og kommunikasjon: alle meninger bli hørt, alle bidrar jevnt, tonen er god
+    - Ja, diskutert dette i prosjektrapport
+[ ] Alle bidrar til normalt, godt arbeidsmiljø
+    - Ja, diskutert dette i prosjektrapport
+
+Git / versjonskontroll
+[ ] Commits er ryddige
+    - ja, stort sett 
+[ ] Ingen filer mangler
+    - korrekt. 
+[ ] Innlevering er tagget riktig
+    - Ja, tags for alle obliger i git.
+[ ] Commit-meldinger er meningsfulle
+    - Ja, stort sett
+[ ] doc/obligX.md har oversikt over evt. større endringer, eller forbedringer dere har blitt bedt om å gjøre
+    -  Ja, oppdatert underveis
+[ ] Jevn fordeling av commits mellom teammedlemmer
+    - Stort sett, diskutert dette i prosjektrapport 
+
+Programvare, produkt og kvalitet (20%)
+
+Spesifikasjon
+[ ] Overordnet beskrivelse av konsept, etc.
+    - ja, les README.md
+[ ] Brukerhistorier
+    - ja, se prosjektrapport   
+[ ] Akseptansekriterier og arbeidsoppgaver (kort beskrivelse)
+    - ja, se prosjektrapport
+[ ] Hva inngår i MVP? Hva er evt. stretch goal?
+    - Definert i Oblig1.md, men den har blitt oppdatert underveis, se tag Oblig 2, diskutert endringer i prosjektrapport Oblig 2 og 3.
+
+Produktleveranse
+[ ] Koden sjekker ut og bygger
+    - ja
+[ ] Kan bygges og kjøres på alle operativsystem
+    - ja
+[ ] Kan bygges og testes ikke-interaktivt (dvs. på en server uten tilhørende skjerm/tastatur)
+    - ja
+[ ] Kravene er oppfylt
+    - ja 
+[ ] Spillet er spillbart (trenger ikke være et bra eller gøy spill, men det må være mulig for at vanlig menneske å bruke det)
+    - ja, kjempegøy :D 
+[ ] Teknisk dokumentasjon om oppsett – hvordan bygge og kjøre programmet osv. (i README.md, se punkt under Formalia)
+    - ja, ligger i README.md 
+[ ] pom.xml / build.gradle er oppdatert med korrekt prosjektnavn, main-klassenavn etc.
+    -  ja
+[ ] Teknisk beskrivelse av prosjektet og arkitekturen (inkl. klassediagram)
+    - ja, se under `root/uml`-directory, med en komplett og en forenklet versjon 
+
+Kodekvalitet
+God kodestil (formattering, meningsfulle variabelnavn, unngå code smells), koden er tilstrekkelig dokumentert. Hvis det er kommentarer i koden, skal de være meningsfylte.
+[ ] Følger single responsibility principle; high cohesion, low coupling
+    - Ja, diskutert i Oblig4
+[ ] God bruk av interface, arv, kodegjenbruk – open-closed principle
+    - Ja, diskutert i Oblig4
+[ ] Korrekt (evt.) bruk av arv – Liskov substitution principle
+    - Ja, oppnådd allerede
+[ ] Unngå unødvendige avhengigheter i koden – interface segregation principle
+    - Ja, diskutert i Oblig4
+[ ] Referer til abstraksjoner (interfaces), ikke konkrete klasser – dependency inversion principle
+    - Ja, diskutert i Oblig4
+[ ] God navngivning
+    - ja
+[ ] Public metoder dokumentert
+    - ja, med unntak av getters og setters
+[ ] Don't Repeat Yourself – bruk abstraksjon heller enn copy/paste
+    - ja, benyttet interfaces, arv og hjelpemetoder
+[ ] Unngå død og råtnende kode
+    - ja
+
+Testing
+[ ] Test coverage
+ - ja, kontrollert underveis med pit og forholdt oss til line og method coverage og generert HTML rapport, kan sees i git
+[ ] Tester som faktisk kan finne feil
+ - ja, høy test coverage
+[ ] Tester er automatiske
+ - ja
+[ ] Automatiske tester kan kjøres «hodeløst»
+ - ja
+[ ] Minimum 75% test coverage
+ - ja
+
+Konkrete krav
+[ ] Spillet har forside/hjelpeside
+    - ja, egen meny og info side
+[ ] MVC-design
+    - ja  
+[ ] Lyd koblet til hendelse
+    - ja, flere
+[ ] Objektfabrikker
+    - ja 
+[ ] Abstrakte objektfabrikker
+    - ja
+[ ] Objekter som modifiserer oppførsel (powerups, etc)
+    - ja, Banana klasse som powerup (gir "skjold" mot skade fra enemy, høyere hopp, større) 
+(Andre konkrete krav (se Krav til prosjektet) er fordelt under de andre punktene)
