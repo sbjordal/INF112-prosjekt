@@ -48,15 +48,30 @@
 - Super Mario Bros (1984) for inspirasjon.
 
 #### Grafikk
-- Bakgrunn: [Jessie M.](https://jesse-m.itch.io/jungle-pack)
-- Hindringer/bakke: [Kenney.nl](https://kenney.nl/assets/roguelike-modern-city)
-- Spiller: [Jessie M.](https://jesse-m.itch.io/jungle-pack)
-- Mynt: [Pritishor](https://opengameart.org/content/simple-coin)
-- Snegl, leopard, banan og stjerne: [Noto emoji by Google](https://emoji.aranja.com/)
-  - Under Apache License 2.0
+- Bakgrunn av [Jessie M.](https://jesse-m.itch.io/jungle-pack), inkluderer:
+  * plx-*.png
+  - Tillatelse fra skaper for både personlig og kommersiell bruk. 
+- Spiller av [Jessie M.](https://jesse-m.itch.io/jungle-pack), inkluderer:
+  * i*.png
+  * jump.png, landing.png
+  * r*.png
+  - Tillatelse fra skaper for både personlig og kommersiell bruk.
+- Hindringer/bakke av [Kenney.nl](https://kenney.nl/assets/roguelike-modern-city), inkluderer:
+  * ground_*.png
+  - Fra lisensen:  ingen opphavsrettigheter (No copyrights).
+- Mynt av [Pritishor](https://opengameart.org/content/simple-coin), inkluderer:
+  * coin.png
+  - Fra lisensen:  ingen opphavsrettigheter (No copyrights).
+- Snegl, leopard, banan og stjerne av [Noto emoji by Google](https://emoji.aranja.com/), inkluderer:
+  * banana.png
+  * leopard.png
+  * snail.png
+  * star.png
+  - Emoji-grafikk: Noto Emoji av Google, lisensiert under Apache License 2.0
+
+
 
 #### Lyder
-
 - [Coin recieved / scoreUp](https://pixabay.com/sound-effects/coin-recieved-230517/)
   - Fra [Pixabay](https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=230517) (Royalty-free)
 - [Damage taken / ouch-sound](https://pixabay.com/sound-effects/characterouch2-163912/)
