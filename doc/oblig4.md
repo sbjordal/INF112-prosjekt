@@ -195,7 +195,7 @@ sjekke tilgangene til feltvariabler+ metoder osv.
 
 
 7. **Husk å skrive hvilke bugs som finnes i de kravene dere har utført (dersom det finnes bugs).**
-- Vi har ikke bugs knyttet til de spesifike kravene vi har lagt til etter MVP. Generelle bugs er at bakgrunn beveger seg når player kolliderer med vegg, og at player kan hoppe forksjellig. Hoppingen 
+- Vi har en bug knyttet til playeren sin hopping som var et mvp krav. Playeren hopper noen ganger litt høyere enn "vanlig". Hoppingen 
 har vi tenkt er en feature istedenfor en bug. Det er jo til og med realistisk at man ikke hopper like høyt hver gang man hopper:)
 
 
