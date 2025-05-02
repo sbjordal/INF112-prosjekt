@@ -60,10 +60,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    93,3%
+    92,9%
   </span>
   <span class="absValue">
-    (14/15)
+    (13/14)
   </span>
 </td>
 </tr>
@@ -93,21 +93,18 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;public class FixedObjectFactory {</b>
 <b class="fc">&nbsp;    static Map&lt;String, BiFunction&lt;Float, Float, FixedObject&gt;&gt; registry = new HashMap&lt;&gt;();</b>
 &nbsp;    static {
-<b class="fc">&nbsp;        registry.put(&quot;ground&quot;, FixedObjectFactory::createGround);</b>
 <b class="fc">&nbsp;        registry.put(&quot;banana&quot;, FixedObjectFactory::createBanana);</b>
 <b class="fc">&nbsp;        registry.put(&quot;star&quot;, FixedObjectFactory::createStar);</b>
 <b class="fc">&nbsp;        registry.put(&quot;coin&quot;, FixedObjectFactory::createCoin);</b>
 &nbsp;    }
 &nbsp;
-&nbsp;    public static Ground createGround(float x, float y){
-&nbsp;
+&nbsp;    public static Ground createGround(float x, float y, String alteration){
 <b class="fc">&nbsp;        Transform transform = TransformUtils.createTransformForObjects(x, y, 50, 50);</b>
 &nbsp;
-<b class="fc">&nbsp;        return new Ground(transform);</b>
+<b class="fc">&nbsp;        return new Ground(transform, alteration);</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    public static Coin createCoin(float x, float y){
-&nbsp;
 <b class="fc">&nbsp;        int DIAMETER = 30;</b>
 <b class="fc">&nbsp;        Transform transform = TransformUtils.createTransformForObjects(x, y, DIAMETER, DIAMETER);</b>
 &nbsp;
@@ -125,7 +122,6 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 <b class="fc">&nbsp;        return new Star(transform);</b>
 &nbsp;    }
-&nbsp;
 &nbsp;}
 &nbsp;
 </code>
@@ -151,7 +147,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2025-05-01 11:36</div>
+    <div style="float:right;">generated on 2025-05-02 11:57</div>
 </div>
 </body>
 </html>

@@ -5,7 +5,7 @@
 <html id="htmlId">
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
-  <title>Coverage Report > ViewableObject</title>
+  <title>Coverage Report > Visitor</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -22,7 +22,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     <a href="../index.html">inf112.starhunt.model.gameobject</a>
 </div>
 
-<h1>Coverage Summary for Class: ViewableObject (inf112.starhunt.model.gameobject)</h1>
+<h1>Coverage Summary for Class: Visitor (inf112.starhunt.model.gameobject)</h1>
 
 <table class="coverageStats">
 
@@ -30,13 +30,13 @@ Current scope:     <a href="../../index.html">all classes</a>
   <th class="name">Class</th>
 </tr>
   <tr>
-    <td class="name">ViewableObject$MockitoMock$59Mt2LeM</td>
+    <td class="name">Visitor$MockitoMock$HsnpR7BR</td>
   </tr>
   <tr>
-    <td class="name">ViewableObject$MockitoMock$59Mt2LeM$auxiliary$99YdKlb4</td>
+    <td class="name">Visitor$MockitoMock$HsnpR7BR$auxiliary$1ZUY7gPF</td>
   </tr>
   <tr>
-    <td class="name">ViewableObject$MockitoMock$59Mt2LeM$auxiliary$Fm5OXzEa</td>
+    <td class="name">Visitor$MockitoMock$HsnpR7BR$auxiliary$f5MV0CFQ</td>
   </tr>
 <tr>
   <td class="name"><strong>Total</strong></td>
@@ -50,17 +50,66 @@ Current scope:     <a href="../../index.html">all classes</a>
 <pre>
 <code class="sourceCode" id="sourceCode">&nbsp;package inf112.starhunt.model.gameobject;
 &nbsp;
+&nbsp;import inf112.starhunt.model.gameobject.fixedobject.Ground;
+&nbsp;import inf112.starhunt.model.gameobject.fixedobject.item.Banana;
+&nbsp;import inf112.starhunt.model.gameobject.fixedobject.item.Coin;
+&nbsp;import inf112.starhunt.model.gameobject.fixedobject.item.Star;
+&nbsp;import inf112.starhunt.model.gameobject.mobileobject.MobileObject;
+&nbsp;import inf112.starhunt.model.gameobject.mobileobject.actor.Player;
+&nbsp;import inf112.starhunt.model.gameobject.mobileobject.actor.enemy.Enemy;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
 &nbsp;/**
-&nbsp; * An interface to be implemented by all objects in the game that should be visible.
+&nbsp; * An interface to be used for objects that is {@link MobileObject}
+&nbsp; * and that can collide with other {@link Collidable} {@link GameObject}s.
+&nbsp; *
 &nbsp; */
-&nbsp;public interface ViewableObject {
+&nbsp;public interface Visitor {
 &nbsp;
 &nbsp;    /**
-&nbsp;     * Returns the objects position and size
+&nbsp;     * Handles visiting a Coin object.
+&nbsp;     * Typically used for collecting or triggering coin-related effects.
 &nbsp;     *
-&nbsp;     * @return Transform of Position and Size
+&nbsp;     * @param coin The Coin object being visited.
 &nbsp;     */
-&nbsp;    Transform getTransform();
+&nbsp;    void visitCoin(Coin coin);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Handles colliding with a Star object.
+&nbsp;     * Is used for handling logic for getting into the next level.
+&nbsp;     *
+&nbsp;     * @param star The Star object being collided with.
+&nbsp;     */
+&nbsp;
+&nbsp;    void visitStar(Star star);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Handles collision with Banana.
+&nbsp;     *
+&nbsp;     * @param banana The {@link Banana} object being collided with.
+&nbsp;     */
+&nbsp;    void visitBanana(Banana banana);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Handles collision with Ground.
+&nbsp;     *
+&nbsp;     * @param ground The {@link Ground} object being collided with.
+&nbsp;     */
+&nbsp;    void visitGround(Ground ground);
+&nbsp;
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     * @param enemy
+&nbsp;     */
+&nbsp;    void visitEnemy(Enemy enemy);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Handles collision with player.
+&nbsp;     *
+&nbsp;     * @param player The {@link Player} object being collided with.
+&nbsp;     */
+&nbsp;    void visitPlayer(Player player);
 &nbsp;
 &nbsp;    /**
 &nbsp;     * A getter for CollisionBox. CollisionBox is the bounding box of an object, used to
@@ -70,39 +119,12 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    CollisionBox getCollisionBox();
 &nbsp;
 &nbsp;    /**
-&nbsp;     *
-&nbsp;     * @param callback
+&nbsp;     * Checks if the collisionBox of the current object is colliding with any other Collidable object.
+&nbsp;     * @param collidables &quot;all other GameObjects&quot;
+&nbsp;     * @param collisionBox collisionbox for the one object we want to check
+&nbsp;     * @return True if colliding, false otherwise.
 &nbsp;     */
-&nbsp;    void setOnCoinCollected(Runnable callback);
-&nbsp;
-&nbsp;    /**
-&nbsp;     *
-&nbsp;     * @param callback
-&nbsp;     */
-&nbsp;    void setOnCollisionWithEnemy(Runnable callback);
-&nbsp;
-&nbsp;    /**
-&nbsp;     *
-&nbsp;     * @param callback
-&nbsp;     */
-&nbsp;    void setOnCollisionWithEnemyDealDamage(Runnable callback);
-&nbsp;
-&nbsp;    /**
-&nbsp;     *
-&nbsp;     * @param callback
-&nbsp;     */
-&nbsp;    void setOnBananaCollected(Runnable callback);
-&nbsp;
-&nbsp;    /**
-&nbsp;     *
-&nbsp;     * @param callback
-&nbsp;     */
-&nbsp;    void setOnCollisionWithStar(Runnable callback);
-&nbsp;
-&nbsp;    /**
-&nbsp;     *
-&nbsp;     */
-&nbsp;    int getDirection();
+&nbsp;    boolean isColliding(List&lt;Collidable&gt; collidables, CollisionBox collisionBox);
 &nbsp;}
 </code>
 </pre>
@@ -127,7 +149,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2025-05-01 11:36</div>
+    <div style="float:right;">generated on 2025-05-02 11:57</div>
 </div>
 </body>
 </html>
