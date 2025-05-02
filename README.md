@@ -74,7 +74,7 @@
 - En annen bug som vi vet om er at i grensetilfelle når Player treffer kant på plattform som kan gi ekstra høyt hopp.
 
 
-### Credits 
+## Credits 
 
 #### Konsept
 - Super Mario Bros (1984) for inspirasjon.
