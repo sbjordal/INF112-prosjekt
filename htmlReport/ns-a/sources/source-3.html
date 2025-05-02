@@ -155,13 +155,13 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;        animations.put(&quot;landingLeft&quot;, new Animation&lt;&gt;(0.1f, landingFramesLeft));</b>
 &nbsp;    }
 &nbsp;
-&nbsp;    public void update(float deltaTime, boolean isPaused) {
+&nbsp;    void update(float deltaTime, boolean isPaused) {
 <b class="fc">&nbsp;        if (!isPaused) {</b>
 <b class="fc">&nbsp;            stateTime += deltaTime;</b>
 &nbsp;        }
 &nbsp;    }
 &nbsp;
-&nbsp;    public TextureRegion getFrame(int direction, float verticalVelocity) {
+&nbsp;    TextureRegion getFrame(int direction, float verticalVelocity) {
 <b class="pc">&nbsp;        final boolean isFalling = verticalVelocity &lt; 0;</b>
 <b class="pc">&nbsp;        final boolean isJumping = verticalVelocity &gt; 0;</b>
 &nbsp;
@@ -192,7 +192,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;        }
 &nbsp;    }
 &nbsp;
-&nbsp;    public void dispose() {
+&nbsp;    void dispose() {
 <b class="fc">&nbsp;        for (Animation&lt;TextureRegion&gt; animation : animations.values()){</b>
 <b class="fc">&nbsp;            for (TextureRegion frame : animation.getKeyFrames()){</b>
 <b class="fc">&nbsp;                frame.getTexture().dispose();</b>
@@ -223,7 +223,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2025-05-01 11:36</div>
+    <div style="float:right;">generated on 2025-05-02 11:57</div>
 </div>
 </body>
 </html>

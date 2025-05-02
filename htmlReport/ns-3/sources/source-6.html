@@ -56,10 +56,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    70,8%
+    75%
   </span>
   <span class="absValue">
-    (34/48)
+    (36/48)
   </span>
 </td>
 <td class="coverageStat">
@@ -72,10 +72,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    49,2%
+    50,8%
   </span>
   <span class="absValue">
-    (64/130)
+    (66/130)
   </span>
 </td>
 </tr>
@@ -108,7 +108,6 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    public static final int LEVEL_WIDTH = 4500;
 &nbsp;
 &nbsp;    ModelablePlayer player;
-&nbsp;
 &nbsp;    private int countDown;
 &nbsp;    private long lastScoreUpdate;
 &nbsp;    private boolean isMovingRight;
@@ -145,7 +144,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     */
 &nbsp;    public void setUpModel() {
 <b class="fc">&nbsp;        viewportLeftX = 0;</b>
-<b class="fc">&nbsp;        countDown = 150;</b>
+<b class="fc">&nbsp;        countDown = 45;</b>
 <b class="fc">&nbsp;        isMovingRight = false;</b>
 <b class="fc">&nbsp;        isMovingLeft = false;</b>
 <b class="fc">&nbsp;        isJumping = false;</b>
@@ -202,7 +201,14 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;        return positionIsOnBoard(collisionBox) &amp;&amp; !visitor.isColliding(collidables, collisionBox);</b>
 &nbsp;    }
 &nbsp;
-&nbsp;    // TODO, skiv javadoc på denne, beskriv hva som skjer
+&nbsp;    /**
+&nbsp;     * Checks if the {@link GameObject} is within the allowed area.
+&nbsp;     * Also takes into consideration that the {@link inf112.starhunt.model.gameobject.mobileobject.actor.Player}
+&nbsp;     * can &quot;fall out of the screen&quot;, this explains the &quot;Belowlevel variable&quot;.
+&nbsp;     *
+&nbsp;     * @param collisionBox of the {@link GameObject}
+&nbsp;     * @return True if within the allowed bounds, false if not.
+&nbsp;     */
 &nbsp;    private boolean positionIsOnBoard(CollisionBox collisionBox) {
 <b class="fc">&nbsp;        final int belowLevel = -200;</b>
 <b class="fc">&nbsp;        boolean isWithinWidthBound = collisionBox.getBotLeft().x &gt;= 0 &amp;&amp;</b>
@@ -286,6 +292,11 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;        }
 &nbsp;    }
 &nbsp;
+&nbsp;    /**
+&nbsp;     * Moves all living enemy objects.
+&nbsp;     *
+&nbsp;     * @param deltaTime
+&nbsp;     */
 &nbsp;    void moveEnemies(float deltaTime) {
 <b class="fc">&nbsp;        for (Enemy enemy : enemies) {</b>
 <b class="fc">&nbsp;            float deltaX = (enemy.getMovementSpeed() * deltaTime) * enemy.getMovementDirection();</b>
@@ -331,12 +342,12 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;    @Override
 &nbsp;    public ViewableObject getViewablePlayer() {
-<b class="nc">&nbsp;        return player;</b>
+<b class="fc">&nbsp;        return player;</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    @Override
 &nbsp;    public List&lt;ViewableObject&gt; getObjectList() {
-<b class="nc">&nbsp;        return Collections.unmodifiableList(collidables);</b>
+<b class="fc">&nbsp;        return Collections.unmodifiableList(collidables);</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    @Override
@@ -480,7 +491,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2025-05-01 11:36</div>
+    <div style="float:right;">generated on 2025-05-02 11:57</div>
 </div>
 </body>
 </html>

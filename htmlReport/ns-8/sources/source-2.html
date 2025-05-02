@@ -56,10 +56,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    85,7%
+    88,1%
   </span>
   <span class="absValue">
-    (36/42)
+    (37/42)
   </span>
 </td>
 <td class="coverageStat">
@@ -72,10 +72,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    85,4%
+    88,6%
   </span>
   <span class="absValue">
-    (105/123)
+    (109/123)
   </span>
 </td>
 </tr>
@@ -145,7 +145,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;        super(lives, movementSpeed, transform);</b>
 <b class="fc">&nbsp;        this.initialLives = lives;</b>
 <b class="fc">&nbsp;        this.hasPowerUp = false;</b>
-<b class="fc">&nbsp;        this.damage = 1;</b>
+<b class="fc">&nbsp;        this.setDamage(1);</b>
 <b class="fc">&nbsp;        this.lastAttackTime = 0;</b>
 <b class="fc">&nbsp;        this.lastBounceTime = 0;</b>
 <b class="fc">&nbsp;        this.isJustRespawned = false;</b>
@@ -422,10 +422,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;    @Override
 &nbsp;    public void resetForNewLevel(Vector2 spawnPoint) {
-<b class="nc">&nbsp;        move(spawnPoint);</b>
-<b class="nc">&nbsp;        setLives(initialLives);</b>
-<b class="nc">&nbsp;        setVerticalVelocity(0);</b>
-<b class="nc">&nbsp;        setRespawned(true);</b>
+<b class="fc">&nbsp;        move(spawnPoint);</b>
+<b class="fc">&nbsp;        setLives(initialLives);</b>
+<b class="fc">&nbsp;        setVerticalVelocity(0);</b>
+<b class="fc">&nbsp;        setRespawned(true);</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    private void reduceTotalScore(int scorePenalty) {
@@ -464,7 +464,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2025-05-01 11:36</div>
+    <div style="float:right;">generated on 2025-05-02 11:57</div>
 </div>
 </body>
 </html>

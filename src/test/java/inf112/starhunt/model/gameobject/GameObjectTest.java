@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 public class GameObjectTest {
     GameObject gameObject;
@@ -26,5 +27,21 @@ public class GameObjectTest {
 
         gameObject.setSize(newSize);
         assertTrue(newSize.epsilonEquals(gameObject.getTransform().getSize()));
+
+
+        Vector2 zeroSize = new Vector2(0, 0);
+        gameObject.setSize(zeroSize);
+        assertTrue(zeroSize.epsilonEquals(gameObject.getTransform().getSize()));
+    }
+
+    @Test
+    void testCallbackSettersDoNotThrow() {
+        assertDoesNotThrow(() -> {
+            gameObject.setOnCoinCollected(() -> {});
+            gameObject.setOnCollisionWithEnemy(() -> {});
+            gameObject.setOnCollisionWithEnemyDealDamage(() -> {});
+            gameObject.setOnBananaCollected(() -> {});
+            gameObject.setOnCollisionWithStar(() -> {});
+        });
     }
 }
