@@ -44,8 +44,9 @@
 - Scoresystem:
   * Poenggjenstander: Mynter, snegler, leoparder
   * Spilleren får 10 poeng ved å hoppe på en snegl(fiendetype)
-  * spilleren får 15 poeng ved å hoppe på en leopard(fiendetype)
-  * Spiller får 5 poeng ved kollidere med en mynt
+  * Spilleren får 15 poeng ved å hoppe på en leopard(fiendetype)
+  * Spilleren får 5 poeng ved fange en mynt
+  * Spilleren mister 5 poeng ved å ta skade fra fiender
   * Poeng for å ha gjenværende tid ved fullført level
 
 

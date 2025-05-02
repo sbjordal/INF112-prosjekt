@@ -85,7 +85,7 @@ final public class Player extends Actor implements ModelablePlayer {
     public void takeDamage(int damage){
         final long currentTime = System.currentTimeMillis();
         final boolean playerReadyToTakeDamage = currentTime - getLastAttackTime() >= ATTACK_COOLDOWN;
-        final int scorePenalty = 4;
+        final int scorePenalty = 5;
 
         if (playerReadyToTakeDamage) {
             reduceTotalScore(scorePenalty);
