@@ -38,7 +38,11 @@ final public class Player extends Actor implements ModelablePlayer {
     private List<Collidable> objectsToRemove;
     private Runnable coinCollected;
     private Runnable takingDamage;
+    private Runnable dealingDamage;
+    private Runnable eatingBanana;
+    private Runnable goingIntoNewLevel;
     private int initialLives;
+    private boolean isMovingHorizontally;
 
 
     /**
@@ -52,7 +56,7 @@ final public class Player extends Actor implements ModelablePlayer {
         super(lives, movementSpeed, transform);
         this.initialLives = lives;
         this.hasPowerUp = false;
-        this.damage = 1;
+        this.setDamage(1);
         this.lastAttackTime = 0;
         this.lastBounceTime = 0;
         this.isJustRespawned = false;
@@ -60,6 +64,7 @@ final public class Player extends Actor implements ModelablePlayer {
         this.coinCounter = 0;
         this.totalScore = 0;
         this.objectsToRemove = new ArrayList<>();
+        this.isMovingHorizontally = false;
     }
 
     /**
@@ -70,13 +75,22 @@ final public class Player extends Actor implements ModelablePlayer {
     }
 
     @Override
-    public void setOnCoinCollected(Runnable callback) {
-        coinCollected = callback;
-    }
+    public void setOnCoinCollected(Runnable callback) {coinCollected = callback;}
 
     @Override
     public void setOnCollisionWithEnemy(Runnable callback) {
         takingDamage = callback;
+    }
+
+    @Override
+    public void setOnCollisionWithEnemyDealDamage(Runnable callback) {dealingDamage = callback;}
+
+    @Override
+    public void setOnBananaCollected(Runnable callback) {eatingBanana = callback;}
+
+    @Override
+    public void setOnCollisionWithStar(Runnable callback) {
+        goingIntoNewLevel = callback;
     }
 
     @Override
@@ -119,6 +133,9 @@ final public class Player extends Actor implements ModelablePlayer {
     public void visitStar(Star star) {
         goToNextLevel = true;
         objectsToRemove.add(star);
+        if (goingIntoNewLevel != null) {
+            goingIntoNewLevel.run();
+        }
     }
 
     @Override
@@ -129,6 +146,9 @@ final public class Player extends Actor implements ModelablePlayer {
         move(-middleOfPlayer, 0);
         jumpForce = banana.getBigJumpForce();
         objectsToRemove.add(banana);
+        if (eatingBanana != null) {
+            eatingBanana.run();
+        }
     }
 
     @Override
@@ -158,6 +178,10 @@ final public class Player extends Actor implements ModelablePlayer {
         if (isOnTopOfEnemy && isReadyToBounce) {
             bounce();
             dealDamage(enemy, getDamage());
+
+            if (dealingDamage != null) {
+                dealingDamage.run();
+            }
 
             if (!enemy.getIsAlive()) {
                 totalScore += enemy.getObjectScore();
@@ -251,6 +275,16 @@ final public class Player extends Actor implements ModelablePlayer {
         isJustRespawned = bool;
     }
 
+    @Override
+    public void setIsMovingHorizontally(boolean movedHorizontally) {
+        isMovingHorizontally = movedHorizontally;
+    }
+
+    @Override
+    public boolean getIsMovingHorizontally() {
+        return isMovingHorizontally;
+    }
+
     public boolean getRespawned(){
         return isJustRespawned;
     }
@@ -316,4 +350,5 @@ final public class Player extends Actor implements ModelablePlayer {
         setSize(STANDARD_PLAYER_SIZE);
         move(middleOfPlayer, 0);
     }
+
 }

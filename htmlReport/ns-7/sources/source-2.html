@@ -60,10 +60,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    90,9%
+    88,9%
   </span>
   <span class="absValue">
-    (10/11)
+    (8/9)
   </span>
 </td>
 </tr>
@@ -77,11 +77,11 @@ Current scope:     <a href="../../index.html">all classes</a>
 <pre>
 <code class="sourceCode" id="sourceCode">&nbsp;package inf112.starhunt.model.gameobject.mobileobject;
 &nbsp;
+&nbsp;import com.badlogic.gdx.math.Vector2;
 &nbsp;import inf112.starhunt.model.gameobject.Transform;
 &nbsp;import inf112.starhunt.model.gameobject.TransformUtils;
 &nbsp;import inf112.starhunt.model.gameobject.mobileobject.actor.Player;
 &nbsp;import inf112.starhunt.model.gameobject.mobileobject.actor.enemy.Enemy;
-&nbsp;import inf112.starhunt.model.gameobject.mobileobject.actor.enemy.EnemyType;
 &nbsp;import inf112.starhunt.model.gameobject.mobileobject.actor.enemy.Leopard;
 &nbsp;import inf112.starhunt.model.gameobject.mobileobject.actor.enemy.Snail;
 &nbsp;
@@ -90,7 +90,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;import java.util.function.BiFunction;
 &nbsp;
 &nbsp;/**
-&nbsp; * A factory class responsible for creating {@link Enemy} objects.
+&nbsp; * A factory class responsible for creating {@link MobileObject} objects.
 &nbsp; */
 <b class="nc">&nbsp;public class MobileObjectFactory {</b>
 <b class="fc">&nbsp;    static Map&lt;String, BiFunction&lt;Float, Float, MobileObject&gt;&gt; registry = new HashMap&lt;&gt;();</b>
@@ -113,10 +113,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * @return A new instance of Snail
 &nbsp;     */
 &nbsp;    public static Snail createSnail(float x, float y) {
-<b class="fc">&nbsp;        Transform transform = TransformUtils.createTransformForObjects(x, y, EnemyType.SNAIL.width, EnemyType.SNAIL.height);</b>
-&nbsp;
-<b class="fc">&nbsp;        return new Snail(EnemyType.SNAIL.health, EnemyType.SNAIL.movementSpeed, EnemyType.SNAIL.objectScore,</b>
-&nbsp;                EnemyType.SNAIL.damage, transform);
+<b class="fc">&nbsp;        return new Snail(new Vector2(x,y));</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    /**
@@ -127,10 +124,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * @return A new instance of Leopard
 &nbsp;     */
 &nbsp;    public static Leopard createLeopard(float x, float y) {
-<b class="fc">&nbsp;        Transform transform = TransformUtils.createTransformForObjects(x, y, EnemyType.LEOPARD.width, EnemyType.LEOPARD.height);</b>
-&nbsp;
-<b class="fc">&nbsp;        return new Leopard(EnemyType.LEOPARD.health, EnemyType.LEOPARD.movementSpeed, EnemyType.LEOPARD.objectScore,</b>
-&nbsp;                EnemyType.LEOPARD.damage, transform);
+<b class="fc">&nbsp;        return new Leopard(new Vector2(x,y));</b>
 &nbsp;    }
 &nbsp;}
 </code>
@@ -156,7 +150,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2025-04-30 10:42</div>
+    <div style="float:right;">generated on 2025-05-01 11:36</div>
 </div>
 </body>
 </html>

@@ -8,9 +8,9 @@ import inf112.starhunt.model.gameobject.mobileobject.MobileObject;
  * A living mobile object is any {@link MobileObject} that has lives.
  */
 public abstract class Actor extends MobileObject {
-    protected int damage;
+    private int damage;
     private boolean isAlive;
-    protected int lives;
+    private int lives;
 
     /**
      * Creates a new Actor with the specified lives, movement speed, transform and texture.
@@ -30,6 +30,10 @@ public abstract class Actor extends MobileObject {
         this.lives = lives;
     }
 
+    /**
+     * Returns true if the Actor is alive, false otherwise.
+     * @return boolean
+     */
     public boolean getIsAlive() {
         return isAlive;
     }
@@ -86,17 +90,31 @@ public abstract class Actor extends MobileObject {
     }
 
     /**
+     * Sets the amount of damage the actor can inflict.
+     */
+    public void setDamage(int damage){
+        this.damage = damage;
+    }
+
+    /**
      * Sets the Actor's lives to zero and marks it as dead.
      * This method is private because death should only occur through receiving damage.
      *
      * @see #receiveDamage(int)
      */
     private void die() {
-        lives = 0;
+        setLives(0);
         isAlive = false;
     }
 
+    /**
+     * Sets the Actor's lives to given amount.
+     * {@code @Throws} Illegal ArgumentException if the amount of lives is negative.
+     *
+     * @param lives amount of lives
+     */
     protected void setLives(int lives){
+        if (lives < 0){ throw new IllegalArgumentException("Lives can not be negative");}
         this.lives = lives;
     }
 }

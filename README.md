@@ -51,16 +51,11 @@
 - Super Mario Bros (1984) for inspirasjon.
 
 #### Grafikk
-- Bakgrunn 
-  * [Jessie M.] (https://jesse-m.itch.io/jungle-pack)
-- Hindringer/bakke 
-  * [Kenney.nl] (https://opengameart.org/content/platformer-art-complete-pack-often-updated)
-- Spiller 
-  * [Jessie M.] (https://jesse-m.itch.io/jungle-pack)
-- Mynt 
-  * [Pritishor] (https://opengameart.org/content/simple-coin)
-- Snegl, leopard, banan og stjerne
-  * [Noto emoji by Google] (https://emoji.aranja.com/)
+- Bakgrunn: [Jessie M.](https://jesse-m.itch.io/jungle-pack)
+- Hindringer/bakke: [Kenney.nl](https://kenney.nl/assets/roguelike-modern-city)
+- Spiller: [Jessie M.](https://jesse-m.itch.io/jungle-pack)
+- Mynt: [Pritishor](https://opengameart.org/content/simple-coin)
+- Snegl, leopard, banan og stjerne: [Noto emoji by Google](https://emoji.aranja.com/)
   - Under Apache License 2.0
 
 #### Lyder
@@ -70,7 +65,15 @@
 - [Damage taken / ouch-sound](https://pixabay.com/sound-effects/characterouch2-163912/)
   - Lydeffekt av [Nykoda Caston](https://pixabay.com/users/kodasworldproductions-27998106/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=163912)
   - Fra [Pixabay](https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=163912)  (Royalty-free)
-- [PowerUp](https://pixabay.com/sound-effects/game-bonus-144751/)
+- [PowerUp / eatBanana](https://pixabay.com/sound-effects/game-bonus-144751/) 
   - Fra [Pixabay](https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=230517) (Royalty-free)
 - [BounceOnEnemy](https://pixabay.com/sound-effects/boing-6222/)
+  - Fra [Pixabay](https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=230517) (Royalty-free
+- [NewLevel / collideWithStar](https://pixabay.com/sound-effects/level-up-5-326133/)
+  - Fra [Pixabay](https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=230517) (Royalty-free)
+- [GameOver](https://pixabay.com/sound-effects/brass-fail-8-a-207130/)
+  - Fra [Pixabay](https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=230517) (Royalty-free)
+- [MenuMusic](https://pixabay.com/sound-effects/jungle-nature-229896/)
+  - Fra [Pixabay](https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=230517) (Royalty-free)
+- [ActiveGameMusic](https://pixabay.com/sound-effects/humorous-loop-275485/)
   - Fra [Pixabay](https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=230517) (Royalty-free)

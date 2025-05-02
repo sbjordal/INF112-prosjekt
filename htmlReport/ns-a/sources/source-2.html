@@ -56,10 +56,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    100%
+    87,5%
   </span>
   <span class="absValue">
-    (5/5)
+    (7/8)
   </span>
 </td>
 <td class="coverageStat">
@@ -72,10 +72,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    92,3%
+    89,7%
   </span>
   <span class="absValue">
-    (24/26)
+    (26/29)
   </span>
 </td>
 </tr>
@@ -94,8 +94,8 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 &nbsp;
 &nbsp;public class ParallaxBackground {
-&nbsp;    Texture[] layers;
-&nbsp;    float[] layerX;
+&nbsp;    private Texture[] layers;
+&nbsp;    private float[] layerX;
 &nbsp;    private float screenWidth;
 &nbsp;    private float screenHeight;
 &nbsp;    private final float[] scrollSpeeds;
@@ -109,7 +109,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;        loadTextures();</b>
 &nbsp;    }
 &nbsp;
-&nbsp;    public void loadTextures(){
+&nbsp;    void loadTextures(){
 <b class="fc">&nbsp;       for (int i = 0; i &lt; 5; i++) {</b>
 <b class="fc">&nbsp;           String file = &quot;background/plx-&quot; + (i + 1) + &quot;.png&quot;;</b>
 <b class="fc">&nbsp;           layers[i] = new Texture(Gdx.files.internal(file));</b>
@@ -118,7 +118,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;        screenHeight = Gdx.graphics.getHeight();</b>
 &nbsp;    }
 &nbsp;
-&nbsp;    public void update(int movementDirection, float deltaTime, boolean isPaused) {
+&nbsp;    void update(int movementDirection, float deltaTime, boolean isPaused) {
 <b class="fc">&nbsp;        if (!isPaused) {</b>
 <b class="fc">&nbsp;            for (int i = 0; i &lt; layers.length; i++) {</b>
 <b class="fc">&nbsp;                layerX[i] -= movementDirection * scrollSpeeds[i] * deltaTime;</b>
@@ -132,7 +132,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;        }
 &nbsp;    }
 &nbsp;
-&nbsp;    public void render(SpriteBatch batch) {
+&nbsp;    void render(SpriteBatch batch) {
 <b class="fc">&nbsp;        float parallaxSpacing = 3.0f;</b>
 <b class="fc">&nbsp;        for (int i = 0; i &lt; layers.length; i++) {</b>
 <b class="fc">&nbsp;            float textureWidth = layers[i].getWidth();</b>
@@ -143,10 +143,22 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;        }
 &nbsp;    }
 &nbsp;
-&nbsp;    public void dispose() {
+&nbsp;    void dispose() {
 <b class="fc">&nbsp;        for (Texture texture : layers) {</b>
 <b class="fc">&nbsp;            texture.dispose();</b>
 &nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    float[] getLayerX() {
+<b class="fc">&nbsp;        return layerX;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    Texture[] getLayers() {
+<b class="nc">&nbsp;        return layers;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    void setLayers(Texture texture, int i) {
+<b class="fc">&nbsp;        layers[i] = texture;</b>
 &nbsp;    }
 &nbsp;}
 &nbsp;
@@ -173,7 +185,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2025-04-30 10:42</div>
+    <div style="float:right;">generated on 2025-05-01 11:36</div>
 </div>
 </body>
 </html>

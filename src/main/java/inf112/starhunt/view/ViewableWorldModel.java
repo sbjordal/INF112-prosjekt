@@ -93,5 +93,17 @@ public interface ViewableWorldModel {
      * Updates where the left x of the viewport is
      */
     void updateViewportLeftX(float leftX);
+
+    /**
+     * Get the current player vertical velocity.
+     * @return float verticalVelocity
+     */
+    float getVerticalVelocity();
+
+    /**
+     * Getter for finding out whether the player has moved since the last frame.
+     * @return true if movement has happened, false otherwise
+     */
+    boolean getPlayerMovement();
 }
 

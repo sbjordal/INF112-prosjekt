@@ -31,7 +31,7 @@ import static org.mockito.Mockito.when;
 
 public class WorldModelTest {
 
-    private WorldModel worldModel;
+    private WorldModel model;
     private Transform transform;
     private Coin coin;
     private List<Enemy> enemies;
@@ -47,146 +47,144 @@ public class WorldModelTest {
 
     @BeforeEach
     void setUp() {
-        worldModel = new WorldModel(1000, 500);
+        model = new WorldModel(1000, 500);
 
         Graphics mockGraphics = mock(Graphics.class);
         Gdx.graphics = mockGraphics;
         when(Gdx.graphics.getDeltaTime()).thenReturn(1 / 60f);
 
         transform = new Transform(new Vector2(0, 0), new Vector2(50, 100));
-        worldModel.player = new Player(3, 5, transform);
-        worldModel.setCollidables(new ArrayList<>());
+        model.player = new Player(3, 5, transform);
+        model.setCollidables(new ArrayList<>());
         this.enemies = new ArrayList<>();
-
 
         Transform coinTransform = new Transform(new Vector2(10, 20), new Vector2(30, 30));
         coin = new Coin(coinTransform);
-
 
     }
 
     @Test
     void testWorldModelInitialization() {
-        assertNotNull(worldModel);
-        assertEquals(0, worldModel.getTotalScore());
-        assertEquals(0, worldModel.getCoinCounter());
-        assertEquals(GameState.GAME_MENU, worldModel.getGameState());
+        assertNotNull(model);
+        assertEquals(0, model.getTotalScore());
+        assertEquals(0, model.getCoinCounter());
+        assertEquals(GameState.GAME_MENU, model.getGameState());
+        assertNotNull(model.getObjectList());
+        assertNotNull(model.getViewablePlayer());
+        assertEquals(1, model.getLevelCounter());
     }
 
 
     @Test
     public void testSetMovement_rightDirection() {
-        assertFalse(worldModel.getIsMovingRight());
-        worldModel.setMovingRight(true);
-        assertTrue(worldModel.getIsMovingRight());
+        assertFalse(model.getIsMovingRight());
+        model.setMovingRight(true);
+        assertTrue(model.getIsMovingRight());
 
-        worldModel.setMovingRight(false);
-        assertFalse(worldModel.getIsMovingRight());
+        model.setMovingRight(false);
+        assertFalse(model.getIsMovingRight());
     }
 
     @Test
     public void testSetMovement_leftDirection() {
-        assertFalse(worldModel.getIsMovingLeft());
-        worldModel.setMovingLeft(true);
-        assertTrue(worldModel.getIsMovingLeft());
+        assertFalse(model.getIsMovingLeft());
+        model.setMovingLeft(true);
+        assertTrue(model.getIsMovingLeft());
 
-        worldModel.setMovingLeft(false);
-        assertFalse(worldModel.getIsMovingLeft());
-    }
-
-    @Test void testIsJumping(){
-        assertFalse(worldModel.getIsJumping());
-        worldModel.setJumping(true);
-        assertTrue(worldModel.getIsJumping());
-
-        worldModel.setJumping(false);
-        assertFalse(worldModel.getIsJumping());
+        model.setMovingLeft(false);
+        assertFalse(model.getIsMovingLeft());
     }
 
     @Test
-    void testInfoMode () {
-        assertFalse(worldModel.getInfoMode());
-        worldModel.setInfoMode(true);
-        assertTrue(worldModel.getInfoMode());
+    void testIsJumping() {
+        assertFalse(model.getIsJumping());
+        model.setJumping(true);
+        assertTrue(model.getIsJumping());
+
+        model.setJumping(false);
+        assertFalse(model.getIsJumping());
     }
 
     @Test
-    void testGamestate(){
+    void testInfoMode() {
+        assertFalse(model.getInfoMode());
+        model.setInfoMode(true);
+        assertTrue(model.getInfoMode());
+    }
+
+    @Test
+    void testGamestate() {
         //Upon starting the game, the state should be GAME_MENU
-        assertTrue(worldModel.getGameState().equals(GameState.GAME_MENU));
-        worldModel.resume();
-        assertTrue(worldModel.getGameState().equals(GameState.GAME_ACTIVE));
-        worldModel.pause();
-        worldModel.getGameState().equals(GameState.GAME_PAUSED);
-        worldModel.backToGameMenu();
-        worldModel.getGameState().equals(GameState.GAME_MENU);
-        worldModel.resume();
+        assertTrue(model.getGameState().equals(GameState.GAME_MENU));
+        model.resume();
+        assertTrue(model.getGameState().equals(GameState.GAME_ACTIVE));
+        model.pause();
+        model.getGameState().equals(GameState.GAME_PAUSED);
+        model.backToGameMenu();
+        model.getGameState().equals(GameState.GAME_MENU);
+        model.resume();
     }
 
     @Test
-    void testCheckForGameOver(){
-        worldModel.setGameState(GameState.GAME_ACTIVE);
-        worldModel.player.receiveDamage(3);
-        worldModel.checkForGameOver();
-        assertTrue(worldModel.getGameState() == (GameState.GAME_OVER));
+    void testCheckForGameOver() {
+        model.setGameState(GameState.GAME_ACTIVE);
+        model.player.receiveDamage(3);
+        model.checkForGameOver();
+        assertTrue(model.getGameState() == (GameState.GAME_OVER));
     }
 
     @Test
     void testShouldUpdateCountDownReturnsTrueWhenValid() {
-        worldModel.setCountDown(10);
-        worldModel.setLastScoreUpdate(System.currentTimeMillis() - 1500);
-        worldModel.resume();
-        assertTrue(worldModel.shouldUpdateCountDown());
+        model.setCountDown(10);
+        model.setLastScoreUpdate(System.currentTimeMillis() - 1500);
+        model.resume();
+        assertTrue(model.shouldUpdateCountDown());
     }
 
     @Test
-    void testScoreUpdate(){
-        worldModel.setCountDown(10);
-        worldModel.updateScore(true);
-        assertTrue(worldModel.getCountDown() == 9);
-        worldModel.updateScore(false);
-        assertTrue(worldModel.getCountDown() == 9);
+    void testScoreUpdate() {
+        model.setCountDown(10);
+        model.updateScore(true);
+        assertTrue(model.getCountDown() == 9);
+        model.updateScore(false);
+        assertTrue(model.getCountDown() == 9);
     }
 
     @Test
-    void testEnemiesMovable(){
+    void testEnemiesMovable() {
         Enemy en1 = MobileObjectFactory.createSnail(10, 10);
         Enemy en2 = MobileObjectFactory.createLeopard(15, 10);
         enemies.add(en1);
         enemies.add(en2);
 
-        worldModel.setEnemies(enemies);
-        worldModel.moveEnemies(1 / 60f);
-        assertTrue(worldModel.getEnemies().get(0).getTransform().getPos().x == 11);
-        assertTrue(worldModel.getEnemies().get(1).getTransform().getPos().x == 13);
+        model.setEnemies(enemies);
+        model.moveEnemies(1 / 60f);
+        assertTrue(model.getEnemies().get(0).getTransform().getPos().x == 11);
+        assertTrue(model.getEnemies().get(1).getTransform().getPos().x == 13);
     }
 
     @Test
     void testPauseAndResume() {
-        worldModel.resume();
-        assertEquals(GameState.GAME_ACTIVE, worldModel.getGameState());
+        model.resume();
+        assertEquals(GameState.GAME_ACTIVE, model.getGameState());
 
-        worldModel.pause();
-        assertEquals(GameState.GAME_PAUSED, worldModel.getGameState());
+        model.pause();
+        assertEquals(GameState.GAME_PAUSED, model.getGameState());
 
-        worldModel.backToGameMenu();
-        assertEquals(GameState.GAME_MENU, worldModel.getGameState());
+        model.backToGameMenu();
+        assertEquals(GameState.GAME_MENU, model.getGameState());
     }
 
 
     @Test
     void testGetCountDown() {
         // Standardverdi fra konstruktør/setUpModel
-        assertEquals(150, worldModel.getCountDown());
+        assertEquals(45, model.getCountDown());
     }
 
     @Test
     void testLevelCounter() {
-        // Startverdi:
-        assertEquals(1, worldModel.getLevelCounter());
-
-        // Må endre oppsett av goToNextLevel-metode i modellen for å teste at vi går til riktig level.
-
+        assertEquals(1, model.getLevelCounter());
     }
 
     @Test
@@ -204,60 +202,67 @@ public class WorldModelTest {
 
     @Test
     void testGetTotalScoreReturnsCorrectValue() {
-        assertEquals(0, worldModel.player.getTotalScore());
+        assertEquals(0, model.player.getTotalScore());
 
-        worldModel.player.visitCoin(coin);
-        assertEquals(5, worldModel.player.getTotalScore());
-        assertEquals(5, worldModel.getTotalScore());
+        model.player.visitCoin(coin);
+        assertEquals(5, model.player.getTotalScore());
+        assertEquals(5, model.getTotalScore());
     }
 
     @Test
     void testGetCoinCounterReturnsCorrectValue() {
-        assertEquals(0, worldModel.player.getCoinCounter());
+        assertEquals(0, model.player.getCoinCounter());
 
-        worldModel.player.visitCoin(coin);
-        assertEquals(1, worldModel.player.getCoinCounter());
-        assertEquals(1, worldModel.getCoinCounter());
+        model.player.visitCoin(coin);
+        assertEquals(1, model.player.getCoinCounter());
+        assertEquals(1, model.getCoinCounter());
 
 
     }
 
     @Test
     void testGetPlayerLivesReturnsCorrectValue() {
-        Assertions.assertEquals(3, worldModel.player.getLives());
-        assertEquals(3, worldModel.getPlayerLives());
+        Assertions.assertEquals(3, model.player.getLives());
+        assertEquals(3, model.getPlayerLives());
 
-        worldModel.player.receiveDamage(1);
+        model.player.receiveDamage(1);
 
-        Assertions.assertEquals(2, worldModel.player.getLives());
-        assertEquals(2, worldModel.getPlayerLives());
+        Assertions.assertEquals(2, model.player.getLives());
+        assertEquals(2, model.getPlayerLives());
     }
 
 
     @Test
     public void testLegalMove_validMove() {
-        Visitor visitor = worldModel.player;
+        Visitor visitor = model.player;
         CollisionBox validMove = new CollisionBox(new Transform(new Vector2(10, 10), new Vector2(50, 50)));
-        assertTrue(worldModel.isLegalMove(visitor, validMove));  // Sjekker om bevegelsen er lovlig
+        assertTrue(model.isLegalMove(visitor, validMove));  // Sjekker om bevegelsen er lovlig
     }
 
     @Test
     public void testLegalMove_invalidMove_outOfBounds() {
-        Visitor visitor = worldModel.player;
+        Visitor visitor = model.player;
         CollisionBox invalidMove = new CollisionBox(new Transform(new Vector2(-10, -10), new Vector2(50, 50)));
-        assertFalse(worldModel.isLegalMove(visitor, invalidMove));  // Sjekker om bevegelsen er ulovlig (utenfor grenser)
+        assertFalse(model.isLegalMove(visitor, invalidMove));  // Sjekker om bevegelsen er ulovlig (utenfor grenser)
     }
 
     @Test
-    public void testGetMovementDirection(){
-        assertEquals(0, worldModel.getMovementDirection());
+    public void testGetMovementDirection() {
+        assertEquals(0, model.getMovementDirection());
 
-        worldModel.player.setMovementDirection(1);
-        assertEquals(1, worldModel.getMovementDirection());
+        model.player.setMovementDirection(1);
+        assertEquals(1, model.getMovementDirection());
 
-        worldModel.player.setMovementDirection(-1);
-        assertEquals(-1, worldModel.getMovementDirection());
+        model.player.setMovementDirection(-1);
+        assertEquals(-1, model.getMovementDirection());
     }
 
+    @Test
+    void testPositionIsOnBoard() {
 
+        Transform transform = new Transform(new Vector2(100, 100), new Vector2(200, 200));
+        CollisionBox box = new CollisionBox(transform);
+
+        assertTrue(model.isLegalMove(mock(Visitor.class), box));
+    }
 }

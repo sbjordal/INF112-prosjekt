@@ -1,6 +1,7 @@
 package inf112.starhunt.view;
 import com.badlogic.gdx.Audio;
 import com.badlogic.gdx.Files;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
@@ -10,35 +11,62 @@ import java.util.Map;
 
 
 /**
- * Class for handling sound effects, these are used when colliding or if player is losing a life.
+ * Singleton class for handling all sound effects.
+ * Should only be initialized once for handling the sound effects correctly.
  */
 public class SoundHandler {
+    private static SoundHandler instance;
+
     private final Map<String, Sound> sounds = new HashMap<>();
+    private final Map<String, Music> songs = new HashMap<>();
 
     /**
-     * Default constructor, adds sounds by getting from the sfx directory.
+     * Default constructor, needed to initialize libGDX from {@link inf112.starhunt.model.WorldModel}.
      */
-    public SoundHandler() {
+    private SoundHandler() {
         this(Gdx.files, Gdx.audio);
     }
 
-    // Dependency-injected constructor for easier testing
-    public SoundHandler(Files files, Audio audio) {
-        addSound("coin", "sfx/coinrecieved.mp3", files, audio);
-        addSound("ouch", "sfx/characterouch.mp3", files, audio);
+    /**
+     * Package private for testing
+     * Dependency-injected constructor for easier testing
+     */
+    SoundHandler(Files files, Audio audio) {
+        addSound("coin", "sfx/coinrecieved.wav", files, audio);
+        addSound("ouch", "sfx/characterouch.wav", files, audio);
+        addSound("bounce", "sfx/bounce.wav", files, audio);
+        addSound("powerup", "sfx/powerup.wav", files, audio);
+        addSound("gameover", "sfx/gameover.wav", files, audio);
+        addSound("newlevel", "sfx/newlevel.wav", files, audio);
+        addMusic("menu", "sfx/menu_music.wav", files, audio);
+        addMusic("active", "sfx/activeGame_music.wav", files, audio);
     }
 
     /**
-     * Overloaded method for easier testing.
-     * @param name
-     * @param filePath
+     * Adds sounds to map
+     * @param name of sound
+     * @param filePath placement
      * @param files dependency needed for testing
      * @param audio dependency needed for testing
      */
-    public void addSound(String name, String filePath, Files files, Audio audio) {
+    void addSound(String name, String filePath, Files files, Audio audio) {
         FileHandle fileHandle = files.internal(filePath);
         Sound sound = audio.newSound(fileHandle);
         sounds.put(name, sound);
+    }
+
+    /**
+     * Helper method for adding music to map,
+     * @param name Music name
+     * @param filePath placement
+     * @param files dependency needed for testing
+     * @param audio dependency needed for testing
+     *
+     */
+    void addMusic(String name, String filePath, Files files, Audio audio) {
+        FileHandle fileHandle = files.internal(filePath);
+        Music music = audio.newMusic(fileHandle);
+        songs.put(name, music);
     }
 
     /**
@@ -56,9 +84,32 @@ public class SoundHandler {
     }
 
     /**
-     * Gets sound, mainly used for testing
+     * Starts playing the song on loop
+     * @param music song to play
      */
+    public void playMusic(Music music) {
+        music.setVolume(0.20f);
+        music.setLooping(true);
+        music.play();
+    }
+
+    /**
+     * Gets the instance to be used.
+     * @return the Soundhandler instance to be used in {@link WorldView}
+     */
+    public static SoundHandler getInstance() {
+        if (instance == null) {
+            instance = new SoundHandler();
+        }
+        return instance;
+    }
+
     public Sound getSound(String name) {
         return sounds.get(name);
     }
+
+    public Music getMusic(String name) {
+        return songs.get(name);
+    }
+
 }

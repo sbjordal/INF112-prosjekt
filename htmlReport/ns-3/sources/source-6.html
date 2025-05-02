@@ -56,10 +56,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    70%
+    70,8%
   </span>
   <span class="absValue">
-    (28/40)
+    (34/48)
   </span>
 </td>
 <td class="coverageStat">
@@ -72,10 +72,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    49,1%
+    49,2%
   </span>
   <span class="absValue">
-    (57/116)
+    (64/130)
   </span>
 </td>
 </tr>
@@ -89,13 +89,12 @@ Current scope:     <a href="../../index.html">all classes</a>
 <pre>
 <code class="sourceCode" id="sourceCode">&nbsp;package inf112.starhunt.model;
 &nbsp;
-&nbsp;import com.badlogic.gdx.ApplicationListener;
 &nbsp;import com.badlogic.gdx.Gdx;
 &nbsp;import inf112.starhunt.controller.ControllableWorldModel;
 &nbsp;import inf112.starhunt.controller.Controller;
 &nbsp;import inf112.starhunt.model.gameobject.*;
+&nbsp;import inf112.starhunt.model.gameobject.mobileobject.actor.ModelablePlayer;
 &nbsp;import inf112.starhunt.model.gameobject.mobileobject.actor.enemy.*;
-&nbsp;import inf112.starhunt.model.gameobject.mobileobject.actor.Player;
 &nbsp;import inf112.starhunt.view.ViewableWorldModel;
 &nbsp;import inf112.starhunt.view.WorldView;
 &nbsp;import java.util.ArrayList;
@@ -108,14 +107,15 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;public class WorldModel extends AbstractApplicationListener implements ViewableWorldModel, ControllableWorldModel, PositionValidator {
 &nbsp;    public static final int LEVEL_WIDTH = 4500;
 &nbsp;
-&nbsp;    Player player;
-&nbsp;    int countDown;
-&nbsp;    long lastScoreUpdate;
-&nbsp;    boolean isMovingRight;
-&nbsp;    boolean isMovingLeft;
-&nbsp;    boolean isJumping;
-&nbsp;    List&lt;Collidable&gt; collidables;
+&nbsp;    ModelablePlayer player;
 &nbsp;
+&nbsp;    private int countDown;
+&nbsp;    private long lastScoreUpdate;
+&nbsp;    private boolean isMovingRight;
+&nbsp;    private boolean isMovingLeft;
+&nbsp;    private boolean isJumping;
+&nbsp;
+&nbsp;    private List&lt;Collidable&gt; collidables;
 &nbsp;    private GameState gameState;
 &nbsp;    private WorldBoard board;
 &nbsp;    private WorldView worldView;
@@ -160,16 +160,16 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    }
 &nbsp;
 &nbsp;    private void setupGameObjects() {
-<b class="nc">&nbsp;        Triple&lt;List&lt;Enemy&gt;, List&lt;Collidable&gt;, Player&gt; triple = LevelManager.loadLevel(currentLevel);</b>
-<b class="nc">&nbsp;        enemies = triple.first;</b>
-<b class="nc">&nbsp;        collidables = triple.second;</b>
+<b class="nc">&nbsp;        Triple&lt;List&lt;Enemy&gt;, List&lt;Collidable&gt;, ModelablePlayer&gt; triple = LevelManager.loadLevel(currentLevel);</b>
+<b class="nc">&nbsp;        enemies = triple.getFirst();</b>
+<b class="nc">&nbsp;        collidables = triple.getSecond();</b>
 &nbsp;
 <b class="nc">&nbsp;        if (levelCounter == 1) {</b>
-<b class="nc">&nbsp;            player = triple.third;</b>
+<b class="nc">&nbsp;            player = triple.getThird();</b>
 <b class="nc">&nbsp;            player.setRespawned(true);</b>
 &nbsp;        } else {
-<b class="nc">&nbsp;            player.resetForNewLevel(triple.third.getTransform().getPos());</b>
-<b class="nc">&nbsp;            collidables.remove(triple.third);</b>
+<b class="nc">&nbsp;            player.resetForNewLevel(triple.getThird().getTransform().getPos());</b>
+<b class="nc">&nbsp;            collidables.remove(triple.getThird());</b>
 <b class="nc">&nbsp;            collidables.add(player);</b>
 &nbsp;        }
 &nbsp;    }
@@ -205,10 +205,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    // TODO, skiv javadoc på denne, beskriv hva som skjer
 &nbsp;    private boolean positionIsOnBoard(CollisionBox collisionBox) {
 <b class="fc">&nbsp;        final int belowLevel = -200;</b>
-<b class="pc">&nbsp;        boolean isWithinWidthBound = collisionBox.botLeft.x &gt;= 0 &amp;&amp;</b>
-&nbsp;                collisionBox.botLeft.x &gt; viewportLeftX &amp;&amp;
-<b class="pc">&nbsp;                collisionBox.topRight.x &lt; board.width();</b>
-<b class="pc">&nbsp;        boolean isWithinHeightBound = collisionBox.botLeft.y &gt;= belowLevel;</b>
+<b class="fc">&nbsp;        boolean isWithinWidthBound = collisionBox.getBotLeft().x &gt;= 0 &amp;&amp;</b>
+<b class="pc">&nbsp;                collisionBox.getBotLeft().x &gt; viewportLeftX &amp;&amp;</b>
+<b class="pc">&nbsp;                collisionBox.getTopRight().x &lt; board.width();</b>
+<b class="pc">&nbsp;        boolean isWithinHeightBound = collisionBox.getBotLeft().y &gt;= belowLevel;</b>
 &nbsp;
 <b class="fc">&nbsp;        return isWithinWidthBound &amp;&amp; isWithinHeightBound;</b>
 &nbsp;    }
@@ -218,8 +218,9 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        if (gotNextLevel) {</b>
 <b class="nc">&nbsp;            LevelManager.Level nextLevel = LevelManager.getNextLevel(currentLevel);</b>
 <b class="nc">&nbsp;            currentLevel = nextLevel;</b>
-<b class="nc">&nbsp;            startLevel(nextLevel);</b>
 <b class="nc">&nbsp;            levelCounter++;</b>
+<b class="nc">&nbsp;            startLevel(nextLevel);</b>
+&nbsp;
 &nbsp;        }
 &nbsp;    }
 &nbsp;
@@ -266,12 +267,18 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        player.resolveMovement(0, deltaY, this);</b>
 &nbsp;
 <b class="nc">&nbsp;        final boolean isMoving = isMovingRight ^ isMovingLeft;</b>
+<b class="nc">&nbsp;        boolean actuallyMovedHorizontally = false;</b>
 <b class="nc">&nbsp;        if (isMoving) {</b>
 <b class="nc">&nbsp;            int direction = isMovingRight ? 1 : -1;</b>
 <b class="nc">&nbsp;            player.setMovementDirection(direction);</b>
 <b class="nc">&nbsp;            float deltaX = (player.getMovementSpeed() * deltaTime) * direction;</b>
+<b class="nc">&nbsp;            float beforeX = player.getTransform().getPos().x;</b>
 <b class="nc">&nbsp;            player.resolveMovement(deltaX, 0, this);</b>
+<b class="nc">&nbsp;            float afterX = player.getTransform().getPos().x;</b>
+<b class="nc">&nbsp;            actuallyMovedHorizontally = (beforeX != afterX);</b>
+<b class="nc">&nbsp;            player.setIsMovingHorizontally(actuallyMovedHorizontally);</b>
 &nbsp;        }
+&nbsp;
 &nbsp;
 <b class="nc">&nbsp;        final boolean isStandingStill = !(isMovingRight || isMovingLeft);</b>
 <b class="nc">&nbsp;        if (isStandingStill) {</b>
@@ -287,7 +294,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    }
 &nbsp;
 &nbsp;    void checkForGameOver() {
-<b class="pc">&nbsp;        if (!player.isAlive()){</b>
+<b class="pc">&nbsp;        if (!player.getIsAlive()){</b>
 <b class="fc">&nbsp;            gameState = GameState.GAME_OVER;</b>
 &nbsp;        }
 &nbsp;    }
@@ -358,14 +365,6 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;        this.gameState = gameState;</b>
 &nbsp;    }
 &nbsp;
-&nbsp;    public List&lt;Enemy&gt; getEnemies() {
-<b class="fc">&nbsp;        return Collections.unmodifiableList(enemies);</b>
-&nbsp;    }
-&nbsp;
-&nbsp;    public void setEnemies(List&lt;Enemy&gt; enemies) {
-<b class="fc">&nbsp;        this.enemies = enemies;</b>
-&nbsp;    }
-&nbsp;
 &nbsp;    @Override
 &nbsp;    public LevelManager.Level getCurrentLevel() {
 <b class="nc">&nbsp;        return currentLevel;</b>
@@ -415,6 +414,48 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    public void updateViewportLeftX(float leftX) {
 <b class="nc">&nbsp;        viewportLeftX = leftX;</b>
 &nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public float getVerticalVelocity() {
+<b class="nc">&nbsp;        return player.getVerticalVelocity();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean getPlayerMovement() {
+<b class="nc">&nbsp;        return player.getIsMovingHorizontally();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    List&lt;Enemy&gt; getEnemies() {
+<b class="fc">&nbsp;        return Collections.unmodifiableList(enemies);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    void setEnemies(List&lt;Enemy&gt; enemies) {
+<b class="fc">&nbsp;        this.enemies = enemies;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    void setCollidables(List&lt;Collidable&gt; collidables) {
+<b class="fc">&nbsp;        this.collidables = collidables;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    void setCountDown(int countDown) {
+<b class="fc">&nbsp;        this.countDown = countDown;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    void setLastScoreUpdate(long lastScoreUpdate) {
+<b class="fc">&nbsp;        this.lastScoreUpdate = lastScoreUpdate;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    boolean getIsMovingRight() {
+<b class="fc">&nbsp;        return isMovingRight;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    boolean getIsMovingLeft() {
+<b class="fc">&nbsp;        return isMovingLeft;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    boolean getIsJumping() {
+<b class="fc">&nbsp;        return isJumping;</b>
+&nbsp;    }
 &nbsp;}
 </code>
 </pre>
@@ -439,7 +480,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2025-04-30 10:42</div>
+    <div style="float:right;">generated on 2025-05-01 11:36</div>
 </div>
 </body>
 </html>

@@ -157,7 +157,6 @@ public class LevelManagerTest {
         String collidablesJson = "{\"height\": 10, \"tileheight\": 32, \"layers\": [" +
                 "{\"type\": \"objectgroup\", \"name\": \"player\", \"objects\": [{\"x\": 0, \"y\": 32, \"height\": 32}]}," +
                 "{\"type\": \"objectgroup\", \"name\": \"star\", \"objects\": [{\"x\": 10, \"y\": 32, \"height\": 32}]}," +
-                "{\"type\": \"objectgroup\", \"name\": \"ground\", \"objects\": [{\"x\": 0, \"y\": 0, \"height\": 32}]}," +
                 "{\"type\": \"objectgroup\", \"name\": \"coin\", \"objects\": [{\"x\": 20, \"y\": 32, \"height\": 32}]}," +
                 "{\"type\": \"objectgroup\", \"name\": \"banana\", \"objects\": [{\"x\": 30, \"y\": 32, \"height\": 32}]}," +
                 "{\"type\": \"objectgroup\", \"name\": \"snail\", \"objects\": [{\"x\": 40, \"y\": 32, \"height\": 32}]}," +
@@ -173,15 +172,14 @@ public class LevelManagerTest {
 
         // Verifiser at collidables-listen har syv objekter (Player, Star, Ground, Coin, Banana, Snail, Leopard)
         assertNotNull(result.getSecond());
-        assertEquals(7, result.getSecond().size(), "There should be exactly seven objects in collidables.");
+        assertEquals(6, result.getSecond().size(), "There should be exactly seven objects in collidables.");
 
         assertTrue(result.getSecond().get(0) instanceof ModelablePlayer, "The first object in collidables should be a Player.");
         assertTrue(result.getSecond().get(1) instanceof Star, "The second object in collidables should be a Star.");
-        assertTrue(result.getSecond().get(2) instanceof Ground, "The third object in collidables should be a Ground.");
-        assertTrue(result.getSecond().get(3) instanceof Coin, "The fourth object in collidables should be a Coin.");
-        assertTrue(result.getSecond().get(4) instanceof Banana, "The fifth object in collidables should be a Banana.");
-        assertTrue(result.getSecond().get(5) instanceof Snail, "The sixth object in collidables should be a Snail.");
-        assertTrue(result.getSecond().get(6) instanceof Leopard, "The seventh object in collidables should be a Leopard.");
+        assertTrue(result.getSecond().get(2) instanceof Coin, "The fourth object in collidables should be a Coin.");
+        assertTrue(result.getSecond().get(3) instanceof Banana, "The fifth object in collidables should be a Banana.");
+        assertTrue(result.getSecond().get(4) instanceof Snail, "The sixth object in collidables should be a Snail.");
+        assertTrue(result.getSecond().get(5) instanceof Leopard, "The seventh object in collidables should be a Leopard.");
     }
 
 

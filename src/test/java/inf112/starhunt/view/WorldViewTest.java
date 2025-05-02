@@ -65,6 +65,9 @@ public class WorldViewTest {
         when(mockTransform.getPos()).thenReturn(new com.badlogic.gdx.math.Vector2(100, 50));
         when(mockTransform.getSize()).thenReturn(new com.badlogic.gdx.math.Vector2(20, 40));
         when(mockFont.getData()).thenReturn(mockFontData);
+        Gdx.files = mock(Files.class);
+        FileHandle mockFileHandle = mock(FileHandle.class);
+        when(Gdx.files.internal("font/VT323-Regular.ttf")).thenReturn(mockFileHandle);
 
         worldView = new WorldView(mockModel, 800, 600);
 
@@ -82,6 +85,7 @@ public class WorldViewTest {
         }});
         worldView.setLayout(mockLayout);
     }
+
     @Test
     void testLoadTextures() {
         worldView.setTextures(new HashMap<>());
@@ -97,15 +101,14 @@ public class WorldViewTest {
 
             var textures = worldView.getTextures();
             assertNotNull(textures);
-            assertEquals(6, textures.size());
+            assertEquals(21, textures.size());
             assertTrue(textures.containsKey("leopard"));
             assertTrue(textures.containsKey("snail"));
             assertTrue(textures.containsKey("coin"));
             assertTrue(textures.containsKey("powerup"));
-            assertTrue(textures.containsKey("ground"));
             assertTrue(textures.containsKey("star"));
 
-            assertEquals(6, mocked.constructed().size());
+            assertEquals(21, mocked.constructed().size());
         }
     }
 
@@ -114,7 +117,9 @@ public class WorldViewTest {
         ViewableObject unknown = mock(ViewableObject.class);
 
         when(unknown.getClass()).thenAnswer(invocation -> new Object() {
-            public String getSimpleName() { return "Cactus"; }
+            public String getSimpleName() {
+                return "Cactus";
+            }
         }.getClass());
 
         assertThrows(IllegalArgumentException.class, () -> worldView.getTexture(unknown));
@@ -129,7 +134,7 @@ public class WorldViewTest {
         textures.put("snail", mockTexture);
         textures.put("coin", mockTexture);
         textures.put("powerup", mockTexture);
-        textures.put("ground", mockTexture);
+        textures.put("ground_0000", mockTexture);
         textures.put("star", mockTexture);
         worldView.setTextures(textures);
 
@@ -171,9 +176,10 @@ public class WorldViewTest {
         when(mockModel.getCoinCounter()).thenReturn(5);
         when(mockModel.getPlayerLives()).thenReturn(3);
         when(mockModel.getCountDown()).thenReturn(30);
+        when(mockModel.getVerticalVelocity()).thenReturn(0f);
 
         TextureRegion frame = mock(TextureRegion.class);
-        when(mockPlayerAnimation.getFrame(anyInt())).thenReturn(frame);
+        when(mockPlayerAnimation.getFrame(anyInt(), anyFloat())).thenReturn(frame);
 
         WorldView spyView = spy(worldView);
         doNothing().when(spyView).updateViewportCamera();
@@ -198,9 +204,34 @@ public class WorldViewTest {
 
         verify(mockBatch).draw(eq(mockTexture), anyFloat(), anyFloat(), anyFloat(), anyFloat());
     }
+
     @Test
     public void testDrawCenteredTextWorks() {
         worldView.drawCenteredText("Test Message", 2, 50);
         verify(mockFont).draw(any(), eq("Test Message"), anyFloat(), anyFloat());
+    }
+
+    @Test
+    public void testDisposeCallsAllDisposeMethods() {
+        Texture texture1 = mock(Texture.class);
+        Texture texture2 = mock(Texture.class);
+
+        HashMap<String, Texture> textures = new HashMap<>();
+        textures.put("ground", texture1);
+        textures.put("coin", texture2);
+
+        worldView.setTextures(textures);
+        worldView.setBatch(mockBatch);
+        worldView.setFont(mockFont);
+        worldView.setParallaxBackground(mockBackground);
+        worldView.setPlayerAnimation(mockPlayerAnimation);
+        worldView.dispose();
+
+        verify(mockBatch).dispose();
+        verify(mockFont).dispose();
+        verify(mockBackground).dispose();
+        verify(mockPlayerAnimation).dispose();
+        verify(texture1).dispose();
+        verify(texture2).dispose();
     }
 }

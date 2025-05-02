@@ -15,6 +15,8 @@ public class Main {
 
     public static void main(String[] args) {
 		if (SharedLibraryLoader.os == Os.MacOsX) {
+
+
 			Configuration.GLFW_LIBRARY_NAME.set("glfw_async");
 		}
 		

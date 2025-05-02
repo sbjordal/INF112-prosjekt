@@ -32,11 +32,11 @@ public class PlayerAnimationTest {
         try (MockedConstruction<Texture> mocked = mockConstruction(Texture.class)) {
             PlayerAnimation anim = new PlayerAnimation();
 
-            assertEquals(20, mocked.constructed().size());
+            assertEquals(22, mocked.constructed().size());
 
-            assertNotNull(anim.getFrame(0));
-            assertNotNull(anim.getFrame(1));
-            assertNotNull(anim.getFrame(-1));
+            assertNotNull(anim.getFrame(0, 0));
+            assertNotNull(anim.getFrame(1, 0));
+            assertNotNull(anim.getFrame(-1, 0));
         }
     }
 
@@ -45,7 +45,7 @@ public class PlayerAnimationTest {
         try (MockedConstruction<Texture> mocked = mockConstruction(Texture.class)) {
             PlayerAnimation animation = new PlayerAnimation();
             animation.update(0.5f,false);
-            assertNotNull(animation.getFrame(0));
+            assertNotNull(animation.getFrame(0, 0));
         }
     }
     @Test
@@ -53,7 +53,7 @@ public class PlayerAnimationTest {
         try (MockedConstruction<Texture> mocked = mockConstruction(Texture.class)) {
             PlayerAnimation animation = new PlayerAnimation();
             animation.update(0.5f, true);
-            assertNotNull(animation.getFrame(0));
+            assertNotNull(animation.getFrame(0, 0));
         }
     }
 

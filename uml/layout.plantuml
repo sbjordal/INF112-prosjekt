@@ -49,7 +49,17 @@ remove ParallaxBackgroundTest
 remove TransformTest
 remove LevelManagerTest
 remove CollisionHandlerTest
-
+remove FixedObjectFactoryTest
+remove MobileObjectFactoryTest
+remove AbstractScreen
+remove PositionValidator
+remove AbstractApplicationListener
+remove StarTest
+remove GroundTest
+remove TransformUtils
+remove TripleTest
+remove Triple
+remove Visitor
 
 'Remove potentially unnecessary objects
 remove Direction
@@ -60,6 +70,17 @@ remove WorldBoard
 remove Scorable
 remove CollisionHandler
 remove GameState
+remove FixedObjectFactory
+remove GameObjectFactory
+remove MobileObjectFactory
+
+'Remove interfaces to make the diagram more readable
+remove ModelablePlayer
+remove ControllableWorldModel
+remove ViewableWorldModel
+remove Collidable
+remove Movable
+remove ViewableObject
 
 'Remove package-info files
 remove node26

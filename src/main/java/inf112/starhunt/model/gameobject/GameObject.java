@@ -11,7 +11,7 @@ public class GameObject implements ViewableObject {
     private CollisionBox collisionBox;
 
     /**
-     * Creates a new GameObject with the specified transform and texture.
+     * Creates a new {@link GameObject} with the specified transform and texture.
      *
      * @param transform The initial position and size of the GameObject.
      */
@@ -37,6 +37,15 @@ public class GameObject implements ViewableObject {
     public void setOnCollisionWithEnemy(Runnable callback) {}
 
     @Override
+    public void setOnCollisionWithEnemyDealDamage(Runnable callback) {}
+
+    @Override
+    public void setOnBananaCollected(Runnable callback) {}
+
+    @Override
+    public void setOnCollisionWithStar(Runnable callback) {}
+
+    @Override
     public int getDirection() {
         return 0;
     }
@@ -45,7 +54,7 @@ public class GameObject implements ViewableObject {
         collisionBox = new CollisionBox(transform);
     }
 
-    public void setSize(Vector2 size) {
+    protected void setSize(Vector2 size) {
         transform.alterSize((int) size.x, (int) size.y);
     }
 }

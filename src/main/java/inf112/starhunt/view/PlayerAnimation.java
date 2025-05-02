@@ -17,6 +17,12 @@ public class PlayerAnimation {
     }
 
     private void loadAnimations() {
+        loadRunningAnimations();
+        loadIdleAnimation();
+        loadJumpingAnimations();
+    }
+
+    private void loadRunningAnimations() {
         TextureRegion[] runFramesRight = new TextureRegion[8];
         TextureRegion[] runFramesLeft = new TextureRegion[8];
 
@@ -32,7 +38,9 @@ public class PlayerAnimation {
 
         animations.get("runRight").setPlayMode(Animation.PlayMode.LOOP);
         animations.get("runLeft").setPlayMode(Animation.PlayMode.LOOP);
+    }
 
+    private void loadIdleAnimation() {
         TextureRegion[] idleFrames = new TextureRegion[12];
         for (int i = 0; i < 12; i++) {
             idleFrames[i] = new TextureRegion(new Texture(Gdx.files.internal("player/idle/i" + (i + 1) + ".png")));
@@ -42,23 +50,60 @@ public class PlayerAnimation {
         animations.get("idle").setPlayMode(Animation.PlayMode.LOOP);
     }
 
-    public void update(float deltaTime, boolean isPaused) {
+    private void loadJumpingAnimations() {
+        TextureRegion jumpFramesRight = new TextureRegion(new Texture(Gdx.files.internal("player/jump/jump.png")));
+        TextureRegion jumpFramesLeft = new TextureRegion(jumpFramesRight);
+        jumpFramesLeft.flip(true, false);
+
+        animations.put("jumpRight", new Animation<>(0.1f, jumpFramesRight));
+        animations.put("jumpLeft", new Animation<>(0.1f, jumpFramesLeft));
+
+        TextureRegion landingFramesRight = new TextureRegion(new Texture(Gdx.files.internal("player/jump/landing.png")));
+        TextureRegion landingFramesLeft = new TextureRegion(landingFramesRight);
+        landingFramesLeft.flip(true, false);
+
+        animations.put("landingRight", new Animation<>(0.1f, landingFramesRight));
+        animations.put("landingLeft", new Animation<>(0.1f, landingFramesLeft));
+    }
+
+    void update(float deltaTime, boolean isPaused) {
         if (!isPaused) {
             stateTime += deltaTime;
         }
     }
 
-    public TextureRegion getFrame(int direction) {
+    TextureRegion getFrame(int direction, float verticalVelocity) {
+        final boolean isFalling = verticalVelocity < 0;
+        final boolean isJumping = verticalVelocity > 0;
+
         if (direction == 0) {
-            return animations.get("idle").getKeyFrame(stateTime, true);
+            if (isFalling) {
+                return animations.get("landingRight").getKeyFrame(stateTime, true);
+            } else if (isJumping) {
+                return animations.get("jumpRight").getKeyFrame(stateTime, true);
+            } else {
+                return animations.get("idle").getKeyFrame(stateTime, true);
+            }
         } else if (direction == 1) {
-            return animations.get("runRight").getKeyFrame(stateTime, true);
+            if (isFalling) {
+                return animations.get("landingRight").getKeyFrame(stateTime, true);
+            } else if (isJumping) {
+                return animations.get("jumpRight").getKeyFrame(stateTime, true);
+            } else {
+                return animations.get("runRight").getKeyFrame(stateTime, true);
+            }
         } else {
-            return animations.get("runLeft").getKeyFrame(stateTime, true);
+            if (isFalling) {
+                return animations.get("landingLeft").getKeyFrame(stateTime, true);
+            } else if (isJumping) {
+                return animations.get("jumpLeft").getKeyFrame(stateTime, true);
+            } else {
+                return animations.get("runLeft").getKeyFrame(stateTime, true);
+            }
         }
     }
 
-    public void dispose() {
+    void dispose() {
         for (Animation<TextureRegion> animation : animations.values()){
             for (TextureRegion frame : animation.getKeyFrames()){
                 frame.getTexture().dispose();

@@ -13,10 +13,8 @@ import inf112.starhunt.model.gameobject.mobileobject.MobileObjectFactory;
 import inf112.starhunt.model.gameobject.mobileobject.actor.enemy.Enemy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -91,6 +89,14 @@ class PlayerTest {
         assertThrows(IllegalArgumentException.class, () -> player.receiveDamage(-1), "Damage can not be negative.");
         assertThrows(IllegalArgumentException.class, () -> player.dealDamage(player, -1), "Damage can not be negative.");
     }
+
+    @Test
+    void testReceiveZeroDamage() {
+        int initialLives = player.getLives();
+        player.receiveDamage(0);
+        assertEquals(initialLives, player.getLives(), "Receiving 0 damage should not reduce lives.");
+    }
+
 
     @Test
     void testSetAndGetHasPowerUp() {
@@ -337,6 +343,96 @@ class PlayerTest {
         verify(coinCollectedCallback, times(1)).run();
     }
 
+    @Test
+    void testSetLivesToValidValue() {
+        player.setLives(2);
+        assertEquals(2, player.getLives(), "Lives should be updated to the new valid value.");
 
+        player.setLives(0);
+        assertEquals(0, player.getLives(), "Lives should be updated to the new valid value. 0 is a valid value");
+    }
+
+    @Test
+    void testSetLivesToInvalidValueThrowsException() {
+        assertThrows(IllegalArgumentException.class, () -> player.setLives(-1), "Setting lives to negative should throw exception.");
+        assertThrows(IllegalArgumentException.class, () -> player.setLives(-3), "Setting lives to negative should throw exception.");
+    }
+
+    @Test
+    public void testJumpWithoutApplyJumpForce() {
+        player.jump(true);  // Spilleren er på bakken
+        assertTrue(player.getVerticalVelocity() > 0);
+
+        // Spilleren får en hoppkraft som vanlig
+        player.applyJumpForce(1000);
+        assertTrue(player.getVerticalVelocity() > 0);
+    }
+
+    @Test
+    public void testBananaCollectionWithoutCallback() {
+        player.setOnBananaCollected(null);  // Sett callback til null
+        player.visitBanana(banana);  // Spilleren samler en banana, men uten å trigge callback
+
+        assertEquals(0, player.getCoinCounter());  // Her kan vi også sjekke at ingen score ble tildelt
+    }
+
+    @Test
+    public void testPlayerBounceOffEnemy() {
+        player.setLastBounceTime(System.currentTimeMillis() - 1000);  // Gjør spillerens bounce klart
+        player.visitEnemy(enemy);
+
+        assertEquals(3, player.getLives());
+    }
+
+
+    @Test
+    void testSetAndGetIsMovingHorizontally() {
+        player.setIsMovingHorizontally(false);
+
+        assertFalse(player.getIsMovingHorizontally(), "Player should not be moving horizontally initially.");
+
+        player.setIsMovingHorizontally(true);
+        assertTrue(player.getIsMovingHorizontally(), "Player should be moving horizontally after set to true.");
+
+        player.setIsMovingHorizontally(false);
+        assertFalse(player.getIsMovingHorizontally(), "Player should not be moving horizontally after set to false.");
+    }
+
+    @Test
+    void testPlayerResetsForNewLevel(){
+        player.move(new Vector2(2f,2f));
+        player.setLives(1);
+        player.setVerticalVelocity(800);
+        player.setRespawned(false);
+        Vector2 newSpawnPoint =  new Vector2(100,100);
+
+        player.resetForNewLevel(newSpawnPoint);
+        assertTrue(player.getTransform().getPos().epsilonEquals(newSpawnPoint));
+        assertEquals(3, player.getLives());
+        assertEquals(0, player.getVerticalVelocity());
+        assertTrue(player.getRespawned());
+    }
+
+    @Test
+    void testNoNegativeTotalScore(){
+        int startScore = player.getTotalScore();
+        assertEquals(0, startScore);
+
+        player.takeDamage(1);
+        int newScore = player.getTotalScore();
+        assertEquals(0, newScore);
+    }
+
+    @Test
+    void playerGainsScoreWhenDefeatingEnemy() {
+        int initialScore = player.getTotalScore();
+        player.move(new Vector2(0,0));
+        enemy.move(new Vector2(0, 20));
+        player.visitEnemy(enemy);
+
+        int expectedScore = initialScore + enemy.getObjectScore();
+        assertEquals(expectedScore, player.getTotalScore(), "Player should gain score after defeating enemy");
+        assertTrue(player.getObjectsToRemove().contains(enemy), "Enemy should be marked for removal");
+    }
 
 }

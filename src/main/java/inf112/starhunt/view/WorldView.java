@@ -1,6 +1,8 @@
 package inf112.starhunt.view;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -14,6 +16,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import inf112.starhunt.model.GameState;
 import inf112.starhunt.model.gameobject.Transform;
 import inf112.starhunt.model.gameobject.ViewableObject;
+import inf112.starhunt.model.gameobject.mobileobject.actor.ModelablePlayer;
 import inf112.starhunt.model.gameobject.mobileobject.actor.Player;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
@@ -29,16 +32,24 @@ public class WorldView extends AbstractScreen implements EventListener {
     private GlyphLayout layout;
     private HashMap<String, Texture> textures;
     private PlayerAnimation playerAnimation;
-    private GameState gameState;
+    private GameState currentGameState;
+    private GameState previousGameState = null;
     private SoundHandler soundHandler;
     private final Viewport viewport;
+    private Music menuMusic;
+    private Music activeGameMusic;
+    private Sound gameOverSound;
+    private boolean gameOverSoundHasPlayed;
+    private boolean isActiveGameMusicStarted = false;
+
 
     public WorldView(ViewableWorldModel model, int width, int height) {
         this.viewport = new ExtendViewport(width, height);
         this.model = model;
         this.layout = new GlyphLayout();
         this.textures = new HashMap<>();
-        this.gameState = model.getGameState();
+        this.currentGameState = model.getGameState();
+        this.previousGameState = currentGameState;
     }
 
     /**
@@ -70,10 +81,18 @@ public class WorldView extends AbstractScreen implements EventListener {
         loadTextures();
         batch = new SpriteBatch();
         headerTexture = new Texture("background/header.png");
-        soundHandler = new SoundHandler();
+        soundHandler = SoundHandler.getInstance();
         font = loadFont("font/VT323-Regular.ttf");
+        menuMusic = soundHandler.getMusic("menu");
+        activeGameMusic = soundHandler.getMusic("active");
+        gameOverSound = soundHandler.getSound("gameover");
+        gameOverSoundHasPlayed = false;
+
         model.getViewablePlayer().setOnCoinCollected(() -> soundHandler.playSound("coin"));
         model.getViewablePlayer().setOnCollisionWithEnemy(() -> soundHandler.playSound("ouch"));
+        model.getViewablePlayer().setOnCollisionWithEnemyDealDamage(() -> soundHandler.playSound("bounce"));
+        model.getViewablePlayer().setOnBananaCollected(() -> soundHandler.playSound("powerup"));
+        model.getViewablePlayer().setOnCollisionWithStar(() -> soundHandler.playSound("newlevel"));
     }
 
     private BitmapFont loadFont(String fontFilePath) {
@@ -90,18 +109,62 @@ public class WorldView extends AbstractScreen implements EventListener {
 
     @Override
     public void render(float v) {
-        gameState = model.getGameState();
-        switch (model.getGameState()) {
+        currentGameState = model.getGameState();
+        handleGameStateSounds();
+
+        switch (currentGameState) {
             case GAME_MENU -> drawGameMenu();
             case GAME_ACTIVE -> drawGameActive();
             case GAME_PAUSED -> drawGamePaused();
             case GAME_OVER -> drawGameOver();
         }
 
-        if (!model.getInfoMode() && (gameState == GameState.GAME_MENU || gameState == GameState.GAME_PAUSED)) {
+        if (!model.getInfoMode() && (currentGameState == GameState.GAME_MENU || currentGameState == GameState.GAME_PAUSED)) {
             drawCenteredText("Press 'i' for game info",2, 300);
-        } else if (model.getInfoMode() && (gameState == GameState.GAME_MENU || gameState == GameState.GAME_PAUSED)) {
+        } else if (model.getInfoMode() && (currentGameState == GameState.GAME_MENU || currentGameState == GameState.GAME_PAUSED)) {
             drawGameInfo();
+        }
+    }
+
+    private void handleGameStateSounds() {
+        if(currentGameState != previousGameState ){
+            switch (currentGameState) {
+                case GAME_MENU -> {
+                    gameOverSoundHasPlayed = false;
+                    if (activeGameMusic != null){
+                        activeGameMusic.setLooping(false);
+                        activeGameMusic.stop();
+                    }
+                    if (menuMusic != null && !menuMusic.isPlaying()) {
+                        soundHandler.playMusic(menuMusic);
+                    }
+                }
+                case GAME_ACTIVE -> {
+                    if(menuMusic != null && menuMusic.isPlaying()){
+                        menuMusic.setLooping(false);
+                        menuMusic.stop();
+                    }
+                    if (activeGameMusic != null && !activeGameMusic.isPlaying()) {
+                        soundHandler.playMusic(activeGameMusic);
+                    }
+                }
+                case GAME_PAUSED -> {
+                    if (activeGameMusic != null) {
+                        activeGameMusic.pause();
+                    }
+                }
+                case GAME_OVER -> {
+                    if (activeGameMusic != null) {
+                        activeGameMusic.setLooping(false);
+                        activeGameMusic.stop();
+                    }
+                    if (gameOverSound != null && !gameOverSoundHasPlayed) {
+                        gameOverSound.play();
+                        gameOverSoundHasPlayed = true;
+                    }
+                }
+            }
+            previousGameState = currentGameState;
         }
     }
 
@@ -115,7 +178,7 @@ public class WorldView extends AbstractScreen implements EventListener {
 
         batch.begin();
         parallaxBackground.render(batch);
-        if (gameState.equals(GameState.GAME_MENU) && !model.getInfoMode()) {
+        if (currentGameState.equals(GameState.GAME_MENU) && !model.getInfoMode()) {
             batch.draw(headerTexture, centerX - headerWidth/2, headerY, headerWidth, headerHeight);
         }
         batch.end();
@@ -124,7 +187,7 @@ public class WorldView extends AbstractScreen implements EventListener {
     }
 
     private void drawGameInfo() {
-        if (gameState.equals(GameState.GAME_MENU)) {
+        if (currentGameState.equals(GameState.GAME_MENU)) {
             font.setColor(Color.GOLD);
             drawCenteredText("Race to catch the star and grab as many coins as you can! Watch out for enemies — a single fall\n" +
                     "or hit could cost you everything. Jump on enemies to knock them out, and munch on bananas to grow\n" +
@@ -133,7 +196,7 @@ public class WorldView extends AbstractScreen implements EventListener {
             font.setColor(Color.WHITE);
         }
         drawCenteredText("Press 'i' to remove game info", 3,-400);
-        drawCenteredText("To jump press 'w', 'space' or up-arrow\n" +
+        drawCenteredText("To jump press 'w', 'space' or up arrow\n" +
                 "To move right press 'd' or right arrow\n" +
                 "To move left press 'a' or left arrow\n" +
                 "To pause the game when playing press 'p'\n" +
@@ -173,7 +236,7 @@ public class WorldView extends AbstractScreen implements EventListener {
         batch.end();
     }
 
-    private void drawPlayer(float deltaTime, int movementDirection, GameState gameState){
+    private void drawPlayer(float deltaTime, int movementDirection, float verticalVelocity, GameState gameState){
         // Player-data
         Transform playerTransform = model.getViewablePlayer().getTransform();
         float playerX = playerTransform.getPos().x;
@@ -181,7 +244,7 @@ public class WorldView extends AbstractScreen implements EventListener {
         float playerWidth = playerTransform.getSize().x;
         float playerHeight = playerTransform.getSize().y;
 
-        TextureRegion currentFrame = playerAnimation.getFrame(movementDirection);
+        TextureRegion currentFrame = playerAnimation.getFrame(movementDirection, verticalVelocity);
         boolean isPaused = !gameState.equals(GameState.GAME_ACTIVE);
         playerAnimation.update(deltaTime,  isPaused);
         batch.draw(currentFrame, playerX, playerY, playerWidth, playerHeight);
@@ -198,11 +261,11 @@ public class WorldView extends AbstractScreen implements EventListener {
         batch.setProjectionMatrix(viewport.getCamera().combined);
 
         // Text to be shown
-        String totalScore = "Total score: "+ model.getTotalScore();
-        String coinCount = "Coins: " + model.getCoinCounter();
-        String lives = "Lives: " + model.getPlayerLives();
-        String countDown = "CountDown: " + model.getCountDown();
-        String levelCount = "Level: " + model.getLevelCounter();
+        String totalScore = "Total score:"+ model.getTotalScore();
+        String coinCount = "Coins:" + model.getCoinCounter();
+        String lives = "Lives:" + model.getPlayerLives();
+        String countDown = "Time left:" + model.getCountDown();
+        String levelCount = "Level:" + model.getLevelCounter();
         font.getData().setScale(2);
 
         float screenHeight = viewport.getWorldHeight();
@@ -210,12 +273,14 @@ public class WorldView extends AbstractScreen implements EventListener {
 
         // Parallax background
         int movementDirection = model.getMovementDirection();
-        parallaxBackground.update(movementDirection, deltaTime, model.getGameState() != GameState.GAME_ACTIVE);
+        boolean actualMovement = model.getPlayerMovement();
+        parallaxBackground.update(movementDirection, deltaTime, model.getGameState() != GameState.GAME_ACTIVE || !actualMovement);
 
         // Drawing objects
+        float verticalVelocity = model.getVerticalVelocity();
         batch.begin();
         parallaxBackground.render(batch);
-        drawPlayer(deltaTime, movementDirection, gameState);
+        drawPlayer(deltaTime, movementDirection, verticalVelocity, currentGameState);
         drawObjects();
         font.draw(batch, lives, leftX + 80, screenHeight - 15);
         font.draw(batch, coinCount, leftX + 320, screenHeight - 15);
@@ -237,7 +302,7 @@ public class WorldView extends AbstractScreen implements EventListener {
         if (playerCenterX > camX && camX < model.getBoardWidth() - screenWidth / 2) {
             camX = playerCenterX;
         }
-        camX = MathUtils.clamp(camX, screenWidth/2, 5000 - screenWidth/2); // bytt 5000 med bredden av brettet
+        camX = MathUtils.clamp(camX, screenWidth/2, 5000 - screenWidth/2);
 
         viewport.getCamera().position.set(camX, camY, 0);
         viewport.apply();
@@ -249,8 +314,15 @@ public class WorldView extends AbstractScreen implements EventListener {
         textures.put("snail", new Texture("assets/snail.png"));
         textures.put("coin", new Texture("assets/coin.png"));
         textures.put("powerup", new Texture("assets/banana.png"));
-        textures.put("ground", new Texture("obstacles/castleCenter.png"));
         textures.put("star", new Texture("assets/star.png"));
+
+        for (int i = 0; i < 16; i++) {
+            StringBuilder alteration = new StringBuilder(Integer.toBinaryString(i));
+            while (alteration.length() < 4) {
+                alteration.insert(0, "0");
+            }
+            textures.put("ground_" + alteration, new Texture("obstacles/ground_" + alteration + ".png"));
+        }
     }
 
     Texture getTexture(ViewableObject obj){
@@ -260,15 +332,14 @@ public class WorldView extends AbstractScreen implements EventListener {
             case "Snail" -> textures.get("snail");
             case "Coin" -> textures.get("coin");
             case "Banana" -> textures.get("powerup");
-            case "Ground" -> textures.get("ground");
             case "Star" -> textures.get("star");
+            case "Ground" -> textures.get("ground_" + ((ViewableGround) obj).getAlteration());
             default -> throw new IllegalArgumentException("Unsupported class name for texture: " + className);
         };
     }
 
     void drawObjects() {
         for (ViewableObject object : model.getObjectList()) {
-
             if (object instanceof Player) continue;
             int direction = object.getDirection();
 
@@ -280,9 +351,9 @@ public class WorldView extends AbstractScreen implements EventListener {
             float objectHeight = object.getTransform().getSize().y;
 
             if (direction >= 0) {
-                batch.draw(objectTexture, objectX + objectWidth, objectY, -objectWidth, objectHeight);
-            } else {
                 batch.draw(objectTexture, objectX, objectY, objectWidth, objectHeight);
+            } else {
+                batch.draw(objectTexture, objectX + objectWidth, objectY, -objectWidth, objectHeight);
             }
         }
     }

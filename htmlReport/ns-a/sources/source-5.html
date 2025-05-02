@@ -45,26 +45,26 @@ Current scope:     <a href="../../index.html">all classes</a>
   <td class="name">WorldView</td>
 <td class="coverageStat">
   <span class="percent">
-    69,2%
+    70,4%
   </span>
   <span class="absValue">
-    (18/26)
+    (19/27)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    45,2%
+    35,5%
   </span>
   <span class="absValue">
-    (19/42)
+    (22/62)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    65,8%
+    60,8%
   </span>
   <span class="absValue">
-    (104/158)
+    (113/186)
   </span>
 </td>
 </tr>
@@ -91,26 +91,26 @@ Current scope:     <a href="../../index.html">all classes</a>
   <td class="name"><strong>Total</strong></td>
 <td class="coverageStat">
   <span class="percent">
-    70,4%
+    71,4%
   </span>
   <span class="absValue">
-    (19/27)
+    (20/28)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    45,2%
+    35,5%
   </span>
   <span class="absValue">
-    (19/42)
+    (22/62)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    66%
+    61%
   </span>
   <span class="absValue">
-    (105/159)
+    (114/187)
   </span>
 </td>
 </tr>
@@ -124,7 +124,8 @@ Current scope:     <a href="../../index.html">all classes</a>
 <code class="sourceCode" id="sourceCode">&nbsp;package inf112.starhunt.view;
 &nbsp;
 &nbsp;import com.badlogic.gdx.Gdx;
-&nbsp;import com.badlogic.gdx.Screen;
+&nbsp;import com.badlogic.gdx.audio.Music;
+&nbsp;import com.badlogic.gdx.audio.Sound;
 &nbsp;import com.badlogic.gdx.graphics.Color;
 &nbsp;import com.badlogic.gdx.graphics.Texture;
 &nbsp;import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -138,6 +139,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;import inf112.starhunt.model.GameState;
 &nbsp;import inf112.starhunt.model.gameobject.Transform;
 &nbsp;import inf112.starhunt.model.gameobject.ViewableObject;
+&nbsp;import inf112.starhunt.model.gameobject.mobileobject.actor.ModelablePlayer;
 &nbsp;import inf112.starhunt.model.gameobject.mobileobject.actor.Player;
 &nbsp;import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 &nbsp;
@@ -153,16 +155,21 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    private GlyphLayout layout;
 &nbsp;    private HashMap&lt;String, Texture&gt; textures;
 &nbsp;    private PlayerAnimation playerAnimation;
-&nbsp;    private GameState gameState;
+&nbsp;    private GameState currentGameState;
+<b class="fc">&nbsp;    private GameState previousGameState = null;</b>
 &nbsp;    private SoundHandler soundHandler;
 &nbsp;    private final Viewport viewport;
+&nbsp;    private Music menuMusic;
+&nbsp;    private Music activeGameMusic;
+&nbsp;    private Sound gameOverSound;
+&nbsp;    private boolean gameOverSoundHasPlayed;
 &nbsp;
 <b class="fc">&nbsp;    public WorldView(ViewableWorldModel model, int width, int height) {</b>
 <b class="fc">&nbsp;        this.viewport = new ExtendViewport(width, height);</b>
 <b class="fc">&nbsp;        this.model = model;</b>
 <b class="fc">&nbsp;        this.layout = new GlyphLayout();</b>
 <b class="fc">&nbsp;        this.textures = new HashMap&lt;&gt;();</b>
-<b class="fc">&nbsp;        this.gameState = model.getGameState();</b>
+<b class="fc">&nbsp;        this.currentGameState = model.getGameState();</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    /**
@@ -196,8 +203,16 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        headerTexture = new Texture(&quot;background/header.png&quot;);</b>
 <b class="nc">&nbsp;        soundHandler = new SoundHandler();</b>
 <b class="nc">&nbsp;        font = loadFont(&quot;font/VT323-Regular.ttf&quot;);</b>
+<b class="nc">&nbsp;        menuMusic = soundHandler.getMusic(&quot;menu&quot;);</b>
+<b class="nc">&nbsp;        activeGameMusic = soundHandler.getMusic(&quot;active&quot;);</b>
+<b class="nc">&nbsp;        gameOverSound = soundHandler.getSound(&quot;gameover&quot;);</b>
+<b class="nc">&nbsp;        gameOverSoundHasPlayed = false;</b>
+&nbsp;
 <b class="nc">&nbsp;        model.getViewablePlayer().setOnCoinCollected(() -&gt; soundHandler.playSound(&quot;coin&quot;));</b>
 <b class="nc">&nbsp;        model.getViewablePlayer().setOnCollisionWithEnemy(() -&gt; soundHandler.playSound(&quot;ouch&quot;));</b>
+<b class="nc">&nbsp;        model.getViewablePlayer().setOnCollisionWithEnemyDealDamage(() -&gt; soundHandler.playSound(&quot;bounce&quot;));</b>
+<b class="nc">&nbsp;        model.getViewablePlayer().setOnBananaCollected(() -&gt; soundHandler.playSound(&quot;powerup&quot;));</b>
+<b class="nc">&nbsp;        model.getViewablePlayer().setOnCollisionWithStar(() -&gt; soundHandler.playSound(&quot;newlevel&quot;));</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    private BitmapFont loadFont(String fontFilePath) {
@@ -214,18 +229,62 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;    @Override
 &nbsp;    public void render(float v) {
-<b class="fc">&nbsp;        gameState = model.getGameState();</b>
-<b class="pc">&nbsp;        switch (model.getGameState()) {</b>
+<b class="fc">&nbsp;        currentGameState = model.getGameState();</b>
+<b class="fc">&nbsp;        handleGameStateSounds();</b>
+&nbsp;
+<b class="pc">&nbsp;        switch (currentGameState) {</b>
 <b class="fc">&nbsp;            case GAME_MENU -&gt; drawGameMenu();</b>
 <b class="nc">&nbsp;            case GAME_ACTIVE -&gt; drawGameActive();</b>
 <b class="nc">&nbsp;            case GAME_PAUSED -&gt; drawGamePaused();</b>
 <b class="nc">&nbsp;            case GAME_OVER -&gt; drawGameOver();</b>
 &nbsp;        }
 &nbsp;
-<b class="pc">&nbsp;        if (!model.getInfoMode() &amp;&amp; (gameState == GameState.GAME_MENU || gameState == GameState.GAME_PAUSED)) {</b>
+<b class="pc">&nbsp;        if (!model.getInfoMode() &amp;&amp; (currentGameState == GameState.GAME_MENU || currentGameState == GameState.GAME_PAUSED)) {</b>
 <b class="fc">&nbsp;            drawCenteredText(&quot;Press &#39;i&#39; for game info&quot;,2, 300);</b>
-<b class="nc">&nbsp;        } else if (model.getInfoMode() &amp;&amp; (gameState == GameState.GAME_MENU || gameState == GameState.GAME_PAUSED)) {</b>
+<b class="nc">&nbsp;        } else if (model.getInfoMode() &amp;&amp; (currentGameState == GameState.GAME_MENU || currentGameState == GameState.GAME_PAUSED)) {</b>
 <b class="nc">&nbsp;            drawGameInfo();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    private void handleGameStateSounds() {
+<b class="pc">&nbsp;        if(currentGameState != previousGameState ){</b>
+<b class="pc">&nbsp;            switch (currentGameState) {</b>
+&nbsp;                case GAME_MENU -&gt; {
+<b class="fc">&nbsp;                    gameOverSoundHasPlayed = false;</b>
+<b class="pc">&nbsp;                    if (activeGameMusic != null){</b>
+<b class="nc">&nbsp;                        activeGameMusic.setLooping(false);</b>
+<b class="nc">&nbsp;                        activeGameMusic.stop();</b>
+&nbsp;                    }
+&nbsp;//                    if (menuMusic != null &amp;&amp; !menuMusic.isPlaying()) {
+&nbsp;//                        soundHandler.playMusic(menuMusic);
+&nbsp;//                    }
+&nbsp;                }
+&nbsp;                case GAME_ACTIVE -&gt; {
+&nbsp;//                    if(menuMusic != null &amp;&amp; menuMusic.isPlaying()){
+&nbsp;//                        menuMusic.setLooping(false);
+&nbsp;//                        menuMusic.stop();
+&nbsp;//                    }
+<b class="nc">&nbsp;                    if (activeGameMusic != null &amp;&amp; !activeGameMusic.isPlaying()) {</b>
+<b class="nc">&nbsp;                        soundHandler.playMusic(activeGameMusic);</b>
+&nbsp;                    }
+&nbsp;                }
+&nbsp;                case GAME_PAUSED -&gt; {
+<b class="nc">&nbsp;                    if (activeGameMusic != null) {</b>
+<b class="nc">&nbsp;                        activeGameMusic.pause();</b>
+&nbsp;                    }
+&nbsp;                }
+&nbsp;                case GAME_OVER -&gt; {
+<b class="nc">&nbsp;                    if (activeGameMusic != null) {</b>
+<b class="nc">&nbsp;                        activeGameMusic.setLooping(false);</b>
+<b class="nc">&nbsp;                        activeGameMusic.stop();</b>
+&nbsp;                    }
+<b class="nc">&nbsp;                    if (gameOverSound != null &amp;&amp; !gameOverSoundHasPlayed) {</b>
+<b class="nc">&nbsp;                        gameOverSound.play();</b>
+<b class="nc">&nbsp;                        gameOverSoundHasPlayed = true;</b>
+&nbsp;                    }
+&nbsp;                }
+&nbsp;            }
+<b class="fc">&nbsp;            previousGameState = currentGameState;</b>
 &nbsp;        }
 &nbsp;    }
 &nbsp;
@@ -234,13 +293,13 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;        float headerWidth = 800f;</b>
 <b class="fc">&nbsp;        float headerHeight = 400f;</b>
 <b class="fc">&nbsp;        float margin = 50f;</b>
-<b class="fc">&nbsp;        float headerX = (Gdx.graphics.getWidth() - headerWidth) / 2f;</b>
 <b class="fc">&nbsp;        float headerY = Gdx.graphics.getHeight() - headerHeight - margin;</b>
+<b class="fc">&nbsp;        float centerX = viewport.getCamera().position.x;</b>
 &nbsp;
 <b class="fc">&nbsp;        batch.begin();</b>
 <b class="fc">&nbsp;        parallaxBackground.render(batch);</b>
-<b class="pc">&nbsp;        if (gameState.equals(GameState.GAME_MENU) &amp;&amp; !model.getInfoMode()) {</b>
-<b class="fc">&nbsp;            batch.draw(headerTexture, headerX, headerY, headerWidth, headerHeight);</b>
+<b class="pc">&nbsp;        if (currentGameState.equals(GameState.GAME_MENU) &amp;&amp; !model.getInfoMode()) {</b>
+<b class="fc">&nbsp;            batch.draw(headerTexture, centerX - headerWidth/2, headerY, headerWidth, headerHeight);</b>
 &nbsp;        }
 <b class="fc">&nbsp;        batch.end();</b>
 &nbsp;
@@ -248,7 +307,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    }
 &nbsp;
 &nbsp;    private void drawGameInfo() {
-<b class="nc">&nbsp;        if (gameState.equals(GameState.GAME_MENU)) {</b>
+<b class="nc">&nbsp;        if (currentGameState.equals(GameState.GAME_MENU)) {</b>
 <b class="nc">&nbsp;            font.setColor(Color.GOLD);</b>
 <b class="nc">&nbsp;            drawCenteredText(&quot;Race to catch the star and grab as many coins as you can! Watch out for enemies — a single fall\n&quot; +</b>
 &nbsp;                    &quot;or hit could cost you everything. Jump on enemies to knock them out, and munch on bananas to grow\n&quot; +
@@ -257,7 +316,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;            font.setColor(Color.WHITE);</b>
 &nbsp;        }
 <b class="nc">&nbsp;        drawCenteredText(&quot;Press &#39;i&#39; to remove game info&quot;, 3,-400);</b>
-<b class="nc">&nbsp;        drawCenteredText(&quot;To jump press &#39;w&#39;, &#39;space&#39; or up-arrow\n&quot; +</b>
+<b class="nc">&nbsp;        drawCenteredText(&quot;To jump press &#39;w&#39;, &#39;space&#39; or up arrow\n&quot; +</b>
 &nbsp;                &quot;To move right press &#39;d&#39; or right arrow\n&quot; +
 &nbsp;                &quot;To move left press &#39;a&#39; or left arrow\n&quot; +
 &nbsp;                &quot;To pause the game when playing press &#39;p&#39;\n&quot; +
@@ -297,7 +356,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;        batch.end();</b>
 &nbsp;    }
 &nbsp;
-&nbsp;    private void drawPlayer(float deltaTime, int movementDirection, GameState gameState){
+&nbsp;    private void drawPlayer(float deltaTime, int movementDirection, float verticalVelocity, GameState gameState){
 &nbsp;        // Player-data
 <b class="fc">&nbsp;        Transform playerTransform = model.getViewablePlayer().getTransform();</b>
 <b class="fc">&nbsp;        float playerX = playerTransform.getPos().x;</b>
@@ -305,7 +364,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;        float playerWidth = playerTransform.getSize().x;</b>
 <b class="fc">&nbsp;        float playerHeight = playerTransform.getSize().y;</b>
 &nbsp;
-<b class="fc">&nbsp;        TextureRegion currentFrame = playerAnimation.getFrame(movementDirection);</b>
+<b class="fc">&nbsp;        TextureRegion currentFrame = playerAnimation.getFrame(movementDirection, verticalVelocity);</b>
 <b class="fc">&nbsp;        boolean isPaused = !gameState.equals(GameState.GAME_ACTIVE);</b>
 <b class="fc">&nbsp;        playerAnimation.update(deltaTime,  isPaused);</b>
 <b class="fc">&nbsp;        batch.draw(currentFrame, playerX, playerY, playerWidth, playerHeight);</b>
@@ -334,18 +393,20 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;        // Parallax background
 <b class="fc">&nbsp;        int movementDirection = model.getMovementDirection();</b>
-<b class="pc">&nbsp;        parallaxBackground.update(movementDirection, deltaTime, model.getGameState() != GameState.GAME_ACTIVE);</b>
+<b class="fc">&nbsp;        boolean actualMovement = model.getPlayerMovement();</b>
+<b class="pc">&nbsp;        parallaxBackground.update(movementDirection, deltaTime, model.getGameState() != GameState.GAME_ACTIVE || !actualMovement);</b>
 &nbsp;
 &nbsp;        // Drawing objects
+<b class="fc">&nbsp;        float verticalVelocity = model.getVerticalVelocity();</b>
 <b class="fc">&nbsp;        batch.begin();</b>
 <b class="fc">&nbsp;        parallaxBackground.render(batch);</b>
+<b class="fc">&nbsp;        drawPlayer(deltaTime, movementDirection, verticalVelocity, currentGameState);</b>
+<b class="fc">&nbsp;        drawObjects();</b>
 <b class="fc">&nbsp;        font.draw(batch, lives, leftX + 80, screenHeight - 15);</b>
 <b class="fc">&nbsp;        font.draw(batch, coinCount, leftX + 320, screenHeight - 15);</b>
 <b class="fc">&nbsp;        font.draw(batch, totalScore, leftX + 550, screenHeight - 15);</b>
 <b class="fc">&nbsp;        font.draw(batch, countDown, leftX + 930, screenHeight - 15);</b>
 <b class="fc">&nbsp;        font.draw(batch, levelCount, leftX + 1300, screenHeight - 15);</b>
-<b class="fc">&nbsp;        drawPlayer(deltaTime, movementDirection, gameState);</b>
-<b class="fc">&nbsp;        drawObjects();</b>
 <b class="fc">&nbsp;        batch.end();</b>
 &nbsp;    }
 &nbsp;
@@ -373,7 +434,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;        textures.put(&quot;snail&quot;, new Texture(&quot;assets/snail.png&quot;));</b>
 <b class="fc">&nbsp;        textures.put(&quot;coin&quot;, new Texture(&quot;assets/coin.png&quot;));</b>
 <b class="fc">&nbsp;        textures.put(&quot;powerup&quot;, new Texture(&quot;assets/banana.png&quot;));</b>
-<b class="fc">&nbsp;        textures.put(&quot;ground&quot;, new Texture(&quot;obstacles/castleCenter.png&quot;));</b>
+<b class="fc">&nbsp;        textures.put(&quot;ground&quot;, new Texture(&quot;obstacles/ground.png&quot;));</b>
 <b class="fc">&nbsp;        textures.put(&quot;star&quot;, new Texture(&quot;assets/star.png&quot;));</b>
 &nbsp;    }
 &nbsp;
@@ -419,6 +480,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    public void resize(int width, int height) {
 <b class="nc">&nbsp;        viewport.update(width, height, true);</b>
 &nbsp;    }
+&nbsp;
 &nbsp;}
 </code>
 </pre>
@@ -443,7 +505,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2025-04-30 10:42</div>
+    <div style="float:right;">generated on 2025-05-01 11:36</div>
 </div>
 </body>
 </html>

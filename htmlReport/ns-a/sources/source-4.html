@@ -56,10 +56,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    80%
+    87,5%
   </span>
   <span class="absValue">
-    (4/5)
+    (7/8)
   </span>
 </td>
 <td class="coverageStat">
@@ -72,10 +72,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    92,3%
+    96,3%
   </span>
   <span class="absValue">
-    (12/13)
+    (26/27)
   </span>
 </td>
 </tr>
@@ -90,6 +90,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <code class="sourceCode" id="sourceCode">&nbsp;package inf112.starhunt.view;
 &nbsp;import com.badlogic.gdx.Audio;
 &nbsp;import com.badlogic.gdx.Files;
+&nbsp;import com.badlogic.gdx.audio.Music;
 &nbsp;import com.badlogic.gdx.audio.Sound;
 &nbsp;import com.badlogic.gdx.Gdx;
 &nbsp;import com.badlogic.gdx.files.FileHandle;
@@ -103,6 +104,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp; */
 &nbsp;public class SoundHandler {
 <b class="fc">&nbsp;    private final Map&lt;String, Sound&gt; sounds = new HashMap&lt;&gt;();</b>
+<b class="fc">&nbsp;    private final Map&lt;String, Music&gt; songs = new HashMap&lt;&gt;();</b>
 &nbsp;
 &nbsp;    /**
 &nbsp;     * Default constructor, adds sounds by getting from the sfx directory.
@@ -113,8 +115,14 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;    // Dependency-injected constructor for easier testing
 <b class="fc">&nbsp;    public SoundHandler(Files files, Audio audio) {</b>
-<b class="fc">&nbsp;        addSound(&quot;coin&quot;, &quot;sfx/coinrecieved.mp3&quot;, files, audio);</b>
-<b class="fc">&nbsp;        addSound(&quot;ouch&quot;, &quot;sfx/characterouch.mp3&quot;, files, audio);</b>
+<b class="fc">&nbsp;        addSound(&quot;coin&quot;, &quot;sfx/coinrecieved.wav&quot;, files, audio);</b>
+<b class="fc">&nbsp;        addSound(&quot;ouch&quot;, &quot;sfx/characterouch.wav&quot;, files, audio);</b>
+<b class="fc">&nbsp;        addSound(&quot;bounce&quot;, &quot;sfx/bounce.wav&quot;, files, audio);</b>
+<b class="fc">&nbsp;        addSound(&quot;powerup&quot;, &quot;sfx/powerup.wav&quot;, files, audio);</b>
+<b class="fc">&nbsp;        addSound(&quot;gameover&quot;, &quot;sfx/gameover.wav&quot;, files, audio);</b>
+<b class="fc">&nbsp;        addSound(&quot;newlevel&quot;, &quot;sfx/newlevel.wav&quot;, files, audio);</b>
+<b class="fc">&nbsp;        addMusic(&quot;menu&quot;, &quot;sfx/menu_music.wav&quot;, files, audio);</b>
+<b class="fc">&nbsp;        addMusic(&quot;active&quot;, &quot;sfx/activeGame_music.wav&quot;, files, audio);</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    /**
@@ -128,6 +136,19 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;        FileHandle fileHandle = files.internal(filePath);</b>
 <b class="fc">&nbsp;        Sound sound = audio.newSound(fileHandle);</b>
 <b class="fc">&nbsp;        sounds.put(name, sound);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * TODO
+&nbsp;     * @param name
+&nbsp;     * @param filePath
+&nbsp;     * @param files dependency needed for testing
+&nbsp;     * @param audio dependency needed for testing
+&nbsp;     */
+&nbsp;    public void addMusic(String name, String filePath, Files files, Audio audio) {
+<b class="fc">&nbsp;        FileHandle fileHandle = files.internal(filePath);</b>
+<b class="fc">&nbsp;        Music music = audio.newMusic(fileHandle);</b>
+<b class="fc">&nbsp;        songs.put(name, music);</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    /**
@@ -145,11 +166,20 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    }
 &nbsp;
 &nbsp;    /**
-&nbsp;     * Gets sound, mainly used for testing
+&nbsp;     * Starts playing the song on loop
+&nbsp;     * @param music song to play
 &nbsp;     */
+&nbsp;    public void playMusic(Music music) {
+<b class="fc">&nbsp;        music.setVolume(0.20f);</b>
+<b class="fc">&nbsp;        music.setLooping(true);</b>
+<b class="fc">&nbsp;        music.play();</b>
+&nbsp;    }
+&nbsp;
 &nbsp;    public Sound getSound(String name) {
 <b class="fc">&nbsp;        return sounds.get(name);</b>
 &nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    public Music getMusic(String name) {return songs.get(name);}</b>
 &nbsp;}
 </code>
 </pre>
@@ -174,7 +204,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2025-04-30 10:42</div>
+    <div style="float:right;">generated on 2025-05-01 11:36</div>
 </div>
 </body>
 </html>

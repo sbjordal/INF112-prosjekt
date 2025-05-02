@@ -19,7 +19,6 @@ public class WorldModel extends AbstractApplicationListener implements ViewableW
     public static final int LEVEL_WIDTH = 4500;
 
     ModelablePlayer player;
-
     private int countDown;
     private long lastScoreUpdate;
     private boolean isMovingRight;
@@ -56,7 +55,7 @@ public class WorldModel extends AbstractApplicationListener implements ViewableW
      */
     public void setUpModel() {
         viewportLeftX = 0;
-        countDown = 150;
+        countDown = 45;
         isMovingRight = false;
         isMovingLeft = false;
         isJumping = false;
@@ -113,7 +112,14 @@ public class WorldModel extends AbstractApplicationListener implements ViewableW
         return positionIsOnBoard(collisionBox) && !visitor.isColliding(collidables, collisionBox);
     }
 
-    // TODO, skiv javadoc på denne, beskriv hva som skjer
+    /**
+     * Checks if the {@link GameObject} is within the allowed area.
+     * Also takes into consideration that the {@link inf112.starhunt.model.gameobject.mobileobject.actor.Player}
+     * can "fall out of the screen", this explains the "Belowlevel variable".
+     *
+     * @param collisionBox of the {@link GameObject}
+     * @return True if within the allowed bounds, false if not.
+     */
     private boolean positionIsOnBoard(CollisionBox collisionBox) {
         final int belowLevel = -200;
         boolean isWithinWidthBound = collisionBox.getBotLeft().x >= 0 &&
@@ -178,12 +184,18 @@ public class WorldModel extends AbstractApplicationListener implements ViewableW
         player.resolveMovement(0, deltaY, this);
 
         final boolean isMoving = isMovingRight ^ isMovingLeft;
+        boolean actuallyMovedHorizontally = false;
         if (isMoving) {
             int direction = isMovingRight ? 1 : -1;
             player.setMovementDirection(direction);
             float deltaX = (player.getMovementSpeed() * deltaTime) * direction;
+            float beforeX = player.getTransform().getPos().x;
             player.resolveMovement(deltaX, 0, this);
+            float afterX = player.getTransform().getPos().x;
+            actuallyMovedHorizontally = (beforeX != afterX);
+            player.setIsMovingHorizontally(actuallyMovedHorizontally);
         }
+
 
         final boolean isStandingStill = !(isMovingRight || isMovingLeft);
         if (isStandingStill) {
@@ -191,6 +203,11 @@ public class WorldModel extends AbstractApplicationListener implements ViewableW
         }
     }
 
+    /**
+     * Moves all living enemy objects.
+     *
+     * @param deltaTime
+     */
     void moveEnemies(float deltaTime) {
         for (Enemy enemy : enemies) {
             float deltaX = (enemy.getMovementSpeed() * deltaTime) * enemy.getMovementDirection();
@@ -318,6 +335,16 @@ public class WorldModel extends AbstractApplicationListener implements ViewableW
     @Override
     public void updateViewportLeftX(float leftX) {
         viewportLeftX = leftX;
+    }
+
+    @Override
+    public float getVerticalVelocity() {
+        return player.getVerticalVelocity();
+    }
+
+    @Override
+    public boolean getPlayerMovement() {
+        return player.getIsMovingHorizontally();
     }
 
     List<Enemy> getEnemies() {

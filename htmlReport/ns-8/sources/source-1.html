@@ -56,14 +56,6 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    87,5%
-  </span>
-  <span class="absValue">
-    (7/8)
-  </span>
-</td>
-<td class="coverageStat">
-  <span class="percent">
     100%
   </span>
   <span class="absValue">
@@ -72,10 +64,18 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    94,7%
+    100%
   </span>
   <span class="absValue">
-    (18/19)
+    (10/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (20/20)
   </span>
 </td>
 </tr>
@@ -89,7 +89,6 @@ Current scope:     <a href="../../index.html">all classes</a>
 <pre>
 <code class="sourceCode" id="sourceCode">&nbsp;package inf112.starhunt.model.gameobject.mobileobject.actor;
 &nbsp;
-&nbsp;import inf112.starhunt.model.gameobject.GameObject;
 &nbsp;import inf112.starhunt.model.gameobject.Transform;
 &nbsp;import inf112.starhunt.model.gameobject.mobileobject.MobileObject;
 &nbsp;
@@ -100,7 +99,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;public abstract class Actor extends MobileObject {
 &nbsp;    protected int damage;
 &nbsp;    private boolean isAlive;
-&nbsp;    private int lives;
+&nbsp;    protected int lives;
 &nbsp;
 &nbsp;    /**
 &nbsp;     * Creates a new Actor with the specified lives, movement speed, transform and texture.
@@ -120,10 +119,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;        this.lives = lives;</b>
 &nbsp;    }
 &nbsp;
-&nbsp;    /**
-&nbsp;     * Checks if the Actor is currently alive.
-&nbsp;     */
-&nbsp;    public boolean isAlive() {
+&nbsp;    public boolean getIsAlive() {
 <b class="fc">&nbsp;        return isAlive;</b>
 &nbsp;    }
 &nbsp;
@@ -137,8 +133,8 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    }
 &nbsp;
 &nbsp;    /**
-&nbsp;     * Reduces the Actor&#39;s lives by the specified damage amount.
-&nbsp;     * If the damage reduces lives to zero or below, the Actor dies.
+&nbsp;     * Reduces the actor&#39;s lives by the specified damage amount.
+&nbsp;     * If the damage reduces lives to zero or below, the actor dies.
 &nbsp;     *
 &nbsp;     * @param damage The amount of damage to inflict. Must be non-negative.
 &nbsp;     * @throws IllegalArgumentException if {@code damage} is negative.
@@ -190,7 +186,8 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    }
 &nbsp;
 &nbsp;    protected void setLives(int lives){
-<b class="nc">&nbsp;        this.lives = lives;</b>
+<b class="fc">&nbsp;        if (lives &lt; 0){ throw new IllegalArgumentException(&quot;Lives can not be negative&quot;);}</b>
+<b class="fc">&nbsp;        this.lives = lives;</b>
 &nbsp;    }
 &nbsp;}
 </code>
@@ -216,7 +213,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2025-04-30 10:42</div>
+    <div style="float:right;">generated on 2025-05-01 11:36</div>
 </div>
 </body>
 </html>
