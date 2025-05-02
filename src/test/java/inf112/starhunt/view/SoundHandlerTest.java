@@ -127,7 +127,7 @@ public class SoundHandlerTest {
 
         // Play sound and verify it was played with the correct volume
         handler.playSound("coin");
-        verify(mockCoinSound).play(0.25f);
+        verify(mockCoinSound).play(0.50f);
     }
 
     @Test
@@ -168,7 +168,7 @@ public class SoundHandlerTest {
         SoundHandler handler = new SoundHandler(mockFiles, mockAudio);
         handler.playMusic(mockMusic);
 
-        verify(mockMusic).setVolume(0.20f);
+        verify(mockMusic).setVolume(0.50f);
         verify(mockMusic).setLooping(true);
         verify(mockMusic).play();
     }
