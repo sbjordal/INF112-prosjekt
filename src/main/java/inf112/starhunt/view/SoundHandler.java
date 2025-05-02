@@ -77,7 +77,7 @@ public class SoundHandler {
     public void playSound(String name) {
         Sound sound = sounds.get(name);
         if (sound != null) {
-            sound.play(0.25f);
+            sound.play(0.50f);
         } else {
             System.err.println("Sound not found: " + name);
         }
@@ -88,7 +88,7 @@ public class SoundHandler {
      * @param music song to play
      */
     public void playMusic(Music music) {
-        music.setVolume(0.20f);
+        music.setVolume(0.50f);
         music.setLooping(true);
         music.play();
     }
