@@ -1,4 +1,4 @@
-<img align="right" width=200 src=".\src\main\resources\assets\gameicon.png">
+<img align="right" width=200 src=".\src\main\resources\assets\starhunt.png">
 
 # INF112 Project – **Star Hunt**
 
