@@ -1,6 +1,5 @@
 package inf112.starhunt.model.gameobject;
 
-import inf112.starhunt.model.gameobject.fixedobject.FixedObjectFactory;
 import inf112.starhunt.model.gameobject.fixedobject.Ground;
 import inf112.starhunt.model.gameobject.fixedobject.item.Banana;
 import inf112.starhunt.model.gameobject.fixedobject.item.Coin;
@@ -89,6 +88,5 @@ public class GameObjectFactoryTest {
         GameObject obj = creator.apply(1.0f, 2.0f);
         assertNotNull(obj);
     }
-
 
 }
