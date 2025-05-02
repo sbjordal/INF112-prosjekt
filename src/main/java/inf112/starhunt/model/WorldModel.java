@@ -112,7 +112,14 @@ public class WorldModel extends AbstractApplicationListener implements ViewableW
         return positionIsOnBoard(collisionBox) && !visitor.isColliding(collidables, collisionBox);
     }
 
-    // TODO, skiv javadoc på denne, beskriv hva som skjer
+    /**
+     * Checks if the {@link GameObject} is within the allowed area.
+     * Also takes into consideration that the {@link inf112.starhunt.model.gameobject.mobileobject.actor.Player}
+     * can "fall out of the screen", this explains the "Belowlevel variable".
+     *
+     * @param collisionBox of the {@link GameObject}
+     * @return True if within the allowed bounds, false if not.
+     */
     private boolean positionIsOnBoard(CollisionBox collisionBox) {
         final int belowLevel = -200;
         boolean isWithinWidthBound = collisionBox.getBotLeft().x >= 0 &&
@@ -196,6 +203,11 @@ public class WorldModel extends AbstractApplicationListener implements ViewableW
         }
     }
 
+    /**
+     * Moves all living enemy objects.
+     *
+     * @param deltaTime
+     */
     void moveEnemies(float deltaTime) {
         for (Enemy enemy : enemies) {
             float deltaX = (enemy.getMovementSpeed() * deltaTime) * enemy.getMovementDirection();
