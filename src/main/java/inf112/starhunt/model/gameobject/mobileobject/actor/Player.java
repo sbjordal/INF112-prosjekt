@@ -20,9 +20,9 @@ import java.util.List;
  * that responds to user-input.
  */
 final public class Player extends Actor implements ModelablePlayer {
-    private final static int NORMAL_BOUNCE_FORCE = 35000;
+    private final static int NORMAL_BOUNCE_FORCE = 50000;
     private final static int SMALL_BOUNCE_FORCE = 27000;
-    private final static int NORMAL_JUMP_FORCE = 63000;
+    private final static int NORMAL_JUMP_FORCE = 64000;
     private final static int ATTACK_COOLDOWN = 800;
     private final static int BOUNCE_COOLDOWN = 64;
     private final static Vector2 STANDARD_PLAYER_SIZE = new Vector2(40, 80);

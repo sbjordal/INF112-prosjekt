@@ -13,7 +13,7 @@
  </objectgroup>
  <objectgroup color="#e87511" id="4" name="leopard"/>
  <objectgroup color="#9ae538" id="5" name="snail">
-  <object id="24" x="854.287" y="759.85" width="40" height="40"/>
+  <object id="24" x="410.287" y="759.85" width="40" height="40"/>
   <object id="190" x="1678.55" y="759.333" width="40" height="40"/>
   <object id="209" x="1904.24" y="759.667" width="40" height="40"/>
   <object id="417" x="4319.99" y="759.679" width="40" height="40"/>
