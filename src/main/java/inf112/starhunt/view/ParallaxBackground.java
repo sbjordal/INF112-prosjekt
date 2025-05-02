@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /**
- * TODO: javadoc
+ * Class that represents the moving background in the game.
  */
 public class ParallaxBackground {
     private Texture[] layers;
@@ -16,9 +16,9 @@ public class ParallaxBackground {
     private final int levelWidth;
 
     /**
-     * TODO: javadoc
+     * Constructor for the moving background
      *
-     * @param levelWidth
+     * @param levelWidth the width of the whole game level
      */
     public ParallaxBackground(int levelWidth) {
         layers = new Texture[5];
@@ -29,7 +29,7 @@ public class ParallaxBackground {
     }
 
     /**
-     * TODO: javadoc
+     * Loads all textures needed to create the ParralaxBr
      */
     void loadTextures(){
        for (int i = 0; i < 5; i++) {
@@ -41,12 +41,16 @@ public class ParallaxBackground {
     }
 
     /**
-     * TODO: javadoc
+     * Updates the horizontal positions of background layers based on movement direction.
+     * This method applies parallax scrolling effects, adjusting layer positions depending
+     * on the movement direction and elapsed time.
+     * The update is skipped if the game is paused.
      *
-     * @param movementDirection
-     * @param deltaTime
-     * @param isPaused
+     * @param movementDirection the direction of movement; positive moves right, negative moves left.
+     * @param deltaTime the time elapsed since the last update, used for movement calculations.
+     * @param isPaused whether the game is currently paused; if true, no movement occurs.
      */
+
     void update(int movementDirection, float deltaTime, boolean isPaused) {
         if (!isPaused) {
             for (int i = 0; i < layers.length; i++) {
@@ -62,9 +66,9 @@ public class ParallaxBackground {
     }
 
     /**
-     * TODO: javadoc
+     * Renders the parallaxBackground.
      *
-     * @param batch
+     * @param batch to be rendered
      */
     void render(SpriteBatch batch) {
         float parallaxSpacing = 3.0f;
@@ -78,7 +82,7 @@ public class ParallaxBackground {
     }
 
     /**
-     * TODO: javadoc
+     * Disposes all textures.
      */
     void dispose() {
         for (Texture texture : layers) {

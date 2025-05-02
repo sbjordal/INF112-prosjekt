@@ -13,7 +13,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * TODO: javadoc
+ * Main class for all game logic.
  */
 public class WorldModel extends AbstractApplicationListener implements ViewableWorldModel, ControllableWorldModel, PositionValidator {
     public static final int LEVEL_WIDTH = 4500;
@@ -39,10 +39,10 @@ public class WorldModel extends AbstractApplicationListener implements ViewableW
     private int levelCounter;
 
     /**
-     * TODO: javadoc
+     * Creates a new WorldModel.
      *
-     * @param width
-     * @param height
+     * @param width width of gameworld (and program window)
+     * @param height height of gameworld (and program window)
      */
     public WorldModel(int width, int height) {
         this.height = height;
@@ -57,7 +57,9 @@ public class WorldModel extends AbstractApplicationListener implements ViewableW
     }
 
     /**
-     * TODO: javadoc
+     * Sets up the initial state of the game model.
+     * Initializes the viewport position, countdown timer, movement flags,
+     * and creates the game board with specified dimensions.
      */
     public void setUpModel() {
         viewportLeftX = 0;
@@ -165,9 +167,11 @@ public class WorldModel extends AbstractApplicationListener implements ViewableW
     }
 
     /**
-     * TODO: javadoc
+     * Updates the countdown timer for the score.
+     * If countingDown is true, the countdown value is decreased
+     * and the timestamp of the last update is recorded.
      *
-     * @param countingDown
+     * @param countingDown whether the score countdown should be updated
      */
     void updateScore(boolean countingDown) {
         if (countingDown) {
@@ -177,9 +181,12 @@ public class WorldModel extends AbstractApplicationListener implements ViewableW
     }
 
     /**
-     * TODO: javadoc
+     * Determines if the countdown timer should be updated.
+     * The countdown updates every 1000 milliseconds while the game is active.
+     * If the countdown reaches zero, the game state is set to GAME_OVER.
      *
-     * @return
+     * @return {@code true} if at least 1000 milliseconds have elapsed since the last update,
+     *         the countdown is greater than zero, and the game is still active; {@code false} otherwise.
      */
     boolean shouldUpdateCountDown() {
         long currentTime = System.currentTimeMillis();
@@ -190,10 +197,12 @@ public class WorldModel extends AbstractApplicationListener implements ViewableW
     }
 
     /**
-     * TODO: javadoc
+     * Updates the player's movement based on physics calculations and input flags.
+     * Handles jumping, gravity application, horizontal movement, and direction updates.
      *
-     * @param deltaTime
+     * @param deltaTime the time elapsed since the last update, used for movement calculations.
      */
+
     private void updatePlayerMovement(float deltaTime) {
         boolean isGrounded = player.isTouchingGround(Collections.unmodifiableList(collidables));
         if (isJumping) {
@@ -217,7 +226,6 @@ public class WorldModel extends AbstractApplicationListener implements ViewableW
             player.setIsMovingHorizontally(actuallyMovedHorizontally);
         }
 
-
         final boolean isStandingStill = !(isMovingRight || isMovingLeft);
         if (isStandingStill) {
             player.setMovementDirection(0);
@@ -237,7 +245,7 @@ public class WorldModel extends AbstractApplicationListener implements ViewableW
     }
 
     /**
-     * TODO: javadoc
+     * Checks for game over, if player no longer is alive, sets {@link GameState} to gameOver.
      */
     void checkForGameOver() {
         if (!player.getIsAlive()){
@@ -402,4 +410,5 @@ public class WorldModel extends AbstractApplicationListener implements ViewableW
     boolean getIsJumping() {
         return isJumping;
     }
+
 }

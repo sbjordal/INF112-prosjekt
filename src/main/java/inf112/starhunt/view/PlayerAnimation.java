@@ -7,14 +7,17 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import java.util.HashMap;
 
 /**
- * TODO: javadoc
+ * Manages player animations by storing multiple animation states.
+ * This class handles animation timing and provides access to different animations
+ * based on their assigned keys.
  */
 public class PlayerAnimation {
     private final HashMap<String, Animation<TextureRegion>> animations;
     private float stateTime;
 
     /**
-     * TODO: javadoc
+     * Initializes the player animation system.
+     * Creates a container for animations and sets the initial state time.
      */
     public PlayerAnimation() {
         this.animations = new HashMap<>();
@@ -73,10 +76,10 @@ public class PlayerAnimation {
     }
 
     /**
-     * TODO: javadoc
+     * Updates state time
      *
      * @param deltaTime
-     * @param isPaused
+     * @param isPaused time paused.
      */
     void update(float deltaTime, boolean isPaused) {
         if (!isPaused) {
@@ -85,11 +88,12 @@ public class PlayerAnimation {
     }
 
     /**
-     * TODO: javadoc
+     * Retrieves the appropriate animation frame based on movement direction and vertical velocity.
+     * Determines whether the player is idle, running, jumping, or landing, and selects the corresponding frame.
      *
-     * @param direction
-     * @param verticalVelocity
-     * @return
+     * @param direction the player's movement direction: 0 for idle, 1 for right, -1 for left.
+     * @param verticalVelocity the player's vertical velocity, used to determine jumping or falling.
+     * @return the appropriate animation frame for the player's current state.
      */
     TextureRegion getFrame(int direction, float verticalVelocity) {
         final boolean isFalling = verticalVelocity < 0;
@@ -123,7 +127,7 @@ public class PlayerAnimation {
     }
 
     /**
-     * TODO: javadoc
+     * Disposes all textures.
      */
     void dispose() {
         for (Animation<TextureRegion> animation : animations.values()){
@@ -132,4 +136,5 @@ public class PlayerAnimation {
             }
         }
     }
+
 }

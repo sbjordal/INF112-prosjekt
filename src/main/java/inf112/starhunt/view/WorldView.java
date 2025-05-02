@@ -21,7 +21,9 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import java.util.HashMap;
 
 /**
- * TODO: javadoc
+ * Represents the main game view, responsible for rendering the world.
+ * This class handles background rendering, player animations, UI textures, and sound effects.
+ * It extends {@link AbstractScreen} to integrate with the game's screen system.
  */
 public class WorldView extends AbstractScreen {
     private final ViewableWorldModel model;
@@ -40,14 +42,13 @@ public class WorldView extends AbstractScreen {
     private Music activeGameMusic;
     private Sound gameOverSound;
     private boolean gameOverSoundHasPlayed;
-    private boolean isActiveGameMusicStarted = false;
 
     /**
-     * TODO: javadoc
+     * Constructor for new WorldView.
      *
-     * @param model
-     * @param width
-     * @param height
+     * @param model the {@link ViewableWorldModel}
+     * @param width of the game world, defined in {@link inf112.starhunt.app.Main}
+     * @param height of the game world, defined in {@link inf112.starhunt.app.Main}
      */
     public WorldView(ViewableWorldModel model, int width, int height) {
         this.viewport = new ExtendViewport(width, height);
@@ -229,11 +230,11 @@ public class WorldView extends AbstractScreen {
     }
 
     /**
-     * TODO: javadoc
+     * Helper method for centering visible text.
      *
-     * @param text
-     * @param textScale
-     * @param lowerTextBy
+     * @param text the text to be centred.
+     * @param textScale scale
+     * @param lowerTextBy how much to lower placement of text.
      */
     void drawCenteredText(String text, float textScale, float lowerTextBy) {
         font.getData().setScale(textScale);
@@ -264,7 +265,9 @@ public class WorldView extends AbstractScreen {
     }
 
     /**
-     * TODO: javadoc
+     * Renders the game level, including background, player, objects, and UI elements.
+     * Clears the screen, updates the camera and viewport, and draws all necessary components.
+     * Displays relevant game information such as score, coin count, lives, countdown timer, and level.
      */
     void drawLevel() {
 
@@ -307,7 +310,7 @@ public class WorldView extends AbstractScreen {
     }
 
     /**
-     * TODO: javadoc
+     * Updates viewportCamera placement based on player movement.
      */
     void updateViewportCamera() {
         Transform playerTransform = model.getViewablePlayer().getTransform();
@@ -329,7 +332,7 @@ public class WorldView extends AbstractScreen {
     }
 
     /**
-     * TODO: javadoc
+     * Loads all textures for all {@link inf112.starhunt.model.gameobject.GameObject}s
      */
     void loadTextures(){
         textures.put("leopard", new Texture("assets/leopard.png"));
@@ -361,7 +364,7 @@ public class WorldView extends AbstractScreen {
     }
 
     /**
-     * TODO: javadoc
+     * Draws all objects.
      */
     void drawObjects() {
         for (ViewableObject object : model.getObjectList()) {
@@ -391,4 +394,5 @@ public class WorldView extends AbstractScreen {
     public void resize(int width, int height) {
         viewport.update(width, height, true);
     }
+
 }

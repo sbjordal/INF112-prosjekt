@@ -1,11 +1,11 @@
 package inf112.starhunt.model;
 
 /**
- * TODO: javadoc
+ * Helper class for simplifying code logic.
  *
- * @param <A>
- * @param <B>
- * @param <C>
+ * @param <A> first
+ * @param <B> second
+ * @param <C> third
  */
 public class Triple<A, B, C>{
     private final A first;
@@ -13,7 +13,7 @@ public class Triple<A, B, C>{
     private final C third;
 
     /**
-     * TODO: javadoc
+     * Creates a new Triple object.
      *
      * @param first
      * @param second
@@ -36,4 +36,5 @@ public class Triple<A, B, C>{
     public C getThird() {
         return third;
     }
+
 }

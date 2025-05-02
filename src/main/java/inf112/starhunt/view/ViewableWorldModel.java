@@ -1,11 +1,13 @@
 package inf112.starhunt.view;
+import inf112.starhunt.controller.Controller;
 import inf112.starhunt.model.GameState;
 import inf112.starhunt.model.gameobject.ViewableObject;
 
 import java.util.List;
 
 /**
- * TODO: javadoc
+ * Interface that defines the elements that should be visible in the {@link WorldView}.
+ * Implementing classes specify which parts of the {@link inf112.starhunt.model.WorldModel} can be rendered or interacted with.
  */
 public interface ViewableWorldModel {
 
@@ -109,4 +111,3 @@ public interface ViewableWorldModel {
      */
     boolean getPlayerMovement();
 }
-
